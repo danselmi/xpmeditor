@@ -22,11 +22,11 @@
 	<File name="XPMEditorBase.h" open="0" top="0" tabpos="2">
 		<Cursor position="5366" topLine="76" />
 	</File>
-	<File name="XPMEditorPanel.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="22295" topLine="444" />
+	<File name="XPMEditorPanel.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="29291" topLine="582" />
 	</File>
-	<File name="XPMEditorPanel.h" open="0" top="0" tabpos="2">
-		<Cursor position="6122" topLine="156" />
+	<File name="XPMEditorPanel.h" open="1" top="1" tabpos="3">
+		<Cursor position="2129" topLine="59" />
 	</File>
 	<File name="XPMToggleBMPButton.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="4751" topLine="134" />
@@ -43,7 +43,10 @@
 	<File name="manifest.xml" open="0" top="0" tabpos="4">
 		<Cursor position="166" topLine="0" />
 	</File>
-	<File name="todo.txt" open="1" top="1" tabpos="3">
+	<File name="test.bmp" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="todo.txt" open="1" top="0" tabpos="1">
 		<Cursor position="510" topLine="0" />
 	</File>
 	<File name="xpm\brush.xpm" open="0" top="0" tabpos="1">

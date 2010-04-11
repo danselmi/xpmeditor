@@ -747,12 +747,12 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
             dc.DrawRectangle(iBmpWidth, yStart, cSize.GetWidth() - iBmpWidth + xStart, vSize.GetHeight() - yStart);
             if ((cSize.GetHeight() + yStart > iBmpHeight) && (iBmpWidth + 1 > xStart))
             {
-                dc.DrawRectangle(xStart, iBmpHeight, iBmpWidth - xStart + 1, cSize.GetHeight() - iBmpHeight + yStart);
+                dc.DrawRectangle(xStart, iBmpHeight, iBmpWidth - xStart + 10, cSize.GetHeight() - iBmpHeight + yStart);
             }
         }
         else if (cSize.GetHeight() + yStart > iBmpHeight)
         {
-            dc.DrawRectangle(xStart, iBmpHeight, vSize.GetWidth() - xStart, cSize.GetHeight() - iBmpHeight + yStart);
+            dc.DrawRectangle(xStart, iBmpHeight, vSize.GetWidth() - xStart + 10, cSize.GetHeight() - iBmpHeight + yStart);
         }
 
     }
@@ -768,13 +768,12 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
     dc.SetPen(bTransparentPen);
     if ((m_Bitmap) && (dScale > 0))
     {
-        dc.DrawRectangle(0,0,m_Bitmap->GetWidth() / dScale, m_Bitmap->GetHeight() / dScale);
-        //dc.DrawBitmap(*m_Bitmap,0,0,true); //draw the bitmap, with the mask
+        dc.DrawRectangle(0,0,m_Bitmap->GetWidth() * dScale, m_Bitmap->GetHeight() * dScale);
 
         wxMemoryDC memDC;
-        memDC.SetUserScale(1 / dScale, 1 / dScale);
         memDC.SelectObject(*m_Bitmap);
-        dc.Blit(0,0,m_Bitmap->GetWidth()* dScale, m_Bitmap->GetHeight() * dScale,&memDC,0,0, wxCOPY, true);
+        memDC.SetUserScale(1 / dScale, 1 / dScale);
+        dc.Blit(0,0,m_Bitmap->GetWidth() * dScale, m_Bitmap->GetHeight() * dScale,&memDC,0,0, wxCOPY, true);
     }
 
 
@@ -953,9 +952,12 @@ void XPMEditorPanel::SetDrawAreaSize(wxSize sNewDrawAreaSize)
         //resize the image
         if (m_Image)
         {
-            m_Image->Resize(sDrawAreaSize, wxPoint(0,0));
-            UpdateBitmap();
+            m_Image->Resize(sDrawAreaSize, wxPoint(0,0),
+                            m_Image->GetMaskRed(), m_Image->GetMaskGreen(), m_Image->GetMaskBlue()
+                           );
         }
+        UpdateBitmap();
+
         DrawCanvas->Refresh(false, NULL);
         DrawCanvas->Update();
         SetModified(true);
