@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxPanel" name="XPMEditorPanel">
+		<id_arg>0</id_arg>
+		<style>wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE</style>
+		<object class="wxBoxSizer" variable="PanelSizer" member="yes">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer2" member="no">
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+							<label>ZOOM:</label>
+							<style>wxALIGN_CENTRE</style>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxComboBox" name="ID_COMBOBOX1" variable="ZoomFactor" member="yes">
+							<content>
+								<item>10%</item>
+								<item>25%</item>
+								<item>50%</item>
+								<item>75%</item>
+								<item>100%</item>
+								<item>125%</item>
+								<item>150%</item>
+								<item>175%</item>
+								<item>200%</item>
+								<item>400%</item>
+								<item>800%</item>
+								<item>1600%</item>
+								<item>Custom</item>
+							</content>
+							<handler function="OnZoomChanged" entry="EVT_COMBOBOX" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+							<label>SIZE:</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="BMPWidth" member="yes">
+							<value>0</value>
+							<max>10000</max>
+							<size>71,21</size>
+							<handler function="OnBitmapSizeChanged" entry="EVT_SPINCTRL" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+							<label>x</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="BMPHeight" member="yes">
+							<value>0</value>
+							<max>10000</max>
+							<size>71,21</size>
+							<handler function="OnBitmapSizeChanged" entry="EVT_SPINCTRL" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox1" member="yes">
+							<label>Show Grid</label>
+							<enabled>0</enabled>
+							<handler function="OnShowGrid" entry="EVT_CHECKBOX" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
+					<object class="spacer">
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+			</object>
+			<object class="sizeritem">
+				<object class="Custom" name="ID_CUSTOM1" subclass="XPMColorPicker" variable="ColourPicker" member="yes">
+					<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+					<include_file>XPMColorPicker.h</include_file>
+					<local_include>1</local_include>
+					<style></style>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer3" member="no">
+					<object class="sizeritem">
+						<object class="wxBoxSizer" variable="ToolSizer" member="yes">
+							<orient>wxVERTICAL</orient>
+							<object class="sizeritem">
+								<object class="wxPanel" name="ID_PANEL1" variable="ToolPanel" member="yes">
+									<object class="wxBoxSizer" variable="ToolPanelSizer" member="yes">
+										<orient>wxVERTICAL</orient>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="BoxSizer6" member="no">
+												<object class="sizeritem">
+													<object class="Custom" name="ID_SELECT_BUTN" subclass="XPMToggleBMPButton" variable="SelectButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+												<object class="sizeritem">
+													<object class="Custom" name="ID_LASSO_BTN" subclass="XPMToggleBMPButton" variable="LassoButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="BoxSizer5" member="no">
+												<object class="sizeritem">
+													<object class="Custom" name="ID_PEN_BTN" subclass="XPMToggleBMPButton" variable="PenButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+												<object class="sizeritem">
+													<object class="Custom" name="ID_BRUSH_BTN" subclass="XPMToggleBMPButton" variable="BrushButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="BoxSizer7" member="no">
+												<object class="sizeritem">
+													<object class="Custom" name="ID_PIPETTE_BTN" subclass="XPMToggleBMPButton" variable="PipetteButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+												<object class="sizeritem">
+													<object class="Custom" name="ID_FILL_BTN" subclass="XPMToggleBMPButton" variable="FillButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="BoxSizer10" member="no">
+												<object class="sizeritem">
+													<object class="Custom" name="ID_LINE_BTN" subclass="XPMToggleBMPButton" variable="LineButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+												<object class="sizeritem">
+													<object class="Custom" name="ID_CURVE_BTN" subclass="XPMToggleBMPButton" variable="CurveButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="BoxSizer9" member="no">
+												<object class="sizeritem">
+													<object class="Custom" name="ID_ERASER_BTN" subclass="XPMToggleBMPButton" variable="EraserButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+												<object class="sizeritem">
+													<object class="Custom" name="ID_TEXT_BTN" subclass="XPMToggleBMPButton" variable="TextButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="BoxSizer11" member="no">
+												<object class="sizeritem">
+													<object class="Custom" name="ID_RECTANGLE_BTN" subclass="XPMToggleBMPButton" variable="RectangleButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+												<object class="sizeritem">
+													<object class="Custom" name="ID_POLYGON_BTN" subclass="XPMToggleBMPButton" variable="PolygonButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="BoxSizer8" member="no">
+												<object class="sizeritem">
+													<object class="Custom" name="ID_ELLIPSE_BTN" subclass="XPMToggleBMPButton" variable="EllipseButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+												<object class="sizeritem">
+													<object class="Custom" name="ID_ROUNDEDRECT_BTN" subclass="XPMToggleBMPButton" variable="RRectButton" member="yes">
+														<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), wxNullBitmap,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+														<include_file>XPMToggleBMPButton.h</include_file>
+														<local_include>1</local_include>
+														<style></style>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxGrid" name="ID_GRID1" variable="Grid1" member="yes">
+												<cols>2</cols>
+												<rows>2</rows>
+												<readonly>1</readonly>
+												<gridlines>0</gridlines>
+												<size>16,100</size>
+												<bg>wxSYS_COLOUR_BTNFACE</bg>
+												<minsize>16,100</minsize>
+												<style>wxSUNKEN_BORDER</style>
+												<handler function="OnBrushStyleChanged" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+											<border>5</border>
+											<option>1</option>
+										</object>
+										<object class="sizeritem">
+											<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText4" member="yes">
+												<label>Size:</label>
+											</object>
+											<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+											<border>5</border>
+										</object>
+										<object class="sizeritem">
+											<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="SpinCtrl1" member="yes">
+												<value>2</value>
+												<min>2</min>
+												<max>16</max>
+												<size>20,21</size>
+												<handler function="OnSpinSizeChanged" entry="EVT_SPINCTRL" />
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+											<border>5</border>
+										</object>
+										<object class="sizeritem">
+											<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText6" member="yes">
+												<label>Radius:</label>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+											<border>5</border>
+										</object>
+										<object class="sizeritem">
+											<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="SpinCtrl3" member="yes">
+												<value>1</value>
+												<min>1</min>
+												<max>16</max>
+												<size>20,21</size>
+												<handler function="OnSpinRadiusChanged" entry="EVT_SPINCTRL" />
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+											<border>5</border>
+										</object>
+										<object class="sizeritem">
+											<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText5" member="yes">
+												<label>Thickness:</label>
+											</object>
+											<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+											<border>5</border>
+										</object>
+										<object class="sizeritem">
+											<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="SpinCtrl2" member="yes">
+												<value>1</value>
+												<min>1</min>
+												<max>16</max>
+												<size>20,21</size>
+												<handler function="OnSpinSizeChanged" entry="EVT_SPINCTRL" />
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+											<border>5</border>
+										</object>
+										<object class="spacer">
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+											<border>5</border>
+											<option>1</option>
+											<size>62,-1</size>
+										</object>
+									</object>
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+								<option>1</option>
+							</object>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
+					</object>
+					<object class="sizeritem">
+						<object class="wxBoxSizer" variable="CanvasSizer" member="yes">
+							<orient>wxVERTICAL</orient>
+							<object class="sizeritem">
+								<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1" variable="DrawCanvas" member="yes">
+									<bg>wxSYS_COLOUR_BTNFACE</bg>
+									<style>wxHSCROLL|wxVSCROLL|wxSUNKEN_BORDER</style>
+									<handler function="OnDrawCanvasPaint" entry="EVT_PAINT" />
+									<handler function="OnDrawCanvasEraseBackground" entry="EVT_ERASE_BACKGROUND" />
+									<handler function="OnDrawCanvasLeftDown" entry="EVT_LEFT_DOWN" />
+									<handler function="OnDrawCanvasLeftUp" entry="EVT_LEFT_UP" />
+									<handler function="OnDrawCanvasLeftDClick" entry="EVT_LEFT_DCLICK" />
+									<handler function="OnDrawCanvasMouseMove" entry="EVT_MOTION" />
+									<handler function="OnDrawCanvasMouseLeave" entry="EVT_LEAVE_WINDOW" />
+									<handler function="OnDrawCanvasResize" entry="EVT_SIZE" />
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<option>1</option>
+							</object>
+							<object class="sizeritem">
+								<object class="wxStaticText" name="ID_STATICTEXT4" variable="sCursorPos" member="yes">
+									<label>Cursor at: </label>
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<border>5</border>
+							</object>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<option>1</option>
+			</object>
+		</object>
+	</object>
+</wxsmith>

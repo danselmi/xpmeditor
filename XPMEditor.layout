@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="default" />
+	<File name="XPMColorPicker.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="22967" topLine="645" />
+	</File>
+	<File name="XPMColorPicker.h" open="0" top="0" tabpos="0">
+		<Cursor position="413" topLine="3" />
+	</File>
+	<File name="XPMCustomZoom.cpp" open="0" top="0" tabpos="8">
+		<Cursor position="3897" topLine="82" />
+	</File>
+	<File name="XPMEditor.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="8736" topLine="258" />
+	</File>
+	<File name="XPMEditor.h" open="0" top="0" tabpos="0">
+		<Cursor position="829" topLine="19" />
+	</File>
+	<File name="XPMEditorBase.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="19429" topLine="642" />
+	</File>
+	<File name="XPMEditorBase.h" open="0" top="0" tabpos="2">
+		<Cursor position="5366" topLine="76" />
+	</File>
+	<File name="XPMEditorPanel.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="22295" topLine="444" />
+	</File>
+	<File name="XPMEditorPanel.h" open="0" top="0" tabpos="2">
+		<Cursor position="6122" topLine="156" />
+	</File>
+	<File name="XPMToggleBMPButton.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="4751" topLine="134" />
+	</File>
+	<File name="XPMToggleBMPButton.h" open="0" top="0" tabpos="4">
+		<Cursor position="2332" topLine="44" />
+	</File>
+	<File name="XPMUndo.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="16111" topLine="490" />
+	</File>
+	<File name="XPMUndo.h" open="0" top="0" tabpos="4">
+		<Cursor position="709" topLine="6" />
+	</File>
+	<File name="manifest.xml" open="0" top="0" tabpos="4">
+		<Cursor position="166" topLine="0" />
+	</File>
+	<File name="todo.txt" open="1" top="1" tabpos="3">
+		<Cursor position="510" topLine="0" />
+	</File>
+	<File name="xpm\brush.xpm" open="0" top="0" tabpos="1">
+		<Cursor position="70" topLine="0" />
+	</File>
+	<File name="xpm\circle.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="110" topLine="0" />
+	</File>
+	<File name="xpm\curve.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="69" topLine="0" />
+	</File>
+	<File name="xpm\ellipse.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="72" topLine="0" />
+	</File>
+	<File name="xpm\eraser.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="71" topLine="0" />
+	</File>
+	<File name="xpm\fill.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="69" topLine="0" />
+	</File>
+	<File name="xpm\lasso.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="69" topLine="0" />
+	</File>
+	<File name="xpm\left_hair.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="113" topLine="0" />
+	</File>
+	<File name="xpm\line.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="108" topLine="2" />
+	</File>
+	<File name="xpm\pen.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="67" topLine="0" />
+	</File>
+	<File name="xpm\pipette.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="71" topLine="0" />
+	</File>
+	<File name="xpm\polygon.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="72" topLine="0" />
+	</File>
+	<File name="xpm\rectangle.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="69" topLine="0" />
+	</File>
+	<File name="xpm\right_hair.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="114" topLine="0" />
+	</File>
+	<File name="xpm\roundedrect.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="70" topLine="0" />
+	</File>
+	<File name="xpm\selection.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="67" topLine="0" />
+	</File>
+	<File name="xpm\square.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="110" topLine="0" />
+	</File>
+	<File name="xpm\text.xpm" open="0" top="0" tabpos="0">
+		<Cursor position="68" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

@@ -1,0 +1,22 @@
+1 - All the tools
+
+
+2 - resize selection / stretch selection / drag selection
+
+3 - Configuration panel:
+      How to handle XPMs
+      Undo / Redo buffer
+      Color palette (how many colors, and which one).
+
+4 - Use wrapsizer for tools. (copy wrapsizer.cpp / h from wxWidgets 2.9.0)
+
+5 - resize all cursors to fit in a 16 x 16 square
+
+6 - transparent color: Update of the mask colour sometimes does not update the display.
+
+7 - color depth
+
+8 - jpg quality
+
+9 - File manager extensions
+
