@@ -592,7 +592,7 @@ wxImage XPMEditorPanel::GetImageFromSelection(void)
 wxImage* XPMEditorPanel::GetImage(void)
 {
     //return the associated image
-    UpdateImage();
+    //UpdateImage();
     return(m_Image);
 }
 
