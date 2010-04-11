@@ -2720,3 +2720,109 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
+1270997301 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
+	"XPMCustomZoom.h"
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/intl.h>
+	<wx/button.h>
+	<wx/string.h>
+	<wx/valtext.h>
+	"XPMEditorPanel.h"
+
+1270997317 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
+	<wx/dialog.h>
+
+1271012435 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+	<wx/bitmap.h>
+	<wx/panel.h>
+
+1270997265 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
+	<sdk.h>
+	<configurationpanel.h>
+	<wx/aui/auibook.h>
+	"XPMEditor.h"
+	"XPMColorPicker.h"
+
+1270997258 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
+	<wx/wxprec.h>
+	<wx/wx.h>
+	<sdk.h>
+	<cbplugin.h>
+	<wx/msgdlg.h>
+	"XPMEditorPanel.h"
+	"XPMEditorBase.h"
+	"XPMCustomZoom.h"
+	"XPMUndo.h"
+
+1270997464 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
+	<editorbase.h>
+	<projectfile.h>
+	<wx/bitmap.h>
+	<wx/sizer.h>
+	<wx/scrolwin.h>
+	<vector>
+	<set>
+	"XPMEditorPanel.h"
+
+1270997634 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
+
+1270997372 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
+	<wx/scrolwin.h>
+	<wx/colour.h>
+	<wx/control.h>
+
+1270997458 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+	<sdk.h>
+	<filefilters.h>
+	<wx/msgdlg.h>
+	<wx/gdicmn.h>
+	<wx/dcclient.h>
+	<wx/image.h>
+	<wx/bitmap.h>
+	<wx/clipbrd.h>
+	<wx/dcclient.h>
+	<wx/aui/auibook.h>
+	<wx/dcclient.h>
+	"XPMEditor.h"
+
+1270997574 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmtogglebmpbutton.cpp
+	<wx/wxprec.h>
+	<wx/brush.h>
+	<wx/dcscreen.h>
+	<wx/settings.h>
+	<wx/log.h>
+	<wx/wx.h>
+	<wx/renderer.h>
+	<wx/dcclient.h>
+	<wx/event.h>
+	<wx/image.h>
+	"XPMToggleBMPButton.h"
+
+1270997589 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmtogglebmpbutton.h
+	<wx/bitmap.h>
+	<wx/tglbtn.h>
+
+1270997623 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
+	"XPMEditor.h"
+	<wx/gdicmn.h>
+
+1271003684 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxgridbitmaprenderer.cpp
+	"wxGridBitmapRenderer.h"
+	<wx/dc.h>
+
+1270999461 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxgridbitmaprenderer.h
+	<wx/grid.h>
+	<wx/bitmap.h>
+
+1270997355 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
+	"XPMColorPicker.h"
+	<wx/gdicmn.h>
+	<wx/dcclient.h>
+	<wx/brush.h>
+	<wx/pen.h>
+	<wx/tglbtn.h>
+	<wx/msgdlg.h>
+	<wx/colordlg.h>
+

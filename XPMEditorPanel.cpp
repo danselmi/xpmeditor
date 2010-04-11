@@ -1633,6 +1633,7 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                         DrawCanvas->Refresh(false, NULL);
                         DrawCanvas->Update();
                         InitToolData();
+                        ToggleButtons(-1,false);
                     }
 
                     break;

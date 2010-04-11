@@ -22,10 +22,10 @@
 	<File name="XPMEditorBase.h" open="0" top="0" tabpos="2">
 		<Cursor position="5366" topLine="76" />
 	</File>
-	<File name="XPMEditorPanel.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="29291" topLine="582" />
+	<File name="XPMEditorPanel.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="65933" topLine="1615" />
 	</File>
-	<File name="XPMEditorPanel.h" open="1" top="1" tabpos="3">
+	<File name="XPMEditorPanel.h" open="1" top="0" tabpos="3">
 		<Cursor position="2129" topLine="59" />
 	</File>
 	<File name="XPMToggleBMPButton.cpp" open="0" top="0" tabpos="5">
