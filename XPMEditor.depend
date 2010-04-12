@@ -2720,7 +2720,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1270997301 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
+1271101289 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
 	"XPMCustomZoom.h"
 	<wx/sizer.h>
 	<wx/stattext.h>
@@ -2731,10 +2731,10 @@
 	<wx/valtext.h>
 	"XPMEditorPanel.h"
 
-1270997317 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
+1271101288 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271012435 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271104743 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/bitmap.h>
 	<wx/panel.h>
 
@@ -2825,4 +2825,116 @@
 	<wx/tglbtn.h>
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
+
+1271102697 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+	"XPMEditor.h"
+	<wx/dcclient.h>
+	<wx/dcbuffer.h>
+	<wx/brush.h>
+	<wx/pen.h>
+	<wx/utils.h>
+	<wx/clipbrd.h>
+	<wx/dataobj.h>
+	<wx/rawbmp.h>
+	<wx/region.h>
+	<wx/graphics.h>
+	<wx/scrolwin.h>
+	<wx/artprov.h>
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/checkbox.h>
+	<wx/things/toggle.h>
+	<wx/bitmap.h>
+	"XPMColorPicker.h"
+	<wx/spinctrl.h>
+	<wx/tglbtn.h>
+	<wx/settings.h>
+	<wx/grid.h>
+	<wx/intl.h>
+	<wx/image.h>
+	"XPMToggleBMPButton.h"
+	<wx/string.h>
+	<wx/combobox.h>
+	"wxGridBitmapRenderer.h"
+	"xpm/brush.xpm"
+	"xpm/curve.xpm"
+	"xpm/ellipse.xpm"
+	"xpm/eraser.xpm"
+	"xpm/fill.xpm"
+	"xpm/lasso.xpm"
+	"xpm/line.xpm"
+	"xpm/pen.xpm"
+	"xpm/pipette.xpm"
+	"xpm/polygon.xpm"
+	"xpm/rectangle.xpm"
+	"xpm/roundedrect.xpm"
+	"xpm/selection.xpm"
+	"xpm/text.xpm"
+	"xpm/cross_cursor.xpm"
+	"xpm/pipette_cursor.xpm"
+	"xpm/fill_cursor.xpm"
+	"xpm/pen_cursor.xpm"
+	"xpm/circle.xpm"
+	"xpm/square.xpm"
+	"xpm/left_hair.xpm"
+	"xpm/right_hair.xpm"
+
+1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\dcbuffer.h
+	"wx/dcmemory.h"
+	"wx/dcclient.h"
+	"wx/window.h"
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\rawbmp.h
+	"wx/image.h"
+
+1134104768 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\\wx\things\toggle.h
+	"wx/things/thingdef.h"
+
+1142922800 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\\wx\things\thingdef.h
+	"wx/defs.h"
+	"wx/dynarray.h"
+
+1270541592 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\brush.xpm
+
+1269797542 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\curve.xpm
+
+1269797550 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\ellipse.xpm
+
+1269797554 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\eraser.xpm
+
+1269797560 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\fill.xpm
+
+1269797566 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\lasso.xpm
+
+1269797578 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\line.xpm
+
+1269797584 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\pen.xpm
+
+1269797590 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\pipette.xpm
+
+1269797596 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\polygon.xpm
+
+1269797604 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\rectangle.xpm
+
+1269797610 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\roundedrect.xpm
+
+1269797614 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\selection.xpm
+
+1269797620 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\text.xpm
+
+1270318576 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\cross_cursor.xpm
+
+1270410166 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\pipette_cursor.xpm
+
+1270409788 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\fill_cursor.xpm
+
+1270409826 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\pen_cursor.xpm
+
+1270922087 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\circle.xpm
+
+1270922160 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\square.xpm
+
+1270922110 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\left_hair.xpm
+
+1270922139 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
 

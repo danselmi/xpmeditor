@@ -249,14 +249,36 @@ class XPMEditorPanel: public wxPanel
         void HideControls(int iIndex, bool bChecked); ///< @brief Hide or Show specific tool controls - like style listbox for Brush tool...
         void HideControlsAndDoLayout(int iIndex, bool bChecked); ///< @brief Hide or Show specific tool controls - like style listbox for Brush tool... + update the layout
 
+        //methods for processing the tools
+        void ProcessRectangle(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Rectangle tool
+        void ProcessLine(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Rectangle tool
+        void ProcessRoundedRectangle(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Rounded Rectangle tool
+        void ProcessEllipse(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Ellipse tool
+        void ProcessPolygon(int x, int y,
+                            bool bLeftDown, bool bLeftUp,
+                            bool bPressed, bool bDClick); ///< @brief process the Polygon tool
+        void ProcessEraser(int x, int y,
+                            bool bLeftDown, bool bLeftUp,
+                            bool bPressed, bool bDClick); ///< @brief process the Eraser tool
+        void ProcessBrush(int x, int y,
+                            bool bLeftDown, bool bLeftUp,
+                            bool bPressed, bool bDClick); ///< @brief process the BRush tool
+
     private:
         wxBitmap *m_Bitmap;             ///< \brief the temporary bitmap, used for drawing
         wxImage *m_Image;               ///< \brief the temporary image, used for misc functions
         void UpdateBitmap(void);        ///< \brief recreate the m_Bitmap member from the m_Image member
-        void FastUpdateBitmap(void);    ///< \brief recreate the m_Bitmap member from the m_Image member
         void UpdateImage(void);         ///< \brief Ensure the Image is up-to-date (buffered user actions are flushed)
         wxBitmap* GetBitmap(void);      ///< \brief return the associated scaled bitmap
-		void SetBitmap(wxBitmap *bm);   ///< \brief set the current scaled bitmap
+		void SetBitmap(wxBitmap *bm);   ///< \brief set the current unscaled bitmap
 		wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
 
         double dScale;          ///< \brief scale factor

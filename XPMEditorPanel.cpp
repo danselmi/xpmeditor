@@ -504,57 +504,6 @@ wxBitmap* XPMEditorPanel::GetBitmap(void)
     return(m_Bitmap);
 }
 
-/** Set the scaled internal bitmap.
-  * @param bm: a pointer to the wxBitmap to be used internally by the editor
-  *         this wxBitmap is used for scaling and all draw modification.
-  *         The method will create a copy of the wxBitmap passed in parameter
-  *         It is therefore safe to delete it afterwards
-  *         It is converted as an image before saving, or before any manipulation requiring a wxImage
-  *         Both a wxBitmap and wxImage are stored because it is the only way to work around a wxWidgets bug:
-  *         Scaling (wxDC.SetUserScale()) is innacurate.
-  */
-void XPMEditorPanel::SetBitmap(wxBitmap *bm)
-{
-    //set the associated bitmap
-    if (DrawCanvas)
-    {
-        //delete the previous bitmap first
-        wxBitmap *bmTemp;
-        if (m_Bitmap)
-        {
-            bmTemp = m_Bitmap;
-        }
-        else
-        {
-            bmTemp = NULL;
-        }
-
-        if (bm)
-        {
-            //create a copy of the bitmap
-            m_Bitmap = new wxBitmap(*bm);
-        }
-        else
-        {
-            //create a blank bitmap
-            m_Bitmap = new wxBitmap(iXPMDefaultWidth, iXPMDefaultHeight);
-        }
-        if (bmTemp) delete(bmTemp);
-        if (!m_Bitmap) return;
-
-        //Set the scrollbars and draw area size
-        sDrawAreaSize = wxSize(m_Bitmap->GetWidth(), m_Bitmap->GetHeight());
-        if (BMPWidth) BMPWidth->SetValue(m_Bitmap->GetWidth());
-        if (BMPHeight) BMPHeight->SetValue(m_Bitmap->GetHeight());
-        if (ZoomFactor) ZoomFactor->SetValue(_("100%"));
-
-        DoSetScrollBars();
-
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
-    }
-}
-
 /** Return an image representing the selection
   */
 wxImage XPMEditorPanel::GetImageFromSelection(void)
@@ -645,25 +594,57 @@ void XPMEditorPanel::UpdateBitmap(void)
     }
 }
 
-/** recreate the m_Bitmap member from the m_Image member
-  * The Draw Canvas is not updated. It must be done manually by the caller
-  * The scrollbars are also not updated
+/** Set the unscaled internal bitmap.
+  * @param bm: a pointer to the wxBitmap to be used internally by the editor
+  *         this wxBitmap is used for scaling and all draw modification.
+  *         The method will create a copy of the wxBitmap passed in parameter
+  *         It is therefore safe to delete it afterwards
+  *         It is converted as an image before saving, or before any manipulation requiring a wxImage
+  *         Both a wxBitmap and wxImage are stored because it is the only way to work around a wxWidgets bug:
+  *         Scaling (wxDC.SetUserScale()) is innacurate.
   */
-void XPMEditorPanel::FastUpdateBitmap(void)
+void XPMEditorPanel::SetBitmap(wxBitmap *bm)
 {
-    //recreate the m_Bitmap member from the m_Image member
-    if (m_Image)
+    //set the associated bitmap
+    if (DrawCanvas)
     {
-        wxBitmap *bm;
-        bm = new wxBitmap(*m_Image);
-        if (!bm) return;
+        //delete the previous bitmap first
+        wxBitmap *bmTemp;
+        if (m_Bitmap)
+        {
+            bmTemp = m_Bitmap;
+        }
+        else
+        {
+            bmTemp = NULL;
+        }
 
-        wxBitmap *m_temp;
-        m_temp = m_Bitmap;
-        m_Bitmap = bm;
-        if (m_temp) delete m_temp;
+        if (bm)
+        {
+            //create a copy of the bitmap
+            m_Bitmap = new wxBitmap(*bm);
+        }
+        else
+        {
+            //create a blank bitmap
+            m_Bitmap = new wxBitmap(iXPMDefaultWidth, iXPMDefaultHeight);
+        }
+        if (bmTemp) delete(bmTemp);
+        if (!m_Bitmap) return;
+
+        //Set the scrollbars and draw area size
+        sDrawAreaSize = wxSize(m_Bitmap->GetWidth(), m_Bitmap->GetHeight());
+        if (BMPWidth) BMPWidth->SetValue(m_Bitmap->GetWidth());
+        if (BMPHeight) BMPHeight->SetValue(m_Bitmap->GetHeight());
+        if (ZoomFactor) ZoomFactor->SetValue(_("100%"));
+
+        DoSetScrollBars();
+
+        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Update();
     }
 }
+
 
 /** Ensure the Image is up-to-date (buffered user actions are flushed)
   * recreate the m_Image member from the m_Bitmap member
@@ -957,11 +938,7 @@ void XPMEditorPanel::SetDrawAreaSize(wxSize sNewDrawAreaSize)
                            );
         }
         UpdateBitmap();
-
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
         SetModified(true);
-        DoSetScrollBars();
     }
 }
 
@@ -1351,18 +1328,7 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
 
                             m_Image->SetRGB(r,
                                             cColour.Red(), cColour.Green(), cColour.Blue());
-                            FastUpdateBitmap();
-/*
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-                            wxPen pen(cColour, 1, wxSOLID);
-                            wxBrush brush(cColour, wxSOLID);
-                            dc.SetPen(pen);
-                            dc.SetBrush(brush);
-                            dc.DrawRectangle(x,y, dScale, dScale);
-*/
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
+                            UpdateBitmap();
                         }
                     }
                     if (bPressed)
@@ -1377,18 +1343,7 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                             wxRect r(xx, yy, 1, 1);
                             m_Image->SetRGB(r,
                                             cColour.Red(), cColour.Green(), cColour.Blue());
-                            FastUpdateBitmap();
-/*
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-                            wxPen pen(cColour, 1, wxSOLID);
-                            wxBrush brush(cColour, wxSOLID);
-                            dc.SetPen(pen);
-                            dc.SetBrush(brush);
-                            dc.DrawRectangle(x,y, dScale, dScale);
-*/
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
+                            UpdateBitmap();
                         }
                     }
                     if (bLeftUp)
@@ -1399,103 +1354,7 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                     break;
 
         case XPM_ID_BRUSH_TOOL :
-                    if (bLeftDown)
-                    {
-                        //Undo & modification flag
-                        AddUndo();
-                        SetModified(true);
-
-                        wxMemoryDC mem_dc(*m_Bitmap);
-                        if (mem_dc.IsOk())
-                        {
-                            wxColour cColour;
-                            cColour = ColourPicker->GetLineColour();
-                            wxBrush brush(cColour, wxSOLID);
-                            wxPen pen(cColour, 1, wxSOLID);
-                            mem_dc.SetBrush(brush);
-                            mem_dc.SetPen(pen);
-
-                            int xx, yy;
-                            xx = x / dScale; yy = y / dScale;
-
-                            switch (tdata.iStyle)
-                            {
-                                case XPM_BRUSH_STYLE_CIRCLE   :
-                                    mem_dc.DrawCircle(xx, yy, tdata.iSize/2);
-                                    break;
-
-                                case XPM_BRUSH_STYLE_LEFTHAIR :
-                                    mem_dc.DrawLine(xx,yy + tdata.iSize, xx + tdata.iSize, yy);
-                                    break;
-
-                                case XPM_BRUSH_STYLE_RIGHTHAIR:
-                                    mem_dc.DrawLine(xx,yy, xx + tdata.iSize, yy + tdata.iSize);
-                                    break;
-
-                                case XPM_BRUSH_STYLE_SQUARE   :
-                                default:
-                                    mem_dc.DrawRectangle(xx - tdata.iSize / 2,
-                                                         yy - tdata.iSize / 2,
-                                                         tdata.iSize,
-                                                         tdata.iSize);
-                                    break;
-                            }
-                            mem_dc.SelectObject(wxNullBitmap);
-                        }
-                        UpdateImage();
-                        DrawCanvas->Refresh(false, NULL);
-                        DrawCanvas->Update();
-                    }
-                    if (bPressed)
-                    {
-                        wxMemoryDC mem_dc(*m_Bitmap);
-                        if (mem_dc.IsOk())
-                        {
-                            wxColour cColour;
-                            cColour = ColourPicker->GetLineColour();
-                            wxBrush brush(cColour, wxSOLID);
-                            wxPen pen(cColour, 1, wxSOLID);
-                            mem_dc.SetBrush(brush);
-                            mem_dc.SetPen(pen);
-
-                            int xx, yy;
-                            xx = x / dScale; yy = y / dScale;
-
-                            switch (tdata.iStyle)
-                            {
-                                case XPM_BRUSH_STYLE_CIRCLE   :
-                                    mem_dc.DrawCircle(xx, yy, tdata.iSize/2);
-                                    break;
-
-                                case XPM_BRUSH_STYLE_LEFTHAIR :
-                                    mem_dc.DrawLine(xx,yy + tdata.iSize, xx + tdata.iSize, yy);
-                                    break;
-
-                                case XPM_BRUSH_STYLE_RIGHTHAIR:
-                                    mem_dc.DrawLine(xx,yy, xx + tdata.iSize, yy + tdata.iSize);
-                                    break;
-
-                                case XPM_BRUSH_STYLE_SQUARE   :
-                                default:
-                                    mem_dc.DrawRectangle(xx - tdata.iSize / 2,
-                                                         yy - tdata.iSize / 2,
-                                                         tdata.iSize,
-                                                         tdata.iSize);
-                                    break;
-                            }
-                            mem_dc.SelectObject(wxNullBitmap);
-                        }
-                        UpdateImage();
-                        wxRect r(x / dScale - tdata.iSize / 2, y / dScale - tdata.iSize / 2, tdata.iSize, tdata.iSize);
-                        DrawCanvas->Refresh(false, &r);
-                        DrawCanvas->Update();
-                    }
-                    if (bLeftUp)
-                    {
-                        //finish
-                        InitToolData();
-                    }
-
+                    ProcessBrush(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_PIPETTE_TOOL :
@@ -1639,452 +1498,30 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                     break;
 
         case XPM_ID_LINE_TOOL :
-                    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
-                    {
-                        if (tdata.iNbClicks > 0)
-                        {
-                            tdata.x2 = x;
-                            tdata.y2 = y;
-
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-
-                            int iPenWidth;
-                            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-
-                            wxColour cLineColour, cFillColour;
-                            cLineColour = ColourPicker->GetLineColour();
-                            cFillColour = ColourPicker->GetFillColour();
-
-                            wxPen pen(cLineColour, 1, wxSOLID);
-                            wxBrush brush(cFillColour, wxSOLID);
-                            dc.SetPen(pen);
-                            dc.SetBrush(brush);
-                            dc.DrawLine(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x, y);
-
-                            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-                        }
-                    }
-
-                    //left button UP
-                    if (bLeftUp)
-                    {
-                        if (tdata.iNbClicks == 0)
-                        {
-                            tdata.iNbClicks = 1;
-                            tdata.x1 = x  / dScale;
-                            tdata.y1 = y / dScale;
-                        }
-                        else
-                        {
-                            AddUndo();
-                            SetModified(true);
-
-                            wxMemoryDC mem_dc(*m_Bitmap);
-                            if (mem_dc.IsOk())
-                            {
-                                wxColour cLineColour, cFillColour;
-                                cLineColour = ColourPicker->GetLineColour();
-                                cFillColour = ColourPicker->GetFillColour();
-
-                                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                                wxBrush brush(cFillColour, wxSOLID);
-                                mem_dc.SetPen(pen);
-                                mem_dc.SetBrush(brush);
-                                mem_dc.DrawLine(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x, y);
-
-                                mem_dc.SelectObject(wxNullBitmap);
-                            }
-                            UpdateImage();
-                            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-
-                            DrawCanvas->Refresh(false, &r);
-                            DrawCanvas->Update();
-                            InitToolData();
-                        }
-                    }
+                    ProcessLine(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_ERASER_TOOL :
-                    if (bLeftDown)
-                    {
-                        //Undo & modification flag
-                        AddUndo();
-                        SetModified(true);
-
-                        wxMemoryDC mem_dc(*m_Bitmap);
-                        if (mem_dc.IsOk())
-                        {
-                            wxColour cColour;
-                            cColour = ColourPicker->GetLineColour();
-                            wxBrush brush(cColour, wxSOLID);
-                            wxPen pen(cColour, 1, wxSOLID);
-                            mem_dc.SetBrush(brush);
-                            mem_dc.SetPen(pen);
-
-                            int xx, yy;
-                            xx = x / dScale; yy = y / dScale;
-
-
-                            mem_dc.DrawRectangle(xx - tdata.iSize / 2,
-                                                         yy - tdata.iSize / 2,
-                                                         tdata.iSize,
-                                                         tdata.iSize);
-                            mem_dc.SelectObject(wxNullBitmap);
-                        }
-                        UpdateImage();
-                        DrawCanvas->Refresh(false, NULL);
-                        DrawCanvas->Update();
-                    }
-                    if (bPressed)
-                    {
-                        wxMemoryDC mem_dc(*m_Bitmap);
-                        if (mem_dc.IsOk())
-                        {
-                            wxColour cColour;
-                            cColour = ColourPicker->GetTransparentColour();
-                            wxBrush brush(cColour, wxSOLID);
-                            wxPen pen(cColour, 1, wxSOLID);
-                            mem_dc.SetBrush(brush);
-                            mem_dc.SetPen(pen);
-
-                            int xx, yy;
-                            xx = x / dScale; yy = y / dScale;
-
-                            mem_dc.DrawRectangle(xx - tdata.iSize / 2,
-                                                         yy - tdata.iSize / 2,
-                                                         tdata.iSize,
-                                                         tdata.iSize);
-                            mem_dc.SelectObject(wxNullBitmap);
-                        }
-                        UpdateImage();
-                        wxRect r(x / dScale - tdata.iSize / 2, y / dScale - tdata.iSize / 2, tdata.iSize, tdata.iSize);
-                        DrawCanvas->Refresh(false, &r);
-                        DrawCanvas->Update();
-                    }
-                    if (bLeftUp)
-                    {
-                        //finish
-                        InitToolData();
-                    }
+                    ProcessEraser(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_TEXT_TOOL :
                     break;
 
         case XPM_ID_RECTANGLE_TOOL :
-                    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
-                    {
-                        if (tdata.iNbClicks > 0)
-                        {
-                            tdata.x2 = x;
-                            tdata.y2 = y;
-
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-
-                            int iPenWidth;
-                            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-
-                            wxColour cLineColour, cFillColour;
-                            cLineColour = ColourPicker->GetLineColour();
-                            cFillColour = ColourPicker->GetFillColour();
-
-                            wxPen pen(cLineColour, 1, wxSOLID);
-                            wxBrush brush(cFillColour, wxSOLID);
-                            dc.SetPen(pen);
-                            dc.SetBrush(brush);
-                            dc.DrawRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-
-                            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-                        }
-                    }
-
-                    //left button UP
-                    if (bLeftUp)
-                    {
-                        if (tdata.iNbClicks == 0)
-                        {
-                            tdata.iNbClicks = 1;
-                            tdata.x1 = x  / dScale;
-                            tdata.y1 = y / dScale;
-                        }
-                        else
-                        {
-                            AddUndo();
-                            SetModified(true);
-
-                            wxMemoryDC mem_dc(*m_Bitmap);
-                            if (mem_dc.IsOk())
-                            {
-                                wxColour cLineColour, cFillColour;
-                                cLineColour = ColourPicker->GetLineColour();
-                                cFillColour = ColourPicker->GetFillColour();
-
-                                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                                wxBrush brush(cFillColour, wxSOLID);
-                                mem_dc.SetPen(pen);
-                                mem_dc.SetBrush(brush);
-                                mem_dc.DrawRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-
-                                mem_dc.SelectObject(wxNullBitmap);
-                            }
-                            UpdateImage();
-                            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-
-                            DrawCanvas->Refresh(false, &r);
-                            DrawCanvas->Update();
-                            InitToolData();
-                        }
-                    }
-
+                    ProcessRectangle(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_POLYGON_TOOL :
-                    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
-                    {
-                        if (tdata.iNbClicks > 0)
-                        {
-                            DrawCanvas->Refresh(false,NULL);
-                            DrawCanvas->Update();
-
-                            tdata.iNbClicks = tdata.iNbClicks + 1;
-                            if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
-
-                            //Draw the polygon
-                            int iPenWidth;
-                            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-
-                            wxColour cLineColour, cFillColour;
-                            cLineColour = ColourPicker->GetLineColour();
-                            cFillColour = ColourPicker->GetFillColour();
-                            wxPen pen(cLineColour, iPenWidth, wxSOLID);
-                            wxBrush brush(cFillColour, wxSOLID);
-                            dc.SetPen(pen);
-                            dc.SetBrush(brush);
-
-                            wxPoint tmp[XPM_MAXPOINTS+1];
-                            int i;
-                            tmp[tdata.iNbPoints].x = x;
-                            tmp[tdata.iNbPoints].y = y;
-                            for(i=0;i<tdata.iNbPoints;i++)
-                            {
-                                tmp[i].x = tdata.pts[i].x * dScale;
-                                tmp[i].y = tdata.pts[i].y * dScale;
-                            }
-                            dc.DrawPolygon(tdata.iNbPoints + 1, tmp);
-                        }
-                    }
-
-                    // left button UP
-                    if (bLeftUp)
-                    {
-                        if (tdata.iNbClicks == 0)
-                        {
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-                            tdata.iNbClicks = 1;
-                            tdata.iNbPoints = 1;
-                            tdata.pts[0].x = x  / dScale;
-                            tdata.pts[0].y = y / dScale;
-                        }
-                        else
-                        {
-                            tdata.iNbClicks = tdata.iNbClicks + 1;
-                            tdata.iNbPoints = tdata.iNbPoints + 1;
-                            if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
-                            tdata.pts[tdata.iNbPoints - 1].x = x  / dScale;
-                            tdata.pts[tdata.iNbPoints - 1].y = y / dScale;
-                        }
-                    }
-
-                    if (bDClick)
-                    {
-                        AddUndo();
-                        SetModified(true);
-
-                        wxMemoryDC mem_dc(*m_Bitmap);
-                        if (mem_dc.IsOk())
-                        {
-                            wxColour cLineColour, cFillColour;
-                            cLineColour = ColourPicker->GetLineColour();
-                            cFillColour = ColourPicker->GetFillColour();
-
-                            wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                            wxBrush brush(cFillColour, wxSOLID);
-                            mem_dc.SetPen(pen);
-                            mem_dc.SetBrush(brush);
-                            mem_dc.DrawPolygon(tdata.iNbPoints, tdata.pts);
-                            mem_dc.SelectObject(wxNullBitmap);
-                        }
-                        UpdateImage();
-
-                        DrawCanvas->Refresh(false, NULL);
-                        DrawCanvas->Update();
-                        InitToolData();
-                        ToggleButtons(-1,false);
-                    }
-
+                    ProcessPolygon(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_ELLIPSE_TOOL :
-                    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
-                    {
-                        if (tdata.iNbClicks > 0)
-                        {
-                            tdata.x2 = x;
-                            tdata.y2 = y;
-
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-
-                            int iPenWidth;
-                            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-
-                            wxColour cLineColour, cFillColour;
-                            cLineColour = ColourPicker->GetLineColour();
-                            cFillColour = ColourPicker->GetFillColour();
-
-                            wxPen pen(cLineColour, 1, wxSOLID);
-                            wxBrush brush(cFillColour, wxSOLID);
-                            dc.SetPen(pen);
-                            dc.SetBrush(brush);
-                            dc.DrawEllipse(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-
-                            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-                        }
-                    }
-
-                    //left button UP
-                    if (bLeftUp)
-                    {
-                        if (tdata.iNbClicks == 0)
-                        {
-                            tdata.iNbClicks = 1;
-                            tdata.x1 = x  / dScale;
-                            tdata.y1 = y / dScale;
-                        }
-                        else
-                        {
-                            AddUndo();
-                            SetModified(true);
-
-                            wxMemoryDC mem_dc(*m_Bitmap);
-                            if (mem_dc.IsOk())
-                            {
-                                wxColour cLineColour, cFillColour;
-                                cLineColour = ColourPicker->GetLineColour();
-                                cFillColour = ColourPicker->GetFillColour();
-
-                                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                                wxBrush brush(cFillColour, wxSOLID);
-                                mem_dc.SetPen(pen);
-                                mem_dc.SetBrush(brush);
-                                mem_dc.DrawEllipse(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-
-                                mem_dc.SelectObject(wxNullBitmap);
-                            }
-                            UpdateImage();
-                            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-
-                            DrawCanvas->Refresh(false, &r);
-                            DrawCanvas->Update();
-                            InitToolData();
-                        }
-                    }
+                    ProcessEllipse(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_ROUNDEDRECT_TOOL :
-                    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
-                    {
-                        if (tdata.iNbClicks > 0)
-                        {
-                            tdata.x2 = x;
-                            tdata.y2 = y;
-
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-
-                            int iPenWidth;
-                            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-
-                            wxColour cLineColour, cFillColour;
-                            cLineColour = ColourPicker->GetLineColour();
-                            cFillColour = ColourPicker->GetFillColour();
-
-                            wxPen pen(cLineColour, 1, wxSOLID);
-                            wxBrush brush(cFillColour, wxSOLID);
-                            dc.SetPen(pen);
-                            dc.SetBrush(brush);
-                            dc.DrawRoundedRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale, tdata.iRadius);
-
-                            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-                        }
-                    }
-
-                    //left button UP
-                    if (bLeftUp)
-                    {
-                        if (tdata.iNbClicks == 0)
-                        {
-                            tdata.iNbClicks = 1;
-                            tdata.x1 = x  / dScale;
-                            tdata.y1 = y / dScale;
-                        }
-                        else
-                        {
-                            AddUndo();
-                            SetModified(true);
-
-                            wxMemoryDC mem_dc(*m_Bitmap);
-                            if (mem_dc.IsOk())
-                            {
-                                wxColour cLineColour, cFillColour;
-                                cLineColour = ColourPicker->GetLineColour();
-                                cFillColour = ColourPicker->GetFillColour();
-
-                                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                                wxBrush brush(cFillColour, wxSOLID);
-                                mem_dc.SetPen(pen);
-                                mem_dc.SetBrush(brush);
-                                mem_dc.DrawRoundedRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale, tdata.iRadius);
-
-                                mem_dc.SelectObject(wxNullBitmap);
-                            }
-                            UpdateImage();
-                            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-
-                            DrawCanvas->Refresh(false, &r);
-                            DrawCanvas->Update();
-                            InitToolData();
-                        }
-                    }
+                    ProcessRoundedRectangle(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         default: break;
@@ -2093,6 +1530,603 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
 }
 
 
+/** Process the Brush tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessBrush(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if (bLeftDown)
+    {
+        //Undo & modification flag
+        AddUndo();
+        SetModified(true);
+
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            cColour = ColourPicker->GetLineColour();
+            wxBrush brush(cColour, wxSOLID);
+            wxPen pen(cColour, 1, wxSOLID);
+            mem_dc.SetBrush(brush);
+            mem_dc.SetPen(pen);
+
+            int xx, yy;
+            xx = x / dScale; yy = y / dScale;
+
+            switch (tdata.iStyle)
+            {
+                case XPM_BRUSH_STYLE_CIRCLE   :
+                        mem_dc.DrawCircle(xx, yy, tdata.iSize/2);
+                        break;
+
+                case XPM_BRUSH_STYLE_LEFTHAIR :
+                        mem_dc.DrawLine(xx,yy + tdata.iSize, xx + tdata.iSize, yy);
+                        break;
+
+                case XPM_BRUSH_STYLE_RIGHTHAIR:
+                        mem_dc.DrawLine(xx,yy, xx + tdata.iSize, yy + tdata.iSize);
+                        break;
+
+                case XPM_BRUSH_STYLE_SQUARE   :
+                default:
+                        mem_dc.DrawRectangle(xx - tdata.iSize / 2,
+                                             yy - tdata.iSize / 2,
+                                             tdata.iSize,
+                                             tdata.iSize);
+                        break;
+            }
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Update();
+    }
+
+    if (bPressed)
+    {
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            cColour = ColourPicker->GetLineColour();
+            wxBrush brush(cColour, wxSOLID);
+            wxPen pen(cColour, 1, wxSOLID);
+            mem_dc.SetBrush(brush);
+            mem_dc.SetPen(pen);
+
+            int xx, yy;
+            xx = x / dScale; yy = y / dScale;
+
+            switch (tdata.iStyle)
+            {
+                case XPM_BRUSH_STYLE_CIRCLE   :
+                    mem_dc.DrawCircle(xx, yy, tdata.iSize/2);
+                    break;
+
+                case XPM_BRUSH_STYLE_LEFTHAIR :
+                    mem_dc.DrawLine(xx,yy + tdata.iSize, xx + tdata.iSize, yy);
+                    break;
+
+                case XPM_BRUSH_STYLE_RIGHTHAIR:
+                    mem_dc.DrawLine(xx,yy, xx + tdata.iSize, yy + tdata.iSize);
+                    break;
+
+                case XPM_BRUSH_STYLE_SQUARE   :
+                default:
+                    mem_dc.DrawRectangle(xx - tdata.iSize / 2,
+                                         yy - tdata.iSize / 2,
+                                         tdata.iSize,
+                                         tdata.iSize);
+                    break;
+            }
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+        wxRect r(x - tdata.iSize * dScale / 2, y - tdata.iSize * dScale / 2, tdata.iSize* dScale, tdata.iSize * dScale);
+        DrawCanvas->Refresh(false, &r);
+        DrawCanvas->Update();
+    }
+
+    if (bLeftUp)
+    {
+        //finish
+        InitToolData();
+    }
+}
+
+/** Process the Eraser tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessEraser(int x, int y,
+                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if (bLeftDown)
+    {
+        //Undo & modification flag
+        AddUndo();
+        SetModified(true);
+
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            cColour = ColourPicker->GetLineColour();
+            wxBrush brush(cColour, wxSOLID);
+            wxPen pen(cColour, 1, wxSOLID);
+            mem_dc.SetBrush(brush);
+            mem_dc.SetPen(pen);
+
+            int xx, yy;
+            xx = x / dScale; yy = y / dScale;
+
+            mem_dc.DrawRectangle(xx - tdata.iSize / 2,
+                                 yy - tdata.iSize / 2,
+                                 tdata.iSize,
+                                 tdata.iSize);
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Update();
+    }
+    if (bPressed)
+    {
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            cColour = ColourPicker->GetTransparentColour();
+            wxBrush brush(cColour, wxSOLID);
+            wxPen pen(cColour, 1, wxSOLID);
+            mem_dc.SetBrush(brush);
+            mem_dc.SetPen(pen);
+
+            int xx, yy;
+            xx = x / dScale; yy = y / dScale;
+
+            mem_dc.DrawRectangle(xx - tdata.iSize / 2,
+                                 yy - tdata.iSize / 2,
+                                 tdata.iSize,
+                                 tdata.iSize);
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+        wxRect r(x / dScale - tdata.iSize / 2, y / dScale - tdata.iSize / 2, tdata.iSize, tdata.iSize);
+        DrawCanvas->Refresh(false, &r);
+        DrawCanvas->Update();
+    }
+    if (bLeftUp)
+    {
+        //finish
+        InitToolData();
+    }
+}
+
+/** Process the Polygon tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessPolygon(int x, int y,
+                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            DrawCanvas->Refresh(false,NULL);
+            DrawCanvas->Update();
+
+            tdata.iNbClicks = tdata.iNbClicks + 1;
+            if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
+
+            //Draw the polygon
+            int iPenWidth;
+            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+
+            wxColour cLineColour, cFillColour;
+            cLineColour = ColourPicker->GetLineColour();
+            cFillColour = ColourPicker->GetFillColour();
+            wxPen pen(cLineColour, iPenWidth, wxSOLID);
+            wxBrush brush(cFillColour, wxSOLID);
+            dc.SetPen(pen);
+            dc.SetBrush(brush);
+
+            wxPoint tmp[XPM_MAXPOINTS+1];
+            int i;
+            tmp[tdata.iNbPoints].x = x;
+            tmp[tdata.iNbPoints].y = y;
+            for(i=0;i<tdata.iNbPoints;i++)
+            {
+                tmp[i].x = tdata.pts[i].x * dScale;
+                tmp[i].y = tdata.pts[i].y * dScale;
+            }
+            dc.DrawPolygon(tdata.iNbPoints + 1, tmp);
+        }
+    }
+
+    // left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+            tdata.iNbClicks = 1;
+            tdata.iNbPoints = 1;
+            tdata.pts[0].x = x  / dScale;
+            tdata.pts[0].y = y / dScale;
+        }
+        else
+        {
+            tdata.iNbClicks = tdata.iNbClicks + 1;
+            tdata.iNbPoints = tdata.iNbPoints + 1;
+            if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
+            tdata.pts[tdata.iNbPoints - 1].x = x  / dScale;
+            tdata.pts[tdata.iNbPoints - 1].y = y / dScale;
+        }
+    }
+
+    if (bDClick)
+    {
+        AddUndo();
+        SetModified(true);
+
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cLineColour, cFillColour;
+            cLineColour = ColourPicker->GetLineColour();
+            cFillColour = ColourPicker->GetFillColour();
+
+            wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+            wxBrush brush(cFillColour, wxSOLID);
+            mem_dc.SetPen(pen);
+            mem_dc.SetBrush(brush);
+            mem_dc.DrawPolygon(tdata.iNbPoints, tdata.pts);
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+
+        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Update();
+        InitToolData();
+        ToggleButtons(-1,false);
+    }
+}
+
+/** Process the Rectangle tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessRectangle(int x, int y,
+                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            tdata.x2 = x;
+            tdata.y2 = y;
+
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+
+            int iPenWidth;
+            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+
+            wxColour cLineColour, cFillColour;
+            cLineColour = ColourPicker->GetLineColour();
+            cFillColour = ColourPicker->GetFillColour();
+
+            wxPen pen(cLineColour, iPenWidth, wxSOLID);
+            wxBrush brush(cFillColour, wxSOLID);
+            dc.SetPen(pen);
+            dc.SetBrush(brush);
+            dc.DrawRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
+                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+        }
+    }
+
+    //left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            tdata.iNbClicks = 1;
+            tdata.x1 = x  / dScale;
+            tdata.y1 = y / dScale;
+        }
+        else
+        {
+            AddUndo();
+            SetModified(true);
+            wxMemoryDC mem_dc(*m_Bitmap);
+            if (mem_dc.IsOk())
+            {
+                wxColour cLineColour, cFillColour;
+                cLineColour = ColourPicker->GetLineColour();
+                cFillColour = ColourPicker->GetFillColour();
+
+                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+                wxBrush brush(cFillColour, wxSOLID);
+                mem_dc.SetPen(pen);
+                mem_dc.SetBrush(brush);
+                mem_dc.DrawRectangle(tdata.x1 , tdata.y1 ,
+                                     x / dScale - tdata.x1 , y / dScale - tdata.y1);
+
+                mem_dc.SelectObject(wxNullBitmap);
+            }
+            UpdateImage();
+            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
+                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+
+            DrawCanvas->Refresh(false, &r);
+            DrawCanvas->Update();
+            InitToolData();
+        }
+    }
+}
+
+/** Process the Line tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessLine(int x, int y,
+                                bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            tdata.x2 = x;
+            tdata.y2 = y;
+
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+
+            int iPenWidth;
+            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+
+            wxColour cLineColour, cFillColour;
+            cLineColour = ColourPicker->GetLineColour();
+            cFillColour = ColourPicker->GetFillColour();
+
+            wxPen pen(cLineColour, iPenWidth, wxSOLID);
+            wxBrush brush(cFillColour, wxSOLID);
+            dc.SetPen(pen);
+            dc.SetBrush(brush);
+            dc.DrawLine(tdata.x1 * dScale, tdata.y1 * dScale,
+                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+        }
+    }
+
+    //left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            tdata.iNbClicks = 1;
+            tdata.x1 = x  / dScale;
+            tdata.y1 = y / dScale;
+        }
+        else
+        {
+            AddUndo();
+            SetModified(true);
+            wxMemoryDC mem_dc(*m_Bitmap);
+            if (mem_dc.IsOk())
+            {
+                wxColour cLineColour, cFillColour;
+                cLineColour = ColourPicker->GetLineColour();
+                cFillColour = ColourPicker->GetFillColour();
+
+                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+                wxBrush brush(cFillColour, wxSOLID);
+                mem_dc.SetPen(pen);
+                mem_dc.SetBrush(brush);
+                mem_dc.DrawLine(tdata.x1 , tdata.y1 ,
+                                x / dScale - tdata.x1 , y / dScale - tdata.y1);
+
+                mem_dc.SelectObject(wxNullBitmap);
+            }
+            UpdateImage();
+            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
+                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+
+            DrawCanvas->Refresh(false, &r);
+            DrawCanvas->Update();
+            InitToolData();
+        }
+    }
+}
+
+/** Process the RoundedRectangle tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
+                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            tdata.x2 = x;
+            tdata.y2 = y;
+
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+
+            int iPenWidth;
+            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+
+            wxColour cLineColour, cFillColour;
+            cLineColour = ColourPicker->GetLineColour();
+            cFillColour = ColourPicker->GetFillColour();
+
+            wxPen pen(cLineColour, iPenWidth, wxSOLID);
+            wxBrush brush(cFillColour, wxSOLID);
+            dc.SetPen(pen);
+            dc.SetBrush(brush);
+            dc.DrawRoundedRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
+                                    x - tdata.x1 * dScale, y - tdata.y1 * dScale, tdata.iRadius);
+        }
+    }
+
+    //left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            tdata.iNbClicks = 1;
+            tdata.x1 = x  / dScale;
+            tdata.y1 = y / dScale;
+        }
+        else
+        {
+            AddUndo();
+            SetModified(true);
+            wxMemoryDC mem_dc(*m_Bitmap);
+            if (mem_dc.IsOk())
+            {
+                wxColour cLineColour, cFillColour;
+                cLineColour = ColourPicker->GetLineColour();
+                cFillColour = ColourPicker->GetFillColour();
+
+                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+                wxBrush brush(cFillColour, wxSOLID);
+                mem_dc.SetPen(pen);
+                mem_dc.SetBrush(brush);
+                mem_dc.DrawRoundedRectangle(tdata.x1 , tdata.y1 ,
+                                     x / dScale - tdata.x1 , y / dScale - tdata.y1, tdata.iRadius);
+
+                mem_dc.SelectObject(wxNullBitmap);
+            }
+            UpdateImage();
+            wxRect r(tdata.x1 * dScale - 10, tdata.y1 * dScale - 10,
+                     x - tdata.x1 * dScale + 20, y - tdata.y1 * dScale + 20);
+
+            DrawCanvas->Refresh(false, &r);
+            DrawCanvas->Update();
+            InitToolData();
+        }
+    }
+}
+
+/** Process the Ellipse tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessEllipse(int x, int y,
+                                    bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            tdata.x2 = x;
+            tdata.y2 = y;
+
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+
+            int iPenWidth;
+            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+
+            wxColour cLineColour, cFillColour;
+            cLineColour = ColourPicker->GetLineColour();
+            cFillColour = ColourPicker->GetFillColour();
+
+            wxPen pen(cLineColour, iPenWidth, wxSOLID);
+            wxBrush brush(cFillColour, wxSOLID);
+            dc.SetPen(pen);
+            dc.SetBrush(brush);
+            dc.DrawEllipse(tdata.x1 * dScale, tdata.y1 * dScale,
+                           x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+        }
+    }
+
+    //left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            tdata.iNbClicks = 1;
+            tdata.x1 = x  / dScale;
+            tdata.y1 = y / dScale;
+        }
+        else
+        {
+            AddUndo();
+            SetModified(true);
+            wxMemoryDC mem_dc(*m_Bitmap);
+            if (mem_dc.IsOk())
+            {
+                wxColour cLineColour, cFillColour;
+                cLineColour = ColourPicker->GetLineColour();
+                cFillColour = ColourPicker->GetFillColour();
+
+                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+                wxBrush brush(cFillColour, wxSOLID);
+                mem_dc.SetPen(pen);
+                mem_dc.SetBrush(brush);
+                mem_dc.DrawEllipse(tdata.x1 , tdata.y1 ,
+                                   x / dScale - tdata.x1 , y / dScale - tdata.y1);
+
+                mem_dc.SelectObject(wxNullBitmap);
+            }
+            UpdateImage();
+            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
+                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+
+            DrawCanvas->Refresh(false, &r);
+            DrawCanvas->Update();
+            InitToolData();
+        }
+    }
+}
 
 /** init tool data for a first use
   */
@@ -2423,10 +2457,8 @@ void XPMEditorPanel::Cut(void)
             imgPaste.Replace(0,0,0, m_Image->GetMaskRed(), m_Image->GetMaskGreen(), m_Image->GetMaskBlue());
         }
         m_Image->Paste(imgPaste, r.GetLeft(), r.GetTop());
-        FastUpdateBitmap();
+        UpdateBitmap();
         SetModified(true);
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
     }
 }
 
@@ -2688,13 +2720,6 @@ void XPMEditorPanel::OnTransparentColorChanged(wxCommandEvent& event)
         m_Image->SetMaskColour(iGreen, iRed, iBlue);
         m_Image->SetMask(true);
         UpdateBitmap();
-    }
-
-    //update the display
-    if (DrawCanvas)
-    {
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
     }
 }
 
@@ -3069,3 +3094,4 @@ void XPMEditorPanel::OnSpinRadiusChanged(wxSpinEvent& event)
 {
     tdata.iRadius = event.GetPosition();
 }
+
