@@ -14,17 +14,15 @@
 #include <wx/bitmap.h>
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>
-class wxGrid;
 class wxSpinEvent;
 class wxCheckBox;
 class XPMColorPicker;
 class wxComboBox;
+class wxCustomButton;
 class wxScrolledWindow;
 class wxStaticText;
-class XPMToggleBMPButton;
 class wxSpinCtrl;
 class wxBoxSizer;
-class wxGridEvent;
 //*)
 
 #define XPM_NUMBER_TOOLS 14
@@ -130,42 +128,45 @@ class XPMEditorPanel: public wxPanel
 		void UpdateConfiguration(void); ///< @brief ask all the image editors to update their configuration
 
 		//(*Declarations(XPMEditorPanel)
-		XPMToggleBMPButton* RectangleButton;
-		XPMToggleBMPButton* PolygonButton;
 		wxBoxSizer* ToolSizer;
-		XPMToggleBMPButton* LassoButton;
+		wxCustomButton* FillButton;
+		wxCustomButton* EraserButton;
 		wxSpinCtrl* BMPHeight;
 		wxStaticText* sCursorPos;
 		wxScrolledWindow* DrawCanvas;
-		XPMToggleBMPButton* EraserButton;
 		wxSpinCtrl* SpinCtrl1;
 		wxSpinCtrl* BMPWidth;
 		wxStaticText* StaticText2;
 		wxBoxSizer* CanvasSizer;
-		XPMToggleBMPButton* RRectButton;
+		wxCustomButton* SquareBrushButton;
 		wxStaticText* StaticText6;
-		XPMToggleBMPButton* CurveButton;
+		wxCustomButton* BrushButton;
+		wxCustomButton* LineButton;
+		wxCustomButton* PenButton;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
-		wxGrid* Grid1;
-		XPMToggleBMPButton* TextButton;
 		wxPanel* ToolPanel;
 		wxCheckBox* CheckBox1;
-		XPMToggleBMPButton* SelectButton;
+		wxCustomButton* PipetteButton;
 		wxSpinCtrl* SpinCtrl3;
-		XPMToggleBMPButton* FillButton;
 		wxStaticText* StaticText5;
-		XPMToggleBMPButton* BrushButton;
+		wxCustomButton* SelectButton;
+		wxCustomButton* EllipseButton;
+		wxCustomButton* RHairBrushButton;
 		wxSpinCtrl* SpinCtrl2;
 		wxComboBox* ZoomFactor;
 		XPMColorPicker* ColourPicker;
 		wxBoxSizer* PanelSizer;
-		XPMToggleBMPButton* EllipseButton;
-		XPMToggleBMPButton* PenButton;
-		XPMToggleBMPButton* PipetteButton;
-		XPMToggleBMPButton* LineButton;
+		wxCustomButton* LassoButton;
+		wxCustomButton* RectangleButton;
+		wxCustomButton* CircleBrushButton;
+		wxCustomButton* RRectButton;
 		wxBoxSizer* ToolPanelSizer;
 		wxStaticText* StaticText4;
+		wxCustomButton* LHairBrushButton;
+		wxCustomButton* CurveButton;
+		wxCustomButton* TextButton;
+		wxCustomButton* PolygonButton;
 		//*)
 
 	protected:
@@ -193,7 +194,10 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_POLYGON_BTN;
 		static const long ID_ELLIPSE_BTN;
 		static const long ID_ROUNDEDRECT_BTN;
-		static const long ID_GRID1;
+		static const long ID_SQUARE_BRUSH;
+		static const long ID_CIRCLE_BRUSH;
+		static const long ID_LHAIR_BRUSH;
+		static const long ID_RHAIR_BRUSH;
 		static const long ID_STATICTEXT5;
 		static const long ID_SPINCTRL3;
 		static const long ID_STATICTEXT7;
@@ -218,25 +222,28 @@ class XPMEditorPanel: public wxPanel
 		void OnDrawCanvasLeftDClick(wxMouseEvent& event);
 		void OnDrawCanvasEraseBackground(wxEraseEvent& event);
 		void OnSpinSizeChanged(wxSpinEvent& event);
-		void OnBrushStyleChanged(wxGridEvent& event);
 		void OnSpinRadiusChanged(wxSpinEvent& event);
+		void OnEllipseButtonToggle(wxCommandEvent& event);
+		void OnRRectButtonToggle(wxCommandEvent& event);
+		void OnRectangleButtonToggle(wxCommandEvent& event);
+		void OnPolygonButtonToggle(wxCommandEvent& event);
+		void OnEraserButtonToggle(wxCommandEvent& event);
+		void OnTextButtonToggle(wxCommandEvent& event);
+		void OnCurveButtonToggle(wxCommandEvent& event);
+		void OnLineButtonToggle(wxCommandEvent& event);
+		void OnPipetteButtonToggle(wxCommandEvent& event);
+		void OnFillButtonToggle(wxCommandEvent& event);
+		void OnPenButtonToggle(wxCommandEvent& event);
+		void OnBrushButtonToggle(wxCommandEvent& event);
+		void OnLassoButtonToggle(wxCommandEvent& event);
+		void OnSelectButtonToggle(wxCommandEvent& event);
+		void OnSquareBrushButtonToggle(wxCommandEvent& event);
+		void OnCircleBrushButtonToggle(wxCommandEvent& event);
+		void OnLHairBrushButtonToggle(wxCommandEvent& event);
+		void OnRHairBrushButtonToggle(wxCommandEvent& event);
 		//*)
-		void OnToggleSelectionTool(wxCommandEvent& event);
-		void OnToggleLassoTool(wxCommandEvent& event);
-		void OnToggleBrushTool(wxCommandEvent& event);
-		void OnToggleLineTool(wxCommandEvent& event);
-		void OnToggleCurveTool(wxCommandEvent& event);
-		void OnTogglePenTool(wxCommandEvent& event);
-		void OnToggleEllipseTool(wxCommandEvent& event);
-		void OnToggleRectangleTool(wxCommandEvent& event);
-		void OnToggleRoundedRectTool(wxCommandEvent& event);
-		void OnTogglePipetteTool(wxCommandEvent& event);
-		void OnTogglePolygonTool(wxCommandEvent& event);
-		void OnToggleFillTool(wxCommandEvent& event);
-		void OnToggleEraserTool(wxCommandEvent& event);
-		void OnToggleTextTool(wxCommandEvent& event);
-		void OnTransparentColorChanged(wxCommandEvent& event);
 
+		void OnTransparentColorChanged(wxCommandEvent& event);
 
 		void BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size);
 		void ToggleButtons(int iIndex, bool bClearSelection = true); ///< @brief toggle all Tools Buttons OFF, except the iIndex one.
@@ -250,12 +257,30 @@ class XPMEditorPanel: public wxPanel
         void HideControlsAndDoLayout(int iIndex, bool bChecked); ///< @brief Hide or Show specific tool controls - like style listbox for Brush tool... + update the layout
 
         //methods for processing the tools
+        void ProcessPen(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Pen tool
+        void ProcessFill(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Fill tool
+        void ProcessPipette(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Pipette tool
+        void ProcessSelect(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Selection tool
+        void ProcessLasso(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Lasso (complex selection) tool
         void ProcessRectangle(int x, int y,
                               bool bLeftDown, bool bLeftUp,
                               bool bPressed, bool bDClick); ///< @brief process the Rectangle tool
         void ProcessLine(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Rectangle tool
+                              bool bPressed, bool bDClick); ///< @brief process the Line tool
+        void ProcessCurve(int x, int y,
+                              bool bLeftDown, bool bLeftUp,
+                              bool bPressed, bool bDClick); ///< @brief process the Curve tool
         void ProcessRoundedRectangle(int x, int y,
                               bool bLeftDown, bool bLeftUp,
                               bool bPressed, bool bDClick); ///< @brief process the Rounded Rectangle tool
@@ -305,7 +330,7 @@ class XPMEditorPanel: public wxPanel
         XPMUndo *m_undo_buffer;  ///< \brief the Undo buffer
 
         //Drawing tools ids, & cursors
-        XPMToggleBMPButton* tools[XPM_NUMBER_TOOLS]; ///< \brief the buttons associated to the tools
+        wxCustomButton* tools[XPM_NUMBER_TOOLS]; ///< \brief the buttons associated to the tools
         int iToolUsed; ///< \brief the index of the tool currently in use
         wxCursor ToolCursor[XPM_NUMBER_TOOLS]; ///< \brief the cursors associated to the tools
         ToolData tdata; ///< \brief tool specific data

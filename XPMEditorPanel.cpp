@@ -23,20 +23,21 @@
 
 //(*InternalHeaders(XPMEditorPanel)
 #include <wx/scrolwin.h>
+#include <wx/artprov.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 #include <wx/checkbox.h>
+#include <wx/things/toggle.h>
+#include <wx/bitmap.h>
 #include "XPMColorPicker.h"
 #include <wx/spinctrl.h>
+#include <wx/tglbtn.h>
 #include <wx/settings.h>
-#include <wx/grid.h>
 #include <wx/intl.h>
-#include "XPMToggleBMPButton.h"
+#include <wx/image.h>
 #include <wx/string.h>
 #include <wx/combobox.h>
 //*)
-
-#include "wxGridBitmapRenderer.h"
 
 //button icons
 #include "xpm/brush.xpm"
@@ -91,7 +92,10 @@ const long XPMEditorPanel::ID_RECTANGLE_BTN = wxNewId();
 const long XPMEditorPanel::ID_POLYGON_BTN = wxNewId();
 const long XPMEditorPanel::ID_ELLIPSE_BTN = wxNewId();
 const long XPMEditorPanel::ID_ROUNDEDRECT_BTN = wxNewId();
-const long XPMEditorPanel::ID_GRID1 = wxNewId();
+const long XPMEditorPanel::ID_SQUARE_BRUSH = wxNewId();
+const long XPMEditorPanel::ID_CIRCLE_BRUSH = wxNewId();
+const long XPMEditorPanel::ID_LHAIR_BRUSH = wxNewId();
+const long XPMEditorPanel::ID_RHAIR_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT5 = wxNewId();
 const long XPMEditorPanel::ID_SPINCTRL3 = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT7 = wxNewId();
@@ -181,15 +185,15 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     m_undo_buffer = new XPMUndo;
     if (m_undo_buffer) m_undo_buffer->SetParentPanel(this);
 
-    Grid1->SetColLabelSize(0); //hide col labels
-    Grid1->SetRowLabelSize(0); //hide row labels
-    Grid1->SetDefaultColSize(10);
-    Grid1->SetDefaultRenderer(new wxGridBitmapRenderer);
-    Grid1->SetCellRenderer(0,0, new wxGridBitmapRenderer);
-    Grid1->SetCellRenderer(0,1, new wxGridBitmapRenderer);
-    Grid1->SetCellRenderer(1,0, new wxGridBitmapRenderer);
-    Grid1->SetCellRenderer(1,1, new wxGridBitmapRenderer);
-    Grid1->Hide();
+    SquareBrushButton->Hide();
+    SquareBrushButton->SetLabel(square_xpm);
+    CircleBrushButton->Hide();
+    CircleBrushButton->SetLabel(circle_xpm);
+    LHairBrushButton->Hide();
+    LHairBrushButton->SetLabel(left_hair_xpm);
+    RHairBrushButton->Hide();
+    RHairBrushButton->SetLabel(right_hair_xpm);
+
     StaticText4->Hide();
     SpinCtrl1->Hide();
     StaticText5->Hide();
@@ -218,6 +222,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	wxBoxSizer* BoxSizer8;
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer11;
+	wxBoxSizer* BoxSizer1;
 	wxBoxSizer* BoxSizer9;
 	wxBoxSizer* BoxSizer3;
 
@@ -264,56 +269,76 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	ToolPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	ToolPanelSizer = new wxBoxSizer(wxVERTICAL);
 	BoxSizer6 = new wxBoxSizer(wxHORIZONTAL);
-	SelectButton = new XPMToggleBMPButton(ToolPanel,ID_SELECT_BUTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_SELECT_BUTN"));
-	BoxSizer6->Add(SelectButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	LassoButton = new XPMToggleBMPButton(ToolPanel,ID_LASSO_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_LASSO_BTN"));
-	BoxSizer6->Add(LassoButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	SelectButton = new wxCustomButton(ToolPanel,ID_SELECT_BUTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_SELECT_BUTN"));
+	SelectButton->SetBitmapDisabled(SelectButton->CreateBitmapDisabled(SelectButton->GetBitmapLabel()));
+	BoxSizer6->Add(SelectButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	LassoButton = new wxCustomButton(ToolPanel,ID_LASSO_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LASSO_BTN"));
+	LassoButton->SetBitmapDisabled(LassoButton->CreateBitmapDisabled(LassoButton->GetBitmapLabel()));
+	BoxSizer6->Add(LassoButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer6, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
-	PenButton = new XPMToggleBMPButton(ToolPanel,ID_PEN_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_PEN_BTN"));
-	BoxSizer5->Add(PenButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	BrushButton = new XPMToggleBMPButton(ToolPanel,ID_BRUSH_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_BRUSH_BTN"));
-	BoxSizer5->Add(BrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	PenButton = new wxCustomButton(ToolPanel,ID_PEN_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PEN_BTN"));
+	PenButton->SetBitmapDisabled(PenButton->CreateBitmapDisabled(PenButton->GetBitmapLabel()));
+	BoxSizer5->Add(PenButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	BrushButton = new wxCustomButton(ToolPanel,ID_BRUSH_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_BRUSH_BTN"));
+	BrushButton->SetBitmapDisabled(BrushButton->CreateBitmapDisabled(BrushButton->GetBitmapLabel()));
+	BoxSizer5->Add(BrushButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer5, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
-	PipetteButton = new XPMToggleBMPButton(ToolPanel,ID_PIPETTE_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_PIPETTE_BTN"));
-	BoxSizer7->Add(PipetteButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	FillButton = new XPMToggleBMPButton(ToolPanel,ID_FILL_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_FILL_BTN"));
-	BoxSizer7->Add(FillButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	PipetteButton = new wxCustomButton(ToolPanel,ID_PIPETTE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PIPETTE_BTN"));
+	PipetteButton->SetBitmapDisabled(PipetteButton->CreateBitmapDisabled(PipetteButton->GetBitmapLabel()));
+	BoxSizer7->Add(PipetteButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	FillButton = new wxCustomButton(ToolPanel,ID_FILL_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_FILL_BTN"));
+	FillButton->SetBitmapDisabled(FillButton->CreateBitmapDisabled(FillButton->GetBitmapLabel()));
+	BoxSizer7->Add(FillButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer7, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer10 = new wxBoxSizer(wxHORIZONTAL);
-	LineButton = new XPMToggleBMPButton(ToolPanel,ID_LINE_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_LINE_BTN"));
-	BoxSizer10->Add(LineButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	CurveButton = new XPMToggleBMPButton(ToolPanel,ID_CURVE_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CURVE_BTN"));
-	BoxSizer10->Add(CurveButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	LineButton = new wxCustomButton(ToolPanel,ID_LINE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LINE_BTN"));
+	LineButton->SetBitmapDisabled(LineButton->CreateBitmapDisabled(LineButton->GetBitmapLabel()));
+	BoxSizer10->Add(LineButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	CurveButton = new wxCustomButton(ToolPanel,ID_CURVE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CURVE_BTN"));
+	CurveButton->SetBitmapDisabled(CurveButton->CreateBitmapDisabled(CurveButton->GetBitmapLabel()));
+	BoxSizer10->Add(CurveButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer10, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
-	EraserButton = new XPMToggleBMPButton(ToolPanel,ID_ERASER_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_ERASER_BTN"));
-	BoxSizer9->Add(EraserButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	TextButton = new XPMToggleBMPButton(ToolPanel,ID_TEXT_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_TEXT_BTN"));
-	BoxSizer9->Add(TextButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	EraserButton = new wxCustomButton(ToolPanel,ID_ERASER_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ERASER_BTN"));
+	EraserButton->SetBitmapDisabled(EraserButton->CreateBitmapDisabled(EraserButton->GetBitmapLabel()));
+	BoxSizer9->Add(EraserButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	TextButton = new wxCustomButton(ToolPanel,ID_TEXT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_TEXT_BTN"));
+	TextButton->SetBitmapDisabled(TextButton->CreateBitmapDisabled(TextButton->GetBitmapLabel()));
+	BoxSizer9->Add(TextButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer9, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
-	RectangleButton = new XPMToggleBMPButton(ToolPanel,ID_RECTANGLE_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_RECTANGLE_BTN"));
-	BoxSizer11->Add(RectangleButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	PolygonButton = new XPMToggleBMPButton(ToolPanel,ID_POLYGON_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_POLYGON_BTN"));
-	BoxSizer11->Add(PolygonButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	RectangleButton = new wxCustomButton(ToolPanel,ID_RECTANGLE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_RECTANGLE_BTN"));
+	RectangleButton->SetBitmapDisabled(RectangleButton->CreateBitmapDisabled(RectangleButton->GetBitmapLabel()));
+	BoxSizer11->Add(RectangleButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	PolygonButton = new wxCustomButton(ToolPanel,ID_POLYGON_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_POLYGON_BTN"));
+	PolygonButton->SetBitmapDisabled(PolygonButton->CreateBitmapDisabled(PolygonButton->GetBitmapLabel()));
+	BoxSizer11->Add(PolygonButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer11, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
-	EllipseButton = new XPMToggleBMPButton(ToolPanel,ID_ELLIPSE_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_ELLIPSE_BTN"));
-	BoxSizer8->Add(EllipseButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	RRectButton = new XPMToggleBMPButton(ToolPanel,ID_ROUNDEDRECT_BTN, wxNullBitmap,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_ROUNDEDRECT_BTN"));
-	BoxSizer8->Add(RRectButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	EllipseButton = new wxCustomButton(ToolPanel,ID_ELLIPSE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ELLIPSE_BTN"));
+	EllipseButton->SetBitmapDisabled(EllipseButton->CreateBitmapDisabled(EllipseButton->GetBitmapLabel()));
+	BoxSizer8->Add(EllipseButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	RRectButton = new wxCustomButton(ToolPanel,ID_ROUNDEDRECT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ROUNDEDRECT_BTN"));
+	RRectButton->SetBitmapDisabled(RRectButton->CreateBitmapDisabled(RRectButton->GetBitmapLabel()));
+	BoxSizer8->Add(RRectButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer8, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	Grid1 = new wxGrid(ToolPanel, ID_GRID1, wxDefaultPosition, wxSize(16,100), wxSUNKEN_BORDER, _T("ID_GRID1"));
-	Grid1->CreateGrid(2,2);
-	Grid1->SetMinSize(wxSize(16,100));
-	Grid1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
-	Grid1->EnableEditing(false);
-	Grid1->EnableGridLines(false);
-	Grid1->SetDefaultCellFont( Grid1->GetFont() );
-	Grid1->SetDefaultCellTextColour( Grid1->GetForegroundColour() );
-	ToolPanelSizer->Add(Grid1, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	ToolPanelSizer->Add(-1,-1,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
+	SquareBrushButton = new wxCustomButton(ToolPanel,ID_SQUARE_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_SQUARE_BRUSH"));
+	SquareBrushButton->SetBitmapDisabled(SquareBrushButton->CreateBitmapDisabled(SquareBrushButton->GetBitmapLabel()));
+	BoxSizer1->Add(SquareBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	CircleBrushButton = new wxCustomButton(ToolPanel,ID_CIRCLE_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CIRCLE_BRUSH"));
+	CircleBrushButton->SetBitmapDisabled(CircleBrushButton->CreateBitmapDisabled(CircleBrushButton->GetBitmapLabel()));
+	BoxSizer1->Add(CircleBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	LHairBrushButton = new wxCustomButton(ToolPanel,ID_LHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LHAIR_BRUSH"));
+	LHairBrushButton->SetBitmapDisabled(LHairBrushButton->CreateBitmapDisabled(LHairBrushButton->GetBitmapLabel()));
+	BoxSizer1->Add(LHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	RHairBrushButton = new wxCustomButton(ToolPanel,ID_RHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_RHAIR_BRUSH"));
+	RHairBrushButton->SetBitmapDisabled(RHairBrushButton->CreateBitmapDisabled(RHairBrushButton->GetBitmapLabel()));
+	BoxSizer1->Add(RHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	ToolPanelSizer->Add(BoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	StaticText4 = new wxStaticText(ToolPanel, ID_STATICTEXT5, _("Size:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT5"));
 	ToolPanelSizer->Add(StaticText4, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	SpinCtrl1 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL3, _T("2"), wxDefaultPosition, wxSize(20,21), 0, 2, 16, 2, _T("ID_SPINCTRL3"));
@@ -321,7 +346,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	ToolPanelSizer->Add(SpinCtrl1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	StaticText6 = new wxStaticText(ToolPanel, ID_STATICTEXT7, _("Radius:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT7"));
 	ToolPanelSizer->Add(StaticText6, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	SpinCtrl3 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL5, _T("1"), wxDefaultPosition, wxSize(20,21), 0, 1, 16, 1, _T("ID_SPINCTRL5"));
+	SpinCtrl3 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL5, _T("1"), wxDefaultPosition, wxSize(20,21), 0, 1, 1000, 1, _T("ID_SPINCTRL5"));
 	SpinCtrl3->SetValue(_T("1"));
 	ToolPanelSizer->Add(SpinCtrl3, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	StaticText5 = new wxStaticText(ToolPanel, ID_STATICTEXT6, _("Thickness:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT6"));
@@ -351,7 +376,24 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Connect(ID_SPINCTRL1,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
 	Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
 	Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnShowGrid);
-	Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&XPMEditorPanel::OnBrushStyleChanged);
+	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnSelectButtonToggle);
+	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLassoButtonToggle);
+	Connect(ID_PEN_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnPenButtonToggle);
+	Connect(ID_BRUSH_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnBrushButtonToggle);
+	Connect(ID_PIPETTE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnPipetteButtonToggle);
+	Connect(ID_FILL_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnFillButtonToggle);
+	Connect(ID_LINE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLineButtonToggle);
+	Connect(ID_CURVE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnCurveButtonToggle);
+	Connect(ID_ERASER_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnEraserButtonToggle);
+	Connect(ID_TEXT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnTextButtonToggle);
+	Connect(ID_RECTANGLE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRectangleButtonToggle);
+	Connect(ID_POLYGON_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnPolygonButtonToggle);
+	Connect(ID_ELLIPSE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnEllipseButtonToggle);
+	Connect(ID_ROUNDEDRECT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRRectButtonToggle);
+	Connect(ID_SQUARE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnSquareBrushButtonToggle);
+	Connect(ID_CIRCLE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnCircleBrushButtonToggle);
+	Connect(ID_LHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLHairBrushButtonToggle);
+	Connect(ID_RHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRHairBrushButtonToggle);
 	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
 	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinRadiusChanged);
 	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
@@ -364,22 +406,6 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	DrawCanvas->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseLeave,0,this);
 	DrawCanvas->Connect(wxEVT_SIZE,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasResize,0,this);
 	//*)
-
-    //Tool box events
-	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleSelectionTool);
-	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleLassoTool);
-	Connect(ID_BRUSH_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleBrushTool);
-	Connect(ID_LINE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleLineTool);
-	Connect(ID_CURVE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleCurveTool);
-	Connect(ID_PEN_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnTogglePenTool);
-	Connect(ID_ELLIPSE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleEllipseTool);
-	Connect(ID_RECTANGLE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleRectangleTool);
-	Connect(ID_ROUNDEDRECT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleRoundedRectTool);
-	Connect(ID_PIPETTE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnTogglePipetteTool);
-	Connect(ID_POLYGON_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnTogglePolygonTool);
-	Connect(ID_FILL_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleFillTool);
-	Connect(ID_ERASER_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleEraserTool);
-	Connect(ID_TEXT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnToggleTextTool);
 
 	//transparent color changed
 	Connect(ID_CUSTOM1,wxEVT_TRANSPARENT_COLOR_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnTransparentColorChanged);
@@ -1131,8 +1157,6 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         ProcessToolAction(iTool, x, y, false, false, event.LeftIsDown(), false);
     }
 
-
-
     event.Skip();
 }
 
@@ -1177,180 +1201,15 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
     switch(iTool)
     {
         case XPM_ID_SELECT_TOOL :
-                    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
-                    {
-                        if (tdata.iNbClicks > 0)
-                        {
-                            tdata.x2 = x;
-                            tdata.y2 = y;
-                            DrawCanvas->Refresh(false,NULL);
-                            DrawCanvas->Update();
-
-                            int iPenWidth;
-                            if (dScale < 1) iPenWidth = 1; else iPenWidth = dScale;
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-                            wxPen pSelectionPen(*wxBLUE, iPenWidth, wxSHORT_DASH);
-                            dc.SetPen(pSelectionPen);
-                            dc.SetBrush(*wxTRANSPARENT_BRUSH);
-                            dc.DrawRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-                        }
-                    }
-
-                    //left button UP
-                    if (bLeftUp)
-                    {
-                        if (tdata.iNbClicks == 0)
-                        {
-                            ClearSelection();
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-                            tdata.iNbClicks = 1;
-                            tdata.x1 = x  / dScale;
-                            tdata.y1 = y / dScale;
-                        }
-                        else
-                        {
-                            NbPoints = 4;
-                            pSelection = CheckMemorySelection(4);
-                            if (pSelection)
-                            {
-                                pSelection[0].x = tdata.x1;
-                                pSelection[0].y = tdata.y1;
-                                pSelection[1].x = x / dScale;
-                                pSelection[1].y = tdata.y1;
-                                pSelection[2].x = x / dScale;
-                                pSelection[2].y = y / dScale;
-                                pSelection[3].x = tdata.x1;
-                                pSelection[3].y = y / dScale;
-                            }
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-                            InitToolData();
-                        }
-                    }
-
+                    ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_LASSO_TOOL  :
-                    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
-                    {
-                        if (tdata.iNbClicks > 0)
-                        {
-                            bDrawSelection = false;
-                            tdata.x2 = x;
-                            tdata.y2 = y;
-                            DrawCanvas->Refresh(false,NULL);
-                            DrawCanvas->Update();
-                            bDrawSelection = true;
-
-                            int iPenWidth;
-                            if (dScale < 1) iPenWidth = 1; else iPenWidth = dScale;
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-                            wxPen pSelectionPen(*wxBLUE, iPenWidth, wxSHORT_DASH);
-                            dc.SetPen(pSelectionPen);
-                            dc.SetBrush(*wxTRANSPARENT_BRUSH);
-
-                            wxPoint *tmp;
-                            tmp = new wxPoint[NbPoints + 1];
-                            if (tmp)
-                            {
-                                int i;
-                                tmp[NbPoints].x = x;
-                                tmp[NbPoints].y = y;
-                                for(i=0;i<NbPoints;i++)
-                                {
-                                    tmp[i].x = pSelection[i].x * dScale;
-                                    tmp[i].y = pSelection[i].y * dScale;
-                                }
-                                dc.DrawPolygon(NbPoints + 1, tmp);
-                                delete[] tmp;
-                            }
-                        }
-                    }
-
-                    // left button UP
-                    if (bLeftUp)
-                    {
-                        if (tdata.iNbClicks == 0)
-                        {
-                            ClearSelection();
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-                            tdata.iNbClicks = 1;
-                            tdata.x1 = x  / dScale;
-                            tdata.y1 = y / dScale;
-                            NbPoints = 1;
-                            pSelection = CheckMemorySelection(1);
-                            if (pSelection)
-                            {
-                                pSelection[0].x = x;
-                                pSelection[0].y = y;
-                            }
-                        }
-                        else
-                        {
-                            NbPoints = NbPoints + 1;
-                            pSelection = CheckMemorySelection(NbPoints);
-                            if (pSelection)
-                            {
-                                pSelection[NbPoints - 1].x = x;
-                                pSelection[NbPoints - 1].y = y;
-                            }
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-                        }
-                    }
-
-                    if (bDClick)
-                    {
-                        ToggleButtons(-1, false);
-                    }
-
+                    ProcessLasso(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_PEN_TOOL :
-                    if (bLeftDown)
-                    {
-                        //Undo & modification flag
-                        AddUndo();
-                        SetModified(true);
-
-                        if ((m_Image) && (DrawCanvas))
-                        {
-                            wxColour cColour;
-                            cColour = ColourPicker->GetLineColour();
-                            int xx, yy;
-                            xx = x / dScale; yy = y / dScale;
-                            wxRect r(xx, yy, 1, 1);
-
-                            m_Image->SetRGB(r,
-                                            cColour.Red(), cColour.Green(), cColour.Blue());
-                            UpdateBitmap();
-                        }
-                    }
-                    if (bPressed)
-                    {
-                        //draw the pixel
-                        if ((m_Image) && (DrawCanvas))
-                        {
-                            wxColour cColour;
-                            cColour = ColourPicker->GetLineColour();
-                            int xx, yy;
-                            xx = x / dScale; yy = y / dScale;
-                            wxRect r(xx, yy, 1, 1);
-                            m_Image->SetRGB(r,
-                                            cColour.Red(), cColour.Green(), cColour.Blue());
-                            UpdateBitmap();
-                        }
-                    }
-                    if (bLeftUp)
-                    {
-                        //finish
-                        InitToolData();
-                    }
+                    ProcessPen(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_BRUSH_TOOL :
@@ -1358,143 +1217,15 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                     break;
 
         case XPM_ID_PIPETTE_TOOL :
-                    if (bLeftDown)
-                    {
-                        //get the pixel color
-                        if (m_Image)
-                        {
-                            int iColour;
-                            unsigned char iRed, iGreen, iBlue;
-                            iRed = m_Image->GetRed(x / dScale, y / dScale);
-                            iGreen = m_Image->GetGreen(x / dScale, y / dScale);
-                            iBlue = m_Image->GetBlue(x / dScale, y / dScale);
-                            wxColour cColour(iRed, iGreen, iBlue);
-                            iColour = ColourPicker->GetLineColourIndex();
-                            ColourPicker->SetPaletteColour(iColour, cColour);
-                            ColourPicker->Refresh(false,NULL);
-                            ColourPicker->Update();
-                        }
-                    }
-                    if (bLeftUp)
-                    {
-                        //finish
-                        InitToolData();
-                    }
+                    ProcessPipette(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_FILL_TOOL :
-                    if (bLeftDown)
-                    {
-                        //Undo & modification flag
-                        AddUndo();
-                        SetModified(true);
-
-                        //draw the pixel
-                        wxMemoryDC mem_dc(*m_Bitmap);
-                        if (mem_dc.IsOk())
-                        {
-                            wxColour cColour;
-                            wxColour cSurfaceColour;
-                            cColour = ColourPicker->GetFillColour();
-                            wxBrush brush(cColour, wxSOLID);
-                            mem_dc.SetBrush(brush);
-                            mem_dc.GetPixel(x / dScale, y / dScale, &cSurfaceColour);
-                            mem_dc.FloodFill(x / dScale, y / dScale,cSurfaceColour, wxFLOOD_SURFACE);
-                            mem_dc.SelectObject(wxNullBitmap);
-                        }
-                        UpdateImage();
-                        DrawCanvas->Refresh(false, NULL);
-                        DrawCanvas->Update();
-                    }
-                    if (bLeftUp)
-                    {
-                        //finish
-                        InitToolData();
-                    }
+                    ProcessFill(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_CURVE_TOOL :
-
-                    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
-                    {
-                        if (tdata.iNbClicks > 0)
-                        {
-                            DrawCanvas->Refresh(false,NULL);
-                            DrawCanvas->Update();
-
-                            tdata.iNbClicks = tdata.iNbClicks + 1;
-                            if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
-
-                            //Draw the curve
-                            int iPenWidth;
-                            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
-                            wxClientDC dc(DrawCanvas);
-                            DrawCanvas->DoPrepareDC(dc);
-
-                            wxColour cLineColour;
-                            cLineColour = ColourPicker->GetLineColour();
-                            wxPen pen(cLineColour, iPenWidth, wxSOLID);
-                            dc.SetPen(pen);
-
-                            wxPoint tmp[XPM_MAXPOINTS+1];
-                            int i;
-                            tmp[tdata.iNbPoints].x = x;
-                            tmp[tdata.iNbPoints].y = y;
-                            for(i=0;i<tdata.iNbPoints ;i++)
-                            {
-                                tmp[i].x = tdata.pts[i].x * dScale;
-                                tmp[i].y = tdata.pts[i].y * dScale;
-                            }
-                            dc.DrawSpline(tdata.iNbPoints + 1, tmp);
-                        }
-                    }
-
-                    // left button UP
-                    if (bLeftUp)
-                    {
-                        if (tdata.iNbClicks == 0)
-                        {
-                            DrawCanvas->Refresh(false, NULL);
-                            DrawCanvas->Update();
-                            tdata.iNbClicks = 1;
-                            tdata.iNbPoints = 1;
-                            tdata.pts[0].x = x  / dScale;
-                            tdata.pts[0].y = y / dScale;
-                        }
-                        else
-                        {
-                            tdata.iNbClicks = tdata.iNbClicks + 1;
-                            tdata.iNbPoints = tdata.iNbPoints + 1;
-                            if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
-                            tdata.pts[tdata.iNbPoints - 1].x = x  / dScale;
-                            tdata.pts[tdata.iNbPoints - 1].y = y / dScale;
-                        }
-                    }
-
-                    if (bDClick)
-                    {
-                        AddUndo();
-                        SetModified(true);
-
-                        wxMemoryDC mem_dc(*m_Bitmap);
-                        if (mem_dc.IsOk())
-                        {
-                            wxColour cLineColour;
-                            cLineColour = ColourPicker->GetLineColour();
-
-                            wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                            mem_dc.SetPen(pen);
-                            mem_dc.DrawSpline(tdata.iNbPoints, tdata.pts);
-                            mem_dc.SelectObject(wxNullBitmap);
-                        }
-                        UpdateImage();
-
-                        DrawCanvas->Refresh(false, NULL);
-                        DrawCanvas->Update();
-                        InitToolData();
-                        ToggleButtons(-1,false);
-                    }
-
+                    ProcessCurve(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
                     break;
 
         case XPM_ID_LINE_TOOL :
@@ -1529,6 +1260,304 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
 
 }
 
+/** Process the Pipette tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessPipette(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if (bLeftDown)
+    {
+        //get the pixel color
+        if (m_Image)
+        {
+            int iColour;
+            unsigned char iRed, iGreen, iBlue;
+            iRed = m_Image->GetRed(x / dScale, y / dScale);
+            iGreen = m_Image->GetGreen(x / dScale, y / dScale);
+            iBlue = m_Image->GetBlue(x / dScale, y / dScale);
+            wxColour cColour(iRed, iGreen, iBlue);
+            iColour = ColourPicker->GetLineColourIndex();
+            ColourPicker->SetPaletteColour(iColour, cColour);
+            ColourPicker->Refresh(false,NULL);
+            ColourPicker->Update();
+        }
+    }
+
+    if (bLeftUp)
+    {
+        //finish
+        InitToolData();
+    }
+}
+
+/** Process the Fill tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessFill(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if (bLeftDown)
+    {
+        //Undo & modification flag
+        AddUndo();
+        SetModified(true);
+
+        //draw the pixel
+        if (!m_Bitmap) return;
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            wxColour cSurfaceColour;
+            cColour = ColourPicker->GetFillColour();
+            wxBrush brush(cColour, wxSOLID);
+            mem_dc.SetBrush(brush);
+            mem_dc.GetPixel(x / dScale, y / dScale, &cSurfaceColour);
+            mem_dc.FloodFill(x / dScale, y / dScale,cSurfaceColour, wxFLOOD_SURFACE);
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Update();
+    }
+
+    if (bLeftUp)
+    {
+        //finish
+        InitToolData();
+    }
+}
+
+/** Process the Pen tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessPen(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+
+    if (bLeftDown)
+    {
+        //Undo & modification flag
+        if (!m_Bitmap) return;
+        AddUndo();
+        SetModified(true);
+
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            cColour = ColourPicker->GetLineColour();
+            wxPen pen(cColour, 1, wxSOLID);
+            mem_dc.SetPen(pen);
+
+            int xx, yy;
+            xx = x / dScale; yy = y / dScale;
+            mem_dc.DrawPoint(xx, yy);
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Update();
+    }
+
+
+    if (bPressed)
+    {
+        //draw the pixel
+        if (!m_Bitmap) return;
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            cColour = ColourPicker->GetLineColour();
+            wxPen pen(cColour, 1, wxSOLID);
+            mem_dc.SetPen(pen);
+
+            int xx, yy;
+            xx = x / dScale; yy = y / dScale;
+            mem_dc.DrawPoint(xx, yy);
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Update();
+    }
+
+    if (bLeftUp)
+    {
+        //finish
+        InitToolData();
+    }
+}
+
+/** Process the Selection tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessSelect(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            tdata.x2 = x;
+            tdata.y2 = y;
+            DrawCanvas->Refresh(false,NULL);
+            DrawCanvas->Update();
+
+            int iPenWidth;
+            if (dScale < 1) iPenWidth = 1; else iPenWidth = dScale;
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+            wxPen pSelectionPen(*wxBLUE, iPenWidth, wxSHORT_DASH);
+            dc.SetPen(pSelectionPen);
+            dc.SetBrush(*wxTRANSPARENT_BRUSH);
+            dc.DrawRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
+                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+        }
+    }
+
+    //left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            ClearSelection();
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+            tdata.iNbClicks = 1;
+            tdata.x1 = x  / dScale;
+            tdata.y1 = y / dScale;
+        }
+        else
+        {
+            NbPoints = 4;
+            pSelection = CheckMemorySelection(4);
+            if (pSelection)
+            {
+                pSelection[0].x = tdata.x1;
+                pSelection[0].y = tdata.y1;
+                pSelection[1].x = x / dScale;
+                pSelection[1].y = tdata.y1;
+                pSelection[2].x = x / dScale;
+                pSelection[2].y = y / dScale;
+                pSelection[3].x = tdata.x1;
+                pSelection[3].y = y / dScale;
+            }
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+            InitToolData();
+        }
+    }
+}
+
+/** Process the Lasso (complex selection) tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessLasso(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            bDrawSelection = false;
+            tdata.x2 = x;
+            tdata.y2 = y;
+            DrawCanvas->Refresh(false,NULL);
+            DrawCanvas->Update();
+            bDrawSelection = true;
+
+            int iPenWidth;
+            if (dScale < 1) iPenWidth = 1; else iPenWidth = dScale;
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+            wxPen pSelectionPen(*wxBLUE, iPenWidth, wxSHORT_DASH);
+            dc.SetPen(pSelectionPen);
+            dc.SetBrush(*wxTRANSPARENT_BRUSH);
+
+            wxPoint *tmp;
+            tmp = new wxPoint[NbPoints + 1];
+            if (tmp)
+            {
+                int i;
+                tmp[NbPoints].x = x;
+                tmp[NbPoints].y = y;
+                for(i=0;i<NbPoints;i++)
+                {
+                    tmp[i].x = pSelection[i].x * dScale;
+                    tmp[i].y = pSelection[i].y * dScale;
+                }
+                dc.DrawPolygon(NbPoints + 1, tmp);
+                delete[] tmp;
+            }
+        }
+    }
+
+    // left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            ClearSelection();
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+            tdata.iNbClicks = 1;
+            tdata.x1 = x  / dScale;
+            tdata.y1 = y / dScale;
+            NbPoints = 1;
+            pSelection = CheckMemorySelection(1);
+            if (pSelection)
+            {
+                pSelection[0].x = x;
+                pSelection[0].y = y;
+            }
+        }
+        else
+        {
+            NbPoints = NbPoints + 1;
+            pSelection = CheckMemorySelection(NbPoints);
+            if (pSelection)
+            {
+                pSelection[NbPoints - 1].x = x;
+                pSelection[NbPoints - 1].y = y;
+            }
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+        }
+    }
+
+    if (bDClick)
+    {
+        ToggleButtons(-1, false);
+    }
+}
 
 /** Process the Brush tool in action
   * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
@@ -1544,6 +1573,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
     if (bLeftDown)
     {
         //Undo & modification flag
+        if (!m_Bitmap) return;
         AddUndo();
         SetModified(true);
 
@@ -1591,6 +1621,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 
     if (bPressed)
     {
+        if (!m_Bitmap) return;
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
         {
@@ -1655,6 +1686,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
     if (bLeftDown)
     {
         //Undo & modification flag
+        if (!m_Bitmap) return;
         AddUndo();
         SetModified(true);
 
@@ -1683,6 +1715,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
     }
     if (bPressed)
     {
+        if (!m_Bitmap) return;
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
         {
@@ -1789,6 +1822,7 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
         AddUndo();
         SetModified(true);
 
+        if (!m_Bitmap) return;
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
         {
@@ -1862,6 +1896,7 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
         }
         else
         {
+            if (!m_Bitmap) return;
             AddUndo();
             SetModified(true);
             wxMemoryDC mem_dc(*m_Bitmap);
@@ -1941,6 +1976,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
         }
         else
         {
+            if (!m_Bitmap) return;
             AddUndo();
             SetModified(true);
             wxMemoryDC mem_dc(*m_Bitmap);
@@ -1968,6 +2004,100 @@ void XPMEditorPanel::ProcessLine(int x, int y,
             InitToolData();
         }
     }
+}
+
+/** Process the Curve tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessCurve(int x, int y,
+                                bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            DrawCanvas->Refresh(false,NULL);
+            DrawCanvas->Update();
+
+            tdata.iNbClicks = tdata.iNbClicks + 1;
+            if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
+
+            //Draw the curve
+            int iPenWidth;
+            if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+
+            wxColour cLineColour;
+            cLineColour = ColourPicker->GetLineColour();
+            wxPen pen(cLineColour, iPenWidth, wxSOLID);
+                      dc.SetPen(pen);
+
+            wxPoint tmp[XPM_MAXPOINTS+1];
+            int i;
+            tmp[tdata.iNbPoints].x = x;
+            tmp[tdata.iNbPoints].y = y;
+            for(i=0;i<tdata.iNbPoints ;i++)
+            {
+                tmp[i].x = tdata.pts[i].x * dScale;
+                tmp[i].y = tdata.pts[i].y * dScale;
+            }
+            dc.DrawSpline(tdata.iNbPoints + 1, tmp);
+        }
+    }
+
+    // left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
+            tdata.iNbClicks = 1;
+            tdata.iNbPoints = 1;
+            tdata.pts[0].x = x  / dScale;
+            tdata.pts[0].y = y / dScale;
+        }
+        else
+        {
+            tdata.iNbClicks = tdata.iNbClicks + 1;
+            tdata.iNbPoints = tdata.iNbPoints + 1;
+            if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
+            tdata.pts[tdata.iNbPoints - 1].x = x  / dScale;
+            tdata.pts[tdata.iNbPoints - 1].y = y / dScale;
+        }
+    }
+
+    if (bDClick)
+    {
+        AddUndo();
+        SetModified(true);
+
+        if (!m_Bitmap) return;
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cLineColour;
+            cLineColour = ColourPicker->GetLineColour();
+
+            wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+            mem_dc.SetPen(pen);
+            mem_dc.DrawSpline(tdata.iNbPoints, tdata.pts);
+            mem_dc.SelectObject(wxNullBitmap);
+        }
+        UpdateImage();
+
+        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Update();
+        InitToolData();
+        ToggleButtons(-1,false);
+    }
+
 }
 
 /** Process the RoundedRectangle tool in action
@@ -2020,6 +2150,7 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
         }
         else
         {
+            if (!m_Bitmap) return;
             AddUndo();
             SetModified(true);
             wxMemoryDC mem_dc(*m_Bitmap);
@@ -2099,6 +2230,7 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
         }
         else
         {
+            if (!m_Bitmap) return;
             AddUndo();
             SetModified(true);
             wxMemoryDC mem_dc(*m_Bitmap);
@@ -2180,11 +2312,14 @@ void XPMEditorPanel::SetToolCursor(void)
     {
         //create the correct cursor
         //1 - create the bitmap
-        int iSize;
-        iSize = tdata.iSize;
-        if (tdata.iStyle == XPM_BRUSH_STYLE_SQUARE) iSize += 2;
-        if ((tdata.iStyle == XPM_BRUSH_STYLE_CIRCLE) && (tdata.iSize == 1)) iSize = 2;
-        wxBitmap bm(iSize, iSize);
+        int iSize, iSizeMin;
+        double dScale2;
+        if (dScale < 1) dScale2 = 1; else dScale2 = dScale;
+        iSize = tdata.iSize * dScale2;
+        if (tdata.iStyle == XPM_BRUSH_STYLE_SQUARE) iSize = iSize + 2 * dScale2;
+        if ((tdata.iStyle == XPM_BRUSH_STYLE_CIRCLE) && (tdata.iSize * dScale2 <= 4)) iSize = 5;
+        if (iSize < 5) iSizeMin = 5; iSizeMin = iSize;
+        wxBitmap bm(iSizeMin, iSizeMin);
 
         //2 - draw on the bitmap
         wxMemoryDC mem_dc;
@@ -2195,32 +2330,32 @@ void XPMEditorPanel::SetToolCursor(void)
         switch (tdata.iStyle)
         {
             case XPM_BRUSH_STYLE_CIRCLE   :
-                mem_dc.DrawRectangle(0,0,tdata.iSize, tdata.iSize);
+                mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
                 mem_dc.SetBrush(*wxBLACK_BRUSH);
                 mem_dc.SetPen(*wxWHITE_PEN);
-                mem_dc.DrawCircle(tdata.iSize/2, tdata.iSize/2, tdata.iSize/2);
+                mem_dc.DrawCircle(iSize/2, iSize/2, iSize/2);
                 break;
 
             case XPM_BRUSH_STYLE_LEFTHAIR :
-                mem_dc.DrawRectangle(0,0,tdata.iSize, tdata.iSize);
+                mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
                 mem_dc.SetBrush(*wxBLACK_BRUSH);
                 mem_dc.SetPen(*wxBLACK_PEN);
-                mem_dc.DrawLine(0,tdata.iSize-1, tdata.iSize-1, 0);
+                mem_dc.DrawLine(0,iSize-1, iSize-1, 0);
                 break;
 
             case XPM_BRUSH_STYLE_RIGHTHAIR:
-                mem_dc.DrawRectangle(0,0,tdata.iSize, tdata.iSize);
+                mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
                 mem_dc.SetBrush(*wxBLACK_BRUSH);
                 mem_dc.SetPen(*wxBLACK_PEN);
-                mem_dc.DrawLine(0,0, tdata.iSize-1, tdata.iSize-1);
+                mem_dc.DrawLine(0,0, iSize-1, iSize-1);
                 break;
 
             case XPM_BRUSH_STYLE_SQUARE   :
             default:
-                mem_dc.DrawRectangle(0,0,tdata.iSize+2, tdata.iSize+2);
+                mem_dc.DrawRectangle(0,0,iSizeMin+2, iSizeMin+2);
                 mem_dc.SetBrush(*wxBLACK_BRUSH);
                 mem_dc.SetPen(*wxWHITE_PEN);
-                mem_dc.DrawRectangle(1,1,tdata.iSize, tdata.iSize);
+                mem_dc.DrawRectangle(1,1,iSize, iSize);
                 break;
         }
         mem_dc.SelectObject(wxNullBitmap);
@@ -2229,8 +2364,8 @@ void XPMEditorPanel::SetToolCursor(void)
         wxImage img;
         img = bm.ConvertToImage();
         img.SetMaskColour(255,0,0);
-        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, iSize / 2);
-        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, iSize / 2);
+        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, iSizeMin / 2);
+        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, iSizeMin / 2);
 
         //4 - create and set the cursor
         wxCursor cursor(img);
@@ -2735,7 +2870,7 @@ void XPMEditorPanel::ToggleButtons(int iIndex, bool bClearSelection)
     //toggle all Tools Buttons OFF, except the iIndex one.
     int i;
 
-    if (bClearSelection)
+    if ((bClearSelection) && (HasSelection()))
     {
         ClearSelection();
         if (DrawCanvas)
@@ -2749,7 +2884,7 @@ void XPMEditorPanel::ToggleButtons(int iIndex, bool bClearSelection)
     {
         if ((i != iIndex) &&  (tools[i]))
         {
-            tools[i]->SetValue(false);
+            if (tools[i]->GetValue()) tools[i]->SetValue(false);
         }
     }
     if ((iIndex >=0) && (iIndex < XPM_NUMBER_TOOLS))
@@ -2773,24 +2908,13 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
     if ((iIndex == XPM_ID_BRUSH_TOOL) && (bChecked))
     {
         //show brush tools
-
-        wxGridBitmapRenderer *renderer;
-        renderer = (wxGridBitmapRenderer*) Grid1->GetCellRenderer(0,0);
-        if (renderer) renderer->SetBitmap(wxBitmap(circle_xpm));
-        renderer = (wxGridBitmapRenderer*) Grid1->GetCellRenderer(0,1);
-        if (renderer) renderer->SetBitmap(wxBitmap(square_xpm));
-        renderer = (wxGridBitmapRenderer*) Grid1->GetCellRenderer(1,0);
-        if (renderer) renderer->SetBitmap(wxBitmap(right_hair_xpm));
-        renderer = (wxGridBitmapRenderer*) Grid1->GetCellRenderer(1,1);
-        if (renderer) renderer->SetBitmap(wxBitmap(left_hair_xpm));
         SpinCtrl1->SetValue(2);
 
         //show tool specific control
-        //Grid1->SetColSize(0, 12);
-        //Grid1->SetColSize(1, 12);
-        Grid1->SetRowSize(0, 12);
-        Grid1->SetRowSize(1, 12);
-        Grid1->Show(true);
+        LHairBrushButton->Show(true);
+        RHairBrushButton->Show(true);
+        CircleBrushButton->Show(true);
+        SquareBrushButton->Show(true);
         StaticText4->Show(true);
         SpinCtrl1->Show(true);
         StaticText5->Hide();
@@ -2805,15 +2929,16 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         tdata.iSize = 1;
 
         //show tool specific control
-        //Grid1->SetColSize(0, 12);
-        //Grid1->SetColSize(1, 12);
-        Grid1->Hide();
         StaticText5->Hide();
         SpinCtrl2->Hide();
         StaticText6->Hide();
         SpinCtrl3->Hide();
         StaticText4->Show(true);
         SpinCtrl1->Show(true);
+        LHairBrushButton->Hide();
+        RHairBrushButton->Hide();
+        CircleBrushButton->Hide();
+        SquareBrushButton->Hide();
     }
     else if (    ((iIndex == XPM_ID_LINE_TOOL) && (bChecked))
               || ((iIndex == XPM_ID_CURVE_TOOL) && (bChecked))
@@ -2827,13 +2952,16 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         tdata.iSize = 1;
 
         //show tool specific control
-        Grid1->Hide();
         StaticText4->Hide();
         SpinCtrl1->Hide();
         StaticText5->Show(true);
         SpinCtrl2->Show(true);
         StaticText6->Hide();
         SpinCtrl3->Hide();
+        LHairBrushButton->Hide();
+        RHairBrushButton->Hide();
+        CircleBrushButton->Hide();
+        SquareBrushButton->Hide();
     }
     else if ((iIndex == XPM_ID_ROUNDEDRECT_TOOL) && (bChecked))
     {
@@ -2844,24 +2972,30 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         tdata.iRadius = 2;
 
         //show tool specific control
-        Grid1->Hide();
         StaticText4->Hide();
         SpinCtrl1->Hide();
         StaticText6->Show(true);
         SpinCtrl3->Show(true);
         StaticText5->Show(true);
         SpinCtrl2->Show(true);
+        LHairBrushButton->Hide();
+        RHairBrushButton->Hide();
+        CircleBrushButton->Hide();
+        SquareBrushButton->Hide();
     }
     else
     {
         //hide brush tools
-        Grid1->Hide();
         StaticText4->Hide();
         SpinCtrl1->Hide();
         StaticText5->Hide();
         SpinCtrl2->Hide();
         StaticText6->Hide();
         SpinCtrl3->Hide();
+        LHairBrushButton->Hide();
+        RHairBrushButton->Hide();
+        CircleBrushButton->Hide();
+        SquareBrushButton->Hide();
     }
 }
 
@@ -2878,7 +3012,7 @@ void XPMEditorPanel::HideControlsAndDoLayout(int iIndex, bool bChecked)
     ToolPanelSizer->FitInside(ToolPanel);
 }
 
-void XPMEditorPanel::OnToggleSelectionTool(wxCommandEvent& event)
+void XPMEditorPanel::OnSelectButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_SELECT_TOOL); else ToggleButtons(-1);
@@ -2888,7 +3022,7 @@ void XPMEditorPanel::OnToggleSelectionTool(wxCommandEvent& event)
 }
 
 
-void XPMEditorPanel::OnToggleLassoTool(wxCommandEvent& event)
+void XPMEditorPanel::OnLassoButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_LASSO_TOOL); else ToggleButtons(-1);
@@ -2897,7 +3031,7 @@ void XPMEditorPanel::OnToggleLassoTool(wxCommandEvent& event)
     HideControlsAndDoLayout(XPM_ID_LASSO_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnToggleBrushTool(wxCommandEvent& event)
+void XPMEditorPanel::OnBrushButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked())
@@ -2914,77 +3048,77 @@ void XPMEditorPanel::OnToggleBrushTool(wxCommandEvent& event)
 
 }
 
-void XPMEditorPanel::OnToggleLineTool(wxCommandEvent& event)
+void XPMEditorPanel::OnLineButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_LINE_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_LINE_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnToggleCurveTool(wxCommandEvent& event)
+void XPMEditorPanel::OnCurveButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_CURVE_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_CURVE_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnTogglePenTool(wxCommandEvent& event)
+void XPMEditorPanel::OnPenButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_PEN_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_PEN_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnToggleEllipseTool(wxCommandEvent& event)
+void XPMEditorPanel::OnEllipseButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_ELLIPSE_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_ELLIPSE_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnToggleRectangleTool(wxCommandEvent& event)
+void XPMEditorPanel::OnRectangleButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_RECTANGLE_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_RECTANGLE_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnToggleRoundedRectTool(wxCommandEvent& event)
+void XPMEditorPanel::OnRRectButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_ROUNDEDRECT_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_ROUNDEDRECT_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnTogglePipetteTool(wxCommandEvent& event)
+void XPMEditorPanel::OnPipetteButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_PIPETTE_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_PIPETTE_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnTogglePolygonTool(wxCommandEvent& event)
+void XPMEditorPanel::OnPolygonButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_POLYGON_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_POLYGON_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnToggleFillTool(wxCommandEvent& event)
+void XPMEditorPanel::OnFillButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_FILL_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_FILL_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnToggleEraserTool(wxCommandEvent& event)
+void XPMEditorPanel::OnEraserButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_ERASER_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_ERASER_TOOL, event.IsChecked());
 }
 
-void XPMEditorPanel::OnToggleTextTool(wxCommandEvent& event)
+void XPMEditorPanel::OnTextButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
     if (event.IsChecked()) ToggleButtons(XPM_ID_TEXT_TOOL); else ToggleButtons(-1);
@@ -3065,29 +3199,7 @@ wxPoint* XPMEditorPanel::CheckMemorySelection(int iNeeded)
 void XPMEditorPanel::OnSpinSizeChanged(wxSpinEvent& event)
 {
     tdata.iSize = event.GetPosition();
-    SetToolCursor();
-}
-
-/** Event handler for Grid Control: the new value will update the brush style
-  */
-void XPMEditorPanel::OnBrushStyleChanged(wxGridEvent& event)
-{
-    int iRow, iCol;
-
-    iRow = event.GetRow();
-    iCol = event.GetCol();
-
-    tdata.iStyle = XPM_BRUSH_STYLE_SQUARE; //default
-    if (iRow == 0)
-    {
-        if (iCol == 0)  tdata.iStyle = XPM_BRUSH_STYLE_CIRCLE; else  tdata.iStyle = XPM_BRUSH_STYLE_SQUARE;
-    }
-    else if (iRow == 1)
-    {
-        if (iCol == 0)  tdata.iStyle = XPM_BRUSH_STYLE_LEFTHAIR; else  tdata.iStyle = XPM_BRUSH_STYLE_RIGHTHAIR;
-    }
-    SetToolCursor();
-    event.Skip();
+    //SetToolCursor();
 }
 
 void XPMEditorPanel::OnSpinRadiusChanged(wxSpinEvent& event)
@@ -3095,3 +3207,52 @@ void XPMEditorPanel::OnSpinRadiusChanged(wxSpinEvent& event)
     tdata.iRadius = event.GetPosition();
 }
 
+
+void XPMEditorPanel::OnSquareBrushButtonToggle(wxCommandEvent& event)
+{
+
+    if (event.IsChecked())
+    {
+        tdata.iStyle = XPM_BRUSH_STYLE_SQUARE;
+        CircleBrushButton->SetValue(false);
+        LHairBrushButton->SetValue(false);
+        RHairBrushButton->SetValue(false);
+        //SetToolCursor();
+    }
+}
+
+void XPMEditorPanel::OnCircleBrushButtonToggle(wxCommandEvent& event)
+{
+    if (event.IsChecked())
+    {
+        tdata.iStyle = XPM_BRUSH_STYLE_CIRCLE;
+        SquareBrushButton->SetValue(false);
+        LHairBrushButton->SetValue(false);
+        RHairBrushButton->SetValue(false);
+        //SetToolCursor();
+    }
+}
+
+void XPMEditorPanel::OnLHairBrushButtonToggle(wxCommandEvent& event)
+{
+    if (event.IsChecked())
+    {
+        tdata.iStyle = XPM_BRUSH_STYLE_LEFTHAIR;
+        SquareBrushButton->SetValue(false);
+        CircleBrushButton->SetValue(false);
+        RHairBrushButton->SetValue(false);
+        //SetToolCursor();
+    }
+}
+
+void XPMEditorPanel::OnRHairBrushButtonToggle(wxCommandEvent& event)
+{
+    if (event.IsChecked())
+    {
+        tdata.iStyle = XPM_BRUSH_STYLE_RIGHTHAIR;
+        SquareBrushButton->SetValue(false);
+        CircleBrushButton->SetValue(false);
+        LHairBrushButton->SetValue(false);
+        //SetToolCursor();
+    }
+}
