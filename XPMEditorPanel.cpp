@@ -94,8 +94,8 @@ const long XPMEditorPanel::ID_ELLIPSE_BTN = wxNewId();
 const long XPMEditorPanel::ID_ROUNDEDRECT_BTN = wxNewId();
 const long XPMEditorPanel::ID_SQUARE_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_CIRCLE_BRUSH = wxNewId();
+const long XPMEditorPanel::ID_LRHAIR_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_LHAIR_BRUSH = wxNewId();
-const long XPMEditorPanel::ID_RHAIR_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT5 = wxNewId();
 const long XPMEditorPanel::ID_SPINCTRL3 = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT7 = wxNewId();
@@ -215,6 +215,7 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(XPMEditorPanel)
+	wxBoxSizer* BoxSizer4;
 	wxBoxSizer* BoxSizer6;
 	wxBoxSizer* BoxSizer5;
 	wxBoxSizer* BoxSizer10;
@@ -271,77 +272,97 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	BoxSizer6 = new wxBoxSizer(wxHORIZONTAL);
 	SelectButton = new wxCustomButton(ToolPanel,ID_SELECT_BUTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_SELECT_BUTN"));
 	SelectButton->SetBitmapDisabled(SelectButton->CreateBitmapDisabled(SelectButton->GetBitmapLabel()));
+	SelectButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer6->Add(SelectButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	LassoButton = new wxCustomButton(ToolPanel,ID_LASSO_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LASSO_BTN"));
 	LassoButton->SetBitmapDisabled(LassoButton->CreateBitmapDisabled(LassoButton->GetBitmapLabel()));
+	LassoButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer6->Add(LassoButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer6, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
 	PenButton = new wxCustomButton(ToolPanel,ID_PEN_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PEN_BTN"));
 	PenButton->SetBitmapDisabled(PenButton->CreateBitmapDisabled(PenButton->GetBitmapLabel()));
+	PenButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer5->Add(PenButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	BrushButton = new wxCustomButton(ToolPanel,ID_BRUSH_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_BRUSH_BTN"));
 	BrushButton->SetBitmapDisabled(BrushButton->CreateBitmapDisabled(BrushButton->GetBitmapLabel()));
+	BrushButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer5->Add(BrushButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer5, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
 	PipetteButton = new wxCustomButton(ToolPanel,ID_PIPETTE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PIPETTE_BTN"));
 	PipetteButton->SetBitmapDisabled(PipetteButton->CreateBitmapDisabled(PipetteButton->GetBitmapLabel()));
+	PipetteButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer7->Add(PipetteButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	FillButton = new wxCustomButton(ToolPanel,ID_FILL_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_FILL_BTN"));
 	FillButton->SetBitmapDisabled(FillButton->CreateBitmapDisabled(FillButton->GetBitmapLabel()));
+	FillButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer7->Add(FillButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer7, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer10 = new wxBoxSizer(wxHORIZONTAL);
 	LineButton = new wxCustomButton(ToolPanel,ID_LINE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LINE_BTN"));
 	LineButton->SetBitmapDisabled(LineButton->CreateBitmapDisabled(LineButton->GetBitmapLabel()));
+	LineButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer10->Add(LineButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	CurveButton = new wxCustomButton(ToolPanel,ID_CURVE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CURVE_BTN"));
 	CurveButton->SetBitmapDisabled(CurveButton->CreateBitmapDisabled(CurveButton->GetBitmapLabel()));
+	CurveButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer10->Add(CurveButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer10, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
 	EraserButton = new wxCustomButton(ToolPanel,ID_ERASER_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ERASER_BTN"));
 	EraserButton->SetBitmapDisabled(EraserButton->CreateBitmapDisabled(EraserButton->GetBitmapLabel()));
+	EraserButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer9->Add(EraserButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	TextButton = new wxCustomButton(ToolPanel,ID_TEXT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_TEXT_BTN"));
 	TextButton->SetBitmapDisabled(TextButton->CreateBitmapDisabled(TextButton->GetBitmapLabel()));
+	TextButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer9->Add(TextButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer9, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
 	RectangleButton = new wxCustomButton(ToolPanel,ID_RECTANGLE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_RECTANGLE_BTN"));
 	RectangleButton->SetBitmapDisabled(RectangleButton->CreateBitmapDisabled(RectangleButton->GetBitmapLabel()));
+	RectangleButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer11->Add(RectangleButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	PolygonButton = new wxCustomButton(ToolPanel,ID_POLYGON_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_POLYGON_BTN"));
 	PolygonButton->SetBitmapDisabled(PolygonButton->CreateBitmapDisabled(PolygonButton->GetBitmapLabel()));
+	PolygonButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer11->Add(PolygonButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer11, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
 	EllipseButton = new wxCustomButton(ToolPanel,ID_ELLIPSE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ELLIPSE_BTN"));
 	EllipseButton->SetBitmapDisabled(EllipseButton->CreateBitmapDisabled(EllipseButton->GetBitmapLabel()));
+	EllipseButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer8->Add(EllipseButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	RRectButton = new wxCustomButton(ToolPanel,ID_ROUNDEDRECT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ROUNDEDRECT_BTN"));
 	RRectButton->SetBitmapDisabled(RRectButton->CreateBitmapDisabled(RRectButton->GetBitmapLabel()));
+	RRectButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer8->Add(RRectButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(BoxSizer8, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ToolPanelSizer->Add(-1,-1,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	SquareBrushButton = new wxCustomButton(ToolPanel,ID_SQUARE_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_SQUARE_BRUSH"));
 	SquareBrushButton->SetBitmapDisabled(SquareBrushButton->CreateBitmapDisabled(SquareBrushButton->GetBitmapLabel()));
+	SquareBrushButton->SetBitmapMargin(wxSize(5,5));
 	BoxSizer1->Add(SquareBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	CircleBrushButton = new wxCustomButton(ToolPanel,ID_CIRCLE_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CIRCLE_BRUSH"));
 	CircleBrushButton->SetBitmapDisabled(CircleBrushButton->CreateBitmapDisabled(CircleBrushButton->GetBitmapLabel()));
+	CircleBrushButton->SetBitmapMargin(wxSize(5,5));
 	BoxSizer1->Add(CircleBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	ToolPanelSizer->Add(BoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+	RHairBrushButton = new wxCustomButton(ToolPanel,ID_LRHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LRHAIR_BRUSH"));
+	RHairBrushButton->SetBitmapDisabled(RHairBrushButton->CreateBitmapDisabled(RHairBrushButton->GetBitmapLabel()));
+	RHairBrushButton->SetBitmapMargin(wxSize(5,5));
+	BoxSizer4->Add(RHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	LHairBrushButton = new wxCustomButton(ToolPanel,ID_LHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LHAIR_BRUSH"));
 	LHairBrushButton->SetBitmapDisabled(LHairBrushButton->CreateBitmapDisabled(LHairBrushButton->GetBitmapLabel()));
-	BoxSizer1->Add(LHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	RHairBrushButton = new wxCustomButton(ToolPanel,ID_RHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_RHAIR_BRUSH"));
-	RHairBrushButton->SetBitmapDisabled(RHairBrushButton->CreateBitmapDisabled(RHairBrushButton->GetBitmapLabel()));
-	BoxSizer1->Add(RHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	ToolPanelSizer->Add(BoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	LHairBrushButton->SetBitmapMargin(wxSize(5,5));
+	BoxSizer4->Add(LHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	ToolPanelSizer->Add(BoxSizer4, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	StaticText4 = new wxStaticText(ToolPanel, ID_STATICTEXT5, _("Size:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT5"));
 	ToolPanelSizer->Add(StaticText4, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	SpinCtrl1 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL3, _T("2"), wxDefaultPosition, wxSize(20,21), 0, 2, 16, 2, _T("ID_SPINCTRL3"));
+	SpinCtrl1 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL3, _T("2"), wxDefaultPosition, wxSize(61,21), 0, 2, 16, 2, _T("ID_SPINCTRL3"));
 	SpinCtrl1->SetValue(_T("2"));
 	ToolPanelSizer->Add(SpinCtrl1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	StaticText6 = new wxStaticText(ToolPanel, ID_STATICTEXT7, _("Radius:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT7"));
@@ -392,8 +413,8 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Connect(ID_ROUNDEDRECT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRRectButtonToggle);
 	Connect(ID_SQUARE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnSquareBrushButtonToggle);
 	Connect(ID_CIRCLE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnCircleBrushButtonToggle);
-	Connect(ID_LHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLHairBrushButtonToggle);
-	Connect(ID_RHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRHairBrushButtonToggle);
+	Connect(ID_LRHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLHairBrushButtonToggle);
+	Connect(ID_LHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRHairBrushButtonToggle);
 	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
 	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinRadiusChanged);
 	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
@@ -662,7 +683,10 @@ void XPMEditorPanel::SetBitmap(wxBitmap *bm)
         sDrawAreaSize = wxSize(m_Bitmap->GetWidth(), m_Bitmap->GetHeight());
         if (BMPWidth) BMPWidth->SetValue(m_Bitmap->GetWidth());
         if (BMPHeight) BMPHeight->SetValue(m_Bitmap->GetHeight());
-        if (ZoomFactor) ZoomFactor->SetValue(_("100%"));
+
+        int iFactor;
+        iFactor = dScale * 100;
+        if (ZoomFactor) ZoomFactor->SetValue(wxString::Format(_("%d%%"), iFactor));
 
         DoSetScrollBars();
 
@@ -1535,8 +1559,8 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
             pSelection = CheckMemorySelection(1);
             if (pSelection)
             {
-                pSelection[0].x = x;
-                pSelection[0].y = y;
+                pSelection[0].x = x / dScale;
+                pSelection[0].y = y / dScale;
             }
         }
         else
@@ -1545,8 +1569,8 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
             pSelection = CheckMemorySelection(NbPoints);
             if (pSelection)
             {
-                pSelection[NbPoints - 1].x = x;
-                pSelection[NbPoints - 1].y = y;
+                pSelection[NbPoints - 1].x = x / dScale;
+                pSelection[NbPoints - 1].y = y / dScale;
             }
             DrawCanvas->Refresh(false, NULL);
             DrawCanvas->Update();
@@ -1615,7 +1639,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        DrawCanvas->Refresh(false, NULL);
+        DrawCanvas->Refresh(true, NULL);
         DrawCanvas->Update();
     }
 
@@ -1660,8 +1684,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        wxRect r(x - tdata.iSize * dScale / 2, y - tdata.iSize * dScale / 2, tdata.iSize* dScale, tdata.iSize * dScale);
-        DrawCanvas->Refresh(false, &r);
+        DrawCanvas->Refresh(true, NULL);
         DrawCanvas->Update();
     }
 
@@ -1952,16 +1975,13 @@ void XPMEditorPanel::ProcessLine(int x, int y,
             wxClientDC dc(DrawCanvas);
             DrawCanvas->DoPrepareDC(dc);
 
-            wxColour cLineColour, cFillColour;
+            wxColour cLineColour;
             cLineColour = ColourPicker->GetLineColour();
-            cFillColour = ColourPicker->GetFillColour();
 
             wxPen pen(cLineColour, iPenWidth, wxSOLID);
-            wxBrush brush(cFillColour, wxSOLID);
             dc.SetPen(pen);
-            dc.SetBrush(brush);
             dc.DrawLine(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+                        x , y );
         }
     }
 
@@ -1982,24 +2002,19 @@ void XPMEditorPanel::ProcessLine(int x, int y,
             wxMemoryDC mem_dc(*m_Bitmap);
             if (mem_dc.IsOk())
             {
-                wxColour cLineColour, cFillColour;
+                wxColour cLineColour;
                 cLineColour = ColourPicker->GetLineColour();
-                cFillColour = ColourPicker->GetFillColour();
 
                 wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
                 mem_dc.SetPen(pen);
-                mem_dc.SetBrush(brush);
                 mem_dc.DrawLine(tdata.x1 , tdata.y1 ,
-                                x / dScale - tdata.x1 , y / dScale - tdata.y1);
+                                x / dScale, y / dScale);
 
                 mem_dc.SelectObject(wxNullBitmap);
             }
             UpdateImage();
-            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
 
-            DrawCanvas->Refresh(false, &r);
+            DrawCanvas->Refresh(false, NULL);
             DrawCanvas->Update();
             InitToolData();
         }
@@ -2277,6 +2292,13 @@ void XPMEditorPanel::InitToolData(void)
         tdata.pts[i].x = -1;
         tdata.pts[i].y = -1;
     }
+
+    switch(iToolUsed)
+    {
+        case XPM_ID_BRUSH_TOOL : if (tdata.iSize < 2) tdata.iSize = 2;
+                                 break;
+    }
+
 }
 
 /** Return the ID of the tool currently in use
@@ -2318,7 +2340,7 @@ void XPMEditorPanel::SetToolCursor(void)
         iSize = tdata.iSize * dScale2;
         if (tdata.iStyle == XPM_BRUSH_STYLE_SQUARE) iSize = iSize + 2 * dScale2;
         if ((tdata.iStyle == XPM_BRUSH_STYLE_CIRCLE) && (tdata.iSize * dScale2 <= 4)) iSize = 5;
-        if (iSize < 5) iSizeMin = 5; iSizeMin = iSize;
+        if (iSize < 8) iSizeMin = 8; else iSizeMin = iSize;
         wxBitmap bm(iSizeMin, iSizeMin);
 
         //2 - draw on the bitmap
@@ -2333,21 +2355,21 @@ void XPMEditorPanel::SetToolCursor(void)
                 mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
                 mem_dc.SetBrush(*wxBLACK_BRUSH);
                 mem_dc.SetPen(*wxWHITE_PEN);
-                mem_dc.DrawCircle(iSize/2, iSize/2, iSize/2);
+                mem_dc.DrawCircle(iSizeMin/2, iSizeMin/2, iSizeMin/2);
                 break;
 
             case XPM_BRUSH_STYLE_LEFTHAIR :
                 mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
                 mem_dc.SetBrush(*wxBLACK_BRUSH);
                 mem_dc.SetPen(*wxBLACK_PEN);
-                mem_dc.DrawLine(0,iSize-1, iSize-1, 0);
+                mem_dc.DrawLine(0,iSizeMin-1, iSizeMin-1, 0);
                 break;
 
             case XPM_BRUSH_STYLE_RIGHTHAIR:
                 mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
                 mem_dc.SetBrush(*wxBLACK_BRUSH);
                 mem_dc.SetPen(*wxBLACK_PEN);
-                mem_dc.DrawLine(0,0, iSize-1, iSize-1);
+                mem_dc.DrawLine(0,0, iSizeMin-1, iSizeMin-1);
                 break;
 
             case XPM_BRUSH_STYLE_SQUARE   :
@@ -2355,9 +2377,11 @@ void XPMEditorPanel::SetToolCursor(void)
                 mem_dc.DrawRectangle(0,0,iSizeMin+2, iSizeMin+2);
                 mem_dc.SetBrush(*wxBLACK_BRUSH);
                 mem_dc.SetPen(*wxWHITE_PEN);
-                mem_dc.DrawRectangle(1,1,iSize, iSize);
+                mem_dc.DrawRectangle(1,1,iSizeMin, iSizeMin);
                 break;
         }
+        mem_dc.SetPen(*wxRED_PEN);
+        mem_dc.DrawPoint(iSizeMin / 2, iSizeMin / 2);
         mem_dc.SelectObject(wxNullBitmap);
 
         //3 - convert the wxBitmap to a wxImage, and set the HotSpot
@@ -2375,9 +2399,13 @@ void XPMEditorPanel::SetToolCursor(void)
     {
         //create the correct cursor
         //1 - create the bitmap
-        int iSize;
-        iSize = tdata.iSize;
-        wxBitmap bm(iSize+2, iSize+2);
+        int iSize, iSizeMin;
+        double dScale2;
+        if (dScale < 1) dScale2 = 1; else dScale2 = dScale;
+        iSize = (tdata.iSize + 2) * dScale2;
+        if (iSize < 8) iSizeMin = 8; else iSizeMin = iSize;
+        wxBitmap bm(iSizeMin, iSizeMin);
+
 
         //2 - draw on the bitmap
         wxMemoryDC mem_dc;
@@ -2385,18 +2413,20 @@ void XPMEditorPanel::SetToolCursor(void)
         mem_dc.SetBrush(*wxRED_BRUSH);
         mem_dc.SetPen(*wxRED_PEN);
 
-        mem_dc.DrawRectangle(0,0,tdata.iSize+2, tdata.iSize+2);
+        mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
         mem_dc.SetBrush(*wxBLACK_BRUSH);
         mem_dc.SetPen(*wxWHITE_PEN);
-        mem_dc.DrawRectangle(1,1,tdata.iSize, tdata.iSize);
+        mem_dc.DrawRectangle(1,1,iSizeMin-2, iSizeMin-2);
+        mem_dc.SetPen(*wxRED_PEN);
+        mem_dc.DrawPoint(iSizeMin / 2, iSizeMin / 2);
         mem_dc.SelectObject(wxNullBitmap);
 
         //3 - convert the wxBitmap to a wxImage, and set the HotSpot
         wxImage img;
         img = bm.ConvertToImage();
         img.SetMaskColour(255,0,0);
-        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, iSize / 2);
-        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, iSize / 2);
+        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, iSizeMin / 2);
+        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, iSizeMin / 2);
 
         //4 - create and set the cursor
         wxCursor cursor(img);

@@ -27,10 +27,12 @@
 					<Add option="-DCB_PRECOMP" />
 					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
+					<Add option="-DWXMAKINGDLL_THINGS" />
 					<Add directory="$(#cb)\include" />
 					<Add directory="$(#cb)\sdk\wxscintilla\include" />
 					<Add directory="$(#wx.include)" />
 					<Add directory="$(#wx.lib)\gcc_dll\mswu" />
+					<Add directory="wxthings\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
@@ -57,13 +59,14 @@
 		<Unit filename="XPMEditorBase.h" />
 		<Unit filename="XPMEditorPanel.cpp" />
 		<Unit filename="XPMEditorPanel.h" />
-		<Unit filename="XPMToggleBMPButton.cpp" />
-		<Unit filename="XPMToggleBMPButton.h" />
 		<Unit filename="XPMUndo.cpp" />
 		<Unit filename="XPMUndo.h" />
 		<Unit filename="manifest.xml" />
 		<Unit filename="test.bmp" />
 		<Unit filename="todo.txt" />
+		<Unit filename="wxthings\include\wx\things\thingdef.h" />
+		<Unit filename="wxthings\include\wx\things\toggle.h" />
+		<Unit filename="wxthings\src\toggle.cpp" />
 		<Unit filename="xpm\brush.xpm" />
 		<Unit filename="xpm\circle.xpm" />
 		<Unit filename="xpm\cross_cursor.xpm" />

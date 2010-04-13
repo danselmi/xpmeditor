@@ -196,8 +196,8 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_ROUNDEDRECT_BTN;
 		static const long ID_SQUARE_BRUSH;
 		static const long ID_CIRCLE_BRUSH;
+		static const long ID_LRHAIR_BRUSH;
 		static const long ID_LHAIR_BRUSH;
-		static const long ID_RHAIR_BRUSH;
 		static const long ID_STATICTEXT5;
 		static const long ID_SPINCTRL3;
 		static const long ID_STATICTEXT7;
