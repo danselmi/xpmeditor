@@ -64,8 +64,6 @@
 		<Unit filename="manifest.xml" />
 		<Unit filename="test.bmp" />
 		<Unit filename="todo.txt" />
-		<Unit filename="wxGridBitmapRenderer.cpp" />
-		<Unit filename="wxGridBitmapRenderer.h" />
 		<Unit filename="xpm\brush.xpm" />
 		<Unit filename="xpm\circle.xpm" />
 		<Unit filename="xpm\cross_cursor.xpm" />
