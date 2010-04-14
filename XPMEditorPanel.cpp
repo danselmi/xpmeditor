@@ -20,6 +20,8 @@
 #include <wx/rawbmp.h>
 #include <wx/region.h>
 #include <wx/graphics.h>
+#include <wx/bitmap.h>
+#include <wx/dragimag.h>
 
 //(*InternalHeaders(XPMEditorPanel)
 #include <wx/scrolwin.h>
@@ -202,6 +204,9 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     SpinCtrl3->Hide();
     ToolPanelSizer->Layout();
     ToolPanelSizer->FitInside(ToolPanel);
+
+    bUsingTool = false;
+    m_DragImage = NULL;
 
     UpdateConfiguration();
 }
@@ -507,6 +512,7 @@ XPMEditorPanel::~XPMEditorPanel()
 	//selection memory release
 	ClearSelection();
     free(pSelection);
+    if (m_DragImage) delete m_DragImage;
 
     //free UNDO buffer
     if (m_undo_buffer) delete m_undo_buffer;
@@ -1067,7 +1073,7 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         if (DrawCanvas) DrawCanvas->GetClientSize(&iWidth, &iHeight); else GetClientSize(&iWidth, &iHeight);
     }
 
-    if ((event.Dragging()) && (bSizingX || bSizingY))
+    if ((event.Dragging()) && (bSizingX || bSizingY) && (!bUsingTool))
     {
         //draw a dynamic resize border
         int x, y, xx, yy;
@@ -1171,9 +1177,9 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
             {
                 case 1 : SetCursor(wxCURSOR_HAND  ); break;
                 case 2 : SetCursor(wxCURSOR_SIZENS); break;
-                case 3 : SetCursor(wxCURSOR_SIZENS); break;
+                case 3 : SetCursor(wxCURSOR_SIZEWE); break;
                 case 4 : SetCursor(wxCURSOR_SIZENS); break;
-                case 5 : SetCursor(wxCURSOR_SIZENS); break;
+                case 5 : SetCursor(wxCURSOR_SIZEWE); break;
                 default: SetToolCursor();
                          break;
             }
@@ -1188,9 +1194,9 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
             {
                 case 1 : SetCursor(wxCURSOR_HAND  ); break;
                 case 2 : SetCursor(wxCURSOR_SIZENS); break;
-                case 3 : SetCursor(wxCURSOR_SIZENS); break;
+                case 3 : SetCursor(wxCURSOR_SIZEWE); break;
                 case 4 : SetCursor(wxCURSOR_SIZENS); break;
-                case 5 : SetCursor(wxCURSOR_SIZENS); break;
+                case 5 : SetCursor(wxCURSOR_SIZEWE); break;
                 default: SetToolCursor();
                          break;
             }
@@ -1227,7 +1233,19 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
     if (x > iWidth) x = iWidth ;
     if (y  > iHeight) y = iHeight;
 
-    ProcessToolAction(iTool, x, y, false, false, false, true);
+    int iResult;
+    iResult = IsCursorInSelection(x, y);
+    switch(iResult)
+    {
+        case 1 : ProcessDragAction(x, y, false, false, false, true); break;
+        case 2 :
+        case 3 :
+        case 4 :
+        case 5 : ProcessSizeAction(x, y, false, false, false, true); break;
+        case 0 :
+        default: ProcessToolAction(iTool, x, y, false, false, false, true); break;
+    }
+
     event.Skip();
 }
 
@@ -1325,6 +1343,8 @@ void XPMEditorPanel::ProcessPipette(int x, int y,
         {
             int iColour;
             unsigned char iRed, iGreen, iBlue;
+
+            bUsingTool = true;
             iRed = m_Image->GetRed(x / dScale, y / dScale);
             iGreen = m_Image->GetGreen(x / dScale, y / dScale);
             iBlue = m_Image->GetBlue(x / dScale, y / dScale);
@@ -1359,6 +1379,7 @@ void XPMEditorPanel::ProcessFill(int x, int y,
         //Undo & modification flag
         AddUndo();
         SetModified(true);
+        bUsingTool = true;
 
         //draw the pixel
         if (!m_Bitmap) return;
@@ -1404,6 +1425,7 @@ void XPMEditorPanel::ProcessPen(int x, int y,
         if (!m_Bitmap) return;
         AddUndo();
         SetModified(true);
+        bUsingTool = true;
 
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
@@ -1496,6 +1518,7 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             tdata.iNbClicks = 1;
             tdata.x1 = x  / dScale;
             tdata.y1 = y / dScale;
+            bUsingTool = true;
         }
         else
         {
@@ -1516,6 +1539,121 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             DrawCanvas->Update();
             InitToolData();
         }
+    }
+}
+
+/** Process the Drag & Drop tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessDragAction(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if (bLeftDown)
+    {
+        //Undo & modification flag
+        AddUndo();
+        SetModified(true);
+        bUsingTool = true;
+
+        //get the drag image
+        wxImage img;
+        img = GetImageFromSelection();
+        wxBitmap bmp(img);
+        m_DragImage = new wxDragImage(bmp, wxCursor(wxCURSOR_HAND));
+        if (!m_DragImage) return;
+        if (!m_Bitmap) return;
+
+
+        //replace the selection by a transparent rectangle
+
+        //begin the drag
+        wxRect r(0,0, m_Bitmap->GetWidth() * dScale, m_Bitmap->GetHeight() * dScale);
+        wxRect rSelection;
+        GetBoundingRect(&rSelection);
+        wxPoint pt(r.GetLeft() + r.GetWidth() / 2, r.GetTop() + r.GetHeight() / 2);
+
+        m_DragImage->BeginDrag(pt, DrawCanvas, false, &r);
+        m_DragImage->Show();
+
+        //Update Image
+        DrawCanvas->Refresh(true, NULL);
+        DrawCanvas->Update();
+    }
+
+    if (bPressed)
+    {
+        if (!m_Bitmap) return;
+        if (!m_DragImage) return;
+
+        m_DragImage->Hide();
+        DrawCanvas->Refresh(true, NULL);
+        DrawCanvas->Update();
+        m_DragImage->Move(wxPoint(x,y));
+        m_DragImage->Show();
+    }
+
+    if (bLeftUp)
+    {
+        //finish
+
+
+        if (m_DragImage)
+        {
+            m_DragImage->EndDrag();
+            delete(m_DragImage);
+            m_DragImage = NULL;
+            SetCursor(wxCURSOR_HAND);
+        }
+
+        InitToolData();
+    }
+}
+
+/** Process the stretch selection tool in action
+  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * @param bLeftUp: true if a mouse left button UP event has been triggered
+  * @param bPressed: true if the left mouse button is currently pressed
+  * @param bDClick: true if the a double-click event occured
+  */
+void XPMEditorPanel::ProcessSizeAction(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+{
+    if (bLeftDown)
+    {
+        //Undo & modification flag
+        if (!m_Bitmap) return;
+        bUsingTool = true;
+
+        //Update Image
+        DrawCanvas->Refresh(true, NULL);
+        DrawCanvas->Update();
+    }
+
+    if (bPressed)
+    {
+        if (!m_Bitmap) return;
+
+
+        DrawCanvas->Refresh(true, NULL);
+        DrawCanvas->Update();
+    }
+
+    if (bLeftUp)
+    {
+        //finish
+        if (!m_Bitmap) return;
+        AddUndo();
+        SetModified(true);
+
+
+        InitToolData();
     }
 }
 
@@ -1573,6 +1711,7 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
         if (tdata.iNbClicks == 0)
         {
             ClearSelection();
+            bUsingTool = true;
             DrawCanvas->Refresh(false, NULL);
             DrawCanvas->Update();
             tdata.iNbClicks = 1;
@@ -1603,6 +1742,7 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
     if (bDClick)
     {
         ToggleButtons(-1, false);
+        bUsingTool = false;
     }
 }
 
@@ -1623,6 +1763,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
         if (!m_Bitmap) return;
         AddUndo();
         SetModified(true);
+        bUsingTool = true;
 
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
@@ -1735,6 +1876,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
         if (!m_Bitmap) return;
         AddUndo();
         SetModified(true);
+        bUsingTool = true;
 
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
@@ -1851,6 +1993,7 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
             tdata.iNbPoints = 1;
             tdata.pts[0].x = x  / dScale;
             tdata.pts[0].y = y / dScale;
+            bUsingTool = true;
         }
         else
         {
@@ -1938,6 +2081,7 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
             tdata.iNbClicks = 1;
             tdata.x1 = x  / dScale;
             tdata.y1 = y / dScale;
+            bUsingTool = true;
         }
         else
         {
@@ -2015,6 +2159,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
             tdata.iNbClicks = 1;
             tdata.x1 = x  / dScale;
             tdata.y1 = y / dScale;
+            bUsingTool = true;
         }
         else
         {
@@ -2099,6 +2244,7 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
             tdata.iNbPoints = 1;
             tdata.pts[0].x = x  / dScale;
             tdata.pts[0].y = y / dScale;
+            bUsingTool = true;
         }
         else
         {
@@ -2184,6 +2330,7 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
             tdata.iNbClicks = 1;
             tdata.x1 = x  / dScale;
             tdata.y1 = y / dScale;
+            bUsingTool = true;
         }
         else
         {
@@ -2264,6 +2411,7 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
             tdata.iNbClicks = 1;
             tdata.x1 = x  / dScale;
             tdata.y1 = y / dScale;
+            bUsingTool = true;
         }
         else
         {
@@ -2301,6 +2449,7 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
   */
 void XPMEditorPanel::InitToolData(void)
 {
+    bUsingTool = false;
     tdata.x1 = -1;
     tdata.y1 = -1;
     tdata.x2 = -1;
@@ -2359,6 +2508,7 @@ void XPMEditorPanel::SetToolCursor(void)
         int iSize, iSizeMin;
         double dScale2;
         if (dScale < 1) dScale2 = 1; else dScale2 = dScale;
+        if (tdata.iSize < 2) tdata.iSize = 2;
         iSize = tdata.iSize * dScale2;
         if (tdata.iStyle == XPM_BRUSH_STYLE_SQUARE) iSize = iSize + 2 * dScale2;
         if ((tdata.iStyle == XPM_BRUSH_STYLE_CIRCLE) && (tdata.iSize * dScale2 <= 4)) iSize = 5;
@@ -2423,6 +2573,7 @@ void XPMEditorPanel::SetToolCursor(void)
         //1 - create the bitmap
         int iSize, iSizeMin;
         double dScale2;
+        if (tdata.iSize < 2) tdata.iSize = 2;
         if (dScale < 1) dScale2 = 1; else dScale2 = dScale;
         iSize = (tdata.iSize + 2) * dScale2;
         if (iSize < 8) iSizeMin = 8; else iSizeMin = iSize;
@@ -2464,7 +2615,10 @@ void XPMEditorPanel::SetToolCursor(void)
   * @param x : x position of the mouse cursor. Unscrolled
   * @param y : y position of the mouse cursor. Unscrolled
   * @return  1 if the cursor is hovering over the selection
-  *          2 if the cursor is hovering over the EDGE of the selection
+  *          2 if the cursor is hovering over the EDGE of the selection - above
+  *          3 if the cursor is hovering over the EDGE of the selection - right
+  *          4 if the cursor is hovering over the EDGE of the selection - under
+  *          5 if the cursor is hovering over the EDGE of the selection - left
   *          0 otherwise
   */
 int XPMEditorPanel::IsCursorInSelection(int x, int y)
@@ -2485,21 +2639,29 @@ int XPMEditorPanel::IsCursorInSelection(int x, int y)
     wxPoint pt2(xx + 5, yy);
     wxPoint pt3(xx, yy - 5);
     wxPoint pt4(xx, yy + 5);
-    int iCount;
-    iCount = 0;
+    int i1, i2, i3, i4;
     rResult = region.Contains(pt1);
-    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) iCount++;
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i1 = 1; else i1 = 0;
     rResult = region.Contains(pt2);
-    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) iCount++;
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i2 = 1; else i2 = 0;
     rResult = region.Contains(pt3);
-    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) iCount++;
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i3 = 1; else i3 = 0;
     rResult = region.Contains(pt4);
-    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) iCount++;
-    if ((iCount > 0) && (iCount < 4)) return(2);
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i4 = 1; else i4 = 0;
+    if ((i1 + i2 + i3 + i4 > 0) && (i1 + i2 + i3 + i4 < 4))
+    {
+        int iCount;
+
+        //for now the algorithm is pretty simple.
+        iCount = i1 + i2 + i3 + i4;
+        if ((i3 == 0) && (iCount == 1)) return(2); //above
+        if ((i2 == 0) && (iCount == 1)) return(3); //left
+        if ((i4 == 0) && (iCount == 1)) return(4); //under
+        if ((i1 == 0) && (iCount == 1)) return(5); //right
+    }
 
     rResult = region.Contains(wxPoint(xx,yy));
     if ((rResult == wxInRegion) || (rResult == wxPartRegion )) return(1);
-
 
     return(0);
 }
@@ -2508,7 +2670,7 @@ int XPMEditorPanel::IsCursorInSelection(int x, int y)
   */
 void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
 {
-    if ((DrawCanvas) && ((bCanResizeX) || (bCanResizeY)) && (m_Bitmap))
+    if ((DrawCanvas) && ((bCanResizeX) || (bCanResizeY)) && (m_Bitmap) && (!bUsingTool))
     {
 
         if ((!bSizingX) && (!bSizingY))
@@ -2541,7 +2703,21 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
         }
         if (xx > iWidth) xx = iWidth ;
         if (yy  > iHeight) yy = iHeight;
-        ProcessToolAction(iTool, xx, yy, true, false, true, false);
+
+        int iResult;
+        iResult = IsCursorInSelection(x, y);
+        switch(iResult)
+        {
+            case 1 : ProcessDragAction(xx, yy, true, false, true, false); break;
+            case 2 :
+            case 3 :
+            case 4 :
+            case 5 : ProcessSizeAction(xx, yy, true, false, true, false); break;
+            case 0 :
+            default: ProcessToolAction(iTool, xx, yy, true, false, true, false); break;
+        }
+
+
     }
     event.Skip();
 }
@@ -2550,7 +2726,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
   */
 void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
 {
-    if (((bSizingX) || (bSizingY)) && (m_Bitmap))
+    if (((bSizingX) || (bSizingY)) && (m_Bitmap) && (!bUsingTool))
     {
         //resize
         if (DrawCanvas) DrawCanvas->ReleaseMouse();
@@ -2593,7 +2769,19 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
         }
         if (xx > iWidth) xx = iWidth ;
         if (yy  > iHeight) yy = iHeight;
-        ProcessToolAction(iTool, xx, yy, false, true, false, false);
+
+        int iResult;
+        iResult = IsCursorInSelection(x, y);
+        switch(iResult)
+        {
+            case 1 : ProcessDragAction(xx, yy, false, true, false, false); break;
+            case 2 :
+            case 3 :
+            case 4 :
+            case 5 : ProcessSizeAction(xx, yy, false, true, false, false); break;
+            case 0 :
+            default: ProcessToolAction(iTool, xx, yy, false, true, false, false); break;
+        }
     }
     event.Skip();
 }

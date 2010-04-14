@@ -2734,8 +2734,7 @@
 1271101288 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271261498 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
-	<wx/bitmap.h>
+1271276176 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/panel.h>
 
 1270997265 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
@@ -2948,7 +2947,7 @@
 	"wx/renderer.h"
 	"wx/things/toggle.h"
 
-1271230204 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
+1271273284 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
 	"wx/things/thingdef.h"
 
 1267380210 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\thingdef.h

@@ -11,7 +11,10 @@
 #ifndef XPM_EDITOR_PANEL_H
 #define XPM_EDITOR_PANEL_H
 
-#include <wx/bitmap.h>
+
+
+class wxDragImage;
+class wxBitmap;
 
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>
@@ -297,7 +300,13 @@ class XPMEditorPanel: public wxPanel
                             bool bPressed, bool bDClick); ///< @brief process the Eraser tool
         void ProcessBrush(int x, int y,
                             bool bLeftDown, bool bLeftUp,
-                            bool bPressed, bool bDClick); ///< @brief process the BRush tool
+                            bool bPressed, bool bDClick); ///< @brief process the Brush tool
+        void ProcessDragAction(int x, int y,
+                               bool bLeftDown, bool bLeftUp,
+                               bool bPressed, bool bDClick); ///< @brief process the drag & drop image tool
+        void ProcessSizeAction(int x, int y,
+                               bool bLeftDown, bool bLeftUp,
+                               bool bPressed, bool bDClick); ///< @brief process the stretch selection tool
 
     private:
         wxBitmap *m_Bitmap;             ///< \brief the temporary bitmap, used for drawing
@@ -307,6 +316,7 @@ class XPMEditorPanel: public wxPanel
         wxBitmap* GetBitmap(void);      ///< \brief return the associated scaled bitmap
 		void SetBitmap(wxBitmap *bm);   ///< \brief set the current unscaled bitmap
 		wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
+		wxDragImage *m_DragImage;         ///< \brief for dragging the current selection
 
         double dScale;          ///< \brief scale factor
         wxSize sDrawAreaSize;   ///< \brief Canvas size
@@ -337,6 +347,7 @@ class XPMEditorPanel: public wxPanel
         wxCursor ToolCursor[XPM_NUMBER_TOOLS]; ///< \brief the cursors associated to the tools
         ToolData tdata; ///< \brief tool specific data
         void InitToolData(void); ///< @brief init tool data for a first use
+        bool bUsingTool;  ///< @brief true if a tool is currently in use
 
         //standard configuration
         int iXPMDefaultWidth;  ///< @brief the default width of a new XPM

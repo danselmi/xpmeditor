@@ -69,7 +69,7 @@ You have to #include "wx/tglbtn.h" for EVT_TOGGLEBUTTON
 #define _WX_CUSTOMBUTTON_H_
 
 #include "wx/things/thingdef.h"
-#define wxCUSTOM_BUTTON_SUNKEN_BORDER_PATCH 1
+//#define wxCUSTOM_BUTTON_SUNKEN_BORDER_PATCH 1
 
 class WXDLLEXPORT wxTimer;
 class WXDLLEXPORT wxTimerEvent;
