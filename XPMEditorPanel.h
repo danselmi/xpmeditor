@@ -12,6 +12,7 @@
 #define XPM_EDITOR_PANEL_H
 
 #include <wx/bitmap.h>
+
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>
 class wxSpinEvent;
@@ -101,9 +102,10 @@ class XPMEditorPanel: public wxPanel
         void SetDrawAreaSize(wxSize sNewDrawAreaSize); ///< \brief Set Bitmap Size
 
         //Selection methods
-        bool HasSelection(void) const;   ///< \brief returns true if it has selection
-		void ClearSelection(void);       ///< \brief clear the current selection
-		void GetBoundingRect(wxRect *r); ///< \brief Get the bounding rectangle of the selection
+        bool HasSelection(void) const;          ///< \brief returns true if it has selection
+		void ClearSelection(void);              ///< \brief clear the current selection
+		void GetBoundingRect(wxRect *r);        ///< \brief Get the bounding rectangle of the selection
+        int IsCursorInSelection(int x, int y);  ///< \brief Return if the cursor is hovering over the selection (1 for over the selection, 2 for edge, 0 otherwise)
 
         //UNDO & REDO Methods
         bool CanUndo(void) const;   ///< \brief Checking if can Undo

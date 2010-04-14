@@ -2734,7 +2734,7 @@
 1271101288 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271188817 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271261498 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/bitmap.h>
 	<wx/panel.h>
 
@@ -2826,7 +2826,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271189572 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1271262508 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>
@@ -2935,7 +2935,7 @@
 
 1270922139 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
 
-1271166874 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\src\toggle.cpp
+1271228826 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\src\toggle.cpp
 	"wx/wxprec.h"
 	"wx/control.h"
 	"wx/settings.h"
@@ -2948,7 +2948,7 @@
 	"wx/renderer.h"
 	"wx/things/toggle.h"
 
-1271166868 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
+1271230204 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
 	"wx/things/thingdef.h"
 
 1267380210 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\thingdef.h

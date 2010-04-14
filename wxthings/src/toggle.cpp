@@ -33,7 +33,7 @@
 // ==========================================================================
 // wxCustomButton
 // ==========================================================================
-//IMPLEMENT_DYNAMIC_CLASS( wxCustomButton, wxControl )
+IMPLEMENT_DYNAMIC_CLASS( wxCustomButton, wxControl )
 
 BEGIN_EVENT_TABLE(wxCustomButton,wxControl)
     EVT_MOUSE_EVENTS ( wxCustomButton::OnMouseEvents )
@@ -425,6 +425,18 @@ void wxCustomButton::Paint( wxDC &dc )
         ren_flags |= wxCONTROL_DISABLED;
 
     wxRendererNative::Get().DrawPushButton(this, dc, wxRect(0, 0, w, h), ren_flags);
+
+    #if wxCUSTOM_BUTTON_SUNKEN_BORDER_PATCH == 1
+    if (GetValue())                                        // draw sunken border
+    {
+        dc.SetPen(*wxGREY_PEN);
+        dc.DrawLine(0,h-1,0,0);     dc.DrawLine(0,0,w,0);
+        dc.SetPen(*wxWHITE_PEN);
+        dc.DrawLine(w-1,1,w-1,h-1); dc.DrawLine(w-1,h-1,0,h-1);
+        dc.SetPen(*wxBLACK_PEN);
+        dc.DrawLine(1,h-2,1,1);     dc.DrawLine(1,1,w-1,1);
+    }
+    #endif
 
 #else
 

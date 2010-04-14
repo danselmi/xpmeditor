@@ -1,5 +1,7 @@
 1 - All the tools
-
+    Eraser trop petit au début
+    Eraser / cross-hair parfois trop lent
+    Line près angle + Zoom: agrandit image
 
 2 - resize selection / stretch selection / drag selection
 

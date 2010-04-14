@@ -1074,16 +1074,17 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
 
         //draw the rectangle
         wxClientDC dc(DrawCanvas);
-        DrawCanvas->DoPrepareDC(dc);
         dc.SetUserScale(1,1);
+        DrawCanvas->DoPrepareDC(dc);
         wxPen pGrayPen(*wxBLACK, 1,wxSOLID);
         wxColour cBackCol;
         cBackCol = DrawCanvas->GetBackgroundColour();
         wxPen pBackPen(cBackCol, 1,wxSOLID);
 
         //Get mouse position
-        if (bSizingX) x = event.m_x; else x = m_Bitmap->GetWidth() * dScale;
-        if (bSizingY) y = event.m_y; else y = m_Bitmap->GetHeight() * dScale;
+        DrawCanvas->GetViewStart(&x, &y);
+        if (bSizingX) x = event.m_x; else x = m_Bitmap->GetWidth() * dScale - x;
+        if (bSizingY) y = event.m_y; else y = m_Bitmap->GetHeight() * dScale - y ;
 
         DrawCanvas->CalcUnscrolledPosition(x, y, &xx, &yy);
         //set the text indicating the cursor position
@@ -1164,13 +1165,35 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         {
             bCanResizeX = false;
             bCanResizeY = false;
-            SetToolCursor();
+            int iResult;
+            iResult = IsCursorInSelection(x, y);
+            switch(iResult)
+            {
+                case 1 : SetCursor(wxCURSOR_HAND  ); break;
+                case 2 : SetCursor(wxCURSOR_SIZENS); break;
+                case 3 : SetCursor(wxCURSOR_SIZENS); break;
+                case 4 : SetCursor(wxCURSOR_SIZENS); break;
+                case 5 : SetCursor(wxCURSOR_SIZENS); break;
+                default: SetToolCursor();
+                         break;
+            }
         }
         else
         {
             bCanResizeX = false;
             bCanResizeY = false;
-            SetToolCursor();
+            int iResult;
+            iResult = IsCursorInSelection(x, y);
+            switch(iResult)
+            {
+                case 1 : SetCursor(wxCURSOR_HAND  ); break;
+                case 2 : SetCursor(wxCURSOR_SIZENS); break;
+                case 3 : SetCursor(wxCURSOR_SIZENS); break;
+                case 4 : SetCursor(wxCURSOR_SIZENS); break;
+                case 5 : SetCursor(wxCURSOR_SIZENS); break;
+                default: SetToolCursor();
+                         break;
+            }
         }
 
         //draw the tools in action
@@ -1621,11 +1644,11 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
                         break;
 
                 case XPM_BRUSH_STYLE_LEFTHAIR :
-                        mem_dc.DrawLine(xx,yy + tdata.iSize, xx + tdata.iSize, yy);
+                        mem_dc.DrawLine(xx - tdata.iSize /2.828 ,yy + tdata.iSize / 2.828, xx + tdata.iSize / 2.828, yy - tdata.iSize / 2.828);
                         break;
 
                 case XPM_BRUSH_STYLE_RIGHTHAIR:
-                        mem_dc.DrawLine(xx,yy, xx + tdata.iSize, yy + tdata.iSize);
+                        mem_dc.DrawLine(xx - tdata.iSize / 2.828, yy - tdata.iSize /2.828, xx + tdata.iSize /2.828, yy + tdata.iSize / 2.828);
                         break;
 
                 case XPM_BRUSH_STYLE_SQUARE   :
@@ -1666,11 +1689,11 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
                     break;
 
                 case XPM_BRUSH_STYLE_LEFTHAIR :
-                    mem_dc.DrawLine(xx,yy + tdata.iSize, xx + tdata.iSize, yy);
+                    mem_dc.DrawLine(xx - tdata.iSize /2.828,yy + tdata.iSize / 2.828, xx + tdata.iSize / 2.828, yy - tdata.iSize / 2.828);
                     break;
 
                 case XPM_BRUSH_STYLE_RIGHTHAIR:
-                    mem_dc.DrawLine(xx,yy, xx + tdata.iSize, yy + tdata.iSize);
+                    mem_dc.DrawLine(xx - tdata.iSize / 2.828, yy - tdata.iSize / 2.828, xx + tdata.iSize / 2.828, yy + tdata.iSize / 2.828);
                     break;
 
                 case XPM_BRUSH_STYLE_SQUARE   :
@@ -1717,7 +1740,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
         if (mem_dc.IsOk())
         {
             wxColour cColour;
-            cColour = ColourPicker->GetLineColour();
+            cColour = ColourPicker->GetTransparentColour();
             wxBrush brush(cColour, wxSOLID);
             wxPen pen(cColour, 1, wxSOLID);
             mem_dc.SetBrush(brush);
@@ -1725,7 +1748,6 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
 
             int xx, yy;
             xx = x / dScale; yy = y / dScale;
-
             mem_dc.DrawRectangle(xx - tdata.iSize / 2,
                                  yy - tdata.iSize / 2,
                                  tdata.iSize,
@@ -1736,6 +1758,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
         DrawCanvas->Refresh(false, NULL);
         DrawCanvas->Update();
     }
+
     if (bPressed)
     {
         if (!m_Bitmap) return;
@@ -1759,8 +1782,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        wxRect r(x / dScale - tdata.iSize / 2, y / dScale - tdata.iSize / 2, tdata.iSize, tdata.iSize);
-        DrawCanvas->Refresh(false, &r);
+        DrawCanvas->Refresh(false, NULL);
         DrawCanvas->Update();
     }
     if (bLeftUp)
@@ -2438,6 +2460,49 @@ void XPMEditorPanel::SetToolCursor(void)
     }
 }
 
+/** Return if the cursor is hovering over the selection
+  * @param x : x position of the mouse cursor. Unscrolled
+  * @param y : y position of the mouse cursor. Unscrolled
+  * @return  1 if the cursor is hovering over the selection
+  *          2 if the cursor is hovering over the EDGE of the selection
+  *          0 otherwise
+  */
+int XPMEditorPanel::IsCursorInSelection(int x, int y)
+{
+    if (!HasSelection()) return(0);
+
+
+    //get the region containing the selection
+    wxRegion region(NbPoints, pSelection);
+    int xx, yy;
+
+    DrawCanvas->CalcUnscrolledPosition(x,y,&xx, &yy);
+    wxRegionContain rResult;
+
+    //to check if the cursor is over the limits, we check if a 4 pts around the cursor position is partly in the region
+    //if one of them is out of the region AND one of then is in the region, then the cursor is over the regions edges
+    wxPoint pt1(xx - 5, yy);
+    wxPoint pt2(xx + 5, yy);
+    wxPoint pt3(xx, yy - 5);
+    wxPoint pt4(xx, yy + 5);
+    int iCount;
+    iCount = 0;
+    rResult = region.Contains(pt1);
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) iCount++;
+    rResult = region.Contains(pt2);
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) iCount++;
+    rResult = region.Contains(pt3);
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) iCount++;
+    rResult = region.Contains(pt4);
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) iCount++;
+    if ((iCount > 0) && (iCount < 4)) return(2);
+
+    rResult = region.Contains(wxPoint(xx,yy));
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) return(1);
+
+
+    return(0);
+}
 
 /** Handler for mouse left button down
   */
