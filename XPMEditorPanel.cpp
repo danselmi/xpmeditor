@@ -208,8 +208,9 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     bUsingTool = false;
     m_DragImage = NULL;
     m_bDragging = false;
+    m_bEraseSelection = false;
     m_SelectionImage = wxImage();
-    pHotSpot = wxPoint(0,0);
+    pStartDragging = wxPoint(0,0);
 
     UpdateConfiguration();
 }
@@ -567,6 +568,7 @@ wxImage XPMEditorPanel::GetImageFromSelection(void)
 {
     //Return an image representing the selection
     if (!m_Image) return(wxImage());
+    if (!HasSelection()) return(wxImage());
 
     wxImage imgCopy(*m_Image);
 
@@ -590,6 +592,59 @@ wxImage XPMEditorPanel::GetImageFromSelection(void)
     imgCopy.SetMaskFromImage(imgMask,0,0,0);
 
     return(imgCopy);
+}
+
+/** Replace the Selection with the mask colour
+  */
+void XPMEditorPanel::CutSelection(void)
+{
+    if (!m_Image) return;
+    if (!HasSelection()) return;
+
+    wxImage imgCopy(*m_Image);
+
+    //get the region containing the selection
+    wxRegion region(NbPoints, pSelection);
+
+    //convert the region to a mask
+    wxBitmap bmMask = region.ConvertToBitmap();
+    wxImage imgMask = bmMask.ConvertToImage();
+
+    imgCopy = imgMask;
+
+    //replace the white area by the mask colour
+    imgCopy.Replace(255, 255, 255, m_Image->GetMaskRed(), m_Image->GetMaskGreen(), m_Image->GetMaskBlue());
+
+    imgCopy.SetMask(true);
+    imgCopy.SetMaskFromImage(imgMask,0,0,0);
+    PasteImage(imgCopy, 0, 0);
+}
+
+/** Move the selection by dx / dy
+  * if some points are move beyond image border, they are put back inside borders
+  * There is therefore a risk of loosing data by using this function (loosing selection information)
+  * @param dx : the increment by which the selection must be moved horizontally.
+                Positive value moves the selection to the right
+  * @param dy : the increment by which the selection must be moved vertically.
+                Positive value moves the selection to the down
+  */
+void XPMEditorPanel::MoveSelection(int dx, int dy)
+{
+    //Move the selection
+    if (!HasSelection()) return;
+    int i;
+
+    for(i=0; i<NbPoints; i++)
+    {
+        pSelection[i].x = pSelection[i].x + dx;
+        pSelection[i].y = pSelection[i].y + dy;
+
+        //border check
+        if (pSelection[i].x < 0) pSelection[i].x = 0;
+        if (pSelection[i].y < 0) pSelection[i].y = 0;
+        if (pSelection[i].x > m_Image->GetWidth()) pSelection[i].x = m_Image->GetWidth();
+        if (pSelection[i].y > m_Image->GetHeight()) pSelection[i].y = m_Image->GetHeight();
+    }
 }
 
 /** Return the current associated image
@@ -1591,6 +1646,7 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             DrawCanvas->Refresh(false, NULL);
             DrawCanvas->Update();
             InitToolData();
+            m_bEraseSelection = true;
         }
     }
 }
@@ -1615,36 +1671,31 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         bUsingTool = true;
         m_bDragging = true;
 
+        //save the image to drag
+        wxRect rSelection;
+        GetBoundingRect(&rSelection);
+        m_SelectionImage = GetImageFromSelection();
+
         //get the drag image
-        wxImage img;
-        img = GetImageFromSelection();
+        wxImage img(m_SelectionImage);
+        img.Rescale(img.GetWidth() * dScale, img.GetHeight() * dScale);
         wxBitmap bmp(img);
         if (m_DragImage) delete(m_DragImage);
         m_DragImage = new wxDragImage(bmp, wxCursor(wxCURSOR_HAND));
         if (!m_DragImage) return;
         if (!m_Bitmap) return;
 
-        //save the image to drag
-        wxRect rSelection;
-        GetBoundingRect(&rSelection);
-        m_SelectionImage = GetImageFromSelection();
-        ClearSelection();
-
         //replace the selection by a transparent image
-        wxBitmap bmSelection(m_SelectionImage);
-        wxRegion region(bmSelection);
-        wxImage imgVoid(rSelection.GetWidth(), rSelection.GetHeight(), true);
-        if (m_Image)
+        if (m_bEraseSelection)
         {
-            //set the mask colour identical to the m_Image mask colour
-            imgVoid.Replace(0,0,0, m_Image->GetMaskRed(), m_Image->GetMaskGreen(), m_Image->GetMaskBlue());
+            CutSelection();
         }
-        PasteImage(imgVoid, rSelection.GetLeft(), rSelection.GetTop());
+
 
         //begin the drag
-        wxRect r(0,0, m_Bitmap->GetWidth() * dScale, m_Bitmap->GetHeight() * dScale);
-        wxPoint ptHotSpot(rSelection.GetWidth() / 2, rSelection.GetHeight() / 2);
-        pHotSpot = ptHotSpot;
+        wxPoint ptHotSpot(rSelection.GetWidth() * dScale / 2, rSelection.GetHeight() * dScale / 2);
+        pStartDragging.x = rSelection.GetLeft();
+        pStartDragging.y = rSelection.GetTop();
         m_DragImage->BeginDrag(ptHotSpot, DrawCanvas, false, NULL);
         m_DragImage->Hide();
 
@@ -1681,10 +1732,23 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
             delete(m_DragImage);
             m_DragImage = NULL;
 
-            PasteImage(m_SelectionImage, x - pHotSpot.x, y - pHotSpot.y);
+            int xx, yy;
+            DrawCanvas->CalcUnscrolledPosition (x, y, &xx, &yy);
+
+            wxRect rSelection;
+            GetBoundingRect(&rSelection);
+
+            //offset the selection
+            MoveSelection(xx / dScale - m_SelectionImage.GetWidth() / 2 - rSelection.GetLeft(),
+                          yy / dScale - m_SelectionImage.GetHeight()/ 2 - rSelection.GetTop());
+
+            PasteImage(m_SelectionImage, xx / dScale - m_SelectionImage.GetWidth() / 2,
+                                         yy / dScale - m_SelectionImage.GetHeight()/ 2);
 
             SetCursor(wxCURSOR_HAND);
         }
+
+        m_bEraseSelection = false;
 
 
         InitToolData();
@@ -1820,6 +1884,7 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
     {
         ToggleButtons(-1, false);
         bUsingTool = false;
+        m_bEraseSelection = true;
     }
 }
 
@@ -3025,14 +3090,8 @@ void XPMEditorPanel::Cut(void)
         wxTheClipboard->Close();
         AddUndo();
 
-        //paste a transparent image
-        wxImage imgPaste(imgCopy.GetWidth(), imgCopy.GetHeight(), true); //black image
-        if (m_Image->HasMask())
-        {
-            imgPaste.Replace(0,0,0, m_Image->GetMaskRed(), m_Image->GetMaskGreen(), m_Image->GetMaskBlue());
-        }
-        m_Image->Paste(imgPaste, r.GetLeft(), r.GetTop());
-        UpdateBitmap();
+        //cute a transparent image
+        CutSelection();
         SetModified(true);
     }
 }
@@ -3128,14 +3187,13 @@ void XPMEditorPanel::Paste(void)
             }
 
             //paste the Bitmap at 0,0
-            wxMemoryDC mem_dc;
-            mem_dc.SelectObject(*original_bitmap);
-            mem_dc.DrawBitmap(bm,0,0,true);
-            mem_dc.SelectObject(wxNullBitmap);
-            UpdateImage();
+            wxImage img;
+            img = bm.ConvertToImage();
+            PasteImage(img, 0, 0);
             SetModified(true);
             DrawCanvas->Refresh(false, NULL);
             DrawCanvas->Update();
+            m_bEraseSelection = false;
         }
     }
 }

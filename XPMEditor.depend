@@ -2720,7 +2720,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271101289 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
+1271101290 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
 	"XPMCustomZoom.h"
 	<wx/sizer.h>
 	<wx/stattext.h>
@@ -2731,21 +2731,21 @@
 	<wx/valtext.h>
 	"XPMEditorPanel.h"
 
-1271101288 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
+1271101290 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271188817 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
-	<wx/bitmap.h>
+1271362312 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+	<wx/image.h>
 	<wx/panel.h>
 
-1270997265 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
+1271344422 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
 	<sdk.h>
 	<configurationpanel.h>
 	<wx/aui/auibook.h>
 	"XPMEditor.h"
 	"XPMColorPicker.h"
 
-1270997258 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
+1270997260 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 	<sdk.h>
@@ -2756,7 +2756,7 @@
 	"XPMCustomZoom.h"
 	"XPMUndo.h"
 
-1270997464 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
+1270997466 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
 	<editorbase.h>
 	<projectfile.h>
 	<wx/bitmap.h>
@@ -2766,14 +2766,14 @@
 	<set>
 	"XPMEditorPanel.h"
 
-1270997634 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
+1270997636 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
 
-1270997372 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
+1270997374 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
 	<wx/scrolwin.h>
 	<wx/colour.h>
 	<wx/control.h>
 
-1270997458 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+1271332098 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
 	<sdk.h>
 	<filefilters.h>
 	<wx/msgdlg.h>
@@ -2804,7 +2804,7 @@
 	<wx/bitmap.h>
 	<wx/tglbtn.h>
 
-1270997623 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
+1270997624 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
 	"XPMEditor.h"
 	<wx/gdicmn.h>
 
@@ -2816,7 +2816,7 @@
 	<wx/grid.h>
 	<wx/bitmap.h>
 
-1270997355 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
+1270997356 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
 	"XPMColorPicker.h"
 	<wx/gdicmn.h>
 	<wx/dcclient.h>
@@ -2826,7 +2826,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271189572 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1271362726 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>
@@ -2838,6 +2838,8 @@
 	<wx/rawbmp.h>
 	<wx/region.h>
 	<wx/graphics.h>
+	<wx/bitmap.h>
+	<wx/dragimag.h>
 	<wx/scrolwin.h>
 	<wx/artprov.h>
 	<wx/sizer.h>
@@ -2935,7 +2937,7 @@
 
 1270922139 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
 
-1271166874 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\src\toggle.cpp
+1271228826 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\src\toggle.cpp
 	"wx/wxprec.h"
 	"wx/control.h"
 	"wx/settings.h"
@@ -2948,7 +2950,7 @@
 	"wx/renderer.h"
 	"wx/things/toggle.h"
 
-1271166868 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
+1271273284 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
 	"wx/things/thingdef.h"
 
 1267380210 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\thingdef.h
@@ -5792,6 +5794,34 @@
 	"wx/defs.h"
 
 1236337276 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\msw\dragimag.h
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/cursor.h"
+	"wx/treectrl.h"
+	"wx/listctrl.h"
+
+1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\dragimag.h
+	"wx/generic/dragimgg.h"
+	"wx/msw/dragimag.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+
+1236337250 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\generic\dragimgg.h
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/cursor.h"
+	"wx/treectrl.h"
+	"wx/listctrl.h"
+	"wx/log.h"
+	"wx/overlay.h"
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\overlay.h
+	"wx/defs.h"
+
+1236337276 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\msw\dragimag.h
 	"wx/bitmap.h"
 	"wx/icon.h"
 	"wx/cursor.h"

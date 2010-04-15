@@ -314,26 +314,29 @@ class XPMEditorPanel: public wxPanel
                                bool bPressed, bool bDClick); ///< @brief process the stretch selection tool
 
     private:
+        //bitmap, images methods
+        wxColour cMaskColour;           ///< \brief the current mask colour
         wxBitmap *m_Bitmap;             ///< \brief the temporary bitmap, used for drawing
         wxImage *m_Image;               ///< \brief the temporary image, used for misc functions
         void UpdateBitmap(void);        ///< \brief recreate the m_Bitmap member from the m_Image member
         void UpdateImage(void);         ///< \brief Ensure the Image is up-to-date (buffered user actions are flushed)
         wxBitmap* GetBitmap(void);      ///< \brief return the associated scaled bitmap
 		void SetBitmap(wxBitmap *bm);   ///< \brief set the current unscaled bitmap
-		wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
 
+        //drag related methods & members
+		wxDragImage *m_DragImage;        ///< \brief for dragging the current selection
+		bool m_bDragging;                ///< \brief true if the user is currently dragging a shape, false otherwise
+		wxImage m_SelectionImage;        ///< \brief for dragging selection: save the image to drag
+		bool m_bEraseSelection;          ///< \brief if true, the selection will be erased during a drag operation
+        wxPoint pStartDragging;          ///< \brief position for the 1st dragging event
 
-		wxDragImage *m_DragImage;         ///< \brief for dragging the current selection
-		bool m_bDragging;                  ///< \brief true if the user is currently dragging a shape, false otherwise
-		wxImage m_SelectionImage;       ///< \brief for dragging selection: save the image to drag
-		wxPoint pHotSpot;               ///< \brief the hotspot for dragging the image
-
+        //scale factor & scrollbars
         double dScale;          ///< \brief scale factor
-        wxSize sDrawAreaSize;   ///< \brief Canvas size
         bool bShowGrid;         ///< \brief Grid display
-
         void DoSetScrollBars(void); ///< \brief Set scrollbars size
 
+        //Sizing
+        wxSize sDrawAreaSize;   ///< \brief Canvas size
         bool bCanResizeX;   ///< \brief indicate that the mouse is in a sizing area (border)
         bool bCanResizeY;   ///< \brief indicate that the mouse is in a sizing area (border)
         bool bSizingX;      ///< \brief indicate that the user is currently resizing the bitmap
@@ -347,6 +350,9 @@ class XPMEditorPanel: public wxPanel
         int NbPointsMax;        ///< \brief the maximal size of the wxPoint array
         wxPoint* CheckMemorySelection(int iNeeded); ///< \brief increase the memory if needed
         bool bDrawSelection;    ///< \brief true to draw the selection in OnDrawCanvasPaint
+        wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
+        void CutSelection(void);        ///< \brief Replace the Selection with the mask colour
+        void MoveSelection(int dx, int dy); ///< \brief Move the selection
 
         //Undo & Redo buffers
         XPMUndo *m_undo_buffer;  ///< \brief the Undo buffer

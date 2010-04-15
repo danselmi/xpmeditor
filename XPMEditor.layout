@@ -22,11 +22,11 @@
 	<File name="XPMEditorBase.h" open="0" top="0" tabpos="2">
 		<Cursor position="5366" topLine="76" />
 	</File>
-	<File name="XPMEditorPanel.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="120955" topLine="3266" />
+	<File name="XPMEditorPanel.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="118069" topLine="3140" />
 	</File>
 	<File name="XPMEditorPanel.h" open="1" top="0" tabpos="2">
-		<Cursor position="3792" topLine="77" />
+		<Cursor position="14884" topLine="317" />
 	</File>
 	<File name="XPMUndo.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="16111" topLine="490" />
@@ -43,8 +43,8 @@
 	<File name="test.bmp" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="todo.txt" open="1" top="0" tabpos="3">
-		<Cursor position="736" topLine="0" />
+	<File name="todo.txt" open="1" top="1" tabpos="3">
+		<Cursor position="86" topLine="0" />
 	</File>
 	<File name="wxthings\include\wx\things\toggle.h" open="0" top="0" tabpos="0">
 		<Cursor position="2861" topLine="46" />

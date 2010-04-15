@@ -1,9 +1,8 @@
-1 - All the tools
-    Eraser trop petit au début
-    Eraser / cross-hair parfois trop lent et pas toujour de la bonne longueur
-    Line près angle + Zoom: agrandit image
+0 - Drag selection: save / restore image below selection in case of multiple draggings
 
-2 - resize selection / stretch selection / drag selection
+1 - Text Tool
+
+2 - resize selection / stretch selection
 
 3 - Configuration panel:
       How to handle XPMs
@@ -25,10 +24,3 @@
 8 - jpg quality
 
 9 - File manager extensions
-
-Modified:
-
-XPMEditorPanel.h
-XPMEditorPanel.cpp
-toggle.h
-toggle.cpp
