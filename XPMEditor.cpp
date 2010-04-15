@@ -189,30 +189,34 @@ bool XPMEditor::OpenInEditor(wxString FileName)
         //get the bitmap type and load it
         wxString fn;
         wxBitmapType bt;
+        bool bRecognized;
+
         fn = FileName;
         fn.MakeUpper();
+        bRecognized = false;
 
-        if (fn.Right(4) == _(".XPM")) bt = wxBITMAP_TYPE_XPM;
-        if (fn.Right(4) == _(".ICO")) bt = wxBITMAP_TYPE_ICO;
-        if (fn.Right(4) == _(".CUR")) bt = wxBITMAP_TYPE_CUR;
-        if (fn.Right(4) == _(".XBM")) bt = wxBITMAP_TYPE_XBM;
-        if (fn.Right(4) == _(".BMP")) bt = wxBITMAP_TYPE_BMP;
-        if (fn.Right(4) == _(".TIF")) bt = wxBITMAP_TYPE_TIF;
-        if (fn.Right(4) == _(".JPG")) bt = wxBITMAP_TYPE_JPEG;
-        if (fn.Right(4) == _(".JPE")) bt = wxBITMAP_TYPE_JPEG;
-        if (fn.Right(4) == _(".DIB")) bt = wxBITMAP_TYPE_BMP;
-        if (fn.Right(4) == _(".PNG")) bt = wxBITMAP_TYPE_PNG;
-        if (fn.Right(4) == _(".PNM")) bt = wxBITMAP_TYPE_PNM;
-        if (fn.Right(4) == _(".PCX")) bt = wxBITMAP_TYPE_PCX;
-        if (fn.Right(4) == _(".GIF")) bt = wxBITMAP_TYPE_GIF;
-        if (fn.Right(5) == _(".ANI")) bt = wxBITMAP_TYPE_ANI;
-        if (fn.Right(5) == _(".IFF")) bt = wxBITMAP_TYPE_IFF;
-        if (fn.Right(5) == _(".TGA")) bt = wxBITMAP_TYPE_TGA;
-        if (fn.Right(5) == _(".PICT")) bt = wxBITMAP_TYPE_PICT;
-        if (fn.Right(5) == _(".ICON")) bt = wxBITMAP_TYPE_ICON;
-        if (fn.Right(5) == _(".TIFF")) bt = wxBITMAP_TYPE_TIF;
-        if (fn.Right(5) == _(".JPEG")) bt = wxBITMAP_TYPE_JPEG;
-        if (fn.Right(5) == _(".JFIF")) bt = wxBITMAP_TYPE_JPEG;
+        if (fn.Right(4) == _(".XPM")) {bt = wxBITMAP_TYPE_XPM; bRecognized = true; }
+        if (fn.Right(4) == _(".ICO")) {bt = wxBITMAP_TYPE_ICO; bRecognized = true; }
+        if (fn.Right(4) == _(".CUR")) {bt = wxBITMAP_TYPE_CUR; bRecognized = true; }
+        if (fn.Right(4) == _(".XBM")) {bt = wxBITMAP_TYPE_XBM; bRecognized = true; }
+        if (fn.Right(4) == _(".BMP")) {bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
+        if (fn.Right(4) == _(".TIF")) {bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
+        if (fn.Right(4) == _(".JPG")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+        if (fn.Right(4) == _(".JPE")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+        if (fn.Right(4) == _(".DIB")) {bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
+        if (fn.Right(4) == _(".PNG")) {bt = wxBITMAP_TYPE_PNG; bRecognized = true; }
+        if (fn.Right(4) == _(".PNM")) {bt = wxBITMAP_TYPE_PNM; bRecognized = true; }
+        if (fn.Right(4) == _(".PCX")) {bt = wxBITMAP_TYPE_PCX; bRecognized = true; }
+        if (fn.Right(4) == _(".GIF")) {bt = wxBITMAP_TYPE_GIF; bRecognized = true; }
+        if (fn.Right(5) == _(".ANI")) {bt = wxBITMAP_TYPE_ANI; bRecognized = true; }
+        if (fn.Right(5) == _(".IFF")) {bt = wxBITMAP_TYPE_IFF; bRecognized = true; }
+        if (fn.Right(5) == _(".TGA")) {bt = wxBITMAP_TYPE_TGA; bRecognized = true; }
+        if (fn.Right(5) == _(".PICT")) {bt = wxBITMAP_TYPE_PICT; bRecognized = true; }
+        if (fn.Right(5) == _(".ICON")) {bt = wxBITMAP_TYPE_ICON; bRecognized = true; }
+        if (fn.Right(5) == _(".TIFF")) {bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
+        if (fn.Right(5) == _(".JPEG")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+        if (fn.Right(5) == _(".JFIF")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+        if (!bRecognized) bt = wxBITMAP_TYPE_ANY; //try to recognize automatically
 
         wxImage img;
         if (!(img.LoadFile(FileName, bt))) return(false);
@@ -220,9 +224,10 @@ bool XPMEditor::OpenInEditor(wxString FileName)
         if (!img.HasMask())
         {
             unsigned char iRed, iGreen, iBlue;
-            if (img.FindFirstUnusedColour(&iRed, &iGreen, &iBlue))
+            if (img.GetOrFindMaskColour(&iRed, &iGreen, &iBlue))
             {
                 img.SetMaskColour(iRed, iGreen, iBlue);
+                img.SetMask();
             }
             else
             {

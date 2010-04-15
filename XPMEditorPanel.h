@@ -16,6 +16,8 @@
 class wxDragImage;
 class wxBitmap;
 
+#include <wx/image.h>
+
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>
 class wxSpinEvent;
@@ -108,7 +110,9 @@ class XPMEditorPanel: public wxPanel
         bool HasSelection(void) const;          ///< \brief returns true if it has selection
 		void ClearSelection(void);              ///< \brief clear the current selection
 		void GetBoundingRect(wxRect *r);        ///< \brief Get the bounding rectangle of the selection
-        int IsCursorInSelection(int x, int y);  ///< \brief Return if the cursor is hovering over the selection (1 for over the selection, 2 for edge, 0 otherwise)
+        int IsPointInSelection(int x, int y);   ///< \brief Return if the cursor is hovering over the selection (1 for over the selection, 2 for edge, 0 otherwise)
+        void ReplaceRect(const wxImage &newImage, wxRect rRect);///< \brief Replace the rectangle by a new image.
+        void PasteImage(const wxImage &newImage, int x, int y); ///< \brief Paste an image at the specified location
 
         //UNDO & REDO Methods
         bool CanUndo(void) const;   ///< \brief Checking if can Undo
@@ -246,6 +250,7 @@ class XPMEditorPanel: public wxPanel
 		void OnCircleBrushButtonToggle(wxCommandEvent& event);
 		void OnLHairBrushButtonToggle(wxCommandEvent& event);
 		void OnRHairBrushButtonToggle(wxCommandEvent& event);
+		void OnDrawCanvasRightUp(wxMouseEvent& event);
 		//*)
 
 		void OnTransparentColorChanged(wxCommandEvent& event);
@@ -316,7 +321,12 @@ class XPMEditorPanel: public wxPanel
         wxBitmap* GetBitmap(void);      ///< \brief return the associated scaled bitmap
 		void SetBitmap(wxBitmap *bm);   ///< \brief set the current unscaled bitmap
 		wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
+
+
 		wxDragImage *m_DragImage;         ///< \brief for dragging the current selection
+		bool m_bDragging;                  ///< \brief true if the user is currently dragging a shape, false otherwise
+		wxImage m_SelectionImage;       ///< \brief for dragging selection: save the image to drag
+		wxPoint pHotSpot;               ///< \brief the hotspot for dragging the image
 
         double dScale;          ///< \brief scale factor
         wxSize sDrawAreaSize;   ///< \brief Canvas size

@@ -62,6 +62,7 @@
 		<Unit filename="XPMUndo.cpp" />
 		<Unit filename="XPMUndo.h" />
 		<Unit filename="manifest.xml" />
+		<Unit filename="shape01.png" />
 		<Unit filename="test.bmp" />
 		<Unit filename="todo.txt" />
 		<Unit filename="wxthings\include\wx\things\thingdef.h" />

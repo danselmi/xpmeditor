@@ -1,6 +1,6 @@
 1 - All the tools
     Eraser trop petit au début
-    Eraser / cross-hair parfois trop lent
+    Eraser / cross-hair parfois trop lent et pas toujour de la bonne longueur
     Line près angle + Zoom: agrandit image
 
 2 - resize selection / stretch selection / drag selection
@@ -15,6 +15,10 @@
 5 - resize all cursors to fit in a 16 x 16 square
 
 6 - transparent color: Update of the mask colour sometimes does not update the display.
+    Try: Painting without mask
+         Using m_Image without mask - setting a maks only for saving
+         Add a m_TransparentColour member
+         When loading an image, try to set the transparent colour to the default one (from ColourPicker)
 
 7 - color depth
 
@@ -22,3 +26,9 @@
 
 9 - File manager extensions
 
+Modified:
+
+XPMEditorPanel.h
+XPMEditorPanel.cpp
+toggle.h
+toggle.cpp

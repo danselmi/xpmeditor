@@ -207,6 +207,9 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 
     bUsingTool = false;
     m_DragImage = NULL;
+    m_bDragging = false;
+    m_SelectionImage = wxImage();
+    pHotSpot = wxPoint(0,0);
 
     UpdateConfiguration();
 }
@@ -428,6 +431,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	DrawCanvas->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftDown,0,this);
 	DrawCanvas->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftUp,0,this);
 	DrawCanvas->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftDClick,0,this);
+	DrawCanvas->Connect(wxEVT_RIGHT_UP,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasRightUp,0,this);
 	DrawCanvas->Connect(wxEVT_MOTION,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseMove,0,this);
 	DrawCanvas->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseLeave,0,this);
 	DrawCanvas->Connect(wxEVT_SIZE,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasResize,0,this);
@@ -574,7 +578,11 @@ wxImage XPMEditorPanel::GetImageFromSelection(void)
     wxImage imgMask = bmMask.ConvertToImage();
 
     wxRect r;
+    //wxSize s;
     r = region.GetBox();
+    //s = r.GetSize();
+    //s.DecBy(1);
+    //r.SetSize(s);
 
     imgCopy = imgCopy.GetSubImage(r);
     imgMask = imgMask.GetSubImage(r);
@@ -1107,7 +1115,6 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         DrawCanvas->Refresh(false, NULL);
         DrawCanvas->Update();
 
-        //Manager::Get()->GetLogManager()->DebugLog(wxString::Format(_("x = %d y = %d"), xx, yy));
         if (BMPWidth) BMPWidth->SetValue(xx);
         if (BMPHeight) BMPHeight->SetValue(yy);
         dc.SetPen(pGrayPen);
@@ -1116,6 +1123,15 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         dc.DrawLine(xx * dScale, 0, xx * dScale , yy * dScale);
         dc.DrawLine(0,yy * dScale, xx * dScale, yy * dScale);
         OldX = xx * dScale ; OldY = yy * dScale;
+    }
+    else if (event.Dragging() && (m_bDragging))
+    {
+        //move the selection
+        int x, y;
+
+        event.GetPosition(&x, &y);
+        ProcessDragAction(x, y, false, false, true, false);
+
     }
     else
     {
@@ -1171,8 +1187,9 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         {
             bCanResizeX = false;
             bCanResizeY = false;
-            int iResult;
-            iResult = IsCursorInSelection(x, y);
+            int iResult, xxx, yyy;
+            event.GetPosition(&xxx, &yyy);
+            iResult = IsPointInSelection(xxx, yyy);
             switch(iResult)
             {
                 case 1 : SetCursor(wxCURSOR_HAND  ); break;
@@ -1188,8 +1205,9 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         {
             bCanResizeX = false;
             bCanResizeY = false;
-            int iResult;
-            iResult = IsCursorInSelection(x, y);
+            int iResult, xxx, yyy;
+            event.GetPosition(&xxx, &yyy);
+            iResult = IsPointInSelection(xxx, yyy);
             switch(iResult)
             {
                 case 1 : SetCursor(wxCURSOR_HAND  ); break;
@@ -1216,8 +1234,10 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
 void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
 {
     int x, y, iWidth, iHeight;
+    wxPoint ptPosition;
 
-    DrawCanvas->CalcUnscrolledPosition(event.m_x, event.m_y, &x, &y);
+    ptPosition = event.GetPosition();
+    DrawCanvas->CalcUnscrolledPosition(ptPosition.x, ptPosition.y, &x, &y);
     if (m_Bitmap)
     {
         iWidth = m_Bitmap->GetWidth() * dScale;
@@ -1234,7 +1254,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
     if (y  > iHeight) y = iHeight;
 
     int iResult;
-    iResult = IsCursorInSelection(x, y);
+    iResult = IsPointInSelection(ptPosition.x, ptPosition.y);
     switch(iResult)
     {
         case 1 : ProcessDragAction(x, y, false, false, false, true); break;
@@ -1248,6 +1268,39 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
 
     event.Skip();
 }
+
+
+void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
+{
+    int x, y, iWidth, iHeight;
+    wxPoint ptPosition;
+
+    ptPosition = event.GetPosition();
+    DrawCanvas->CalcUnscrolledPosition(ptPosition.x, ptPosition.y, &x, &y);
+    if (m_Bitmap)
+    {
+        iWidth = m_Bitmap->GetWidth() * dScale;
+        iHeight = m_Bitmap->GetHeight() * dScale;
+    }
+    else
+    {
+        if (DrawCanvas) DrawCanvas->GetClientSize(&iWidth, &iHeight); else GetClientSize(&iWidth, &iHeight);
+    }
+
+    int iTool;
+    iTool = GetToolID();
+    if (x > iWidth) x = iWidth ;
+    if (y  > iHeight) y = iHeight;
+
+    //simulate a double click
+    ProcessToolAction(iTool, x, y, true, false, false, false);
+    ProcessToolAction(iTool, x, y, false, true, false, false);
+    ProcessToolAction(iTool, x, y, false, false, true, false);
+    ProcessToolAction(iTool, x, y, false, false, false, true);
+
+    event.Skip();
+}
+
 
 /** draw the tool action: select box for Selection tool, rectangle for rectangle tool, ...
   * @param iTool: the index of the tool used
@@ -1555,60 +1608,84 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
 {
     if (bLeftDown)
     {
+
         //Undo & modification flag
         AddUndo();
         SetModified(true);
         bUsingTool = true;
+        m_bDragging = true;
 
         //get the drag image
         wxImage img;
         img = GetImageFromSelection();
         wxBitmap bmp(img);
+        if (m_DragImage) delete(m_DragImage);
         m_DragImage = new wxDragImage(bmp, wxCursor(wxCURSOR_HAND));
         if (!m_DragImage) return;
         if (!m_Bitmap) return;
 
+        //save the image to drag
+        wxRect rSelection;
+        GetBoundingRect(&rSelection);
+        m_SelectionImage = GetImageFromSelection();
+        ClearSelection();
 
-        //replace the selection by a transparent rectangle
+        //replace the selection by a transparent image
+        wxBitmap bmSelection(m_SelectionImage);
+        wxRegion region(bmSelection);
+        wxImage imgVoid(rSelection.GetWidth(), rSelection.GetHeight(), true);
+        if (m_Image)
+        {
+            //set the mask colour identical to the m_Image mask colour
+            imgVoid.Replace(0,0,0, m_Image->GetMaskRed(), m_Image->GetMaskGreen(), m_Image->GetMaskBlue());
+        }
+        PasteImage(imgVoid, rSelection.GetLeft(), rSelection.GetTop());
 
         //begin the drag
         wxRect r(0,0, m_Bitmap->GetWidth() * dScale, m_Bitmap->GetHeight() * dScale);
-        wxRect rSelection;
-        GetBoundingRect(&rSelection);
-        wxPoint pt(r.GetLeft() + r.GetWidth() / 2, r.GetTop() + r.GetHeight() / 2);
-
-        m_DragImage->BeginDrag(pt, DrawCanvas, false, &r);
-        m_DragImage->Show();
+        wxPoint ptHotSpot(rSelection.GetWidth() / 2, rSelection.GetHeight() / 2);
+        pHotSpot = ptHotSpot;
+        m_DragImage->BeginDrag(ptHotSpot, DrawCanvas, false, NULL);
+        m_DragImage->Hide();
 
         //Update Image
         DrawCanvas->Refresh(true, NULL);
         DrawCanvas->Update();
-    }
+        m_DragImage->Move(wxPoint(x, y));
+        m_DragImage->Show();
 
-    if (bPressed)
+
+    }
+    else if ((bPressed) && (m_bDragging))
     {
+
         if (!m_Bitmap) return;
         if (!m_DragImage) return;
 
-        m_DragImage->Hide();
+        //m_DragImage->Hide();
         DrawCanvas->Refresh(true, NULL);
         DrawCanvas->Update();
         m_DragImage->Move(wxPoint(x,y));
         m_DragImage->Show();
+
     }
-
-    if (bLeftUp)
+    else if (bLeftUp)
     {
-        //finish
 
+        //finish
+        m_bDragging = false;
 
         if (m_DragImage)
         {
             m_DragImage->EndDrag();
             delete(m_DragImage);
             m_DragImage = NULL;
+
+            PasteImage(m_SelectionImage, x - pHotSpot.x, y - pHotSpot.y);
+
             SetCursor(wxCURSOR_HAND);
         }
+
 
         InitToolData();
     }
@@ -2612,8 +2689,8 @@ void XPMEditorPanel::SetToolCursor(void)
 }
 
 /** Return if the cursor is hovering over the selection
-  * @param x : x position of the mouse cursor. Unscrolled
-  * @param y : y position of the mouse cursor. Unscrolled
+  * @param x : x position of the mouse cursor, relative to DrawCanvas. Unscrolled, unscaled
+  * @param y : y position of the mouse cursor, relative to DrawCanvas. Unscrolled, unscaled
   * @return  1 if the cursor is hovering over the selection
   *          2 if the cursor is hovering over the EDGE of the selection - above
   *          3 if the cursor is hovering over the EDGE of the selection - right
@@ -2621,7 +2698,7 @@ void XPMEditorPanel::SetToolCursor(void)
   *          5 if the cursor is hovering over the EDGE of the selection - left
   *          0 otherwise
   */
-int XPMEditorPanel::IsCursorInSelection(int x, int y)
+int XPMEditorPanel::IsPointInSelection(int x, int y)
 {
     if (!HasSelection()) return(0);
 
@@ -2632,7 +2709,7 @@ int XPMEditorPanel::IsCursorInSelection(int x, int y)
 
     DrawCanvas->CalcUnscrolledPosition(x,y,&xx, &yy);
     wxRegionContain rResult;
-
+    if (dScale > 0) {xx = xx / dScale; yy = yy / dScale;}
     //to check if the cursor is over the limits, we check if a 4 pts around the cursor position is partly in the region
     //if one of them is out of the region AND one of then is in the region, then the cursor is over the regions edges
     wxPoint pt1(xx - 5, yy);
@@ -2640,24 +2717,25 @@ int XPMEditorPanel::IsCursorInSelection(int x, int y)
     wxPoint pt3(xx, yy - 5);
     wxPoint pt4(xx, yy + 5);
     int i1, i2, i3, i4;
+    i1 = 0; i2 = 0; i3 = 0; i4 = 0;
     rResult = region.Contains(pt1);
-    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i1 = 1; else i1 = 0;
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i1 = 1;
     rResult = region.Contains(pt2);
-    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i2 = 1; else i2 = 0;
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i2 = 1;
     rResult = region.Contains(pt3);
-    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i3 = 1; else i3 = 0;
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i3 = 1;
     rResult = region.Contains(pt4);
-    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i4 = 1; else i4 = 0;
+    if ((rResult == wxInRegion) || (rResult == wxPartRegion )) i4 = 1;
     if ((i1 + i2 + i3 + i4 > 0) && (i1 + i2 + i3 + i4 < 4))
     {
         int iCount;
 
         //for now the algorithm is pretty simple.
         iCount = i1 + i2 + i3 + i4;
-        if ((i3 == 0) && (iCount == 1)) return(2); //above
-        if ((i2 == 0) && (iCount == 1)) return(3); //left
-        if ((i4 == 0) && (iCount == 1)) return(4); //under
-        if ((i1 == 0) && (iCount == 1)) return(5); //right
+        if ((i3 == 1) && (iCount == 1)) return(2); //above
+        if ((i2 == 1) && (iCount == 1)) return(3); //left
+        if ((i4 == 1) && (iCount == 1)) return(4); //under
+        if ((i1 == 1) && (iCount == 1)) return(5); //right
     }
 
     rResult = region.Contains(wxPoint(xx,yy));
@@ -2705,7 +2783,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
         if (yy  > iHeight) yy = iHeight;
 
         int iResult;
-        iResult = IsCursorInSelection(x, y);
+        iResult = IsPointInSelection(x, y);
         switch(iResult)
         {
             case 1 : ProcessDragAction(xx, yy, true, false, true, false); break;
@@ -2749,6 +2827,14 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
         return;
 
     }
+    else if (m_bDragging)
+    {
+        int x, y;
+
+        x = event.m_x;
+        y = event.m_y;
+        ProcessDragAction(x, y, false, true, false, false);
+    }
     else if ((!bSizingX) && (!bSizingY))
     {
         //process a tool click
@@ -2770,18 +2856,9 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
         if (xx > iWidth) xx = iWidth ;
         if (yy  > iHeight) yy = iHeight;
 
-        int iResult;
-        iResult = IsCursorInSelection(x, y);
-        switch(iResult)
-        {
-            case 1 : ProcessDragAction(xx, yy, false, true, false, false); break;
-            case 2 :
-            case 3 :
-            case 4 :
-            case 5 : ProcessSizeAction(xx, yy, false, true, false, false); break;
-            case 0 :
-            default: ProcessToolAction(iTool, xx, yy, false, true, false, false); break;
-        }
+
+        ProcessToolAction(iTool, xx, yy, false, true, false, false);
+
     }
     event.Skip();
 }
@@ -2806,18 +2883,98 @@ void XPMEditorPanel::GetBoundingRect(wxRect *r)
     if ((HasSelection()) && (r))
     {
         int i;
+        int iMinX, iMaxX, iMinY, iMaxY;
 
-        r->SetWidth(0);
-        r->SetHeight(0);
-        r->SetX(pSelection[0].x);
-        r->SetY(pSelection[0].y);
-        for(i=1;i<NbPoints;i++)
+        iMinX = pSelection[0].x;
+        iMaxX = pSelection[0].x;
+        iMinY = pSelection[0].y;
+        iMaxY = pSelection[0].y;
+
+        for(i=0;i<NbPoints;i++)
         {
-            if (pSelection[i].x < r->x) r->x = pSelection[i].x;
-            if (pSelection[i].y < r->y) r->x = pSelection[i].y;
-            if (pSelection[i].x - r->x > r->width) r->width = pSelection[i].x - r->x;
-            if (pSelection[i].y - r->y > r->height) r->height = pSelection[i].y - r->y;
+            if (pSelection[i].x < iMinX) iMinX = pSelection[i].x;
+            if (pSelection[i].y < iMinY) iMinY = pSelection[i].y;
+            if (pSelection[i].x > iMaxX) iMaxX = pSelection[i].x;
+            if (pSelection[i].y > iMaxY) iMaxY = pSelection[i].y;
         }
+        r->SetLeft(iMinX);
+        r->SetTop(iMinY);
+        r->SetRight(iMaxX);
+        r->SetBottom(iMaxY);
+    }
+}
+
+/** Replace the rectangle by a new image
+  * if the new image is smaller than the rectangle, then the new image is pasted as (0,0) on the selection,
+  * and the remaining space is filled with the mask (transparent) colour
+  * if the new image is bigger than the rectangle, then it is resized first to fit to the rectangle
+  * @param newImage: the new image which will replace the rectangle
+  * @param rRect: a wxRect representing the rectangle to be replaced
+  *           the rectangle will be modified to fit in the image, if necessary
+  */
+void XPMEditorPanel::ReplaceRect(const wxImage &newImage, wxRect rRect)
+{
+    if (!m_Image) return;
+
+    wxRect r(rRect);
+
+    if (r.GetLeft() < 0) r.SetLeft(0);
+    if (r.GetTop() < 0) r.SetTop(0);
+    if (r.GetWidth() > m_Image->GetWidth()) r.SetWidth(m_Image->GetWidth());
+    if (r.GetHeight() > m_Image->GetHeight()) r.SetHeight(m_Image->GetHeight());
+
+
+    wxImage img(r.GetWidth(), r.GetHeight(), true);
+    img.SetMask(false);
+    img.Replace(0,0,0, m_Image->GetMaskRed(), m_Image->GetMaskGreen(), m_Image->GetMaskBlue());
+
+    wxImage newImage2(newImage);
+
+    if ((r.GetWidth() < newImage.GetWidth()) && (r.GetHeight() < newImage.GetHeight()))
+    {
+        //new image is bigger than the selection
+        //resize it first
+        newImage2.Resize(wxSize(r.GetWidth(), r.GetHeight()), wxPoint(0,0), 0,0,0);
+    }
+
+    //PasteImage(img, r.GetLeft(), r.GetTop());
+    PasteImage(newImage2, r.GetLeft(), r.GetTop());
+}
+
+/** Paste a new image in the image, at the specified position
+  * if the new image is bigger than the buffer image, then the new image is cropped.
+  * if the paste position is outside the buffer image, nothing is done
+  * @param newImage: the new image which will replace the rectangle
+  * @param x : the X coordinate where the paste will occur
+  * @param y : the Y coordinate where the paste will occur
+  */
+void XPMEditorPanel::PasteImage(const wxImage &newImage, int x, int y)
+{
+    if (!m_Bitmap) return;
+
+    //test is the position is valid
+    if ((x < 0) || (x > m_Bitmap->GetWidth())) return;
+    if ((y < 0) || (y > m_Bitmap->GetHeight())) return;
+
+    //create and resize the image to paste
+    wxImage img(newImage);
+    if (img.GetWidth() + x > m_Bitmap->GetWidth()) img.Resize(wxSize(m_Bitmap->GetWidth() - x, img.GetHeight()), wxPoint(0,0));
+    if (img.GetHeight() + y > m_Bitmap->GetHeight()) img.Resize(wxSize( img.GetWidth(), m_Bitmap->GetHeight() - y), wxPoint(0,0));
+
+    //draw the image on the buffer bitmap
+    wxMemoryDC mem_dc;
+    if (!mem_dc.IsOk()) return;
+    mem_dc.SelectObject(*m_Bitmap);
+    wxBitmap bmp(img);
+    mem_dc.DrawBitmap(bmp, x, y, true);
+
+    mem_dc.SelectObject(wxNullBitmap);
+    UpdateImage();
+
+    if (DrawCanvas)
+    {
+        DrawCanvas->Refresh(true, NULL);
+        DrawCanvas->Update();
     }
 }
 
@@ -3117,7 +3274,9 @@ void XPMEditorPanel::OnTransparentColorChanged(wxCommandEvent& event)
     unsigned char iGreen, iRed, iBlue;
     wxColour cColour;
 
-    //get the transparent colour
+    UpdateImage();
+
+    //get the new transparent colour
     if (!ColourPicker) return;
     cColour = ColourPicker->GetTransparentColour();
     iRed = cColour.Red();
@@ -3133,10 +3292,11 @@ void XPMEditorPanel::OnTransparentColorChanged(wxCommandEvent& event)
         iRed2 = m_Image->GetMaskRed();
         iGreen2 = m_Image->GetMaskGreen();
         iBlue2 = m_Image->GetMaskBlue();
-        //wxMessageBox(wxString::Format(_("New mask colour Red=%d Green=%d Blue=%d\nOld Mask Colour Red=%d Green=%d Blue=%d"), iRed, iGreen, iBlue, iRed2, iGreen2, iBlue2), _("New mask colour"));
+
         m_Image->Replace(iRed2, iGreen2, iBlue2, iRed, iGreen, iBlue);
-        m_Image->SetMaskColour(iGreen, iRed, iBlue);
         m_Image->SetMask(true);
+        m_Image->SetMaskColour(iRed, iGreen, iBlue);
+
         UpdateBitmap();
     }
 }

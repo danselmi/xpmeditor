@@ -3,7 +3,7 @@
     <SdkVersion major="1" minor="11"  release="12" />
     <Plugin name="XPMEditor">
         <Value title="XPMEditor" />
-        <Value version="0.2" />
+        <Value version="1.0" />
         <Value description="Internal image editor" />
         <Value author="Sebastien" />
         <Value authorEmail="seb_seb0@lycos.com" />

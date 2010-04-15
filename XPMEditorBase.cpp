@@ -324,29 +324,54 @@ bool XPMEditorBase::Save(void)
     //get fileformat requested, based on file extension
     wxString fn;
     wxBitmapType bt;
+    bool bRecognized;
+
+    bRecognized = false;
     fn = m_Filename;
     fn.MakeUpper();
-    if (fn.Right(4) == _(".XPM")) bt = wxBITMAP_TYPE_XPM;
-    if (fn.Right(4) == _(".ICO")) bt = wxBITMAP_TYPE_ICO;
-    if (fn.Right(4) == _(".CUR")) bt = wxBITMAP_TYPE_CUR;
-    if (fn.Right(4) == _(".XBM")) bt = wxBITMAP_TYPE_XBM;
-    if (fn.Right(4) == _(".BMP")) bt = wxBITMAP_TYPE_BMP;
-    if (fn.Right(4) == _(".TIF")) bt = wxBITMAP_TYPE_TIF;
-    if (fn.Right(4) == _(".JPG")) bt = wxBITMAP_TYPE_JPEG;
-    if (fn.Right(4) == _(".JPE")) bt = wxBITMAP_TYPE_JPEG;
-    if (fn.Right(4) == _(".DIB")) bt = wxBITMAP_TYPE_BMP;
-    if (fn.Right(4) == _(".PNG")) bt = wxBITMAP_TYPE_PNG;
-    if (fn.Right(4) == _(".PNM")) bt = wxBITMAP_TYPE_PNM;
-    if (fn.Right(4) == _(".PCX")) bt = wxBITMAP_TYPE_PCX;
-    if (fn.Right(4) == _(".GIF")) bt = wxBITMAP_TYPE_GIF;
-    if (fn.Right(5) == _(".ANI")) bt = wxBITMAP_TYPE_ANI;
-    if (fn.Right(5) == _(".IFF")) bt = wxBITMAP_TYPE_IFF;
-    if (fn.Right(5) == _(".TGA")) bt = wxBITMAP_TYPE_TGA;
-    if (fn.Right(5) == _(".PICT")) bt = wxBITMAP_TYPE_PICT;
-    if (fn.Right(5) == _(".ICON")) bt = wxBITMAP_TYPE_ICON;
-    if (fn.Right(5) == _(".TIFF")) bt = wxBITMAP_TYPE_TIF;
-    if (fn.Right(5) == _(".JPEG")) bt = wxBITMAP_TYPE_JPEG;
-    if (fn.Right(5) == _(".JFIF")) bt = wxBITMAP_TYPE_JPEG;
+    if (fn.Right(4) == _(".XPM")) {bt = wxBITMAP_TYPE_XPM; bRecognized = true; }
+    if (fn.Right(4) == _(".ICO")) {bt = wxBITMAP_TYPE_ICO; bRecognized = true; }
+    if (fn.Right(4) == _(".CUR")) {bt = wxBITMAP_TYPE_CUR; bRecognized = true; }
+    if (fn.Right(4) == _(".XBM")) {bt = wxBITMAP_TYPE_XBM; bRecognized = true; }
+    if (fn.Right(4) == _(".BMP")) {bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
+    if (fn.Right(4) == _(".TIF")) {bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
+    if (fn.Right(4) == _(".JPG")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+    if (fn.Right(4) == _(".JPE")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+    if (fn.Right(4) == _(".DIB")) {bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
+    if (fn.Right(4) == _(".PNG")) {bt = wxBITMAP_TYPE_PNG; bRecognized = true; }
+    if (fn.Right(4) == _(".PNM")) {bt = wxBITMAP_TYPE_PNM; bRecognized = true; }
+    if (fn.Right(4) == _(".PCX")) {bt = wxBITMAP_TYPE_PCX; bRecognized = true; }
+    //if (fn.Right(4) == _(".GIF")) bt = wxBITMAP_TYPE_GIF;
+    //if (fn.Right(5) == _(".ANI")) bt = wxBITMAP_TYPE_ANI;
+    //if (fn.Right(5) == _(".IFF")) bt = wxBITMAP_TYPE_IFF;
+    //if (fn.Right(5) == _(".TGA")) bt = wxBITMAP_TYPE_TGA;
+    if (fn.Right(5) == _(".PICT")) {bt = wxBITMAP_TYPE_PICT; bRecognized = true; }
+    if (fn.Right(5) == _(".ICON")) {bt = wxBITMAP_TYPE_ICON; bRecognized = true; }
+    if (fn.Right(5) == _(".TIFF")) {bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
+    if (fn.Right(5) == _(".JPEG")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+    if (fn.Right(5) == _(".JFIF")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+
+    if (!bRecognized)
+    {
+        wxString sMsg;
+        sMsg = _("The file format is not recognized. Try one of this one:");
+        sMsg += _("*.bmp - bitmap format\n");
+        sMsg += _("*.dib - bitmap format\n");
+        sMsg += _("*.xpm - pixmap XPM format\n");
+        sMsg += _("*.xbm - bitmap XBM format\n");
+        sMsg += _("*.png - bitmap PNG format\n");
+        sMsg += _("*.jpg, *.jpeg, *.jfif - bitmap JPEG format\n");
+        sMsg += _("*.tif, *.tiff - bitmap TIFF format\n");
+        sMsg += _("*.pnm - bitmap PNM format\n");
+        sMsg += _("*.pcx - PCX format\n");
+        sMsg += _("*.pict - PICT format\n");
+        sMsg += _("*.icon - icon format\n");
+        sMsg += _("*.ico - icon format - Windows only\n");
+        sMsg += _("*.cur - cursor format - Windows only\n");
+        sMsg += _("*.ani - animated cursor format - Windows only\n");
+        ::wxMessageBox(sMsg, _("File saving error"), wxOK | wxICON_ERROR);
+        return(false);
+    }
 
     //save the file
     NotifyPlugins(cbEVT_EDITOR_BEFORE_SAVE);
