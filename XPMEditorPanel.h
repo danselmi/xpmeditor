@@ -14,9 +14,10 @@
 
 
 class wxDragImage;
-class wxBitmap;
+//class wxBitmap;
 
 #include <wx/image.h>
+#include <wx/bitmap.h>
 
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>
@@ -81,6 +82,7 @@ struct ToolData
     wxPoint pts[XPM_MAXPOINTS+1]; ///< @brief an array of points. Statically limited to 25, to simplify the plugin
     int iNbPoints;   ///< @brief how many points are in the array
     int iRadius;     ///< @brief the radius for rounded rectangle
+    wxTextCtrl *TextEditor;  ///< @brief Text editor for the text tool
 };
 
 class XPMUndo;
@@ -93,7 +95,7 @@ class XPMEditorPanel: public wxPanel
 		virtual ~XPMEditorPanel();
 
         //Bitmap & draw canvas access
-		wxImage* GetImage(void);        ///< \brief return the associated image (unscaled)
+		wxImage GetImage(void);        ///< \brief return a copy the associated image (unscaled)
 		void SetImage(wxImage *img);    ///< \brief set the current image (unscaled)
 		wxScrolledWindow* GetDrawCanvas(void); ///< \brief get the DrawCanvas
 
@@ -306,6 +308,9 @@ class XPMEditorPanel: public wxPanel
         void ProcessBrush(int x, int y,
                             bool bLeftDown, bool bLeftUp,
                             bool bPressed, bool bDClick); ///< @brief process the Brush tool
+        void ProcessText(int x, int y,
+                         bool bLeftDown, bool bLeftUp,
+                         bool bPressed, bool bDClick); ///< @brief process the text tool
         void ProcessDragAction(int x, int y,
                                bool bLeftDown, bool bLeftUp,
                                bool bPressed, bool bDClick); ///< @brief process the drag & drop image tool
@@ -327,6 +332,7 @@ class XPMEditorPanel: public wxPanel
 		wxDragImage *m_DragImage;        ///< \brief for dragging the current selection
 		bool m_bDragging;                ///< \brief true if the user is currently dragging a shape, false otherwise
 		wxImage m_SelectionImage;        ///< \brief for dragging selection: save the image to drag
+		wxBitmap m_SelectionBitmap;      ///< \brief for drawing the selection
 		bool m_bEraseSelection;          ///< \brief if true, the selection will be erased during a drag operation
         wxPoint pStartDragging;          ///< \brief position for the 1st dragging event
 
@@ -353,6 +359,7 @@ class XPMEditorPanel: public wxPanel
         wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
         void CutSelection(void);        ///< \brief Replace the Selection with the mask colour
         void MoveSelection(int dx, int dy); ///< \brief Move the selection
+        void PasteSelection(void);      ///< \brief Paste the current selection to the current selection coordinates
 
         //Undo & Redo buffers
         XPMUndo *m_undo_buffer;  ///< \brief the Undo buffer

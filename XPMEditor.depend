@@ -2734,11 +2734,12 @@
 1271101290 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271362312 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271433562 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
+	<wx/bitmap.h>
 	<wx/panel.h>
 
-1271344422 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
+1271424020 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
 	<sdk.h>
 	<configurationpanel.h>
 	<wx/aui/auibook.h>
@@ -2756,7 +2757,7 @@
 	"XPMCustomZoom.h"
 	"XPMUndo.h"
 
-1270997466 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
+1271423578 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
 	<editorbase.h>
 	<projectfile.h>
 	<wx/bitmap.h>
@@ -2768,12 +2769,12 @@
 
 1270997636 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
 
-1270997374 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
+1271428024 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
 	<wx/scrolwin.h>
 	<wx/colour.h>
 	<wx/control.h>
 
-1271332098 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+1271428550 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
 	<sdk.h>
 	<filefilters.h>
 	<wx/msgdlg.h>
@@ -2826,7 +2827,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271362726 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1271438895 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>

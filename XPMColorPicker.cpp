@@ -185,6 +185,15 @@ void XPMColorPicker::OnEventPaint(wxPaintEvent& event)
 {
     //Paint event handler
     wxPaintDC dc(this);
+    Paint(&dc);
+}
+
+/** Repaint the window
+  * @param dc : a pointer to the DC to use
+  */
+void XPMColorPicker::Paint(wxDC *dc)
+{
+    if (!dc) return;
     ClearBackground();
 
     wxPen pBlackPen(*wxBLACK, 1, wxSOLID);
@@ -194,15 +203,15 @@ void XPMColorPicker::OnEventPaint(wxPaintEvent& event)
     wxBrush bWhiteBrush(*wxWHITE, wxSOLID);
 
     //draw the double square containing the current selection
-    dc.SetPen(pBlackPen);
-    dc.SetBrush(bWhiteBrush);
-    dc.DrawRectangle(0,0, iColourWidth * 2, iHeight);
-    dc.SetPen(pGreyPen);
-    dc.DrawLine(1,1,iColourWidth * 2 -1, 1);
-    dc.DrawLine(1,1,1, iHeight - 1);
-    dc.SetPen(pWhitePen);
-    dc.DrawLine(iColourWidth * 2 + 1,iHeight - 2,iColourWidth * 2 -2, 2);
-    dc.DrawLine(iColourWidth * 2 + 1,iHeight - 2,2, iHeight - 2);
+    dc->SetPen(pBlackPen);
+    dc->SetBrush(bWhiteBrush);
+    dc->DrawRectangle(0,0, iColourWidth * 2, iHeight);
+    dc->SetPen(pGreyPen);
+    dc->DrawLine(1,1,iColourWidth * 2 -1, 1);
+    dc->DrawLine(1,1,1, iHeight - 1);
+    dc->SetPen(pWhitePen);
+    dc->DrawLine(iColourWidth * 2 + 1,iHeight - 2,iColourWidth * 2 -2, 2);
+    dc->DrawLine(iColourWidth * 2 + 1,iHeight - 2,2, iHeight - 2);
     //draw in this square the rectangle with the current outline colour and filling colour
     wxColour cFillColour;
     wxColour cLineColour;
@@ -210,20 +219,20 @@ void XPMColorPicker::OnEventPaint(wxPaintEvent& event)
     cLineColour = GetLineColour();
     wxPen pOutlinePen(cLineColour, 2, wxSOLID);
     wxBrush bFillBrush(cFillColour, wxSOLID);
-    dc.SetPen(pOutlinePen);
-    dc.SetBrush(bFillBrush);
-    dc.DrawRectangle(4,4, iColourWidth * 2 - 7, iHeight - 7);
+    dc->SetPen(pOutlinePen);
+    dc->SetBrush(bFillBrush);
+    dc->DrawRectangle(4,4, iColourWidth * 2 - 7, iHeight - 7);
 
     //draw the transparent colour button
-    dc.SetPen(pBlackPen);
-    dc.SetBrush(bWhiteBrush);
-    dc.DrawRectangle(iColourWidth * 2 - 1,0, iColourWidth * 2, iHeight / 2);
-    dc.SetBrush(wxNullBrush);
-    dc.DrawRectangle(iColourWidth * 2 - 1,iHeight / 2 - 1, iColourWidth * 2 , iHeight / 2 + 1);
+    dc->SetPen(pBlackPen);
+    dc->SetBrush(bWhiteBrush);
+    dc->DrawRectangle(iColourWidth * 2 - 1,0, iColourWidth * 2, iHeight / 2);
+    dc->SetBrush(wxNullBrush);
+    dc->DrawRectangle(iColourWidth * 2 - 1,iHeight / 2 - 1, iColourWidth * 2 , iHeight / 2 + 1);
     wxBrush bTransparentBrush(cTransparent, wxSOLID);
-    dc.SetPen(pWhitePen);
-    dc.SetBrush(bTransparentBrush);
-    dc.DrawRectangle(iColourWidth * 2 + 1,2, iColourWidth * 2 - 4, iHeight / 2 - 4);
+    dc->SetPen(pWhitePen);
+    dc->SetBrush(bTransparentBrush);
+    dc->DrawRectangle(iColourWidth * 2 + 1,2, iColourWidth * 2 - 4, iHeight / 2 - 4);
 
     //draw the squares
     long i, j, jMax, iIndex;
@@ -239,17 +248,25 @@ void XPMColorPicker::OnEventPaint(wxPaintEvent& event)
             wxColour cColor;
             cColor = GetPaletteColour(iIndex);
             wxBrush bFBrush(cColor, wxSOLID);
-            dc.SetBrush(bFBrush);
-            dc.SetPen(pBlackPen);
-            dc.DrawRectangle(iColourWidth * 4 + j * iColourWidth - 1 , i * iColourHeight,
-                             iColourWidth, iColourHeight
-                            );
-            dc.SetBrush(wxNullBrush);
+            dc->SetBrush(bFBrush);
+            dc->SetPen(pBlackPen);
+            dc->DrawRectangle(iColourWidth * 4 + j * iColourWidth - 1 , i * iColourHeight,
+                              iColourWidth, iColourHeight
+                             );
+            dc->SetBrush(wxNullBrush);
 
         }
         if (iIndex >= iPaletteSize) break;
     }
+}
 
+/** immediate repainting of the widgets
+  */
+void XPMColorPicker::Repaint(void)
+{
+    //immediate repainting of the widgets
+    wxClientDC dc(this);
+    Paint(&dc);
 }
 
 /** Handles a size event

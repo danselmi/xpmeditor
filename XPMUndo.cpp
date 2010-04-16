@@ -476,9 +476,9 @@ void XPMUndo::Undo(void)
     //add 1 REDO operation
     parent = GetParentPanel();
     if (!parent) return;
-    wxImage *imgCurrent;
+    wxImage imgCurrent;
     imgCurrent = parent->GetImage();
-    if (!AddRedo(xpm_image_undo, imgCurrent)) return;
+    if (!AddRedo(xpm_image_undo, &imgCurrent)) return;
 
     //performs the UNDO action
     PerformAction(parent, UndoBuffer, lUndoSize - 1);
@@ -500,9 +500,9 @@ void XPMUndo::Redo(void)
     XPMEditorPanel *parent;
     parent = GetParentPanel();
     if (!parent) return;
-    wxImage *imgCurrent;
+    wxImage imgCurrent;
     imgCurrent = parent->GetImage();
-    if (!AddUndo(xpm_image_undo, imgCurrent, false)) return;
+    if (!AddUndo(xpm_image_undo, &imgCurrent, false)) return;
 
     //performs the REDO action
     PerformAction(parent, RedoBuffer, lRedoSize - 1);

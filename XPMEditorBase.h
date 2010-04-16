@@ -90,7 +90,7 @@ class XPMEditorBase: public EditorBase
 		void GetBoundingRect(wxRect *r); ///< \brief Get the bounding rectangle of the selection
 
 		//image access
-		wxImage* GetImage(void);         ///< \brief Get current image
+		wxImage GetImage(void);         ///< \brief Get current image (a copy)
 		void SetImage(wxImage *img);     ///< \brief Set the current image
 
 		//configuration

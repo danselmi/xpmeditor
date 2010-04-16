@@ -220,23 +220,7 @@ bool XPMEditor::OpenInEditor(wxString FileName)
 
         wxImage img;
         if (!(img.LoadFile(FileName, bt))) return(false);
-        //ensure the image has a mask
-        if (!img.HasMask())
-        {
-            unsigned char iRed, iGreen, iBlue;
-            if (img.GetOrFindMaskColour(&iRed, &iGreen, &iBlue))
-            {
-                img.SetMaskColour(iRed, iGreen, iBlue);
-                img.SetMask();
-            }
-            else
-            {
-                img.SetMask();
-            }
-        }
 
-
-            //::wxMessageBox(_("Before NewEditor"), _("INFO"), wxOK);
         NewEditor = new XPMEditorBase(Manager::Get()->GetEditorManager()->GetNotebook(),
                                         title,
                                         &img,
@@ -252,24 +236,6 @@ bool XPMEditor::OpenInEditor(wxString FileName)
                 NewEditor->SetProjectFile(pf);
             }
             Manager::Get()->GetEditorManager()->SetActiveEditor(NewEditor);
-
-            //Set the correct mask colour as transparent colour
-            unsigned char iRed, iGreen, iBlue;
-            iRed = img.GetMaskRed();
-            iGreen = img.GetMaskGreen();
-            iBlue = img.GetMaskBlue();
-            wxColour cColour(iRed, iGreen, iBlue);
-            if (NewEditor->GetPanel())
-            {
-                XPMEditorPanel *panel;
-                panel = (XPMEditorPanel *) NewEditor->GetPanel();
-                if (panel->ColourPicker)
-                {
-                    panel->ColourPicker->SetTransparentColour(cColour, false);
-                    panel->Refresh(false, NULL);
-                    panel->Update();
-                }
-            }
         }
         return(true);
     }

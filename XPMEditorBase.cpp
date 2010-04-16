@@ -44,10 +44,6 @@ XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *im
     if (m_Filename == wxEmptyString) m_bIsFileNameOK = false; else m_bIsFileNameOK = true;
 
     m_DrawArea = new XPMEditorPanel(this);
-    if (m_DrawArea)
-    {
-        m_DrawArea->SetImage(img);
-    }
 
     //project file
     m_pProjectFile = NULL;
@@ -66,6 +62,10 @@ XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *im
 
     //get the configuration
     UpdateConfiguration();
+    if (m_DrawArea)
+    {
+        m_DrawArea->SetImage(img);
+    }
 
 }
 
@@ -309,17 +309,13 @@ bool XPMEditorBase::Save(void)
     //save the image
     if (!GetModified()) return(true); //nothing to save
 
-    //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Save Filename=%s\nShort=%s"), m_Filename.c_str(), m_Shortname.c_str()));
 
-    wxImage *img;
+    wxImage img;
     img = GetImage();
-    if (!img) return(false); //no bitmap to save
-
-    //Manager::Get()->GetLogManager()->Log(_("1"));
+    if (!img.IsOk()) return(false); //no bitmap to save
 
     if (!m_bIsFileNameOK) return(SaveAs());
 
-    //Manager::Get()->GetLogManager()->Log(_("2"));
 
     //get fileformat requested, based on file extension
     wxString fn;
@@ -375,9 +371,8 @@ bool XPMEditorBase::Save(void)
 
     //save the file
     NotifyPlugins(cbEVT_EDITOR_BEFORE_SAVE);
-    img->SaveFile(m_Filename, bt);
+    img.SaveFile(m_Filename, bt);
     NotifyPlugins(cbEVT_EDITOR_SAVE);
-
 
     //flags, quitting
     SetModified(false);
@@ -647,14 +642,13 @@ void XPMEditorBase::GetBoundingRect(wxRect *r)
     m_DrawArea->GetBoundingRect(r);
 }
 
-/** Return a pointer to the current Image
-  * The pointer does NOT point to a copy. Delete the Image at your own risk
+/** Return a copy of the current Image
   * @return a pointer if succesfull, NULL otherwise
   */
-wxImage* XPMEditorBase::GetImage(void)
+wxImage XPMEditorBase::GetImage(void)
 {
     //Getting current image
-    if (!m_DrawArea) return(NULL);
+    if (!m_DrawArea) return(wxImage());
     return(m_DrawArea->GetImage());
 }
 

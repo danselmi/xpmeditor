@@ -37,6 +37,7 @@ class XPMColorPicker : public wxPanel
                         );
         ~XPMColorPicker();
         void init_colours(void); ///< @brief init the array of colours with default values.
+        void Repaint(void); ///< @brief immediate repainting of the widgets
 
         //colours getter / setter
         wxColour GetLineColour(void);   ///< @brief return the current line colour
@@ -89,6 +90,9 @@ class XPMColorPicker : public wxPanel
         int iFillColor; ///< @brief the index of the current fill color
         wxColour cTransparent;  ///< @brief the transparent colour
         bool bLineOn; ///< @brief true if Line colour mode is selected, false otherwise
+
+        //Paint method
+        void Paint(wxDC *dc); ///< @brief Paint the window
 
 };
 
