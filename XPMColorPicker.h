@@ -22,6 +22,8 @@ class wxToggleButton;
 
 BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_LOCAL_EVENT_TYPE(wxEVT_TRANSPARENT_COLOR_CHANGED, -1)
+    DECLARE_LOCAL_EVENT_TYPE(wxEVT_LINE_COLOR_CHANGED, -1)
+    DECLARE_LOCAL_EVENT_TYPE(wxEVT_FILL_COLOR_CHANGED, -1)
 END_DECLARE_EVENT_TYPES()
 
 class XPMColorPicker : public wxPanel
@@ -44,8 +46,8 @@ class XPMColorPicker : public wxPanel
         wxColour GetFillColour(void);   ///< @brief return the current fill colour
         int GetLineColourIndex(void);   ///< @brief return the current line colour index
         int GetFillColourIndex(void);   ///< @brief return the current fill colour index
-        void SetLineColour(int iIndex); ///< @brief set the current line colour
-        void SetFillColour(int iIndex); ///< @brief set the current fill colour
+        void SetLineColour(int iIndex, bool bPostEvent = true); ///< @brief set the current line colour
+        void SetFillColour(int iIndex, bool bPostEvent = true); ///< @brief set the current fill colour
         int GetPaletteSize(void);       ///< @brief get the palette size
         bool SetPaletteSize(int iSize); ///< @brief set the palette size
         void SetPaletteColour(int iIndex, wxColour cColor); ///< @brief set the specific palette colour

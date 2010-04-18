@@ -22,20 +22,25 @@
 #include <wx/graphics.h>
 #include <wx/bitmap.h>
 #include <wx/dragimag.h>
+#include <wx/fontdlg.h>
+#include <wx/textfile.h>
 
 //(*InternalHeaders(XPMEditorPanel)
 #include <wx/scrolwin.h>
 #include <wx/artprov.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
+#include <wx/textctrl.h>
 #include <wx/checkbox.h>
 #include <wx/things/toggle.h>
 #include <wx/bitmap.h>
 #include "XPMColorPicker.h"
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
+#include "wxResizeCtrl.h"
 #include <wx/settings.h>
 #include <wx/intl.h>
+#include <wx/button.h>
 #include <wx/image.h>
 #include <wx/string.h>
 #include <wx/combobox.h>
@@ -98,6 +103,8 @@ const long XPMEditorPanel::ID_SQUARE_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_CIRCLE_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_LRHAIR_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_LHAIR_BRUSH = wxNewId();
+const long XPMEditorPanel::ID_FONT_BUTTON = wxNewId();
+const long XPMEditorPanel::ID_BKMODE_TOGGLEBUTTON = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT5 = wxNewId();
 const long XPMEditorPanel::ID_SPINCTRL3 = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT7 = wxNewId();
@@ -105,6 +112,8 @@ const long XPMEditorPanel::ID_SPINCTRL5 = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT6 = wxNewId();
 const long XPMEditorPanel::ID_SPINCTRL4 = wxNewId();
 const long XPMEditorPanel::ID_PANEL1 = wxNewId();
+const long XPMEditorPanel::ID_TEXTCTRL1 = wxNewId();
+const long XPMEditorPanel::ID_RESIZECTRL1 = wxNewId();
 const long XPMEditorPanel::ID_SCROLLEDWINDOW1 = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT4 = wxNewId();
 //*)
@@ -202,6 +211,10 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     SpinCtrl2->Hide();
     StaticText6->Hide();
     SpinCtrl3->Hide();
+    FontButton->Hide();
+    TextEdit->Hide();
+    ResizeCtrl1->Hide();
+    BackgroundButton->Hide();
     ToolPanelSizer->Layout();
     ToolPanelSizer->FitInside(ToolPanel);
 
@@ -233,6 +246,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	wxBoxSizer* BoxSizer8;
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer11;
+	wxBoxSizer* BoxSizer12;
 	wxBoxSizer* BoxSizer1;
 	wxBoxSizer* BoxSizer9;
 	wxBoxSizer* BoxSizer3;
@@ -370,6 +384,10 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	LHairBrushButton->SetBitmapMargin(wxSize(5,5));
 	BoxSizer4->Add(LHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	ToolPanelSizer->Add(BoxSizer4, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	FontButton = new wxButton(ToolPanel, ID_FONT_BUTTON, _("FONT"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_FONT_BUTTON"));
+	ToolPanelSizer->Add(FontButton, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
+	BackgroundButton = new wxToggleButton(ToolPanel, ID_BKMODE_TOGGLEBUTTON, _("OPAQUE"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BKMODE_TOGGLEBUTTON"));
+	ToolPanelSizer->Add(BackgroundButton, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
 	StaticText4 = new wxStaticText(ToolPanel, ID_STATICTEXT5, _("Size:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT5"));
 	ToolPanelSizer->Add(StaticText4, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	SpinCtrl1 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL3, _T("2"), wxDefaultPosition, wxSize(61,21), 0, 2, 16, 2, _T("ID_SPINCTRL3"));
@@ -394,9 +412,13 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	CanvasSizer = new wxBoxSizer(wxVERTICAL);
 	DrawCanvas = new wxScrolledWindow(this, ID_SCROLLEDWINDOW1, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL|wxSUNKEN_BORDER, _T("ID_SCROLLEDWINDOW1"));
 	DrawCanvas->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
+	TextEdit = new wxTextCtrl(DrawCanvas, ID_TEXTCTRL1, _("Text"), wxPoint(57,193), wxDefaultSize, wxTE_MULTILINE|wxTE_LEFT|wxTE_CENTRE, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	ResizeCtrl1 = new wxResizeCtrl(DrawCanvas,ID_RESIZECTRL1,wxPoint(198,232),wxDefaultSize,0,_T("ID_RESIZECTRL1"));
 	CanvasSizer->Add(DrawCanvas, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
 	sCursorPos = new wxStaticText(this, ID_STATICTEXT4, _("Cursor at: "), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT4"));
-	CanvasSizer->Add(sCursorPos, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer12->Add(sCursorPos, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	CanvasSizer->Add(BoxSizer12, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	BoxSizer3->Add(CanvasSizer, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	PanelSizer->Add(BoxSizer3, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	SetSizer(PanelSizer);
@@ -425,9 +447,13 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Connect(ID_CIRCLE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnCircleBrushButtonToggle);
 	Connect(ID_LRHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLHairBrushButtonToggle);
 	Connect(ID_LHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRHairBrushButtonToggle);
+	Connect(ID_FONT_BUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnFontButtonClick);
+	Connect(ID_BKMODE_TOGGLEBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnBackgroundButtonToggle);
 	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
 	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinRadiusChanged);
 	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
+	Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnTextEditText);
+	Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&XPMEditorPanel::OnTextEditTextEnter);
 	DrawCanvas->Connect(wxEVT_PAINT,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasPaint,0,this);
 	DrawCanvas->Connect(wxEVT_ERASE_BACKGROUND,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasEraseBackground,0,this);
 	DrawCanvas->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftDown,0,this);
@@ -441,6 +467,11 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 
 	//transparent color changed
 	Connect(ID_CUSTOM1,wxEVT_TRANSPARENT_COLOR_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnTransparentColorChanged);
+	Connect(ID_CUSTOM1,wxEVT_FILL_COLOR_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnFillColorChanged);
+	Connect(ID_CUSTOM1,wxEVT_LINE_COLOR_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnLineColorChanged);
+
+    //ResizeCtrl
+    ResizeCtrl1->SetChild(TextEdit);
 
     //tools IDs
 	tools[XPM_ID_SELECT_TOOL] = SelectButton;
@@ -943,6 +974,7 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
         memDC2.SetUserScale(1 / dScale, 1 / dScale);
         if ((pSelection) && (NbPoints > 1) && (bDrawSelection) && (memDC2.IsOk()))
         {
+
             //draw the selection border
             wxPen pSelectionPen(*wxBLUE, 1, wxSHORT_DASH);
             memDC2.SetPen(pSelectionPen);
@@ -965,11 +997,25 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
             dc.Blit(rSelection.GetLeft() * dScale, rSelection.GetTop() * dScale,
                     m_SelectionBitmap.GetWidth() * dScale, m_SelectionBitmap.GetHeight() * dScale,
                     &memDC2, 0, 0, wxCOPY, true); //Selection
+            /*
+            wxPoint *tmp;
+            tmp = new wxPoint[NbPoints];
+            if (tmp)
+            {
+                int i;
+                for(i=0;i<NbPoints;i++)
+                {
+                    tmp[i].x = (pSelection[i].x - rSelection.GetLeft()) * dScale;
+                    tmp[i].y = (pSelection[i].y - rSelection.GetTop()) * dScale;
+                }
+                memDC2.DrawPolygon(NbPoints, tmp);
+                delete[] tmp;
+            }
+            */
+
         }
-
-
-
     }
+
 
     //draw the grid
     if ((dScale >= 4.0) && (bShowGrid) &&(m_Bitmap))
@@ -1663,25 +1709,12 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 void XPMEditorPanel::ProcessText(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
 {
+    //this is mainly like the rectangular selection tool
+    //the idea is that the selection bitmap (m_SelectionBitmap) will be drawn directly on
+    //with the text
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
-        if (tdata.iNbClicks > 0)
-        {
-            tdata.x2 = x;
-            tdata.y2 = y;
-            DrawCanvas->Refresh(false,NULL);
-            DrawCanvas->Update();
-
-            int iPenWidth;
-            if (dScale < 1) iPenWidth = 1; else iPenWidth = dScale;
-            wxClientDC dc(DrawCanvas);
-            DrawCanvas->DoPrepareDC(dc);
-            wxPen pSelectionPen(*wxBLUE, iPenWidth, wxSHORT_DASH);
-            dc.SetPen(pSelectionPen);
-            dc.SetBrush(*wxTRANSPARENT_BRUSH);
-            dc.DrawRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
-                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
-        }
+        if (tdata.iNbClicks < 2) ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
     }
 
     //left button UP
@@ -1689,23 +1722,42 @@ void XPMEditorPanel::ProcessText(int x, int y,
     {
         if (tdata.iNbClicks == 0)
         {
-            ClearSelection();
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
-            tdata.iNbClicks = 1;
-            tdata.x1 = x  / dScale;
-            tdata.y1 = y / dScale;
-            bUsingTool = true;
+            ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
         }
-        else
+        else if (tdata.iNbClicks == 1)
         {
             NbPoints = 4;
             pSelection = CheckMemorySelection(4);
+            if (pSelection)
+            {
+                pSelection[0].x = tdata.x1;
+                pSelection[0].y = tdata.y1;
+                pSelection[1].x = x / dScale;
+                pSelection[1].y = tdata.y1;
+                pSelection[2].x = x / dScale;
+                pSelection[2].y = y / dScale;
+                pSelection[3].x = tdata.x1;
+                pSelection[3].y = y / dScale;
+            }
+
+            m_SelectionBitmap = wxBitmap(x / dScale - tdata.x1 + 1, y / dScale - tdata.y1 + 1);
+            DrawTextBitmap();
 
             DrawCanvas->Refresh(false, NULL);
             DrawCanvas->Update();
+            //InitToolData();
+            m_bEraseSelection = false;
+            tdata.iNbClicks = 2;
+        }
+        else
+        {
+            AddUndo();
+            SetModified(true);
+            ToggleButtons(-1);
             InitToolData();
-            m_bEraseSelection = true;
+            ClearSelection();
+            DrawCanvas->Refresh(false, NULL);
+            DrawCanvas->Update();
         }
     }
 }
@@ -2741,6 +2793,8 @@ void XPMEditorPanel::InitToolData(void)
     tdata.y2 = -1;
     tdata.iNbClicks = 0;
     tdata.iNbPoints = 0;
+    if (DrawCanvas) tdata.font = DrawCanvas->GetFont(); else tdata.font = GetFont();
+    tdata.sText = _("");
 
     int i;
     for(i=0;i < XPM_MAXPOINTS; i++)
@@ -2770,6 +2824,12 @@ void XPMEditorPanel::InitToolData(void)
                                       tdata.iRadius = SpinCtrl3->GetValue();
                                       if (tdata.iRadius < 2) tdata.iRadius = 2;
                                       break;
+
+        case XPM_ID_TEXT_TOOL: tdata.iStyle = wxSOLID;
+                               tdata.iHorizAlign = wxALIGN_LEFT;
+                               tdata.iVertAlign = wxALIGN_TOP;
+                               tdata.angle = 0.0;
+                               break;
 
         default: break;
     }
@@ -3218,6 +3278,9 @@ void XPMEditorPanel::ClearSelection(void)
 
         //remove the selection
         NbPoints = 0;
+
+        //for text tool, which use the selection
+        InitToolData();
     }
 }
 
@@ -3356,6 +3419,8 @@ void XPMEditorPanel::Paste(void)
 
             //paste the Bitmap at 0,0
             m_SelectionBitmap = bm;
+            m_SelectionImage = bm.ConvertToImage();
+            //if (bm.GetMask()) wxMessageBox(_("mask")); else wxMessageBox(_("no mask"));
             SetModified(true);
             DrawCanvas->Refresh(false, NULL);
             DrawCanvas->Update();
@@ -3583,6 +3648,10 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         SpinCtrl2->Hide();
         StaticText6->Hide();
         SpinCtrl3->Hide();
+        FontButton->Hide();
+        BackgroundButton->Hide();
+        TextEdit->Hide();
+        ResizeCtrl1->Hide();
     }
     else if ((iIndex == XPM_ID_ERASER_TOOL) && (bChecked))
     {
@@ -3601,6 +3670,10 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         RHairBrushButton->Hide();
         CircleBrushButton->Hide();
         SquareBrushButton->Hide();
+        FontButton->Hide();
+        BackgroundButton->Hide();
+        TextEdit->Hide();
+        ResizeCtrl1->Hide();
     }
     else if (    ((iIndex == XPM_ID_LINE_TOOL) && (bChecked))
               || ((iIndex == XPM_ID_CURVE_TOOL) && (bChecked))
@@ -3624,6 +3697,10 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         RHairBrushButton->Hide();
         CircleBrushButton->Hide();
         SquareBrushButton->Hide();
+        FontButton->Hide();
+        BackgroundButton->Hide();
+        TextEdit->Hide();
+        ResizeCtrl1->Hide();
     }
     else if ((iIndex == XPM_ID_ROUNDEDRECT_TOOL) && (bChecked))
     {
@@ -3644,10 +3721,13 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         RHairBrushButton->Hide();
         CircleBrushButton->Hide();
         SquareBrushButton->Hide();
+        FontButton->Hide();
+        BackgroundButton->Hide();
+        TextEdit->Hide();
+        ResizeCtrl1->Hide();
     }
-    else
+    else if (iIndex == XPM_ID_TEXT_TOOL)
     {
-        //hide brush tools
         StaticText4->Hide();
         SpinCtrl1->Hide();
         StaticText5->Hide();
@@ -3658,6 +3738,28 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         RHairBrushButton->Hide();
         CircleBrushButton->Hide();
         SquareBrushButton->Hide();
+        FontButton->Show(true);
+        BackgroundButton->Show(true);
+        TextEdit->Show(true);
+        ResizeCtrl1->Show(true);
+    }
+    else
+    {
+        //hide all tools
+        StaticText4->Hide();
+        SpinCtrl1->Hide();
+        StaticText5->Hide();
+        SpinCtrl2->Hide();
+        StaticText6->Hide();
+        SpinCtrl3->Hide();
+        LHairBrushButton->Hide();
+        RHairBrushButton->Hide();
+        CircleBrushButton->Hide();
+        SquareBrushButton->Hide();
+        FontButton->Hide();
+        BackgroundButton->Hide();
+        TextEdit->Hide();
+        ResizeCtrl1->Hide();
     }
 }
 
@@ -3916,5 +4018,377 @@ void XPMEditorPanel::OnRHairBrushButtonToggle(wxCommandEvent& event)
         CircleBrushButton->SetValue(false);
         LHairBrushButton->SetValue(false);
         //SetToolCursor();
+    }
+}
+
+/** Draw the text bitmap on the selection image
+  */
+void XPMEditorPanel::DrawTextBitmap(void)
+{
+    if (m_SelectionBitmap.IsOk())
+    {
+        wxMemoryDC memdc;
+        if (memdc.IsOk())
+        {
+            wxBrush brush(cMaskColour, wxSOLID);
+            memdc.SetBackground(brush);
+            memdc.Clear();
+            memdc.SelectObject(m_SelectionBitmap);
+            memdc.SetBackgroundMode(tdata.iStyle);
+            memdc.SetFont(tdata.font);
+            if (ColourPicker)
+            {
+                memdc.SetTextForeground(ColourPicker->GetLineColour());
+                memdc.SetTextBackground(ColourPicker->GetFillColour());
+            }
+            DrawTextRectangle(memdc, tdata.sText,
+                              wxRect(0,0, m_SelectionBitmap.GetWidth(), m_SelectionBitmap.GetHeight()),
+                              tdata.iHorizAlign, tdata.iVertAlign, tdata.angle
+                             );
+            memdc.SelectObject(wxNullBitmap);
+        }
+        m_SelectionImage = m_SelectionBitmap.ConvertToImage();
+    }
+}
+
+/** Draw a text rectangle
+  * code copied from wxGrid
+  * @param dc: the dc to draw on
+  * @param value: the string to draw
+  * @param rect: the bounding rectangle
+  * @param horizAlign: the horizontal alignment wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
+  * @param vertAlign : the vertical alignment wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
+  * @param double: the angle / orientation of the text (in degrees, not in radians)
+  */
+void XPMEditorPanel::DrawTextRectangle( wxDC& dc,
+                                const wxString& value,
+                                const wxRect& rect,
+                                int horizAlign,
+                                int vertAlign,
+                                double textOrientation )
+{
+    wxArrayString lines;
+
+    StringToLines( value, lines );
+
+    // Forward to new API.
+    DrawTextRectangle( dc, lines, rect, horizAlign, vertAlign, textOrientation );
+}
+
+/** Draw a text rectangle
+  * code copied from wxGrid
+  * @param dc: the dc to draw on
+  * @param value: the string to draw
+  * @param rect: the bounding rectangle
+  * @param horizAlign: the horizontal alignment wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
+  * @param vertAlign : the vertical alignment wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
+  * @param double: the angle / orientation of the text (in degrees, not in radians)
+  */
+void XPMEditorPanel::DrawTextRectangle(wxDC& dc,
+                               const wxArrayString& lines,
+                               const wxRect& rect,
+                               int horizAlign,
+                               int vertAlign,
+                               double textOrientation)
+{
+    if ( lines.empty() ) return;
+
+    wxDCClipper clip(dc, rect);
+
+    long textWidth,
+         textHeight;
+
+    if ( textOrientation == 0 )
+        GetTextBoxSize( dc, lines, &textWidth, &textHeight );
+    else
+        GetTextBoxSize( dc, lines, &textHeight, &textWidth );
+
+    int x = 0,
+        y = 0;
+    switch ( vertAlign )
+    {
+        case wxALIGN_BOTTOM:
+            if ( textOrientation == 0 )
+                y = rect.y + (rect.height - textHeight - 1);
+            else
+                x = rect.x + rect.width - textWidth;
+            break;
+
+        case wxALIGN_CENTRE:
+            if ( textOrientation == 0 )
+                y = rect.y + ((rect.height - textHeight) / 2);
+            else
+                x = rect.x + ((rect.width - textWidth) / 2);
+            break;
+
+        case wxALIGN_TOP:
+        default:
+            if ( textOrientation == 0 )
+                y = rect.y + 1;
+            else
+                x = rect.x + 1;
+            break;
+    }
+
+    // Align each line of a multi-line label
+    size_t nLines = lines.GetCount();
+    for ( size_t l = 0; l < nLines; l++ )
+    {
+        const wxString& line = lines[l];
+
+        if ( line.empty() )
+        {
+            *(textOrientation == 0 ? &y : &x) += dc.GetCharHeight();
+            continue;
+        }
+
+        long lineWidth = 0,
+             lineHeight = 0;
+        dc.GetTextExtent(line, &lineWidth, &lineHeight);
+
+        switch ( horizAlign )
+        {
+            case wxALIGN_RIGHT:
+                if ( textOrientation == 0 )
+                    x = rect.x + (rect.width - lineWidth - 1);
+                else
+                    y = rect.y + lineWidth + 1;
+                break;
+
+            case wxALIGN_CENTRE:
+                if ( textOrientation == 0 )
+                    x = rect.x + ((rect.width - lineWidth) / 2);
+                else
+                    y = rect.y + rect.height - ((rect.height - lineWidth) / 2);
+                break;
+
+            case wxALIGN_LEFT:
+            default:
+                if ( textOrientation == 0 )
+                    x = rect.x + 1;
+                else
+                    y = rect.y + rect.height - 1;
+                break;
+        }
+
+        if ( textOrientation == 0 )
+        {
+            dc.DrawText( line, x, y );
+            y += lineHeight;
+        }
+        else
+        {
+            dc.DrawRotatedText( line, x, y, textOrientation );
+            x += lineHeight;
+        }
+    }
+}
+
+/** Split multi-line text up into an array of strings.
+  * Any existing contents of the string array are preserved.
+  * code copied from wxGrid
+  * @param value: the string to split
+  * @param lines: the wxArrayString which will receive the strings - 1 per line
+  */
+void XPMEditorPanel::StringToLines(const wxString& value, wxArrayString& lines)
+{
+    int startPos = 0;
+    int pos;
+    wxString eol = wxTextFile::GetEOL( wxTextFileType_Unix );
+    wxString tVal = wxTextFile::Translate( value, wxTextFileType_Unix );
+
+    while ( startPos < (int)tVal.length() )
+    {
+        pos = tVal.Mid(startPos).Find( eol );
+        if ( pos < 0 )
+        {
+            break;
+        }
+        else if ( pos == 0 )
+        {
+            lines.Add( wxEmptyString );
+        }
+        else
+        {
+            lines.Add( tVal.Mid(startPos, pos) );
+        }
+
+        startPos += pos + 1;
+    }
+
+    if ( startPos < (int)tVal.length() )
+    {
+        lines.Add( tVal.Mid( startPos ) );
+    }
+}
+
+/** Compute the ideal TextBox size for the string to draw
+  */
+void XPMEditorPanel::GetTextBoxSize(const wxDC& dc,
+                                    const wxArrayString& lines,
+                                    long *width, long *height)
+{
+    long w = 0;
+    long h = 0;
+    long lineW = 0, lineH = 0;
+
+    size_t i;
+    for ( i = 0; i < lines.GetCount(); i++ )
+    {
+        dc.GetTextExtent( lines[i], &lineW, &lineH );
+        w = wxMax( w, lineW );
+        h += lineH;
+    }
+
+    *width = w;
+    *height = h;
+}
+
+
+/** Process a char event. Here, it is mainly used for the text tool
+  */
+
+
+/** Change the font used by the text tool
+  */
+void XPMEditorPanel::OnFontButtonClick(wxCommandEvent& event)
+{
+    wxFontData fdata;
+
+    fdata.SetInitialFont(tdata.font);
+    if (ColourPicker) fdata.SetColour(ColourPicker->GetLineColour());
+    wxFontDialog d(this, fdata);
+    if (d.ShowModal() == wxID_OK)
+    {
+        wxFontData retData = d.GetFontData();
+        tdata.font = retData.GetChosenFont();
+        if (ColourPicker)
+        {
+            int iColour;
+            iColour = ColourPicker->GetLineColourIndex();
+            ColourPicker->SetPaletteColour(iColour, retData.GetColour());
+            ColourPicker->Refresh(false,NULL);
+            ColourPicker->Update();
+        }
+        DrawTextBitmap();
+        if (DrawCanvas)
+        {
+            DrawCanvas->Refresh(true, NULL);
+            DrawCanvas->Update();
+        }
+    }
+}
+
+/** Change the background mode used by the text tool (opaque or transparent)
+  */
+void XPMEditorPanel::OnBackgroundButtonToggle(wxCommandEvent& event)
+{
+    if (event.IsChecked())
+    {
+        BackgroundButton->SetLabel(_("TRANSPARENT"));
+        tdata.iStyle = wxTRANSPARENT;
+    }
+    else
+    {
+        BackgroundButton->SetLabel(_("OPAQUE"));
+        tdata.iStyle = wxSOLID;
+    }
+    DrawTextBitmap();
+    if (DrawCanvas)
+    {
+        DrawCanvas->Refresh(true, NULL);
+        DrawCanvas->Update();
+    }
+}
+
+void XPMEditorPanel::OnLineColorChanged(wxCommandEvent& event)
+{
+    wxColour cColour;
+
+    //get the new line colour
+    if (!ColourPicker) return;
+    cColour = ColourPicker->GetLineColour();
+
+    if (bUsingTool)
+    {
+        switch(iToolUsed)
+        {
+            case XPM_ID_TEXT_TOOL: DrawTextBitmap();
+                                   if (DrawCanvas)
+                                   {
+                                       DrawCanvas->Refresh(true, NULL);
+                                       DrawCanvas->Update();
+                                   }
+                                   //wxMessageBox(_("line colour changed"));
+                                   break;
+            default: break;
+        }
+    }
+}
+
+void XPMEditorPanel::OnFillColorChanged(wxCommandEvent& event)
+{
+    wxColour cColour;
+
+    //get the new line colour
+    if (!ColourPicker) return;
+    cColour = ColourPicker->GetFillColour();
+
+    if (bUsingTool)
+    {
+        switch(iToolUsed)
+        {
+            case XPM_ID_TEXT_TOOL: DrawTextBitmap();
+                                   if (DrawCanvas)
+                                   {
+                                       DrawCanvas->Refresh(true, NULL);
+                                       DrawCanvas->Update();
+                                   }
+                                   break;
+            default: break;
+        }
+    }
+}
+
+void XPMEditorPanel::OnTextEditText(wxCommandEvent& event)
+{
+    if (bUsingTool)
+    {
+        switch(iToolUsed)
+        {
+            case XPM_ID_TEXT_TOOL: tdata.sText = wxString(TextEdit->GetValue());
+                                   DrawTextBitmap();
+                                   if (DrawCanvas)
+                                   {
+                                       DrawCanvas->Refresh(true, NULL);
+                                       DrawCanvas->Update();
+                                   }
+                                   break;
+            default: break;
+        }
+    }
+}
+
+void XPMEditorPanel::OnTextEditTextEnter(wxCommandEvent& event)
+{
+    if (bUsingTool)
+    {
+        switch(iToolUsed)
+        {
+            case XPM_ID_TEXT_TOOL: AddUndo();
+                                   SetModified(true);
+                                   tdata.sText = wxString(TextEdit->GetValue());
+                                   DrawTextBitmap();
+                                   ClearSelection();
+                                   if (DrawCanvas)
+                                   {
+                                       DrawCanvas->Refresh(true, NULL);
+                                       DrawCanvas->Update();
+                                   }
+                                   ToggleButtons(-1);
+                                   InitToolData();
+                                   break;
+            default: break;
+        }
     }
 }

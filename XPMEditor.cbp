@@ -49,6 +49,9 @@
 				</ExtraCommands>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add option="-DWXUSINGDLL" />
+		</Compiler>
 		<Unit filename="XPMColorPicker.cpp" />
 		<Unit filename="XPMColorPicker.h" />
 		<Unit filename="XPMCustomZoom.cpp" />
@@ -65,6 +68,8 @@
 		<Unit filename="shape01.png" />
 		<Unit filename="test.bmp" />
 		<Unit filename="todo.txt" />
+		<Unit filename="wxResizeCtrl.cpp" />
+		<Unit filename="wxResizeCtrl.h" />
 		<Unit filename="wxthings\include\wx\things\thingdef.h" />
 		<Unit filename="wxthings\include\wx\things\toggle.h" />
 		<Unit filename="wxthings\src\toggle.cpp" />

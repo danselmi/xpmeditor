@@ -23,13 +23,17 @@ class wxDragImage;
 #include <wx/panel.h>
 class wxSpinEvent;
 class wxCheckBox;
+class wxTextCtrl;
 class XPMColorPicker;
 class wxComboBox;
 class wxCustomButton;
 class wxScrolledWindow;
 class wxStaticText;
+class wxToggleButton;
 class wxSpinCtrl;
 class wxBoxSizer;
+class wxResizeCtrl;
+class wxButton;
 //*)
 
 #define XPM_NUMBER_TOOLS 14
@@ -82,7 +86,11 @@ struct ToolData
     wxPoint pts[XPM_MAXPOINTS+1]; ///< @brief an array of points. Statically limited to 25, to simplify the plugin
     int iNbPoints;   ///< @brief how many points are in the array
     int iRadius;     ///< @brief the radius for rounded rectangle
-    wxTextCtrl *TextEditor;  ///< @brief Text editor for the text tool
+    wxString sText;  ///< @brief the text string to be used for the tool (Text tool)
+    wxFont font;     ///< @brief the font to be used for the tool (Text tool)
+    int iHorizAlign; ///< @brief text horizontal alignment: wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
+    int iVertAlign;  ///< @brief text horizontal alignment: wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
+    double angle;    ///< @brief text angle
 };
 
 class XPMUndo;
@@ -149,6 +157,7 @@ class XPMEditorPanel: public wxPanel
 		wxSpinCtrl* BMPWidth;
 		wxStaticText* StaticText2;
 		wxBoxSizer* CanvasSizer;
+		wxTextCtrl* TextEdit;
 		wxCustomButton* SquareBrushButton;
 		wxStaticText* StaticText6;
 		wxCustomButton* BrushButton;
@@ -158,16 +167,19 @@ class XPMEditorPanel: public wxPanel
 		wxStaticText* StaticText3;
 		wxPanel* ToolPanel;
 		wxCheckBox* CheckBox1;
+		wxButton* FontButton;
 		wxCustomButton* PipetteButton;
 		wxSpinCtrl* SpinCtrl3;
 		wxStaticText* StaticText5;
 		wxCustomButton* SelectButton;
+		wxResizeCtrl* ResizeCtrl1;
 		wxCustomButton* EllipseButton;
 		wxCustomButton* RHairBrushButton;
 		wxSpinCtrl* SpinCtrl2;
 		wxComboBox* ZoomFactor;
 		XPMColorPicker* ColourPicker;
 		wxBoxSizer* PanelSizer;
+		wxToggleButton* BackgroundButton;
 		wxCustomButton* LassoButton;
 		wxCustomButton* RectangleButton;
 		wxCustomButton* CircleBrushButton;
@@ -209,6 +221,8 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_CIRCLE_BRUSH;
 		static const long ID_LRHAIR_BRUSH;
 		static const long ID_LHAIR_BRUSH;
+		static const long ID_FONT_BUTTON;
+		static const long ID_BKMODE_TOGGLEBUTTON;
 		static const long ID_STATICTEXT5;
 		static const long ID_SPINCTRL3;
 		static const long ID_STATICTEXT7;
@@ -216,6 +230,8 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_STATICTEXT6;
 		static const long ID_SPINCTRL4;
 		static const long ID_PANEL1;
+		static const long ID_TEXTCTRL1;
+		static const long ID_RESIZECTRL1;
 		static const long ID_SCROLLEDWINDOW1;
 		static const long ID_STATICTEXT4;
 		//*)
@@ -253,9 +269,15 @@ class XPMEditorPanel: public wxPanel
 		void OnLHairBrushButtonToggle(wxCommandEvent& event);
 		void OnRHairBrushButtonToggle(wxCommandEvent& event);
 		void OnDrawCanvasRightUp(wxMouseEvent& event);
+		void OnFontButtonClick(wxCommandEvent& event);
+		void OnBackgroundButtonToggle(wxCommandEvent& event);
+		void OnTextEditText(wxCommandEvent& event);
+		void OnTextEditTextEnter(wxCommandEvent& event);
 		//*)
 
-		void OnTransparentColorChanged(wxCommandEvent& event);
+		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
+		void OnLineColorChanged(wxCommandEvent& event);        ///< \brief the Line colour in the colour picker changed
+		void OnFillColorChanged(wxCommandEvent& event);        ///< \brief the Fill colour in the colour picker changed
 
 		void BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size);
 		void ToggleButtons(int iIndex, bool bClearSelection = true); ///< @brief toggle all Tools Buttons OFF, except the iIndex one.
@@ -350,16 +372,35 @@ class XPMEditorPanel: public wxPanel
         int OldX;           ///< \brief For resizing the bitmap: indicates the last x mouse position
         int OldY;           ///< \brief For resizing the bitmap: indicates the last x mouse position
 
+        //Text tool methods & members
+        void DrawTextRectangle( wxDC& dc,
+                                const wxString& value,
+                                const wxRect& rect,
+                                int horizAlign,
+                                int vertAlign,
+                                double textOrientation); ///< \brief draw a text in a rectangle. Copied from wxGrid
+        void DrawTextRectangle(wxDC& dc,
+                               const wxArrayString& lines,
+                               const wxRect& rect,
+                               int horizAlign,
+                               int vertAlign,
+                               double textOrientation); ///< \brief draw a text in a rectangle. Copied from wxGrid
+        void StringToLines(const wxString& value, wxArrayString& lines); ///< \brief Split multi-line text up into an array of strings. Copied from wxGrid
+        void GetTextBoxSize(const wxDC& dc,
+                            const wxArrayString& lines,
+                            long *width, long *height); ///< \brief Compute the ideal TextBox size for the string to draw. Copied from wxGrid
+
         //Selection members & methods
-        wxPoint *pSelection;    ///< \brief indicates the points coordinates defining the selected region
-        int NbPoints;           ///< \brief how many points are defining the region (rectangle = 4 points)
-        int NbPointsMax;        ///< \brief the maximal size of the wxPoint array
+        wxPoint *pSelection;        ///< \brief indicates the points coordinates defining the selected region
+        int NbPoints;               ///< \brief how many points are defining the region (rectangle = 4 points)
+        int NbPointsMax;            ///< \brief the maximal size of the wxPoint array
         wxPoint* CheckMemorySelection(int iNeeded); ///< \brief increase the memory if needed
-        bool bDrawSelection;    ///< \brief true to draw the selection in OnDrawCanvasPaint
+        bool bDrawSelection;        ///< \brief true to draw the selection in OnDrawCanvasPaint
         wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
-        void CutSelection(void);        ///< \brief Replace the Selection with the mask colour
+        void CutSelection(void);    ///< \brief Replace the Selection with the mask colour
         void MoveSelection(int dx, int dy); ///< \brief Move the selection
-        void PasteSelection(void);      ///< \brief Paste the current selection to the current selection coordinates
+        void PasteSelection(void);  ///< \brief Paste the current selection to the current selection coordinates
+        void DrawTextBitmap(void);  ///< \brief Draw the text bitmap on the selection image
 
         //Undo & Redo buffers
         XPMUndo *m_undo_buffer;  ///< \brief the Undo buffer

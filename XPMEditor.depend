@@ -2734,7 +2734,7 @@
 1271101290 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271433562 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271610743 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
 	<wx/panel.h>
@@ -2769,7 +2769,7 @@
 
 1270997636 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
 
-1271428024 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
+1271607411 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
 	<wx/scrolwin.h>
 	<wx/colour.h>
 	<wx/control.h>
@@ -2805,7 +2805,7 @@
 	<wx/bitmap.h>
 	<wx/tglbtn.h>
 
-1270997624 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
+1271423864 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
 	"XPMEditor.h"
 	<wx/gdicmn.h>
 
@@ -2817,7 +2817,7 @@
 	<wx/grid.h>
 	<wx/bitmap.h>
 
-1270997356 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
+1271607892 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
 	"XPMColorPicker.h"
 	<wx/gdicmn.h>
 	<wx/dcclient.h>

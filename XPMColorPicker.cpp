@@ -21,6 +21,8 @@
 #include <wx/colordlg.h>
 
 DEFINE_EVENT_TYPE(wxEVT_TRANSPARENT_COLOR_CHANGED)
+DEFINE_EVENT_TYPE(wxEVT_LINE_COLOR_CHANGED)
+DEFINE_EVENT_TYPE(wxEVT_FILL_COLOR_CHANGED)
 
 /** CONSTRUCTOR
   */
@@ -416,8 +418,9 @@ int XPMColorPicker::GetFillColourIndex(void)
 /** Set the current line colour
   * If an error occur, the colour set is the 1st colour of the palette by default
   * @param iIndex: the index in the wxColourArray representing the new line colour
+  * @param bPostEvent: if true, a wxEVT_LINE_COLOR_CHANGED is generated (default)
   */
-void XPMColorPicker::SetLineColour(int iIndex)
+void XPMColorPicker::SetLineColour(int iIndex, bool bPostEvent)
 {
     //set the current line colour
     int iIndex2;
@@ -426,6 +429,13 @@ void XPMColorPicker::SetLineColour(int iIndex)
     if (iIndex2 >= XPM_MAX_COLOR) iIndex2 = 0;
     iLineColor = iIndex2;
 
+    if (bPostEvent)
+    {
+        wxCommandEvent eventColorChanged(wxEVT_LINE_COLOR_CHANGED, GetId());
+        eventColorChanged.SetEventObject(this);
+        wxPostEvent(this, eventColorChanged);
+    }
+
     Refresh(false, NULL);
     Update();
 }
@@ -433,8 +443,9 @@ void XPMColorPicker::SetLineColour(int iIndex)
 /** Set the current fill colour
   * If an error occur, the colour set is the 1st colour of the palette by default
   * @param iIndex: the index in the wxColourArray representing the new fill colour
+  * @param bPostEvent: if true, a wxEVT_FILL_COLOR_CHANGED is generated (default)
   */
-void XPMColorPicker::SetFillColour(int iIndex)
+void XPMColorPicker::SetFillColour(int iIndex, bool bPostEvent)
 {
     //set the current fill colour
     int iIndex2;
@@ -442,6 +453,13 @@ void XPMColorPicker::SetFillColour(int iIndex)
     if (iIndex2 < -1) iIndex2 = 0;
     if (iIndex2 >= XPM_MAX_COLOR) iIndex2 = 0;
     iFillColor = iIndex2;
+
+    if (bPostEvent)
+    {
+        wxCommandEvent eventColorChanged(wxEVT_FILL_COLOR_CHANGED, GetId());
+        eventColorChanged.SetEventObject(this);
+        wxPostEvent(this, eventColorChanged);
+    }
 
     Refresh(false, NULL);
     Update();
@@ -649,6 +667,18 @@ void XPMColorPicker::OnMouseClick(wxMouseEvent& event)
         if (bLineOn) iLineColor = iColourIndex; else iFillColor = iColourIndex;
         Refresh(false, NULL);
         Update();
+        if (bLineOn)
+        {
+            wxCommandEvent eventColorChanged(wxEVT_LINE_COLOR_CHANGED, GetId());
+            eventColorChanged.SetEventObject(this);
+            wxPostEvent(this, eventColorChanged);
+        }
+        else
+        {
+            wxCommandEvent eventColorChanged(wxEVT_FILL_COLOR_CHANGED, GetId());
+            eventColorChanged.SetEventObject(this);
+            wxPostEvent(this, eventColorChanged);
+        }
         return;
     }
     else if ((iColourIndex == -1) && (!(event.ButtonDClick(wxMOUSE_BTN_LEFT))))
@@ -681,6 +711,18 @@ void XPMColorPicker::OnMouseRClick(wxMouseEvent& event)
         if (!bLineOn) iLineColor = iColourIndex; else iFillColor = iColourIndex;
         Refresh(false, NULL);
         Update();
+        if (!bLineOn)
+        {
+            wxCommandEvent eventColorChanged(wxEVT_LINE_COLOR_CHANGED, GetId());
+            eventColorChanged.SetEventObject(this);
+            wxPostEvent(this, eventColorChanged);
+        }
+        else
+        {
+            wxCommandEvent eventColorChanged(wxEVT_FILL_COLOR_CHANGED, GetId());
+            eventColorChanged.SetEventObject(this);
+            wxPostEvent(this, eventColorChanged);
+        }
         return;
     }
     else if ((iColourIndex == -1) && (!(event.ButtonDClick(wxMOUSE_BTN_RIGHT))))
