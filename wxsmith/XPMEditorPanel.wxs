@@ -3,6 +3,7 @@
 	<object class="wxPanel" name="XPMEditorPanel">
 		<id_arg>0</id_arg>
 		<style>wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE</style>
+		<handler function="OnDrawCanvasKeyDown" entry="EVT_KEY_DOWN" />
 		<object class="wxBoxSizer" variable="PanelSizer" member="yes">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
@@ -428,7 +429,7 @@
 									<style>wxHSCROLL|wxVSCROLL|wxSUNKEN_BORDER</style>
 									<handler function="OnDrawCanvasPaint" entry="EVT_PAINT" />
 									<handler function="OnDrawCanvasEraseBackground" entry="EVT_ERASE_BACKGROUND" />
-									<handler function="OnDrawCanvasChar" entry="EVT_CHAR" />
+									<handler function="OnDrawCanvasKeyDown" entry="EVT_KEY_DOWN" />
 									<handler function="OnDrawCanvasLeftDown" entry="EVT_LEFT_DOWN" />
 									<handler function="OnDrawCanvasLeftUp" entry="EVT_LEFT_UP" />
 									<handler function="OnDrawCanvasLeftDClick" entry="EVT_LEFT_DCLICK" />
@@ -439,15 +440,15 @@
 									<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextEdit" member="yes">
 										<value>Text</value>
 										<pos>57,193</pos>
-										<style>wxTE_MULTILINE|wxTE_LEFT|wxTE_CENTRE</style>
+										<style>wxTE_MULTILINE|wxTE_LEFT|wxTE_CHARWRAP</style>
 										<handler function="OnTextEditText" entry="EVT_TEXT" />
-										<handler function="OnTextEditTextEnter" entry="EVT_TEXT_ENTER" />
 									</object>
 									<object class="Custom" name="ID_RESIZECTRL1" subclass="wxResizeCtrl" variable="ResizeCtrl1" member="yes">
 										<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),$(STYLE),$(NAME));</creating_code>
 										<include_file>wxResizeCtrl.h</include_file>
 										<local_include>1</local_include>
-										<pos>198,232</pos>
+										<pos>6,7</pos>
+										<size>119,74</size>
 									</object>
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>

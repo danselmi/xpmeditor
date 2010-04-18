@@ -123,6 +123,7 @@ class XPMEditorPanel: public wxPanel
         int IsPointInSelection(int x, int y);   ///< \brief Return if the cursor is hovering over the selection (1 for over the selection, 2 for edge, 0 otherwise)
         void ReplaceRect(const wxImage &newImage, wxRect rRect);///< \brief Replace the rectangle by a new image.
         void PasteImage(const wxImage &newImage, int x, int y); ///< \brief Paste an image at the specified location
+        void ConvertSelectionToRect(void);      ///< \brief convert the selection to a rectangular selection, for simpler stretching
 
         //UNDO & REDO Methods
         bool CanUndo(void) const;   ///< \brief Checking if can Undo
@@ -272,7 +273,7 @@ class XPMEditorPanel: public wxPanel
 		void OnFontButtonClick(wxCommandEvent& event);
 		void OnBackgroundButtonToggle(wxCommandEvent& event);
 		void OnTextEditText(wxCommandEvent& event);
-		void OnTextEditTextEnter(wxCommandEvent& event);
+		void OnDrawCanvasKeyDown(wxKeyEvent& event);
 		//*)
 
 		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
@@ -338,7 +339,7 @@ class XPMEditorPanel: public wxPanel
                                bool bPressed, bool bDClick); ///< @brief process the drag & drop image tool
         void ProcessSizeAction(int x, int y,
                                bool bLeftDown, bool bLeftUp,
-                               bool bPressed, bool bDClick); ///< @brief process the stretch selection tool
+                               bool bPressed, bool bDClick, int iDirection); ///< @brief process the stretch selection tool
 
     private:
         //bitmap, images methods

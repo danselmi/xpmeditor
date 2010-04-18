@@ -2734,7 +2734,7 @@
 1271101290 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271610743 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271624112 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
 	<wx/panel.h>
@@ -2827,7 +2827,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271438895 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1271613776 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>
@@ -2841,18 +2841,23 @@
 	<wx/graphics.h>
 	<wx/bitmap.h>
 	<wx/dragimag.h>
+	<wx/fontdlg.h>
+	<wx/textfile.h>
 	<wx/scrolwin.h>
 	<wx/artprov.h>
 	<wx/sizer.h>
 	<wx/stattext.h>
+	<wx/textctrl.h>
 	<wx/checkbox.h>
 	<wx/things/toggle.h>
 	<wx/bitmap.h>
 	"XPMColorPicker.h"
 	<wx/spinctrl.h>
 	<wx/tglbtn.h>
+	"wxResizeCtrl.h"
 	<wx/settings.h>
 	<wx/intl.h>
+	<wx/button.h>
 	<wx/image.h>
 	<wx/string.h>
 	<wx/combobox.h>
@@ -5828,4 +5833,45 @@
 	"wx/cursor.h"
 	"wx/treectrl.h"
 	"wx/listctrl.h"
+
+1271596043 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.cpp
+	"wxResizeCtrl.h"
+	<wx/dcclient.h>
+	<wx/utils.h>
+
+1271594699 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.h
+	<wx/window.h>
+	<wx/colour.h>
+
+1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\fontdlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+	"wx/generic/fontdlgg.h"
+	"wx/msw/fontdlg.h"
+	"wx/gtk/fontdlg.h"
+	"wx/gtk1/fontdlg.h"
+	"wx/os2/fontdlg.h"
+	"wx/mac/fontdlg.h"
+
+1236337250 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\generic\fontdlgg.h
+	"wx/defs.h"
+	"wx/gdicmn.h"
+	"wx/font.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1236337276 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\msw\fontdlg.h
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\textfile.h
+	"wx/defs.h"
+	"wx/textbuf.h"
+	"wx/file.h"
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\textbuf.h
+	"wx/defs.h"
+	"wx/arrstr.h"
+	"wx/convauto.h"
+	"wx/string.h"
+	"wx/dynarray.h"
 

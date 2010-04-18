@@ -1,22 +1,19 @@
-1 - Text tool
+1 - Add Stretch / Rotate image or selection
 
-2 - Paste: complex selection: set mask colour
+2 - Copy / Paste:
+    before copy : bitmap put in clipboard has a Mask
+    after paste : bitmap does not have mask
 
-3 - resize selection / stretch selection / drag selection
-
-4 - Configuration panel:
+3 - Configuration panel:
       How to handle XPMs
       Undo / Redo buffer
       Color palette (how many colors, and which one).
 
-5 - Use wrapsizer for tools. (copy wrapsizer.cpp / h from wxWidgets 2.9.0)
+4 - Use wrapsizer for tools. (copy wrapsizer.cpp / h from wxWidgets 2.9.0)
 
-6 - resize all cursors to fit in a 16 x 16 square
+5 - resize all cursors to fit in a 16 x 16 square
 
-7 - Cut Selection ne marche pas
+6 - color depth
 
-8 - color depth
+7 - jpg quality
 
-9 - jpg quality
-
-10 - DEL clear the selection
