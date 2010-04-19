@@ -2720,7 +2720,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271101290 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
+1271691178 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
 	"XPMCustomZoom.h"
 	<wx/sizer.h>
 	<wx/stattext.h>
@@ -2734,7 +2734,7 @@
 1271101290 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271624112 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271693352 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
 	<wx/panel.h>
@@ -2769,7 +2769,7 @@
 
 1270997636 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
 
-1271607411 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
+1271607412 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
 	<wx/scrolwin.h>
 	<wx/colour.h>
 	<wx/control.h>
@@ -2817,7 +2817,7 @@
 	<wx/grid.h>
 	<wx/bitmap.h>
 
-1271607892 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
+1271607894 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
 	"XPMColorPicker.h"
 	<wx/gdicmn.h>
 	<wx/dcclient.h>
@@ -5851,12 +5851,12 @@
 	"wx/treectrl.h"
 	"wx/listctrl.h"
 
-1271596043 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.cpp
+1271596044 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.cpp
 	"wxResizeCtrl.h"
 	<wx/dcclient.h>
 	<wx/utils.h>
 
-1271594699 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.h
+1271594700 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.h
 	<wx/window.h>
 	<wx/colour.h>
 
@@ -6010,6 +6010,83 @@
 1271691275 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxconversion.h
 	<wx/sizer.h>
 	<wx/stattext.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271680748 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxblur.cpp
+	"wxBlur.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271678596 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxblur.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/spinctrl.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271691686 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxconversion.cpp
+	"wxConversion.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271691276 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxconversion.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271676914 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxmirror.cpp
+	"wxMirror.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271676388 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxmirror.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271691170 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.cpp
+	"wxRotate.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271680794 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/spinctrl.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271691166 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.cpp
+	"wxRotateHue.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271688274 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/spinctrl.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271677492 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxstretchimage.cpp
+	"wxStretchImage.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271676206 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxstretchimage.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/spinctrl.h>
 	<wx/radiobut.h>
 	<wx/button.h>
 	<wx/dialog.h>

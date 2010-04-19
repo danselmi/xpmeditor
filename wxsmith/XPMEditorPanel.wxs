@@ -228,11 +228,6 @@
 													<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 													<border>2</border>
 												</object>
-											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-										</object>
-										<object class="sizeritem">
-											<object class="wxBoxSizer" variable="BoxSizer7" member="no">
 												<object class="sizeritem">
 													<object class="wxCustomButton" name="ID_PIPETTE_BTN" variable="PipetteButton" member="yes">
 														<type>wxCUSTBUT_TOGGLE</type>
@@ -257,7 +252,7 @@
 											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 										</object>
 										<object class="sizeritem">
-											<object class="wxBoxSizer" variable="BoxSizer10" member="no">
+											<object class="wxBoxSizer" variable="BoxSizer7" member="no">
 												<object class="sizeritem">
 													<object class="wxCustomButton" name="ID_LINE_BTN" variable="LineButton" member="yes">
 														<type>wxCUSTBUT_TOGGLE</type>
@@ -278,11 +273,6 @@
 													<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 													<border>2</border>
 												</object>
-											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-										</object>
-										<object class="sizeritem">
-											<object class="wxBoxSizer" variable="BoxSizer9" member="no">
 												<object class="sizeritem">
 													<object class="wxCustomButton" name="ID_ERASER_BTN" variable="EraserButton" member="yes">
 														<type>wxCUSTBUT_TOGGLE</type>
@@ -307,7 +297,7 @@
 											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 										</object>
 										<object class="sizeritem">
-											<object class="wxBoxSizer" variable="BoxSizer11" member="no">
+											<object class="wxBoxSizer" variable="BoxSizer10" member="no">
 												<object class="sizeritem">
 													<object class="wxCustomButton" name="ID_RECTANGLE_BTN" variable="RectangleButton" member="yes">
 														<type>wxCUSTBUT_TOGGLE</type>
@@ -328,11 +318,6 @@
 													<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 													<border>2</border>
 												</object>
-											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-										</object>
-										<object class="sizeritem">
-											<object class="wxBoxSizer" variable="BoxSizer8" member="no">
 												<object class="sizeritem">
 													<object class="wxCustomButton" name="ID_ELLIPSE_BTN" variable="EllipseButton" member="yes">
 														<type>wxCUSTBUT_TOGGLE</type>
@@ -340,7 +325,7 @@
 														<bitmap_margin>2,2</bitmap_margin>
 														<handler function="OnEllipseButtonToggle" entry="EVT_TOGGLEBUTTON" />
 													</object>
-													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 													<border>2</border>
 												</object>
 												<object class="sizeritem">
@@ -354,6 +339,10 @@
 													<border>2</border>
 												</object>
 											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="BoxSizer8" member="no" />
 											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 										</object>
 										<object class="spacer">
@@ -382,11 +371,6 @@
 													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 													<border>2</border>
 												</object>
-											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-										</object>
-										<object class="sizeritem">
-											<object class="wxBoxSizer" variable="BoxSizer4" member="no">
 												<object class="sizeritem">
 													<object class="wxCustomButton" name="ID_LRHAIR_BRUSH" variable="RHairBrushButton" member="yes">
 														<type>wxCUSTBUT_TOGGLE</type>
@@ -421,6 +405,7 @@
 										<object class="sizeritem">
 											<object class="wxToggleButton" name="ID_BKMODE_TOGGLEBUTTON" variable="BackgroundButton" member="yes">
 												<label>OPAQUE</label>
+												<size>90,23</size>
 												<handler function="OnBackgroundButtonToggle" entry="EVT_TOGGLEBUTTON" />
 											</object>
 											<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
@@ -453,7 +438,7 @@
 														<label></label>
 														<handler function="OnTopCenterSelect" entry="EVT_RADIOBUTTON" />
 													</object>
-													<flag>wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
+													<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 													<border>1</border>
 													<option>1</option>
 												</object>
@@ -462,7 +447,7 @@
 														<label></label>
 														<handler function="OnTopRightSelect" entry="EVT_RADIOBUTTON" />
 													</object>
-													<flag>wxALL|wxALIGN_RIGHT|wxALIGN_TOP</flag>
+													<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_TOP</flag>
 													<border>1</border>
 													<option>1</option>
 												</object>
@@ -471,7 +456,7 @@
 														<label></label>
 														<handler function="OnCenterLeftSelect" entry="EVT_RADIOBUTTON" />
 													</object>
-													<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<flag>wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 													<border>1</border>
 													<option>1</option>
 												</object>
@@ -480,7 +465,7 @@
 														<label></label>
 														<handler function="OnCenterCenterSelect" entry="EVT_RADIOBUTTON" />
 													</object>
-													<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+													<flag>wxLEFT|wxRIGHT|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>1</border>
 													<option>1</option>
 												</object>
@@ -489,7 +474,7 @@
 														<label></label>
 														<handler function="OnCenterRightSelect" entry="EVT_RADIOBUTTON" />
 													</object>
-													<flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+													<flag>wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 													<border>1</border>
 													<option>1</option>
 												</object>
@@ -498,7 +483,7 @@
 														<label></label>
 														<handler function="OnBottomLeftSelect" entry="EVT_RADIOBUTTON" />
 													</object>
-													<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 													<border>1</border>
 													<option>1</option>
 												</object>
@@ -507,7 +492,7 @@
 														<label></label>
 														<handler function="OnBottomCenterSelect" entry="EVT_RADIOBUTTON" />
 													</object>
-													<flag>wxALL|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
 													<border>1</border>
 													<option>1</option>
 												</object>
@@ -516,7 +501,7 @@
 														<label></label>
 														<handler function="OnBottomRightSelect" entry="EVT_RADIOBUTTON" />
 													</object>
-													<flag>wxALL|wxALIGN_RIGHT|wxALIGN_BOTTOM</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_BOTTOM</flag>
 													<border>1</border>
 													<option>1</option>
 												</object>
@@ -537,7 +522,7 @@
 													<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="SpinCtrl4" member="yes">
 														<value>0</value>
 														<max>360</max>
-														<size>69,21</size>
+														<size>72,21</size>
 														<handler function="OnSpinCtrl4Change" entry="EVT_SPINCTRL" />
 													</object>
 													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
@@ -558,7 +543,7 @@
 												<value>2</value>
 												<min>2</min>
 												<max>16</max>
-												<size>61,21</size>
+												<size>83,21</size>
 												<handler function="OnSpinSizeChanged" entry="EVT_SPINCTRL" />
 											</object>
 											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
