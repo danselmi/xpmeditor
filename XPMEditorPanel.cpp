@@ -9,6 +9,12 @@
  **************************************************************/
 
 #include "XPMEditor.h"
+#include "wxStretchImage.h"
+#include "wxMirror.h"
+#include "wxRotate.h"
+#include "wxBlur.h"
+#include "wxRotateHue.h"
+#include "wxConversion.h"
 
 #include <wx/dcclient.h>
 #include <wx/dcbuffer.h>
@@ -24,6 +30,9 @@
 #include <wx/dragimag.h>
 #include <wx/fontdlg.h>
 #include <wx/textfile.h>
+#include <math.h>
+
+#define PI 3.14159265358979
 
 //(*InternalHeaders(XPMEditorPanel)
 #include <wx/scrolwin.h>
@@ -37,8 +46,10 @@
 #include "XPMColorPicker.h"
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
+#include <wx/radiobut.h>
 #include "wxResizeCtrl.h"
 #include <wx/settings.h>
+#include <wx/bmpbuttn.h>
 #include <wx/intl.h>
 #include <wx/button.h>
 #include <wx/image.h>
@@ -61,6 +72,9 @@
 #include "xpm/roundedrect.xpm"
 #include "xpm/selection.xpm"
 #include "xpm/text.xpm"
+#include "xpm/left.xpm"
+#include "xpm/right.xpm"
+
 
 //cursors
 #include "xpm/cross_cursor.xpm"
@@ -84,6 +98,14 @@ const long XPMEditorPanel::ID_SPINCTRL1 = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT3 = wxNewId();
 const long XPMEditorPanel::ID_SPINCTRL2 = wxNewId();
 const long XPMEditorPanel::ID_CHECKBOX1 = wxNewId();
+const long XPMEditorPanel::ID_BUTTON1 = wxNewId();
+const long XPMEditorPanel::ID_BUTTON2 = wxNewId();
+const long XPMEditorPanel::ID_BUTTON3 = wxNewId();
+const long XPMEditorPanel::ID_BUTTON4 = wxNewId();
+const long XPMEditorPanel::ID_BITMAPBUTTON1 = wxNewId();
+const long XPMEditorPanel::ID_BITMAPBUTTON2 = wxNewId();
+const long XPMEditorPanel::ID_BUTTON5 = wxNewId();
+const long XPMEditorPanel::ID_BUTTON6 = wxNewId();
 const long XPMEditorPanel::ID_CUSTOM1 = wxNewId();
 const long XPMEditorPanel::ID_SELECT_BUTN = wxNewId();
 const long XPMEditorPanel::ID_LASSO_BTN = wxNewId();
@@ -105,6 +127,18 @@ const long XPMEditorPanel::ID_LRHAIR_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_LHAIR_BRUSH = wxNewId();
 const long XPMEditorPanel::ID_FONT_BUTTON = wxNewId();
 const long XPMEditorPanel::ID_BKMODE_TOGGLEBUTTON = wxNewId();
+const long XPMEditorPanel::ID_STATICTEXT8 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON1 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON9 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON8 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON7 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON6 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON5 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON4 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON3 = wxNewId();
+const long XPMEditorPanel::ID_RADIOBUTTON2 = wxNewId();
+const long XPMEditorPanel::ID_STATICTEXT9 = wxNewId();
+const long XPMEditorPanel::ID_SPINCTRL6 = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT5 = wxNewId();
 const long XPMEditorPanel::ID_SPINCTRL3 = wxNewId();
 const long XPMEditorPanel::ID_STATICTEXT7 = wxNewId();
@@ -215,6 +249,18 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     TextEdit->Hide();
     ResizeCtrl1->Hide();
     BackgroundButton->Hide();
+    TopLeft->Hide();
+    TopCenter->Hide();
+    TopRight->Hide();
+    CenterLeft->Hide();
+    CenterCenter->Hide();
+    CenterRight->Hide();
+    BottomLeft->Hide();
+    BottomCenter->Hide();
+    BottomRight->Hide();
+    StaticText7->Hide();
+    StaticText8->Hide();
+    SpinCtrl4->Hide();
     ToolPanelSizer->Layout();
     ToolPanelSizer->FitInside(ToolPanel);
 
@@ -225,6 +271,9 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     m_SelectionImage = wxImage();
     pStartDragging = wxPoint(0,0);
     cMaskColour = *wxBLACK;
+    m_iSizeAction = 0;
+    m_bSizing = false;
+    iPos = 0;
 
     UpdateConfiguration();
 }
@@ -244,6 +293,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	wxBoxSizer* BoxSizer10;
 	wxBoxSizer* BoxSizer7;
 	wxBoxSizer* BoxSizer8;
+	wxBoxSizer* BoxSizer13;
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer11;
 	wxBoxSizer* BoxSizer12;
@@ -287,6 +337,25 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	BoxSizer2->Add(CheckBox1, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
 	BoxSizer2->Add(-1,-1,1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	PanelSizer->Add(BoxSizer2, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer13 = new wxBoxSizer(wxHORIZONTAL);
+	Button1 = new wxButton(this, ID_BUTTON1, _("STRETCH"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+	BoxSizer13->Add(Button1, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	Button2 = new wxButton(this, ID_BUTTON2, _("MIRROR"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
+	BoxSizer13->Add(Button2, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	Button3 = new wxButton(this, ID_BUTTON3, _("BLUR"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
+	BoxSizer13->Add(Button3, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	Button4 = new wxButton(this, ID_BUTTON4, _("ROTATE"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON4"));
+	BoxSizer13->Add(Button4, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BitmapButton1 = new wxBitmapButton(this, ID_BITMAPBUTTON1, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON1"));
+	BoxSizer13->Add(BitmapButton1, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BitmapButton2 = new wxBitmapButton(this, ID_BITMAPBUTTON2, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON2"));
+	BoxSizer13->Add(BitmapButton2, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	Button5 = new wxButton(this, ID_BUTTON5, _("HUE"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON5"));
+	BoxSizer13->Add(Button5, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	Button6 = new wxButton(this, ID_BUTTON6, _("COLOUR DEPTH"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON6"));
+	BoxSizer13->Add(Button6, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer13->Add(-1,-1,1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	PanelSizer->Add(BoxSizer13, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ColourPicker = new XPMColorPicker(this,ID_CUSTOM1,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM1"));
 	PanelSizer->Add(ColourPicker, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
@@ -388,6 +457,36 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	ToolPanelSizer->Add(FontButton, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
 	BackgroundButton = new wxToggleButton(ToolPanel, ID_BKMODE_TOGGLEBUTTON, _("OPAQUE"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BKMODE_TOGGLEBUTTON"));
 	ToolPanelSizer->Add(BackgroundButton, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
+	StaticText7 = new wxStaticText(ToolPanel, ID_STATICTEXT8, _("Alignment:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT8"));
+	ToolPanelSizer->Add(StaticText7, 0, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	AlignmentSizer = new wxGridSizer(3, 3, 0, 0);
+	TopLeft = new wxRadioButton(ToolPanel, ID_RADIOBUTTON1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP, wxDefaultValidator, _T("ID_RADIOBUTTON1"));
+	TopLeft->SetValue(true);
+	AlignmentSizer->Add(TopLeft, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 1);
+	TopCenter = new wxRadioButton(ToolPanel, ID_RADIOBUTTON9, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON9"));
+	AlignmentSizer->Add(TopCenter, 1, wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 1);
+	TopRight = new wxRadioButton(ToolPanel, ID_RADIOBUTTON8, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON8"));
+	AlignmentSizer->Add(TopRight, 1, wxALL|wxALIGN_RIGHT|wxALIGN_TOP, 1);
+	CenterLeft = new wxRadioButton(ToolPanel, ID_RADIOBUTTON7, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON7"));
+	AlignmentSizer->Add(CenterLeft, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
+	CenterCenter = new wxRadioButton(ToolPanel, ID_RADIOBUTTON6, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON6"));
+	AlignmentSizer->Add(CenterCenter, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
+	CenterRight = new wxRadioButton(ToolPanel, ID_RADIOBUTTON5, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON5"));
+	AlignmentSizer->Add(CenterRight, 1, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 1);
+	BottomLeft = new wxRadioButton(ToolPanel, ID_RADIOBUTTON4, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON4"));
+	AlignmentSizer->Add(BottomLeft, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
+	BottomCenter = new wxRadioButton(ToolPanel, ID_RADIOBUTTON3, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON3"));
+	AlignmentSizer->Add(BottomCenter, 1, wxALL|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 1);
+	BottomRight = new wxRadioButton(ToolPanel, ID_RADIOBUTTON2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON2"));
+	AlignmentSizer->Add(BottomRight, 1, wxALL|wxALIGN_RIGHT|wxALIGN_BOTTOM, 1);
+	ToolPanelSizer->Add(AlignmentSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
+	AngleSizer = new wxBoxSizer(wxVERTICAL);
+	StaticText8 = new wxStaticText(ToolPanel, ID_STATICTEXT9, _("Angle (deg):"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT9"));
+	AngleSizer->Add(StaticText8, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	SpinCtrl4 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL6, _T("0"), wxDefaultPosition, wxSize(69,21), 0, 0, 360, 0, _T("ID_SPINCTRL6"));
+	SpinCtrl4->SetValue(_T("0"));
+	AngleSizer->Add(SpinCtrl4, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	ToolPanelSizer->Add(AngleSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	StaticText4 = new wxStaticText(ToolPanel, ID_STATICTEXT5, _("Size:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT5"));
 	ToolPanelSizer->Add(StaticText4, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	SpinCtrl1 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL3, _T("2"), wxDefaultPosition, wxSize(61,21), 0, 2, 16, 2, _T("ID_SPINCTRL3"));
@@ -429,6 +528,14 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Connect(ID_SPINCTRL1,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
 	Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
 	Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnShowGrid);
+	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnStretchImage);
+	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnMirror);
+	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnBlur);
+	Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotate);
+	Connect(ID_BITMAPBUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateCounterClockwise);
+	Connect(ID_BITMAPBUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateClockwise);
+	Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateHueClick);
+	Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnButtonColourDepthClick);
 	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnSelectButtonToggle);
 	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLassoButtonToggle);
 	Connect(ID_PEN_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnPenButtonToggle);
@@ -449,6 +556,16 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Connect(ID_LHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRHairBrushButtonToggle);
 	Connect(ID_FONT_BUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnFontButtonClick);
 	Connect(ID_BKMODE_TOGGLEBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnBackgroundButtonToggle);
+	Connect(ID_RADIOBUTTON1,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnTopLeftSelect);
+	Connect(ID_RADIOBUTTON9,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnTopCenterSelect);
+	Connect(ID_RADIOBUTTON8,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnTopRightSelect);
+	Connect(ID_RADIOBUTTON7,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnCenterLeftSelect);
+	Connect(ID_RADIOBUTTON6,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnCenterCenterSelect);
+	Connect(ID_RADIOBUTTON5,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnCenterRightSelect);
+	Connect(ID_RADIOBUTTON4,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnBottomLeftSelect);
+	Connect(ID_RADIOBUTTON3,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnBottomCenterSelect);
+	Connect(ID_RADIOBUTTON2,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnBottomRightSelect);
+	Connect(ID_SPINCTRL6,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinCtrl4Change);
 	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
 	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinRadiusChanged);
 	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
@@ -465,6 +582,10 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	DrawCanvas->Connect(wxEVT_SIZE,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasResize,0,this);
 	Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown);
 	//*)
+
+    //Bitmap Button rotate
+    BitmapButton2->SetBitmapLabel(left_xpm);
+    BitmapButton1->SetBitmapLabel(right_xpm);
 
 	//transparent color changed
 	Connect(ID_CUSTOM1,wxEVT_TRANSPARENT_COLOR_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnTransparentColorChanged);
@@ -898,6 +1019,17 @@ void XPMEditorPanel::OnDrawCanvasEraseBackground(wxEraseEvent& event)
 
 }
 
+/** update the display
+  */
+void XPMEditorPanel::Repaint(void)
+{
+    if (DrawCanvas)
+    {
+        DrawCanvas->Refresh(true, NULL);
+        DrawCanvas->Update();
+    }
+}
+
 /** The Paint Event handler
   * Will also redraw the background where needed (this solution is better while scrolling)
   */
@@ -1307,6 +1439,15 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         ProcessDragAction(x, y, false, false, true, false);
 
     }
+    else if (event.Dragging() && (m_bSizing))
+    {
+        //move the selection
+        int x, y;
+
+        event.GetPosition(&x, &y);
+        ProcessSizeAction(x, y, false, false, true, false, m_iSizeAction);
+
+    }
     else
     {
         //there is no dragging event - just set the cursor and draw the tool
@@ -1558,6 +1699,14 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
 
         case XPM_ID_ROUNDEDRECT_TOOL :
                     ProcessRoundedRectangle(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    break;
+
+        case XPM_ID_DRAG_TOOL:
+                    ProcessDragAction(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    break;
+
+        case XPM_ID_STRETCH_TOOL:
+                    ProcessSizeAction(x, y, bLeftDown, bLeftUp, bPressed, bDClick, IsPointInSelection(x,y));
                     break;
 
         default: break;
@@ -1961,7 +2110,9 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
   * @param bPressed: true if the left mouse button is currently pressed
   * @param bDClick: true if the a double-click event occured
   * @param iDirection: the direction of the stretch
-  *            2: top 3 : right 4: bottom 5 : left 6:top left 7: top right 8: bottom left 9 bottom right
+  *            2: top; 3 : left; 4: bottom; 5 : right;
+  *            6:top left;      7: top right;
+  *            8: bottom left;  9 bottom right
   */
 void XPMEditorPanel::ProcessSizeAction(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, int iDirection)
@@ -1969,7 +2120,12 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
     if ((bLeftDown) || (bPressed))
     {
         if (!m_Bitmap) return;
+        m_bSizing = true;
+        m_iSizeAction = iDirection;
 
+        //wxMessageBox(wxString::Format(_("iDirection=%d"), iDirection));
+
+        ToggleButtons(XPM_ID_STRETCH_TOOL, false);
         ConvertSelectionToRect();
         wxRect rSelection;
         GetBoundingRect(&rSelection);
@@ -1980,13 +2136,13 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
         iTop = rSelection.GetTop();
         iBottom = rSelection.GetBottom();
         if ((iDirection == 2) || (iDirection == 6) || (iDirection == 7)) iTop = y;
-        if ((iDirection == 3) || (iDirection == 7) || (iDirection == 9)) iRight = x;
+        if ((iDirection == 3) || (iDirection == 6) || (iDirection == 8)) iLeft = x;
         if ((iDirection == 4) || (iDirection == 8) || (iDirection == 9)) iBottom = y;
-        if ((iDirection == 5) || (iDirection == 6) || (iDirection == 8)) iLeft = x;
+        if ((iDirection == 5) || (iDirection == 7) || (iDirection == 9)) iRight = x;
 
         if (m_SelectionImage.IsOk())
         {
-            m_SelectionImage.Rescale(iRight - iLeft, iBottom - iTop, wxIMAGE_QUALITY_HIGH);
+            m_SelectionImage.Rescale(iRight - iLeft, iBottom - iTop, wxIMAGE_QUALITY_NORMAL);
             m_SelectionBitmap = wxBitmap(m_SelectionImage);
 
             if (NbPoints == 4)
@@ -2012,6 +2168,7 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
     if (bLeftUp)
     {
         //finish
+        m_bSizing = false;
         InitToolData();
     }
 }
@@ -2875,9 +3032,53 @@ void XPMEditorPanel::InitToolData(void)
                                {
                                    tdata.iStyle = wxSOLID;
                                }
-                               tdata.iHorizAlign = wxALIGN_LEFT;
-                               tdata.iVertAlign = wxALIGN_TOP;
-                               tdata.angle = 0.0;
+                               if (TopLeft->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_LEFT;
+                                   tdata.iVertAlign = wxALIGN_TOP;
+                               }
+                               if (TopCenter->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_CENTER;
+                                   tdata.iVertAlign = wxALIGN_TOP;
+                               }
+                               if (TopRight->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_RIGHT;
+                                   tdata.iVertAlign = wxALIGN_TOP;
+                               }
+                               if (CenterLeft->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_LEFT;
+                                   tdata.iVertAlign = wxALIGN_CENTER;
+                               }
+                               if (CenterCenter->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_CENTER;
+                                   tdata.iVertAlign = wxALIGN_CENTER;
+                               }
+                               if (CenterRight->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_RIGHT;
+                                   tdata.iVertAlign = wxALIGN_CENTER;
+                               }
+                               if (BottomLeft->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_LEFT;
+                                   tdata.iVertAlign = wxALIGN_BOTTOM;
+                               }
+                               if (BottomCenter->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_CENTER;
+                                   tdata.iVertAlign = wxALIGN_BOTTOM;
+                               }
+                               if (BottomRight->GetValue())
+                               {
+                                   tdata.iHorizAlign = wxALIGN_RIGHT;
+                                   tdata.iVertAlign = wxALIGN_BOTTOM;
+                               }
+
+                               tdata.angle = SpinCtrl4->GetValue();
                                break;
 
         default: break;
@@ -3072,15 +3273,15 @@ int XPMEditorPanel::IsPointInSelection(int x, int y)
 
         //for now the algorithm is pretty simple.
         iCount = i1 + i2 + i3 + i4;
-        if ((i3 == 1) && (iCount == 1)) return(2); //above
+        if ((i4 == 1) && (iCount == 1)) return(2); //above
         if ((i2 == 1) && (iCount == 1)) return(3); //left
-        if ((i4 == 1) && (iCount == 1)) return(4); //under
+        if ((i3 == 1) && (iCount == 1)) return(4); //under
         if ((i1 == 1) && (iCount == 1)) return(5); //right
 
-        if ((i2 == 1) && (i3 == 1) && (iCount == 2)) return(6); //top left corner
-        if ((i1 == 1) && (i3 == 1) && (iCount == 2)) return(7); //top right corner
-        if ((i4 == 1) && (i2 == 1) && (iCount == 2)) return(8); //bottom left corner
-        if ((i4 == 1) && (i1 == 1) && (iCount == 2)) return(9); //bottom right corner
+        if ((i2 == 1) && (i4 == 1) && (iCount == 2)) return(6); //top left corner
+        if ((i1 == 1) && (i4 == 1) && (iCount == 2)) return(7); //top right corner
+        if ((i3 == 1) && (i2 == 1) && (iCount == 2)) return(8); //bottom left corner
+        if ((i3 == 1) && (i1 == 1) && (iCount == 2)) return(9); //bottom right corner
     }
 
     rResult = region.Contains(wxPoint(xx,yy));
@@ -3749,6 +3950,18 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         BackgroundButton->Hide();
         TextEdit->Hide();
         ResizeCtrl1->Hide();
+        TopLeft->Hide();
+        TopCenter->Hide();
+        TopRight->Hide();
+        CenterLeft->Hide();
+        CenterCenter->Hide();
+        CenterRight->Hide();
+        BottomLeft->Hide();
+        BottomCenter->Hide();
+        BottomRight->Hide();
+        StaticText7->Hide();
+        StaticText8->Hide();
+        SpinCtrl4->Hide();
     }
     else if ((iIndex == XPM_ID_ERASER_TOOL) && (bChecked))
     {
@@ -3771,6 +3984,18 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         BackgroundButton->Hide();
         TextEdit->Hide();
         ResizeCtrl1->Hide();
+        TopLeft->Hide();
+        TopCenter->Hide();
+        TopRight->Hide();
+        CenterLeft->Hide();
+        CenterCenter->Hide();
+        CenterRight->Hide();
+        BottomLeft->Hide();
+        BottomCenter->Hide();
+        BottomRight->Hide();
+        StaticText7->Hide();
+        StaticText8->Hide();
+        SpinCtrl4->Hide();
     }
     else if (    ((iIndex == XPM_ID_LINE_TOOL) && (bChecked))
               || ((iIndex == XPM_ID_CURVE_TOOL) && (bChecked))
@@ -3798,6 +4023,18 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         BackgroundButton->Hide();
         TextEdit->Hide();
         ResizeCtrl1->Hide();
+        TopLeft->Hide();
+        TopCenter->Hide();
+        TopRight->Hide();
+        CenterLeft->Hide();
+        CenterCenter->Hide();
+        CenterRight->Hide();
+        BottomLeft->Hide();
+        BottomCenter->Hide();
+        BottomRight->Hide();
+        StaticText7->Hide();
+        StaticText8->Hide();
+        SpinCtrl4->Hide();
     }
     else if ((iIndex == XPM_ID_ROUNDEDRECT_TOOL) && (bChecked))
     {
@@ -3822,6 +4059,18 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         BackgroundButton->Hide();
         TextEdit->Hide();
         ResizeCtrl1->Hide();
+        TopLeft->Hide();
+        TopCenter->Hide();
+        TopRight->Hide();
+        CenterLeft->Hide();
+        CenterCenter->Hide();
+        CenterRight->Hide();
+        BottomLeft->Hide();
+        BottomCenter->Hide();
+        BottomRight->Hide();
+        StaticText7->Hide();
+        StaticText8->Hide();
+        SpinCtrl4->Hide();
     }
     else if (iIndex == XPM_ID_TEXT_TOOL)
     {
@@ -3840,6 +4089,18 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         //hide for now - will show them later
         TextEdit->Hide();
         ResizeCtrl1->Hide();
+        TopLeft->Show(true);
+        TopCenter->Show(true);
+        TopRight->Show(true);
+        CenterLeft->Show(true);
+        CenterCenter->Show(true);
+        CenterRight->Show(true);
+        BottomLeft->Show(true);
+        BottomCenter->Show(true);
+        BottomRight->Show(true);
+        StaticText7->Show(true);
+        StaticText8->Show(true);
+        SpinCtrl4->Show(true);
     }
     else
     {
@@ -3858,6 +4119,18 @@ void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
         BackgroundButton->Hide();
         TextEdit->Hide();
         ResizeCtrl1->Hide();
+        TopLeft->Hide();
+        TopCenter->Hide();
+        TopRight->Hide();
+        CenterLeft->Hide();
+        CenterCenter->Hide();
+        CenterRight->Hide();
+        BottomLeft->Hide();
+        BottomCenter->Hide();
+        BottomRight->Hide();
+        StaticText7->Hide();
+        StaticText8->Hide();
+        SpinCtrl4->Hide();
     }
 }
 
@@ -4515,7 +4788,12 @@ void XPMEditorPanel::OnTextEditText(wxCommandEvent& event)
 void XPMEditorPanel::OnDrawCanvasKeyDown(wxKeyEvent& event)
 {
     bool bUpdate;
+    int iModifiers;
+    int dx;
+
     bUpdate = false;
+    iModifiers = event.GetModifiers();
+    if (iModifiers & wxMOD_CONTROL) dx = 1; else dx = 5;
 
     switch(event.GetKeyCode())
     {
@@ -4531,10 +4809,10 @@ void XPMEditorPanel::OnDrawCanvasKeyDown(wxKeyEvent& event)
                                 bUpdate = true;
                             }
                             break;
-        case WXK_LEFT : if (HasSelection()) MoveSelection(-5,0); bUpdate = true; break;
-        case WXK_UP   : if (HasSelection()) MoveSelection(0,-5); bUpdate = true; break;
-        case WXK_RIGHT: if (HasSelection()) MoveSelection(5,0); bUpdate = true; break;
-        case WXK_DOWN : if (HasSelection()) MoveSelection(0,5); bUpdate = true; break;
+        case WXK_LEFT : if (HasSelection()) MoveSelection(-dx,0); bUpdate = true; break;
+        case WXK_UP   : if (HasSelection()) MoveSelection(0,-dx); bUpdate = true; break;
+        case WXK_RIGHT: if (HasSelection()) MoveSelection(dx,0); bUpdate = true; break;
+        case WXK_DOWN : if (HasSelection()) MoveSelection(0,dx); bUpdate = true; break;
 
         default: break;
     }
@@ -4546,4 +4824,609 @@ void XPMEditorPanel::OnDrawCanvasKeyDown(wxKeyEvent& event)
     }
 
     event.Skip();
+}
+
+/** Handler for the "STRETCH" BUTTON
+  * It will resize the image while stretching it
+  */
+void XPMEditorPanel::OnStretchImage(wxCommandEvent& event)
+{
+    wxStretchImage sd(this);
+
+    //init the dialog box
+    wxRect rSelection;
+    wxSize sSelection;
+
+    GetBoundingRect(&rSelection);
+    sd.sSelection = wxSize(rSelection.GetWidth(), rSelection.GetHeight());
+    sd.sImage = sDrawAreaSize;
+
+    if (HasSelection())
+    {
+        //selection
+        sd.RadioButton2->SetValue(true);
+        sd.RadioButton2->Enable(true);
+        sd.TextCtrl1->SetValue(wxString::Format(_("%d"), rSelection.GetWidth()));
+        sd.TextCtrl2->SetValue(wxString::Format(_("%d"), rSelection.GetHeight()));
+        sd.SpinCtrl1->SetValue(rSelection.GetWidth());
+        sd.SpinCtrl2->SetValue(rSelection.GetHeight());
+    }
+    else
+    {
+        //image
+        sd.RadioButton1->SetValue(true);
+        sd.RadioButton2->Enable(false);
+        sd.TextCtrl1->SetValue(wxString::Format(_("%d"), sDrawAreaSize.GetWidth()));
+        sd.TextCtrl2->SetValue(wxString::Format(_("%d"), sDrawAreaSize.GetHeight()));
+        sd.SpinCtrl1->SetValue(sDrawAreaSize.GetWidth());
+        sd.SpinCtrl2->SetValue(sDrawAreaSize.GetHeight());
+    }
+    sd.RadioButton3->SetValue(true);
+
+    //display the dialog box
+    if (sd.ShowModal() == 0)
+    {
+        int iQuality, iHeight, iWidth;
+        if (sd.RadioButton3->GetValue()) iQuality = wxIMAGE_QUALITY_NORMAL; else iQuality = wxIMAGE_QUALITY_HIGH;
+        iWidth  = sd.SpinCtrl1->GetValue();
+        iHeight = sd.SpinCtrl2->GetValue();
+
+        if (sd.RadioButton1->GetValue())
+        {
+            //rescale the image
+            AddUndo();
+            sDrawAreaSize = wxSize(iWidth, iHeight);
+
+            //indicate the size of the bitmap in the spinboxes
+            if (BMPWidth) BMPWidth->SetValue(sDrawAreaSize.GetWidth());
+            if (BMPHeight) BMPHeight->SetValue(sDrawAreaSize.GetHeight());
+
+            //resize the image
+            if (m_Image)
+            {
+                m_Image->Rescale(iWidth, iHeight, iQuality);
+            }
+            UpdateBitmap();
+            SetModified(true);
+            Repaint();
+        }
+        else if (HasSelection())
+        {
+            //rescale the selection
+            ConvertSelectionToRect();
+            pSelection[1].x = pSelection[0].x + iWidth;
+            pSelection[2].x = pSelection[1].x;
+            pSelection[2].y = pSelection[0].y + iHeight;
+            pSelection[3].y = pSelection[2].y;
+            m_SelectionImage.Rescale(iWidth, iHeight, iQuality);
+            m_SelectionBitmap = wxBitmap(m_SelectionImage);
+            m_bEraseSelection = false;
+            Repaint();
+        }
+    }
+}
+
+/** Mirroring of the image or the selection
+  */
+void XPMEditorPanel::OnMirror(wxCommandEvent& event)
+{
+    wxMirror md(this);
+
+    //init the dialog box
+    if (HasSelection())
+    {
+        md.RadioButton4->Enable(true);
+        md.RadioButton4->SetValue(true);
+    }
+    else
+    {
+        md.RadioButton4->Enable(false);
+        md.RadioButton3->SetValue(true);
+    }
+    md.RadioButton1->SetValue(true);
+
+    //show the dialog box
+    if (md.ShowModal() == 0)
+    {
+        bool bHorizontal;
+        if (md.RadioButton1->GetValue()) bHorizontal = true; else bHorizontal = false;
+
+        if ((md.RadioButton3->GetValue()))
+        {
+           //mirror image
+           if (m_Image)
+           {
+               AddUndo();
+               wxImage img;
+               img = m_Image->Mirror(bHorizontal);
+               SetImage(&img);
+               SetModified(true);
+           }
+        }
+        else
+        {
+            //mirror selection
+            if (HasSelection())
+            {
+                wxImage img;
+                img = m_SelectionImage.Mirror(bHorizontal);
+                m_SelectionImage = img;
+                m_SelectionBitmap = wxBitmap(m_SelectionImage);
+                m_bEraseSelection = false;
+                Repaint();
+            }
+        }
+    }
+}
+
+/** Blur handler **/
+void XPMEditorPanel::OnBlur(wxCommandEvent& event)
+{
+    wxBlur bd(this);
+
+    //init the dialog box
+    if (HasSelection())
+    {
+        bd.RadioButton4->Enable(true);
+        bd.RadioButton4->SetValue(true);
+    }
+    else
+    {
+        bd.RadioButton4->Enable(false);
+        bd.RadioButton3->SetValue(true);
+    }
+    bd.RadioButton1->SetValue(true);
+
+    //show the dialog box
+    if (bd.ShowModal() == 0)
+    {
+        int iRadius;
+        bool bBoth, bHorizontal;
+        if (bd.RadioButton1->GetValue()) bHorizontal = true; else bHorizontal = false;
+        if (bd.RadioButton5->GetValue()) bBoth = true; else bBoth = false;
+        iRadius = bd.SpinCtrl1->GetValue();
+
+        if ((bd.RadioButton3->GetValue()) && (m_Image))
+        {
+           //blur image
+           if (m_Image)
+           {
+               AddUndo();
+               wxImage img;
+               if (bHorizontal)
+               {
+                   img = m_Image->BlurHorizontal(iRadius);
+               }
+               else if (bBoth)
+               {
+                   img = m_Image->Blur(iRadius);
+               }
+               else
+               {
+                   img = m_Image->BlurVertical(iRadius);
+               }
+               SetImage(&img);
+               SetModified(true);
+           }
+        }
+        else
+        {
+            //blur selection
+            if (HasSelection())
+            {
+                wxImage img;
+                if (bHorizontal)
+                {
+                    img = m_SelectionImage.BlurHorizontal(iRadius);
+                }
+                else if (bBoth)
+                {
+                    img = m_SelectionImage.Blur(iRadius);
+                }
+                else
+                {
+                    img = m_SelectionImage.BlurVertical(iRadius);
+                }
+                m_SelectionImage = img;
+                m_SelectionBitmap = wxBitmap(m_SelectionImage);
+                m_bEraseSelection = false;
+                Repaint();
+            }
+        }
+    }
+}
+
+void XPMEditorPanel::OnRotate(wxCommandEvent& event)
+{
+    wxRotate rd(this);
+
+    //init the dialog box
+    if (HasSelection())
+    {
+        rd.RadioButton4->Enable(true);
+        rd.RadioButton4->SetValue(true);
+    }
+    else
+    {
+        rd.RadioButton4->Enable(false);
+        rd.RadioButton3->SetValue(true);
+    }
+    rd.RadioButton1->SetValue(true);
+    rd.StaticText2->Enable(false);
+    rd.SpinCtrl1->Enable(false);
+
+    //show the dialog box
+    if (rd.ShowModal() == 0)
+    {
+        int iAngle;
+        double dAngle;
+        iAngle = rd.SpinCtrl1->GetValue();
+        dAngle = iAngle;
+
+        if ((rd.RadioButton3->GetValue()) && (m_Image))
+        {
+            //rotate image
+            AddUndo();
+            wxImage img;
+            if (rd.RadioButton1->GetValue())
+            {
+                img = m_Image->Rotate90(true);
+            }
+            if (rd.RadioButton2->GetValue())
+            {
+                img = m_Image->Rotate90(true);
+                img = img.Rotate90(true);
+            }
+            if (rd.RadioButton5->GetValue())
+            {
+                img = m_Image->Rotate90(false);
+            }
+            if (rd.RadioButton6->GetValue())
+            {
+                dAngle = 360 - dAngle; //to reverse the direction
+                dAngle = dAngle * PI / 180; //conversion in Radians
+                wxPoint ptCenter(m_Image->GetWidth() / 2, m_Image->GetHeight() / 2);
+
+                NbPoints = 0; //Clear the selection
+
+                img = m_Image->Rotate(dAngle, ptCenter, false, NULL);
+            }
+            SetImage(&img);
+            SetModified(true);
+
+        }
+        else
+        {
+            if (HasSelection())
+            {
+                //rotate selection
+                ConvertSelectionToRect();
+                wxRect rSelection;
+
+                GetBoundingRect(&rSelection);
+
+                wxImage img;
+                if (rd.RadioButton1->GetValue())
+                {
+                    img = m_SelectionImage.Rotate90(true);
+                    pSelection[1].x = pSelection[0].x + img.GetWidth();
+                    pSelection[2].x = pSelection[1].x;
+                    pSelection[2].y = pSelection[0].y + img.GetHeight();
+                    pSelection[3].y = pSelection[2].y;
+
+                }
+                if (rd.RadioButton2->GetValue())
+                {
+                    img = m_SelectionImage.Rotate90(true);
+                    img = img.Rotate90(true);
+                }
+                if (rd.RadioButton5->GetValue())
+                {
+                    img = m_SelectionImage.Rotate90(false);
+                    pSelection[1].x = pSelection[0].x + img.GetWidth();
+                    pSelection[2].x = pSelection[1].x;
+                    pSelection[2].y = pSelection[0].y + img.GetHeight();
+                    pSelection[3].y = pSelection[2].y;
+                }
+                if (rd.RadioButton6->GetValue())
+                {
+                    dAngle = 360 - dAngle; //to reverse the direction
+                    dAngle = dAngle * PI / 180; //conversion in Radians
+                    wxPoint ptCenter(m_SelectionImage.GetWidth() / 2, m_SelectionImage.GetHeight() / 2);
+                    wxPoint ptOffset(0,0);
+                    img = m_SelectionImage;
+                    img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+                    img = img.Rotate(dAngle, ptCenter, false, &ptOffset);
+
+                    //recompute selection
+                    pSelection[1].x = pSelection[0].x + img.GetWidth() * cos(dAngle);
+                    pSelection[1].y = pSelection[0].y + img.GetWidth() * sin(dAngle);
+                    pSelection[2].x = pSelection[1].x + img.GetHeight() * sin(dAngle);
+                    pSelection[2].y = pSelection[1].y + img.GetHeight() * cos(dAngle);
+                    pSelection[3].x = pSelection[0].x + img.GetWidth() * sin(dAngle);
+                    pSelection[3].y = pSelection[0].y + img.GetWidth() * cos(dAngle);
+
+
+                }
+                m_SelectionImage = img;
+                m_SelectionBitmap = wxBitmap(m_SelectionImage);
+                m_bEraseSelection = false;
+                Repaint();
+            }
+        }
+    }
+}
+
+/** Rotate 90 degree counter-clockwise handler **/
+void XPMEditorPanel::OnRotateCounterClockwise(wxCommandEvent& event)
+{
+    wxImage img;
+
+    if (HasSelection())
+    {
+        ConvertSelectionToRect();
+        img = m_SelectionImage.Rotate90(false);
+        m_SelectionImage = img;
+        m_SelectionBitmap = wxBitmap(m_SelectionImage);
+        m_bEraseSelection = false;
+        pSelection[1].x = pSelection[0].x + img.GetWidth();
+        pSelection[2].x = pSelection[1].x;
+        pSelection[2].y = pSelection[0].y + img.GetHeight();
+        pSelection[3].y = pSelection[2].y;
+        Repaint();
+    }
+    else
+    {
+        if (m_Image)
+        {
+            AddUndo();
+            img = m_Image->Rotate90(false);
+            SetImage(&img);
+            SetModified(true);
+        }
+    }
+}
+
+/** Rotate 90 degree clockwise handler **/
+void XPMEditorPanel::OnRotateClockwise(wxCommandEvent& event)
+{
+    wxImage img;
+
+    if (HasSelection())
+    {
+        ConvertSelectionToRect();
+        img = m_SelectionImage.Rotate90(true);
+        m_SelectionImage = img;
+        m_SelectionBitmap = wxBitmap(m_SelectionImage);
+        m_bEraseSelection = false;
+        pSelection[1].x = pSelection[0].x + img.GetWidth();
+        pSelection[2].x = pSelection[1].x;
+        pSelection[2].y = pSelection[0].y + img.GetHeight();
+        pSelection[3].y = pSelection[2].y;
+        Repaint();
+    }
+    else
+    {
+        if (m_Image)
+        {
+            AddUndo();
+            img = m_Image->Rotate90(true);
+            SetImage(&img);
+            SetModified(true);
+        }
+    }
+}
+
+/** Rotate Hue handler **/
+void XPMEditorPanel::OnRotateHueClick(wxCommandEvent& event)
+{
+    wxRotateHue rd(this);
+
+    /*
+    wxImage::HSVValue greenHSV = wxImage::RGBtoHSV(wxImage::RGBValue(0, 255, 0));
+        wxImage::HSVValue redHSV = wxImage::RGBtoHSV(wxImage::RGBValue(255, 0, 0));
+        image.RotateHue(redHSV.hue - greenHSV.hue);
+        colorized_horse_jpeg = wxBitmap( image );
+    */
+
+    //init the dialog box
+    if (HasSelection())
+    {
+        rd.RadioButton4->Enable(true);
+        rd.RadioButton4->SetValue(true);
+    }
+    else
+    {
+        rd.RadioButton4->Enable(false);
+        rd.RadioButton3->SetValue(true);
+    }
+
+    //show the dialog box
+    if (rd.ShowModal() == 0)
+    {
+        int iAngle;
+        double dAngle;
+        iAngle = rd.SpinCtrl1->GetValue();
+        dAngle = iAngle / 360;
+
+        if ((rd.RadioButton3->GetValue()))
+        {
+           //rotate hue for the image
+           if (m_Image)
+           {
+               AddUndo();
+               wxImage img;
+               m_Image->RotateHue(dAngle);
+               UpdateBitmap();
+               SetModified(true);
+           }
+        }
+        else
+        {
+            //rotate hue for the selection
+            if (HasSelection())
+            {
+                m_SelectionImage.RotateHue(dAngle);
+                m_SelectionBitmap = wxBitmap(m_SelectionImage);
+                m_bEraseSelection = false;
+                Repaint();
+            }
+        }
+    }
+}
+
+
+
+void XPMEditorPanel::OnButtonColourDepthClick(wxCommandEvent& event)
+{
+    wxConversion cd(this);
+
+    //init the dialog box
+    if (HasSelection())
+    {
+        cd.RadioButton4->Enable(true);
+        cd.RadioButton4->SetValue(true);
+    }
+    else
+    {
+        cd.RadioButton4->Enable(false);
+        cd.RadioButton3->SetValue(true);
+    }
+    cd.RadioButton1->SetValue(true);
+
+    //show the dialog box
+    if (cd.ShowModal() == 0)
+    {
+        bool bMonochrome;
+        if (cd.RadioButton1->GetValue()) bMonochrome = true; else bMonochrome = false;
+
+        if ((cd.RadioButton3->GetValue()))
+        {
+           //mirror image
+           if (m_Image)
+           {
+               AddUndo();
+               wxImage img;
+               if (bMonochrome) img = m_Image->ConvertToMono(255,255,255);
+               else img = m_Image->ConvertToGreyscale();
+               SetImage(&img);
+               SetModified(true);
+           }
+        }
+        else
+        {
+            //mirror selection
+            if (HasSelection())
+            {
+                wxImage img;
+                if (bMonochrome) img = m_SelectionImage.ConvertToMono(255,255,255);
+                else img = m_SelectionImage.ConvertToGreyscale();
+                m_SelectionImage = img;
+                m_SelectionBitmap = wxBitmap(m_SelectionImage);
+                m_bEraseSelection = false;
+                Repaint();
+            }
+        }
+    }
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnTopLeftSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_LEFT;
+    tdata.iVertAlign  = wxALIGN_TOP;
+    DrawTextBitmap();
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnTopCenterSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_CENTER;
+    tdata.iVertAlign  = wxALIGN_TOP;
+    DrawTextBitmap();
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnTopRightSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_RIGHT;
+    tdata.iVertAlign  = wxALIGN_TOP;
+    DrawTextBitmap();
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnCenterLeftSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_LEFT;
+    tdata.iVertAlign  = wxALIGN_CENTER;
+    DrawTextBitmap();
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnCenterCenterSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_CENTER;
+    tdata.iVertAlign  = wxALIGN_CENTER;
+    DrawTextBitmap();
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnCenterRightSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_RIGHT;
+    tdata.iVertAlign  = wxALIGN_CENTER;
+    DrawTextBitmap();
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnBottomLeftSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_LEFT;
+    tdata.iVertAlign  = wxALIGN_BOTTOM;
+    DrawTextBitmap();
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnBottomCenterSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_CENTER;
+    tdata.iVertAlign  = wxALIGN_BOTTOM;
+    DrawTextBitmap();
+}
+
+/** Text alignement handler - radio button **/
+void XPMEditorPanel::OnBottomRightSelect(wxCommandEvent& event)
+{
+    tdata.iHorizAlign = wxALIGN_RIGHT;
+    tdata.iVertAlign  = wxALIGN_BOTTOM;
+    DrawTextBitmap();
+}
+
+/** Spin Control for text alignment - force 90, 180, 270 or 0 **/
+void XPMEditorPanel::OnSpinCtrl4Change(wxSpinEvent& event)
+{
+    int iCurrentPos;
+    iCurrentPos = event.GetPosition();
+
+    //wxMessageBox(wxString::Format(_("iPos=%d iCurrentPos=%d"), iPos, iCurrentPos));
+
+    if (iPos > iCurrentPos)
+    {
+        //the user downgrades the value
+
+        if (iCurrentPos <= 90) SpinCtrl4->SetValue(0);
+        if ((iCurrentPos <= 180) && (iCurrentPos > 90)) SpinCtrl4->SetValue(90);
+        if ((iCurrentPos <= 270) && (iCurrentPos > 180)) SpinCtrl4->SetValue(180);
+        if ((iCurrentPos <= 360) && (iCurrentPos > 270)) SpinCtrl4->SetValue(270);
+    }
+    else
+    {
+        //the user upgrades the value
+        if (iCurrentPos > 270) SpinCtrl4->SetValue(0);
+        if ((iCurrentPos > 180) && (iCurrentPos <= 270)) SpinCtrl4->SetValue(270);
+        if ((iCurrentPos > 90) && (iCurrentPos <= 180)) SpinCtrl4->SetValue(180);
+        if ((iCurrentPos > 0) && (iCurrentPos <= 90)) SpinCtrl4->SetValue(90);
+    }
+    iPos = iCurrentPos;
+
 }

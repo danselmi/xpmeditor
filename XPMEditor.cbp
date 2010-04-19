@@ -68,8 +68,20 @@
 		<Unit filename="shape01.png" />
 		<Unit filename="test.bmp" />
 		<Unit filename="todo.txt" />
+		<Unit filename="wxBlur.cpp" />
+		<Unit filename="wxBlur.h" />
+		<Unit filename="wxConversion.cpp" />
+		<Unit filename="wxConversion.h" />
+		<Unit filename="wxMirror.cpp" />
+		<Unit filename="wxMirror.h" />
 		<Unit filename="wxResizeCtrl.cpp" />
 		<Unit filename="wxResizeCtrl.h" />
+		<Unit filename="wxRotate.cpp" />
+		<Unit filename="wxRotate.h" />
+		<Unit filename="wxRotateHue.cpp" />
+		<Unit filename="wxRotateHue.h" />
+		<Unit filename="wxStretchImage.cpp" />
+		<Unit filename="wxStretchImage.h" />
 		<Unit filename="wxthings\include\wx\things\thingdef.h" />
 		<Unit filename="wxthings\include\wx\things\toggle.h" />
 		<Unit filename="wxthings\src\toggle.cpp" />
@@ -82,6 +94,7 @@
 		<Unit filename="xpm\fill.xpm" />
 		<Unit filename="xpm\fill_cursor.xpm" />
 		<Unit filename="xpm\lasso.xpm" />
+		<Unit filename="xpm\left.xpm" />
 		<Unit filename="xpm\left_hair.xpm" />
 		<Unit filename="xpm\line.xpm" />
 		<Unit filename="xpm\pen.xpm" />
@@ -90,6 +103,7 @@
 		<Unit filename="xpm\pipette_cursor.xpm" />
 		<Unit filename="xpm\polygon.xpm" />
 		<Unit filename="xpm\rectangle.xpm" />
+		<Unit filename="xpm\right.xpm" />
 		<Unit filename="xpm\right_hair.xpm" />
 		<Unit filename="xpm\roundedrect.xpm" />
 		<Unit filename="xpm\selection.xpm" />
@@ -105,6 +119,12 @@
 				<resources>
 					<wxPanel wxs="wxsmith/XPMEditorPanel.wxs" src="XPMEditorPanel.cpp" hdr="XPMEditorPanel.h" fwddecl="1" name="XPMEditorPanel" language="CPP" />
 					<wxDialog wxs="wxsmith/XPMCustomZoom.wxs" src="XPMCustomZoom.cpp" hdr="XPMCustomZoom.h" fwddecl="1" name="XPMCustomZoom" language="CPP" />
+					<wxDialog wxs="wxsmith/wxStretchImage.wxs" src="wxStretchImage.cpp" hdr="wxStretchImage.h" name="wxStretchImage" language="CPP" />
+					<wxDialog wxs="wxsmith/wxMirror.wxs" src="wxMirror.cpp" hdr="wxMirror.h" name="wxMirror" language="CPP" />
+					<wxDialog wxs="wxsmith/wxBlur.wxs" src="wxBlur.cpp" hdr="wxBlur.h" name="wxBlur" language="CPP" />
+					<wxDialog wxs="wxsmith/wxRotate.wxs" src="wxRotate.cpp" hdr="wxRotate.h" name="wxRotate" language="CPP" />
+					<wxDialog wxs="wxsmith/wxRotateHue.wxs" src="wxRotateHue.cpp" hdr="wxRotateHue.h" name="wxRotateHue" language="CPP" />
+					<wxDialog wxs="wxsmith/wxConversion.wxs" src="wxConversion.cpp" hdr="wxConversion.h" name="wxConversion" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

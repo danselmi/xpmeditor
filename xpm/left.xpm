@@ -1,0 +1,25 @@
+/* XPM */
+static const char *left_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1",
+"X c Black",
+"o c #FFFFFF",
+"  c None",
+/* pixels */
+"                ",
+"        X       ",
+"        XX      ",
+"        XoX     ",
+" XXXXXXXXooX    ",
+" XooooooooooX   ",
+" XoooooooooooX  ",
+" XoooooooooooX  ",
+" XooooooooooX   ",
+" XooooXXXooX    ",
+" XooooX XoX     ",
+" XooooX XX      ",
+" XooooX X       ",
+" XXXXXX         ",
+"                ",
+"                "
+};

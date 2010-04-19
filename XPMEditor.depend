@@ -2963,7 +2963,7 @@
 	"wx/defs.h"
 	"wx/dynarray.h"
 
-1271101290 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
+1271691176 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
 	"XPMCustomZoom.h"
 	<wx/sizer.h>
 	<wx/stattext.h>
@@ -3730,11 +3730,12 @@
 	"wx/textctrl.h"
 	"wx/validate.h"
 
-1271346430 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271693350 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
+	<wx/bitmap.h>
 	<wx/panel.h>
 
-1271344420 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
+1271424020 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
 	<sdk.h>
 	<configurationpanel.h>
 	<wx/aui/auibook.h>
@@ -5568,7 +5569,7 @@
 	"XPMCustomZoom.h"
 	"XPMUndo.h"
 
-1270997466 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
+1271423578 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
 	<editorbase.h>
 	<projectfile.h>
 	<wx/bitmap.h>
@@ -5580,12 +5581,12 @@
 
 1270997636 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmundo.h
 
-1270997374 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
+1271607412 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
 	<wx/scrolwin.h>
 	<wx/colour.h>
 	<wx/control.h>
 
-1271332096 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+1271428550 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
 	<sdk.h>
 	<filefilters.h>
 	<wx/msgdlg.h>
@@ -5622,8 +5623,14 @@
 	"wx/module.h"
 	"wx/dataobj.h"
 
-1271346312 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1271692952 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
+	"wxStretchImage.h"
+	"wxMirror.h"
+	"wxRotate.h"
+	"wxBlur.h"
+	"wxRotateHue.h"
+	"wxConversion.h"
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>
 	<wx/brush.h>
@@ -5636,18 +5643,26 @@
 	<wx/graphics.h>
 	<wx/bitmap.h>
 	<wx/dragimag.h>
+	<wx/fontdlg.h>
+	<wx/textfile.h>
+	<math.h>
 	<wx/scrolwin.h>
 	<wx/artprov.h>
 	<wx/sizer.h>
 	<wx/stattext.h>
+	<wx/textctrl.h>
 	<wx/checkbox.h>
 	<wx/things/toggle.h>
 	<wx/bitmap.h>
 	"XPMColorPicker.h"
 	<wx/spinctrl.h>
 	<wx/tglbtn.h>
+	<wx/radiobut.h>
+	"wxResizeCtrl.h"
 	<wx/settings.h>
+	<wx/bmpbuttn.h>
 	<wx/intl.h>
+	<wx/button.h>
 	<wx/image.h>
 	<wx/string.h>
 	<wx/combobox.h>
@@ -5665,6 +5680,8 @@
 	"xpm/roundedrect.xpm"
 	"xpm/selection.xpm"
 	"xpm/text.xpm"
+	"xpm/left.xpm"
+	"xpm/right.xpm"
 	"xpm/cross_cursor.xpm"
 	"xpm/pipette_cursor.xpm"
 	"xpm/fill_cursor.xpm"
@@ -5682,7 +5699,7 @@
 1236337244 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\rawbmp.h
 	"wx/image.h"
 
-1271230202 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
+1271273286 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
 	"wx/things/thingdef.h"
 
 1267380210 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\thingdef.h
@@ -5751,11 +5768,11 @@
 
 1270922140 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
 
-1270997624 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
+1271423864 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
 	"XPMEditor.h"
 	<wx/gdicmn.h>
 
-1270997356 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
+1271607894 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
 	"XPMColorPicker.h"
 	<wx/gdicmn.h>
 	<wx/dcclient.h>
@@ -5765,7 +5782,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271228824 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxthings\src\toggle.cpp
+1271228826 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxthings\src\toggle.cpp
 	"wx/wxprec.h"
 	"wx/control.h"
 	"wx/settings.h"
@@ -5874,4 +5891,126 @@
 	"wx/convauto.h"
 	"wx/string.h"
 	"wx/dynarray.h"
+
+1271596044 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxresizectrl.cpp
+	"wxResizeCtrl.h"
+	<wx/dcclient.h>
+	<wx/utils.h>
+
+1271594700 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxresizectrl.h
+	<wx/window.h>
+	<wx/colour.h>
+
+1236337242 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\fontdlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+	"wx/generic/fontdlgg.h"
+	"wx/msw/fontdlg.h"
+	"wx/gtk/fontdlg.h"
+	"wx/gtk1/fontdlg.h"
+	"wx/os2/fontdlg.h"
+	"wx/mac/fontdlg.h"
+
+1236337250 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\generic\fontdlgg.h
+	"wx/defs.h"
+	"wx/gdicmn.h"
+	"wx/font.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1236337276 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\msw\fontdlg.h
+
+1236337244 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\textfile.h
+	"wx/defs.h"
+	"wx/textbuf.h"
+	"wx/file.h"
+
+1236337244 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\textbuf.h
+	"wx/defs.h"
+	"wx/arrstr.h"
+	"wx/convauto.h"
+	"wx/string.h"
+	"wx/dynarray.h"
+
+1271676204 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxstretchimage.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/spinctrl.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271676386 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxmirror.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271680792 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxrotate.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/spinctrl.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271678594 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxblur.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/spinctrl.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271680747 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxblur.cpp
+	"wxBlur.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271691168 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxrotate.cpp
+	"wxRotate.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271677490 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxstretchimage.cpp
+	"wxStretchImage.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271676913 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxmirror.cpp
+	"wxMirror.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271685335 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\left.xpm
+
+1271684148 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\right.xpm
+
+1271691165 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxrotatehue.cpp
+	"wxRotateHue.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271688273 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxrotatehue.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/spinctrl.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1271691685 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxconversion.cpp
+	"wxConversion.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271691275 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\wxconversion.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
 

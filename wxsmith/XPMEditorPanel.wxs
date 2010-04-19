@@ -90,6 +90,80 @@
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 			</object>
 			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer13" member="no">
+					<object class="sizeritem">
+						<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+							<label>STRETCH</label>
+							<handler function="OnStretchImage" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxButton" name="ID_BUTTON2" variable="Button2" member="yes">
+							<label>MIRROR</label>
+							<handler function="OnMirror" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxButton" name="ID_BUTTON3" variable="Button3" member="yes">
+							<label>BLUR</label>
+							<handler function="OnBlur" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxButton" name="ID_BUTTON4" variable="Button4" member="yes">
+							<label>ROTATE</label>
+							<handler function="OnRotate" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxBitmapButton" name="ID_BITMAPBUTTON1" variable="BitmapButton1" member="yes">
+							<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+							<handler function="OnRotateCounterClockwise" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxBitmapButton" name="ID_BITMAPBUTTON2" variable="BitmapButton2" member="yes">
+							<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+							<handler function="OnRotateClockwise" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxButton" name="ID_BUTTON5" variable="Button5" member="yes">
+							<label>HUE</label>
+							<handler function="OnRotateHueClick" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxButton" name="ID_BUTTON6" variable="Button6" member="yes">
+							<label>COLOUR DEPTH</label>
+							<handler function="OnButtonColourDepthClick" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="spacer">
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+			</object>
+			<object class="sizeritem">
 				<object class="Custom" name="ID_CUSTOM1" subclass="XPMColorPicker" variable="ColourPicker" member="yes">
 					<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
 					<include_file>XPMColorPicker.h</include_file>
@@ -353,6 +427,126 @@
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
+											<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText7" member="yes">
+												<label>Alignment:</label>
+											</object>
+											<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
+											<border>5</border>
+										</object>
+										<object class="sizeritem">
+											<object class="wxGridSizer" variable="AlignmentSizer" member="yes">
+												<cols>3</cols>
+												<rows>3</rows>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON1" variable="TopLeft" member="yes">
+														<label></label>
+														<selected>1</selected>
+														<style>wxRB_GROUP</style>
+														<handler function="OnTopLeftSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON9" variable="TopCenter" member="yes">
+														<label></label>
+														<handler function="OnTopCenterSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON8" variable="TopRight" member="yes">
+														<label></label>
+														<handler function="OnTopRightSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_RIGHT|wxALIGN_TOP</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON7" variable="CenterLeft" member="yes">
+														<label></label>
+														<handler function="OnCenterLeftSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON6" variable="CenterCenter" member="yes">
+														<label></label>
+														<handler function="OnCenterCenterSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON5" variable="CenterRight" member="yes">
+														<label></label>
+														<handler function="OnCenterRightSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON4" variable="BottomLeft" member="yes">
+														<label></label>
+														<handler function="OnBottomLeftSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON3" variable="BottomCenter" member="yes">
+														<label></label>
+														<handler function="OnBottomCenterSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+												<object class="sizeritem">
+													<object class="wxRadioButton" name="ID_RADIOBUTTON2" variable="BottomRight" member="yes">
+														<label></label>
+														<handler function="OnBottomRightSelect" entry="EVT_RADIOBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_RIGHT|wxALIGN_BOTTOM</flag>
+													<border>1</border>
+													<option>1</option>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+										</object>
+										<object class="sizeritem">
+											<object class="wxBoxSizer" variable="AngleSizer" member="yes">
+												<orient>wxVERTICAL</orient>
+												<object class="sizeritem">
+													<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText8" member="yes">
+														<label>Angle (deg):</label>
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+													<border>5</border>
+												</object>
+												<object class="sizeritem">
+													<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="SpinCtrl4" member="yes">
+														<value>0</value>
+														<max>360</max>
+														<size>69,21</size>
+														<handler function="OnSpinCtrl4Change" entry="EVT_SPINCTRL" />
+													</object>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+													<border>5</border>
+												</object>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										</object>
+										<object class="sizeritem">
 											<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText4" member="yes">
 												<label>Size:</label>
 											</object>
@@ -444,9 +638,10 @@
 										<handler function="OnTextEditText" entry="EVT_TEXT" />
 									</object>
 									<object class="Custom" name="ID_RESIZECTRL1" subclass="wxResizeCtrl" variable="ResizeCtrl1" member="yes">
-										<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),$(STYLE),$(NAME));</creating_code>
+										<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),0,$(NAME));</creating_code>
 										<include_file>wxResizeCtrl.h</include_file>
 										<local_include>1</local_include>
+										<style></style>
 										<pos>6,7</pos>
 										<size>119,74</size>
 									</object>

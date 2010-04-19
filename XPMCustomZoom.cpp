@@ -71,6 +71,7 @@ void XPMCustomZoom::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& p
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
+	Center();
 	
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMCustomZoom::OnButtonOKClick);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMCustomZoom::OnButtonCancelClick);

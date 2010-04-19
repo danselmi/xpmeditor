@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxDialog" name="wxConversion">
+		<title>COLOUR CONVERSION</title>
+		<centered>1</centered>
+		<pos_arg>1</pos_arg>
+		<size_arg>1</size_arg>
+		<style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+					<label>Select the type of colour conversion: &#x0A;to monochrome or to greyscale.</label>
+					<style>wxSUNKEN_BORDER</style>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer3" member="no">
+					<object class="sizeritem">
+						<object class="wxBoxSizer" variable="BoxSizer4" member="no">
+							<orient>wxVERTICAL</orient>
+							<object class="sizeritem">
+								<object class="wxRadioButton" name="ID_RADIOBUTTON1" variable="RadioButton1" member="yes">
+									<label>Monochrome</label>
+									<selected>1</selected>
+									<style>wxRB_GROUP</style>
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<border>5</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxRadioButton" name="ID_RADIOBUTTON2" variable="RadioButton2" member="yes">
+									<label>Grey Scale</label>
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<border>5</border>
+							</object>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+					</object>
+					<object class="spacer">
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+					<object class="sizeritem">
+						<object class="wxBoxSizer" variable="BoxSizer5" member="no">
+							<orient>wxVERTICAL</orient>
+							<object class="sizeritem">
+								<object class="wxRadioButton" name="ID_RADIOBUTTON3" variable="RadioButton3" member="yes">
+									<label>Image</label>
+									<selected>1</selected>
+									<style>wxRB_GROUP</style>
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<border>5</border>
+								<option>1</option>
+							</object>
+							<object class="sizeritem">
+								<object class="wxRadioButton" name="ID_RADIOBUTTON4" variable="RadioButton4" member="yes">
+									<label>Selection</label>
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<border>5</border>
+								<option>1</option>
+							</object>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer2" member="no">
+					<object class="sizeritem">
+						<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+							<label>OK</label>
+							<handler function="OnButtonOKClick" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+					<object class="spacer">
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+					<object class="sizeritem">
+						<object class="wxButton" name="ID_BUTTON2" variable="Button2" member="yes">
+							<label>CANCEL</label>
+							<handler function="OnButtonCancelClick" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<option>1</option>
+			</object>
+		</object>
+	</object>
+</wxsmith>

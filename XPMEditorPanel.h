@@ -28,12 +28,15 @@ class XPMColorPicker;
 class wxComboBox;
 class wxCustomButton;
 class wxScrolledWindow;
+class wxRadioButton;
 class wxStaticText;
 class wxToggleButton;
+class wxBitmapButton;
 class wxSpinCtrl;
 class wxBoxSizer;
 class wxResizeCtrl;
 class wxButton;
+class wxGridSizer;
 //*)
 
 #define XPM_NUMBER_TOOLS 14
@@ -70,7 +73,9 @@ enum
     XPM_ID_RECTANGLE_TOOL,
     XPM_ID_POLYGON_TOOL,
     XPM_ID_ELLIPSE_TOOL,
-    XPM_ID_ROUNDEDRECT_TOOL
+    XPM_ID_ROUNDEDRECT_TOOL,
+    XPM_ID_DRAG_TOOL,
+    XPM_ID_STRETCH_TOOL
 };
 
 /// @brief Structure used to store Tool specific data
@@ -90,7 +95,7 @@ struct ToolData
     wxFont font;     ///< @brief the font to be used for the tool (Text tool)
     int iHorizAlign; ///< @brief text horizontal alignment: wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
     int iVertAlign;  ///< @brief text horizontal alignment: wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
-    double angle;    ///< @brief text angle
+    int angle;       ///< @brief text angle
 };
 
 class XPMUndo;
@@ -106,6 +111,7 @@ class XPMEditorPanel: public wxPanel
 		wxImage GetImage(void);        ///< \brief return a copy the associated image (unscaled)
 		void SetImage(wxImage *img);    ///< \brief set the current image (unscaled)
 		wxScrolledWindow* GetDrawCanvas(void); ///< \brief get the DrawCanvas
+		void Repaint(void);            ///< \brief update the display
 
 		void SetModified(bool bModified); ///< \brief Set the Modification flag
 		bool GetModified(void);           ///< \brief Get the Modification flag
@@ -149,34 +155,52 @@ class XPMEditorPanel: public wxPanel
 
 		//(*Declarations(XPMEditorPanel)
 		wxBoxSizer* ToolSizer;
+		wxSpinCtrl* SpinCtrl4;
 		wxCustomButton* FillButton;
 		wxCustomButton* EraserButton;
 		wxSpinCtrl* BMPHeight;
+		wxRadioButton* CenterCenter;
 		wxStaticText* sCursorPos;
+		wxButton* Button4;
 		wxScrolledWindow* DrawCanvas;
+		wxRadioButton* TopCenter;
 		wxSpinCtrl* SpinCtrl1;
 		wxSpinCtrl* BMPWidth;
 		wxStaticText* StaticText2;
 		wxBoxSizer* CanvasSizer;
 		wxTextCtrl* TextEdit;
+		wxRadioButton* CenterLeft;
 		wxCustomButton* SquareBrushButton;
+		wxButton* Button1;
 		wxStaticText* StaticText6;
 		wxCustomButton* BrushButton;
+		wxRadioButton* BottomCenter;
 		wxCustomButton* LineButton;
 		wxCustomButton* PenButton;
+		wxStaticText* StaticText8;
+		wxBitmapButton* BitmapButton2;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
+		wxBitmapButton* BitmapButton1;
+		wxButton* Button2;
 		wxPanel* ToolPanel;
 		wxCheckBox* CheckBox1;
+		wxButton* Button6;
 		wxButton* FontButton;
 		wxCustomButton* PipetteButton;
+		wxButton* Button5;
+		wxRadioButton* BottomLeft;
+		wxButton* Button3;
 		wxSpinCtrl* SpinCtrl3;
 		wxStaticText* StaticText5;
 		wxCustomButton* SelectButton;
 		wxResizeCtrl* ResizeCtrl1;
+		wxStaticText* StaticText7;
 		wxCustomButton* EllipseButton;
+		wxRadioButton* TopRight;
 		wxCustomButton* RHairBrushButton;
 		wxSpinCtrl* SpinCtrl2;
+		wxGridSizer* AlignmentSizer;
 		wxComboBox* ZoomFactor;
 		XPMColorPicker* ColourPicker;
 		wxBoxSizer* PanelSizer;
@@ -184,12 +208,16 @@ class XPMEditorPanel: public wxPanel
 		wxCustomButton* LassoButton;
 		wxCustomButton* RectangleButton;
 		wxCustomButton* CircleBrushButton;
+		wxRadioButton* BottomRight;
+		wxRadioButton* CenterRight;
 		wxCustomButton* RRectButton;
+		wxBoxSizer* AngleSizer;
 		wxBoxSizer* ToolPanelSizer;
 		wxStaticText* StaticText4;
 		wxCustomButton* LHairBrushButton;
 		wxCustomButton* CurveButton;
 		wxCustomButton* TextButton;
+		wxRadioButton* TopLeft;
 		wxCustomButton* PolygonButton;
 		//*)
 
@@ -203,6 +231,14 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_STATICTEXT3;
 		static const long ID_SPINCTRL2;
 		static const long ID_CHECKBOX1;
+		static const long ID_BUTTON1;
+		static const long ID_BUTTON2;
+		static const long ID_BUTTON3;
+		static const long ID_BUTTON4;
+		static const long ID_BITMAPBUTTON1;
+		static const long ID_BITMAPBUTTON2;
+		static const long ID_BUTTON5;
+		static const long ID_BUTTON6;
 		static const long ID_CUSTOM1;
 		static const long ID_SELECT_BUTN;
 		static const long ID_LASSO_BTN;
@@ -224,6 +260,18 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_LHAIR_BRUSH;
 		static const long ID_FONT_BUTTON;
 		static const long ID_BKMODE_TOGGLEBUTTON;
+		static const long ID_STATICTEXT8;
+		static const long ID_RADIOBUTTON1;
+		static const long ID_RADIOBUTTON9;
+		static const long ID_RADIOBUTTON8;
+		static const long ID_RADIOBUTTON7;
+		static const long ID_RADIOBUTTON6;
+		static const long ID_RADIOBUTTON5;
+		static const long ID_RADIOBUTTON4;
+		static const long ID_RADIOBUTTON3;
+		static const long ID_RADIOBUTTON2;
+		static const long ID_STATICTEXT9;
+		static const long ID_SPINCTRL6;
 		static const long ID_STATICTEXT5;
 		static const long ID_SPINCTRL3;
 		static const long ID_STATICTEXT7;
@@ -274,6 +322,24 @@ class XPMEditorPanel: public wxPanel
 		void OnBackgroundButtonToggle(wxCommandEvent& event);
 		void OnTextEditText(wxCommandEvent& event);
 		void OnDrawCanvasKeyDown(wxKeyEvent& event);
+		void OnStretchImage(wxCommandEvent& event);
+		void OnMirror(wxCommandEvent& event);
+		void OnBlur(wxCommandEvent& event);
+		void OnRotate(wxCommandEvent& event);
+		void OnRotateCounterClockwise(wxCommandEvent& event);
+		void OnRotateClockwise(wxCommandEvent& event);
+		void OnRotateHueClick(wxCommandEvent& event);
+		void OnButtonColourDepthClick(wxCommandEvent& event);
+		void OnTopLeftSelect(wxCommandEvent& event);
+		void OnTopCenterSelect(wxCommandEvent& event);
+		void OnTopRightSelect(wxCommandEvent& event);
+		void OnCenterLeftSelect(wxCommandEvent& event);
+		void OnCenterCenterSelect(wxCommandEvent& event);
+		void OnCenterRightSelect(wxCommandEvent& event);
+		void OnBottomLeftSelect(wxCommandEvent& event);
+		void OnBottomCenterSelect(wxCommandEvent& event);
+		void OnBottomRightSelect(wxCommandEvent& event);
+		void OnSpinCtrl4Change(wxSpinEvent& event);
 		//*)
 
 		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
@@ -374,6 +440,7 @@ class XPMEditorPanel: public wxPanel
         int OldY;           ///< \brief For resizing the bitmap: indicates the last x mouse position
 
         //Text tool methods & members
+        int iPos;           ///< \brief The current SpinCtrl4 value.
         void DrawTextRectangle( wxDC& dc,
                                 const wxString& value,
                                 const wxRect& rect,
@@ -395,13 +462,16 @@ class XPMEditorPanel: public wxPanel
         wxPoint *pSelection;        ///< \brief indicates the points coordinates defining the selected region
         int NbPoints;               ///< \brief how many points are defining the region (rectangle = 4 points)
         int NbPointsMax;            ///< \brief the maximal size of the wxPoint array
-        wxPoint* CheckMemorySelection(int iNeeded); ///< \brief increase the memory if needed
+        bool m_bSizing;             ///< \brief if true, the user is currently resizing the selection
+        int m_iSizeAction;          ///< \brief the direction of the selection stretch / resizing (see IsPointInSelection() for a list of code)
         bool bDrawSelection;        ///< \brief true to draw the selection in OnDrawCanvasPaint
+        wxPoint* CheckMemorySelection(int iNeeded); ///< \brief increase the memory if needed
         wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
         void CutSelection(void);    ///< \brief Replace the Selection with the mask colour
         void MoveSelection(int dx, int dy); ///< \brief Move the selection
         void PasteSelection(void);  ///< \brief Paste the current selection to the current selection coordinates
         void DrawTextBitmap(void);  ///< \brief Draw the text bitmap on the selection image
+
 
         //Undo & Redo buffers
         XPMUndo *m_undo_buffer;  ///< \brief the Undo buffer
