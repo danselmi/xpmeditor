@@ -17,15 +17,15 @@
 		<Cursor position="829" topLine="19" />
 	</File>
 	<File name="XPMEditorBase.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="19429" topLine="642" />
+		<Cursor position="20280" topLine="665" />
 	</File>
 	<File name="XPMEditorBase.h" open="0" top="0" tabpos="2">
 		<Cursor position="5366" topLine="76" />
 	</File>
-	<File name="XPMEditorPanel.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="195923" topLine="5389" />
+	<File name="XPMEditorPanel.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="195587" topLine="5380" />
 	</File>
-	<File name="XPMEditorPanel.h" open="1" top="0" tabpos="3">
+	<File name="XPMEditorPanel.h" open="1" top="0" tabpos="4">
 		<Cursor position="20199" topLine="434" />
 	</File>
 	<File name="XPMUndo.cpp" open="0" top="0" tabpos="3">
@@ -40,7 +40,7 @@
 	<File name="test.bmp" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="todo.txt" open="1" top="1" tabpos="2">
+	<File name="todo.txt" open="1" top="0" tabpos="3">
 		<Cursor position="442" topLine="0" />
 	</File>
 	<File name="wxConversion.cpp" open="0" top="0" tabpos="0">
@@ -79,7 +79,7 @@
 	<File name="xpm\lasso.xpm" open="0" top="0" tabpos="0">
 		<Cursor position="69" topLine="0" />
 	</File>
-	<File name="xpm\left.xpm" open="1" top="0" tabpos="0">
+	<File name="xpm\left.xpm" open="1" top="0" tabpos="1">
 		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="xpm\left_hair.xpm" open="0" top="0" tabpos="0">
@@ -100,7 +100,7 @@
 	<File name="xpm\rectangle.xpm" open="0" top="0" tabpos="0">
 		<Cursor position="69" topLine="0" />
 	</File>
-	<File name="xpm\right.xpm" open="1" top="0" tabpos="0">
+	<File name="xpm\right.xpm" open="0" top="0" tabpos="0">
 		<Cursor position="407" topLine="0" />
 	</File>
 	<File name="xpm\right_hair.xpm" open="0" top="0" tabpos="0">
