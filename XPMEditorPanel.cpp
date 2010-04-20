@@ -1107,6 +1107,7 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
             dc.Blit(iHotSpotX * dScale,iHotSpotY * dScale, iSize, iSize,&memDC_HotSpot,0,0, wxCOPY, false);
         }
 
+
         //draw selection
         wxRect rSelection;
         wxMemoryDC memDC2;
