@@ -1,0 +1,26 @@
+/* XPM */
+static const char *hotspot_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1",
+"X c Black",
+"o c #FFFFFF",
+". c #FF0000",
+"  c None",
+/* pixels */
+"  .             ",
+"  .             ",
+"  .             ",
+".. ...XX        ",
+"  .XoooXXXX     ",
+"  . XoooooXXX   ",
+"  . XXoooooooX  ",
+"     XooooooX   ",
+"      XoooooX   ",
+"      XooooooXX ",
+"       XooooXooX",
+"       XooXXXooX",
+"        XX  XXX ",
+"                ",
+"                ",
+"                "
+};

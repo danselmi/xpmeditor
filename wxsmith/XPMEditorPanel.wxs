@@ -39,6 +39,22 @@
 						<border>5</border>
 					</object>
 					<object class="sizeritem">
+						<object class="wxBitmapButton" name="ID_BITMAPBUTTON1" variable="BitmapButton1" member="yes">
+							<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+							<handler function="OnRotateCounterClockwise" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxBitmapButton" name="ID_BITMAPBUTTON2" variable="BitmapButton2" member="yes">
+							<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+							<handler function="OnRotateClockwise" entry="EVT_BUTTON" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
 						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 							<label>SIZE:</label>
 						</object>
@@ -124,22 +140,6 @@
 						<border>5</border>
 					</object>
 					<object class="sizeritem">
-						<object class="wxBitmapButton" name="ID_BITMAPBUTTON1" variable="BitmapButton1" member="yes">
-							<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-							<handler function="OnRotateCounterClockwise" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxBitmapButton" name="ID_BITMAPBUTTON2" variable="BitmapButton2" member="yes">
-							<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-							<handler function="OnRotateClockwise" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
 						<object class="wxButton" name="ID_BUTTON5" variable="Button5" member="yes">
 							<label>HUE</label>
 							<handler function="OnRotateHueClick" entry="EVT_BUTTON" />
@@ -201,6 +201,16 @@
 														<handler function="OnLassoButtonToggle" entry="EVT_TOGGLEBUTTON" />
 													</object>
 													<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+													<border>2</border>
+												</object>
+												<object class="sizeritem">
+													<object class="wxCustomButton" name="ID_HOTSPOT_BTN" variable="HotSpotButton" member="yes">
+														<type>wxCUSTBUT_TOGGLE</type>
+														<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+														<bitmap_margin>2,2</bitmap_margin>
+														<handler function="OnHotSpotButtonToggle" entry="EVT_TOGGLEBUTTON" />
+													</object>
+													<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 													<border>2</border>
 												</object>
 											</object>
@@ -325,7 +335,7 @@
 														<bitmap_margin>2,2</bitmap_margin>
 														<handler function="OnEllipseButtonToggle" entry="EVT_TOGGLEBUTTON" />
 													</object>
-													<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+													<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 													<border>2</border>
 												</object>
 												<object class="sizeritem">
@@ -339,10 +349,6 @@
 													<border>2</border>
 												</object>
 											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-										</object>
-										<object class="sizeritem">
-											<object class="wxBoxSizer" variable="BoxSizer8" member="no" />
 											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 										</object>
 										<object class="spacer">
@@ -395,6 +401,15 @@
 											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 										</object>
 										<object class="sizeritem">
+											<object class="Custom" name="ID_CUSTOM2" subclass="wxColourPickerCtrl" variable="HotSpotColourPicker" member="yes">
+												<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),cHotSpotColour,$(POS),$(SIZE),wxCLRP__USE__TEXTCTRL,wxDefaultValidator,$(NAME));</creating_code>
+												<include_file>wx/clrpicker.h</include_file>
+												<style></style>
+											</object>
+											<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
+											<border>5</border>
+										</object>
+										<object class="sizeritem">
 											<object class="wxButton" name="ID_FONT_BUTTON" variable="FontButton" member="yes">
 												<label>FONT</label>
 												<handler function="OnFontButtonClick" entry="EVT_BUTTON" />
@@ -412,101 +427,117 @@
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
-											<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText7" member="yes">
-												<label>Alignment:</label>
+											<object class="wxPanel" name="ID_PANEL2" variable="AlignmentPanel" member="yes">
+												<object class="wxBoxSizer" variable="BoxSizer14" member="no">
+													<orient>wxVERTICAL</orient>
+													<object class="sizeritem">
+														<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText7" member="yes">
+															<label>Alignment</label>
+														</object>
+														<flag>wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
+														<border>5</border>
+													</object>
+													<object class="sizeritem">
+														<object class="wxBoxSizer" variable="BoxSizer4" member="no">
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON1" variable="TopLeft" member="yes">
+																	<label></label>
+																	<selected>1</selected>
+																	<style>wxRB_GROUP</style>
+																	<handler function="OnTopLeftSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON9" variable="TopCenter" member="yes">
+																	<label></label>
+																	<handler function="OnTopCenterSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_TOP</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON8" variable="TopRight" member="yes">
+																	<label></label>
+																	<handler function="OnTopRightSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_TOP</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+														</object>
+														<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
+													</object>
+													<object class="sizeritem">
+														<object class="wxBoxSizer" variable="BoxSizer9" member="no">
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON7" variable="CenterLeft" member="yes">
+																	<label></label>
+																	<handler function="OnCenterLeftSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON6" variable="CenterCenter" member="yes">
+																	<label></label>
+																	<handler function="OnCenterCenterSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxLEFT|wxRIGHT|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON5" variable="CenterRight" member="yes">
+																	<label></label>
+																	<handler function="OnCenterRightSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+														</object>
+														<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+													</object>
+													<object class="sizeritem">
+														<object class="wxBoxSizer" variable="BoxSizer11" member="no">
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON4" variable="BottomLeft" member="yes">
+																	<label></label>
+																	<handler function="OnBottomLeftSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON3" variable="BottomCenter" member="yes">
+																	<label></label>
+																	<handler function="OnBottomCenterSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+															<object class="sizeritem">
+																<object class="wxRadioButton" name="ID_RADIOBUTTON2" variable="BottomRight" member="yes">
+																	<label></label>
+																	<handler function="OnBottomRightSelect" entry="EVT_RADIOBUTTON" />
+																</object>
+																<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_BOTTOM</flag>
+																<border>1</border>
+																<option>1</option>
+															</object>
+														</object>
+														<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
+													</object>
+												</object>
 											</object>
-											<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
-											<border>5</border>
-										</object>
-										<object class="sizeritem">
-											<object class="wxGridSizer" variable="AlignmentSizer" member="yes">
-												<cols>3</cols>
-												<rows>3</rows>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON1" variable="TopLeft" member="yes">
-														<label></label>
-														<selected>1</selected>
-														<style>wxRB_GROUP</style>
-														<handler function="OnTopLeftSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON9" variable="TopCenter" member="yes">
-														<label></label>
-														<handler function="OnTopCenterSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON8" variable="TopRight" member="yes">
-														<label></label>
-														<handler function="OnTopRightSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_TOP</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON7" variable="CenterLeft" member="yes">
-														<label></label>
-														<handler function="OnCenterLeftSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON6" variable="CenterCenter" member="yes">
-														<label></label>
-														<handler function="OnCenterCenterSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxLEFT|wxRIGHT|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON5" variable="CenterRight" member="yes">
-														<label></label>
-														<handler function="OnCenterRightSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON4" variable="BottomLeft" member="yes">
-														<label></label>
-														<handler function="OnBottomLeftSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON3" variable="BottomCenter" member="yes">
-														<label></label>
-														<handler function="OnBottomCenterSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxRadioButton" name="ID_RADIOBUTTON2" variable="BottomRight" member="yes">
-														<label></label>
-														<handler function="OnBottomRightSelect" entry="EVT_RADIOBUTTON" />
-													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_BOTTOM</flag>
-													<border>1</border>
-													<option>1</option>
-												</object>
-											</object>
-											<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+											<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 										</object>
 										<object class="sizeritem">
 											<object class="wxBoxSizer" variable="AngleSizer" member="yes">

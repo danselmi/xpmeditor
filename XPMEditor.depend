@@ -2734,9 +2734,10 @@
 1271101290 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271693352 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271769696 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
+	<wx/clrpicker.h>
 	<wx/panel.h>
 
 1271424020 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
@@ -3730,9 +3731,10 @@
 	"wx/textctrl.h"
 	"wx/validate.h"
 
-1271693350 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271769695 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
+	<wx/clrpicker.h>
 	<wx/panel.h>
 
 1271424020 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
@@ -5623,7 +5625,7 @@
 	"wx/module.h"
 	"wx/dataobj.h"
 
-1271692952 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1271767585 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	"wxStretchImage.h"
 	"wxMirror.h"
@@ -5666,6 +5668,7 @@
 	<wx/image.h>
 	<wx/string.h>
 	<wx/combobox.h>
+	<wx/clrpicker.h>
 	"xpm/brush.xpm"
 	"xpm/curve.xpm"
 	"xpm/ellipse.xpm"
@@ -5682,6 +5685,7 @@
 	"xpm/text.xpm"
 	"xpm/left.xpm"
 	"xpm/right.xpm"
+	"xpm/hotspot.xpm"
 	"xpm/cross_cursor.xpm"
 	"xpm/pipette_cursor.xpm"
 	"xpm/fill_cursor.xpm"
@@ -5724,7 +5728,7 @@
 
 1236337276 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\msw\tglbtn.h
 
-1270541592 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\brush.xpm
+1271763994 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\brush.xpm
 
 1269797542 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\curve.xpm
 
@@ -6013,6 +6017,40 @@
 	<wx/radiobut.h>
 	<wx/button.h>
 	<wx/dialog.h>
+
+1236337242 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\clrpicker.h
+	"wx/defs.h"
+	"wx/pickerbase.h"
+	"wx/gtk/clrpicker.h"
+	"wx/generic/clrpickerg.h"
+
+1236337244 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\pickerbase.h
+	"wx/control.h"
+	"wx/sizer.h"
+	"wx/containr.h"
+
+1236337250 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\generic\clrpickerg.h
+	"wx/button.h"
+	"wx/cmndata.h"
+	"wx/bmpbutton.h"
+
+1271764592 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\hotspot.xpm
+
+1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\clrpicker.h
+	"wx/defs.h"
+	"wx/pickerbase.h"
+	"wx/gtk/clrpicker.h"
+	"wx/generic/clrpickerg.h"
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\pickerbase.h
+	"wx/control.h"
+	"wx/sizer.h"
+	"wx/containr.h"
+
+1236337250 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\generic\clrpickerg.h
+	"wx/button.h"
+	"wx/cmndata.h"
+	"wx/bmpbutton.h"
 
 1271680748 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxblur.cpp
 	"wxBlur.h"

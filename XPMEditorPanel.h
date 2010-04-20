@@ -18,10 +18,12 @@ class wxDragImage;
 
 #include <wx/image.h>
 #include <wx/bitmap.h>
+#include <wx/clrpicker.h>
 
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>
 class wxSpinEvent;
+class wxColourPickerCtrl;
 class wxCheckBox;
 class wxTextCtrl;
 class XPMColorPicker;
@@ -36,47 +38,10 @@ class wxSpinCtrl;
 class wxBoxSizer;
 class wxResizeCtrl;
 class wxButton;
-class wxGridSizer;
 //*)
 
-#define XPM_NUMBER_TOOLS 14
+#define XPM_NUMBER_TOOLS 15
 #define XPM_MAXPOINTS 25
-
-enum
-{
-    XPM_CIRCLE_INDEX=0,
-    XPM_SQUARE_INDEX=1,
-    XPM_LEFT_HAIR_INDEX=2,
-    XPM_RIGHT_HAIR_INDEX=3
-};
-
-enum
-{
-    XPM_CIRCLE_INDEX_LIST=0,
-    XPM_SQUARE_INDEX_LIST=1,
-    XPM_LEFT_HAIR_INDEX_LIST=2,
-    XPM_RIGHT_HAIR_INDEX_LIST=3
-};
-
-enum
-{
-    XPM_ID_SELECT_TOOL=0,
-    XPM_ID_LASSO_TOOL,
-    XPM_ID_PEN_TOOL,
-    XPM_ID_BRUSH_TOOL,
-    XPM_ID_PIPETTE_TOOL,
-    XPM_ID_FILL_TOOL,
-    XPM_ID_CURVE_TOOL,
-    XPM_ID_LINE_TOOL,
-    XPM_ID_ERASER_TOOL,
-    XPM_ID_TEXT_TOOL,
-    XPM_ID_RECTANGLE_TOOL,
-    XPM_ID_POLYGON_TOOL,
-    XPM_ID_ELLIPSE_TOOL,
-    XPM_ID_ROUNDEDRECT_TOOL,
-    XPM_ID_DRAG_TOOL,
-    XPM_ID_STRETCH_TOOL
-};
 
 /// @brief Structure used to store Tool specific data
 struct ToolData
@@ -155,6 +120,7 @@ class XPMEditorPanel: public wxPanel
 
 		//(*Declarations(XPMEditorPanel)
 		wxBoxSizer* ToolSizer;
+		wxCustomButton* HotSpotButton;
 		wxSpinCtrl* SpinCtrl4;
 		wxCustomButton* FillButton;
 		wxCustomButton* EraserButton;
@@ -178,6 +144,7 @@ class XPMEditorPanel: public wxPanel
 		wxCustomButton* LineButton;
 		wxCustomButton* PenButton;
 		wxStaticText* StaticText8;
+		wxPanel* AlignmentPanel;
 		wxBitmapButton* BitmapButton2;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
@@ -190,6 +157,7 @@ class XPMEditorPanel: public wxPanel
 		wxCustomButton* PipetteButton;
 		wxButton* Button5;
 		wxRadioButton* BottomLeft;
+		wxColourPickerCtrl* HotSpotColourPicker;
 		wxButton* Button3;
 		wxSpinCtrl* SpinCtrl3;
 		wxStaticText* StaticText5;
@@ -200,7 +168,6 @@ class XPMEditorPanel: public wxPanel
 		wxRadioButton* TopRight;
 		wxCustomButton* RHairBrushButton;
 		wxSpinCtrl* SpinCtrl2;
-		wxGridSizer* AlignmentSizer;
 		wxComboBox* ZoomFactor;
 		XPMColorPicker* ColourPicker;
 		wxBoxSizer* PanelSizer;
@@ -226,6 +193,8 @@ class XPMEditorPanel: public wxPanel
 		//(*Identifiers(XPMEditorPanel)
 		static const long ID_STATICTEXT1;
 		static const long ID_COMBOBOX1;
+		static const long ID_BITMAPBUTTON1;
+		static const long ID_BITMAPBUTTON2;
 		static const long ID_STATICTEXT2;
 		static const long ID_SPINCTRL1;
 		static const long ID_STATICTEXT3;
@@ -235,13 +204,12 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_BUTTON2;
 		static const long ID_BUTTON3;
 		static const long ID_BUTTON4;
-		static const long ID_BITMAPBUTTON1;
-		static const long ID_BITMAPBUTTON2;
 		static const long ID_BUTTON5;
 		static const long ID_BUTTON6;
 		static const long ID_CUSTOM1;
 		static const long ID_SELECT_BUTN;
 		static const long ID_LASSO_BTN;
+		static const long ID_HOTSPOT_BTN;
 		static const long ID_PEN_BTN;
 		static const long ID_BRUSH_BTN;
 		static const long ID_PIPETTE_BTN;
@@ -258,6 +226,7 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_CIRCLE_BRUSH;
 		static const long ID_LRHAIR_BRUSH;
 		static const long ID_LHAIR_BRUSH;
+		static const long ID_CUSTOM2;
 		static const long ID_FONT_BUTTON;
 		static const long ID_BKMODE_TOGGLEBUTTON;
 		static const long ID_STATICTEXT8;
@@ -270,6 +239,7 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_RADIOBUTTON4;
 		static const long ID_RADIOBUTTON3;
 		static const long ID_RADIOBUTTON2;
+		static const long ID_PANEL2;
 		static const long ID_STATICTEXT9;
 		static const long ID_SPINCTRL6;
 		static const long ID_STATICTEXT5;
@@ -340,11 +310,13 @@ class XPMEditorPanel: public wxPanel
 		void OnBottomCenterSelect(wxCommandEvent& event);
 		void OnBottomRightSelect(wxCommandEvent& event);
 		void OnSpinCtrl4Change(wxSpinEvent& event);
+		void OnHotSpotButtonToggle(wxCommandEvent& event);
 		//*)
 
 		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
 		void OnLineColorChanged(wxCommandEvent& event);        ///< \brief the Line colour in the colour picker changed
 		void OnFillColorChanged(wxCommandEvent& event);        ///< \brief the Fill colour in the colour picker changed
+		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief The colour of the hotspot changed
 
 		void BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size);
 		void ToggleButtons(int iIndex, bool bClearSelection = true); ///< @brief toggle all Tools Buttons OFF, except the iIndex one.
@@ -406,6 +378,9 @@ class XPMEditorPanel: public wxPanel
         void ProcessSizeAction(int x, int y,
                                bool bLeftDown, bool bLeftUp,
                                bool bPressed, bool bDClick, int iDirection); ///< @brief process the stretch selection tool
+        void ProcessHotSpot(int x, int y,
+                               bool bLeftDown, bool bLeftUp,
+                               bool bPressed, bool bDClick); ///< @brief process the hot spot tool
 
     private:
         //bitmap, images methods
@@ -484,6 +459,11 @@ class XPMEditorPanel: public wxPanel
         void InitToolData(void); ///< @brief init tool data for a first use
         bool bUsingTool;  ///< @brief true if a tool is currently in use
 
+        //hotspot position
+        int iHotSpotX;              ///< @brief HotSpot X coordinate. A negative value means there are no HotSpot
+        int iHotSpotY;              ///< @brief HotSpot Y coordinate. A negative value means there are no HotSpot
+        wxColour cHotSpotColour;    ///< @brief HotSpot colour
+
         //standard configuration
         int iXPMDefaultWidth;  ///< @brief the default width of a new XPM
         int iXPMDefaultHeight; ///< @brief the default height of a new XPM
@@ -500,6 +480,43 @@ enum
     XPM_BRUSH_STYLE_CIRCLE = 1,
     XPM_BRUSH_STYLE_LEFTHAIR = 2,
     XPM_BRUSH_STYLE_RIGHTHAIR = 3
+};
+
+enum
+{
+    XPM_CIRCLE_INDEX=0,
+    XPM_SQUARE_INDEX=1,
+    XPM_LEFT_HAIR_INDEX=2,
+    XPM_RIGHT_HAIR_INDEX=3
+};
+
+enum
+{
+    XPM_CIRCLE_INDEX_LIST=0,
+    XPM_SQUARE_INDEX_LIST=1,
+    XPM_LEFT_HAIR_INDEX_LIST=2,
+    XPM_RIGHT_HAIR_INDEX_LIST=3
+};
+
+enum
+{
+    XPM_ID_SELECT_TOOL=0,
+    XPM_ID_LASSO_TOOL,
+    XPM_ID_PEN_TOOL,
+    XPM_ID_BRUSH_TOOL,
+    XPM_ID_PIPETTE_TOOL,
+    XPM_ID_FILL_TOOL,
+    XPM_ID_CURVE_TOOL,
+    XPM_ID_LINE_TOOL,
+    XPM_ID_ERASER_TOOL,
+    XPM_ID_TEXT_TOOL,
+    XPM_ID_RECTANGLE_TOOL,
+    XPM_ID_POLYGON_TOOL,
+    XPM_ID_ELLIPSE_TOOL,
+    XPM_ID_ROUNDEDRECT_TOOL,
+    XPM_ID_HOTSPOT_TOOL,
+    XPM_ID_DRAG_TOOL,
+    XPM_ID_STRETCH_TOOL
 };
 
 #endif

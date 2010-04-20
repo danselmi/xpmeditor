@@ -15,3 +15,16 @@
 
 6 - Rotate Hue: from colour to colour
 
+7 - Selection: clip selection to bitmap when drawing
+
+8 - Quick Help display (tooltip)
+
+8 - SDK Codeblocks: rajouter une classe cbEditorPanelBase
+                    rajouter ces méthodes à la classe cbPlugin
+                        GetQuickHelpPanel
+                        SetQuickHelpPanel
+
+9 - wxSmith: Picker class missing.
+             Style field in wxCustomClass is not saved
+
+

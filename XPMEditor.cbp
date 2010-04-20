@@ -65,7 +65,6 @@
 		<Unit filename="XPMUndo.cpp" />
 		<Unit filename="XPMUndo.h" />
 		<Unit filename="manifest.xml" />
-		<Unit filename="shape01.png" />
 		<Unit filename="test.bmp" />
 		<Unit filename="todo.txt" />
 		<Unit filename="wxBlur.cpp" />
@@ -93,6 +92,7 @@
 		<Unit filename="xpm\eraser.xpm" />
 		<Unit filename="xpm\fill.xpm" />
 		<Unit filename="xpm\fill_cursor.xpm" />
+		<Unit filename="xpm\hotspot.xpm" />
 		<Unit filename="xpm\lasso.xpm" />
 		<Unit filename="xpm\left.xpm" />
 		<Unit filename="xpm\left_hair.xpm" />
