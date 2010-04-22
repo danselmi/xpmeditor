@@ -52,6 +52,10 @@
 		<Compiler>
 			<Add option="-DWXUSINGDLL" />
 		</Compiler>
+		<Unit filename="ColourPickerPanel.cpp" />
+		<Unit filename="ColourPickerPanel.h" />
+		<Unit filename="QuickHelpPanel.cpp" />
+		<Unit filename="QuickHelpPanel.h" />
 		<Unit filename="XPMColorPicker.cpp" />
 		<Unit filename="XPMColorPicker.h" />
 		<Unit filename="XPMCustomZoom.cpp" />
@@ -125,6 +129,7 @@
 					<wxDialog wxs="wxsmith/wxRotate.wxs" src="wxRotate.cpp" hdr="wxRotate.h" name="wxRotate" language="CPP" />
 					<wxDialog wxs="wxsmith/wxRotateHue.wxs" src="wxRotateHue.cpp" hdr="wxRotateHue.h" name="wxRotateHue" language="CPP" />
 					<wxDialog wxs="wxsmith/wxConversion.wxs" src="wxConversion.cpp" hdr="wxConversion.h" name="wxConversion" language="CPP" />
+					<wxPanel wxs="wxsmith/QuickHelpPanel.wxs" src="QuickHelpPanel.cpp" hdr="QuickHelpPanel.h" name="QuickHelpPanel" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

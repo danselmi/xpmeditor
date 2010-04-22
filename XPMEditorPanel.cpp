@@ -594,6 +594,11 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown);
 	//*)
 
+#if __WXMSW__
+	//Mouse Capture lost event
+	DrawCanvas->Connect(wxEVT_MOUSE_CAPTURE_LOST ,(wxObjectEventFunction)&XPMEditorPanel::OnMouseCaptureLost,0,this);
+#endif
+
     //Bitmap Button rotate
     BitmapButton2->SetBitmapLabel(left_xpm);
     BitmapButton1->SetBitmapLabel(right_xpm);
@@ -1002,8 +1007,7 @@ void XPMEditorPanel::SetBitmap(wxBitmap *bm)
 
         DoSetScrollBars();
 
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 }
 
@@ -1117,20 +1121,32 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
         if ((pSelection) && (NbPoints > 1) && (bDrawSelection) && (memDC2.IsOk()))
         {
             //Selection bitmap
-            int iStartX, iStartY, iStartX2, iStartY2, iSelWidth, iSelHeight;
+            int iStartX, iStartY, iSourceX, iSourceY, iSelWidth, iSelHeight;
             iStartX = rSelection.GetLeft();
             iStartY = rSelection.GetTop();
-            iSelWidth = rSelection.GetWidth() + iStartX;
-            iSelHeight = rSelection.GetHeight() + iStartY;
-            if (iSelWidth > m_Image->GetWidth()) iSelWidth = m_Image->GetWidth();
-            if (iSelHeight > m_Image->GetHeight()) iSelHeight = m_Image->GetHeight();
-            if (iStartX < 0) iStartX2 = 0; else iStartX = iStartX2;
-            if (iStartY < 0) iStartY2 = 0; else iStartY = iStartY2;
-            /*
-            dc.Blit(iStartX2 * dScale, iStartY2 * dScale, iSelWidth * dScale,  iSelHeight * dScale
-                    &memDC2, -iStartX, -iStartY, wxCOPY, true
+            iSourceX = 0;
+            iSourceY = 0;
+            if (iStartX < 0)
+            {
+                iStartX = 0;
+                iSourceX = -rSelection.GetLeft();
+            };
+
+            if (iStartY < 0)
+            {
+                iStartY = 0;
+                iSourceY = -rSelection.GetTop();
+            };
+
+            iSelWidth = m_SelectionBitmap.GetWidth();
+            iSelHeight = m_SelectionBitmap.GetHeight();
+/*
+            dc.Blit(iStartX * dScale, iStartY * dScale,
+                    iSelWidth * dScale, iSelHeight * dScale,
+                    &memDC2, iSourceX * dScale, iSourceY * dScale, wxCOPY, true
                    ); //Selection
-            */
+*/
+
             dc.Blit(rSelection.GetLeft() * dScale, rSelection.GetTop() * dScale,
                     m_SelectionBitmap.GetWidth() * dScale, m_SelectionBitmap.GetHeight() * dScale,
                     &memDC2, 0, 0, wxCOPY, true); //Selection
@@ -1311,11 +1327,7 @@ void XPMEditorPanel::SetScaleFactor(double dNewScalingFactor)
     if (dScale >= 4.0) CheckBox1->Enable(true); else CheckBox1->Disable();
     //UpdateBitmap(); //rescale the memory bitmap
 
-    if (DrawCanvas)
-    {
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
-    }
+    Repaint();
 }
 
 /** Return the size of the current draw area (== the size of the bitmap), in pixel
@@ -1404,11 +1416,7 @@ void XPMEditorPanel::DoSetScrollBars(void)
 void XPMEditorPanel::OnShowGrid(wxCommandEvent& event)
 {
     bShowGrid = CheckBox1->IsChecked();
-    if (DrawCanvas)
-    {
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
-    }
+    Repaint();
 }
 
 /** Handler for mouse movement
@@ -1459,8 +1467,7 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         dc.DrawLine(0,OldY, OldX, OldY);
 
          //refresh the bitmap
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
 
         if (BMPWidth) BMPWidth->SetValue(xx);
         if (BMPHeight) BMPHeight->SetValue(yy);
@@ -1859,8 +1866,7 @@ void XPMEditorPanel::ProcessFill(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 
     if (bLeftUp)
@@ -1904,8 +1910,7 @@ void XPMEditorPanel::ProcessPen(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 
 
@@ -1927,8 +1932,7 @@ void XPMEditorPanel::ProcessPen(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 
     if (bLeftUp)
@@ -1986,8 +1990,7 @@ void XPMEditorPanel::ProcessText(int x, int y,
             TextEdit->ChangeValue(tdata.sText);
             DrawTextBitmap();
 
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
             //InitToolData();
             m_bEraseSelection = false;
             tdata.iNbClicks = 2;
@@ -2001,8 +2004,7 @@ void XPMEditorPanel::ProcessText(int x, int y,
             SetModified(true);
             ToggleButtons(-1, false);
             HideControlsAndDoLayout(-1, false);
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
         }
     }
 }
@@ -2024,8 +2026,7 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
         {
             tdata.x2 = x;
             tdata.y2 = y;
-            DrawCanvas->Refresh(false,NULL);
-            DrawCanvas->Update();
+            Repaint();
 
             int iPenWidth;
             if (dScale < 1) iPenWidth = 1; else iPenWidth = dScale;
@@ -2045,8 +2046,7 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
         if (tdata.iNbClicks == 0)
         {
             ClearSelection();
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
             tdata.iNbClicks = 1;
             tdata.x1 = x  / dScale;
             tdata.y1 = y / dScale;
@@ -2068,8 +2068,7 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
                 pSelection[3].y = y / dScale;
             }
             m_SelectionImage = GetImageFromSelection();
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
             InitToolData();
             m_bEraseSelection = true;
         }
@@ -2124,8 +2123,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         m_DragImage->Hide();
 
         //Update Image
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
+        Repaint();
         m_DragImage->Move(wxPoint(x, y));
         m_DragImage->Show();
 
@@ -2138,8 +2136,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         if (!m_DragImage) return;
 
         //m_DragImage->Hide();
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
+        Repaint();
         m_DragImage->Move(wxPoint(x,y));
         m_DragImage->Show();
 
@@ -2169,8 +2166,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
             SetCursor(wxCURSOR_HAND);
         }
         m_bEraseSelection = false;
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
+        Repaint();
 
         InitToolData();
     }
@@ -2235,8 +2231,7 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
             }
         }
 
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 
     if (bLeftUp)
@@ -2265,8 +2260,7 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
             bDrawSelection = false;
             tdata.x2 = x;
             tdata.y2 = y;
-            DrawCanvas->Refresh(false,NULL);
-            DrawCanvas->Update();
+            Repaint();
             bDrawSelection = true;
 
             int iPenWidth;
@@ -2302,8 +2296,7 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
         {
             ClearSelection();
             bUsingTool = true;
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
             tdata.iNbClicks = 1;
             tdata.x1 = x  / dScale;
             tdata.y1 = y / dScale;
@@ -2325,8 +2318,7 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
                 pSelection[NbPoints - 1].y = y / dScale;
             }
             m_SelectionImage = GetImageFromSelection();
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
         }
     }
 
@@ -2404,8 +2396,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 
     if (bPressed)
@@ -2458,8 +2449,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 
     if (bLeftUp)
@@ -2507,8 +2497,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 
     if (bPressed)
@@ -2534,8 +2523,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
     if (bLeftUp)
     {
@@ -2559,8 +2547,7 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
     {
         if (tdata.iNbClicks > 0)
         {
-            DrawCanvas->Refresh(false,NULL);
-            DrawCanvas->Update();
+            Repaint();
 
             tdata.iNbClicks = tdata.iNbClicks + 1;
             if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
@@ -2597,8 +2584,7 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
     {
         if (tdata.iNbClicks == 0)
         {
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
             tdata.iNbClicks = 1;
             tdata.iNbPoints = 1;
             tdata.pts[0].x = x  / dScale;
@@ -2637,8 +2623,7 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
         }
         UpdateImage();
 
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
         InitToolData();
         ToggleButtons(-1,false);
     }
@@ -2662,8 +2647,7 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
             tdata.x2 = x;
             tdata.y2 = y;
 
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
 
             int iPenWidth;
             if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
@@ -2679,7 +2663,7 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
             dc.SetPen(pen);
             dc.SetBrush(brush);
             dc.DrawRectangle(tdata.x1 * dScale, tdata.y1 * dScale,
-                                             x - tdata.x1 * dScale, y - tdata.y1 * dScale);
+                                             x - (tdata.x1 - 1) * dScale, y - (tdata.y1 - 1) * dScale);
         }
     }
 
@@ -2715,11 +2699,8 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
                 mem_dc.SelectObject(wxNullBitmap);
             }
             UpdateImage();
-            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
 
-            DrawCanvas->Refresh(false, &r);
-            DrawCanvas->Update();
+            Repaint();
             InitToolData();
         }
     }
@@ -2743,8 +2724,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
             tdata.x2 = x;
             tdata.y2 = y;
 
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
 
             int iPenWidth;
             if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
@@ -2791,8 +2771,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
             }
             UpdateImage();
 
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
             InitToolData();
         }
     }
@@ -2813,8 +2792,7 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
     {
         if (tdata.iNbClicks > 0)
         {
-            DrawCanvas->Refresh(false,NULL);
-            DrawCanvas->Update();
+            Repaint();
 
             tdata.iNbClicks = tdata.iNbClicks + 1;
             if (tdata.iNbPoints >= XPM_MAXPOINTS) tdata.iNbPoints = XPM_MAXPOINTS;
@@ -2848,8 +2826,7 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
     {
         if (tdata.iNbClicks == 0)
         {
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
             tdata.iNbClicks = 1;
             tdata.iNbPoints = 1;
             tdata.pts[0].x = x  / dScale;
@@ -2885,8 +2862,7 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
         }
         UpdateImage();
 
-        DrawCanvas->Refresh(false, NULL);
-        DrawCanvas->Update();
+        Repaint();
         InitToolData();
         ToggleButtons(-1,false);
     }
@@ -2911,8 +2887,7 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
             tdata.x2 = x;
             tdata.y2 = y;
 
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
 
             int iPenWidth;
             if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
@@ -2967,8 +2942,7 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
             wxRect r(tdata.x1 * dScale - 10, tdata.y1 * dScale - 10,
                      x - tdata.x1 * dScale + 20, y - tdata.y1 * dScale + 20);
 
-            DrawCanvas->Refresh(false, &r);
-            DrawCanvas->Update();
+            Repaint();
             InitToolData();
         }
     }
@@ -2992,8 +2966,7 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
             tdata.x2 = x;
             tdata.y2 = y;
 
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
 
             int iPenWidth;
             if (dScale < 1) iPenWidth = tdata.iSize; else iPenWidth = dScale * tdata.iSize;
@@ -3045,11 +3018,8 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
                 mem_dc.SelectObject(wxNullBitmap);
             }
             UpdateImage();
-            wxRect r(tdata.x1 * dScale, tdata.y1 * dScale,
-                     x - tdata.x1 * dScale, y - tdata.y1 * dScale);
 
-            DrawCanvas->Refresh(false, &r);
-            DrawCanvas->Update();
+            Repaint();
             InitToolData();
         }
     }
@@ -3060,6 +3030,10 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
 void XPMEditorPanel::InitToolData(void)
 {
     bUsingTool = false;
+    if (DrawCanvas)
+    {
+        if (DrawCanvas->HasCapture()) DrawCanvas->ReleaseMouse();
+    }
     tdata.x1 = -1;
     tdata.y1 = -1;
     tdata.x2 = -1;
@@ -3088,14 +3062,14 @@ void XPMEditorPanel::InitToolData(void)
         case XPM_ID_RECTANGLE_TOOL:
         case XPM_ID_POLYGON_TOOL:
         case XPM_ID_ELLIPSE_TOOL: tdata.iSize = SpinCtrl2->GetValue();
-                                  if (tdata.iSize < 2) tdata.iSize = 2;
+                                  if (tdata.iSize < 1) tdata.iSize = 1;
                                   break;
 
         case XPM_ID_ROUNDEDRECT_TOOL: tdata.iSize = SpinCtrl2->GetValue();
-                                      if (tdata.iSize < 2) tdata.iSize = 2;
+                                      if (tdata.iSize < 1) tdata.iSize = 1;
 
                                       tdata.iRadius = SpinCtrl3->GetValue();
-                                      if (tdata.iRadius < 2) tdata.iRadius = 2;
+                                      if (tdata.iRadius < 0) tdata.iRadius = 0;
                                       break;
 
         case XPM_ID_TEXT_TOOL: if (BackgroundButton->GetValue())
@@ -3404,6 +3378,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
         if (xx > iWidth) xx = iWidth ;
         if (yy  > iHeight) yy = iHeight;
 
+        DrawCanvas->CaptureMouse();
         int iResult;
         iResult = IsPointInSelection(x, y);
         switch(iResult)
@@ -3459,6 +3434,7 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
 
         x = event.m_x;
         y = event.m_y;
+        if (DrawCanvas) DrawCanvas->ReleaseMouse();
         ProcessDragAction(x, y, false, true, false, false);
     }
     else if ((!bSizingX) && (!bSizingY))
@@ -3482,20 +3458,21 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
         if (xx > iWidth) xx = iWidth ;
         if (yy  > iHeight) yy = iHeight;
 
-
+        if (DrawCanvas->HasCapture()) DrawCanvas->ReleaseMouse();
         ProcessToolAction(iTool, xx, yy, false, true, false, false);
 
     }
     event.Skip();
 }
 
+#if __WXMSW__
 /** Handler for mouse event: set the cursor to Arrow when leaving the drawing canvas
   */
 void XPMEditorPanel::OnDrawCanvasMouseLeave(wxMouseEvent& event)
 {
     SetCursor(wxCURSOR_ARROW);
 }
-
+#endif
 
 
 //------ SELECTION METHODS --------------------------------------
@@ -3625,11 +3602,7 @@ void XPMEditorPanel::PasteImage(const wxImage &newImage, int x, int y)
     mem_dc.SelectObject(wxNullBitmap);
     UpdateImage();
 
-    if (DrawCanvas)
-    {
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
-    }
+    Repaint();
 }
 
 /** clear the current selection
@@ -3695,11 +3668,7 @@ void XPMEditorPanel::Cut(void)
         if(m_bEraseSelection) CutSelection();
         NbPoints = 0;
         SetModified(true);
-        if (DrawCanvas)
-        {
-            DrawCanvas->Refresh(true, NULL);
-            DrawCanvas->Update();
-        }
+        Repaint();
     }
 }
 
@@ -3794,8 +3763,7 @@ void XPMEditorPanel::Paste(void)
             m_SelectionImage = bm.ConvertToImage();
             //if (bm.GetMask()) wxMessageBox(_("mask")); else wxMessageBox(_("no mask"));
             SetModified(true);
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
+            Repaint();
             m_bEraseSelection = false;
         }
     }
@@ -3971,11 +3939,7 @@ void XPMEditorPanel::ToggleButtons(int iIndex, bool bClearSelection)
     if ((bClearSelection) && (HasSelection()))
     {
         ClearSelection();
-        if (DrawCanvas)
-        {
-            DrawCanvas->Refresh(false, NULL);
-            DrawCanvas->Update();
-        }
+        Repaint();
     }
 
     for(i = 0;i<XPM_NUMBER_TOOLS;i++)
@@ -4738,11 +4702,7 @@ void XPMEditorPanel::OnFontButtonClick(wxCommandEvent& event)
             ColourPicker->Update();
         }
         DrawTextBitmap();
-        if (DrawCanvas)
-        {
-            DrawCanvas->Refresh(true, NULL);
-            DrawCanvas->Update();
-        }
+        Repaint();
     }
 }
 
@@ -4761,11 +4721,7 @@ void XPMEditorPanel::OnBackgroundButtonToggle(wxCommandEvent& event)
         tdata.iStyle = wxSOLID;
     }
     DrawTextBitmap();
-    if (DrawCanvas)
-    {
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
-    }
+    Repaint();
 }
 
 void XPMEditorPanel::OnLineColorChanged(wxCommandEvent& event)
@@ -4781,11 +4737,7 @@ void XPMEditorPanel::OnLineColorChanged(wxCommandEvent& event)
         switch(iToolUsed)
         {
             case XPM_ID_TEXT_TOOL: DrawTextBitmap();
-                                   if (DrawCanvas)
-                                   {
-                                       DrawCanvas->Refresh(true, NULL);
-                                       DrawCanvas->Update();
-                                   }
+                                   Repaint();
                                    //wxMessageBox(_("line colour changed"));
                                    break;
             default: break;
@@ -4806,11 +4758,7 @@ void XPMEditorPanel::OnFillColorChanged(wxCommandEvent& event)
         switch(iToolUsed)
         {
             case XPM_ID_TEXT_TOOL: DrawTextBitmap();
-                                   if (DrawCanvas)
-                                   {
-                                       DrawCanvas->Refresh(true, NULL);
-                                       DrawCanvas->Update();
-                                   }
+                                   Repaint();
                                    break;
             default: break;
         }
@@ -4825,11 +4773,7 @@ void XPMEditorPanel::OnTextEditText(wxCommandEvent& event)
         {
             case XPM_ID_TEXT_TOOL: tdata.sText = wxString(TextEdit->GetValue());
                                    DrawTextBitmap();
-                                   if (DrawCanvas)
-                                   {
-                                       DrawCanvas->Refresh(true, NULL);
-                                       DrawCanvas->Update();
-                                   }
+                                   Repaint();
                                    break;
             default: break;
         }
@@ -4871,10 +4815,9 @@ void XPMEditorPanel::OnDrawCanvasKeyDown(wxKeyEvent& event)
         default: break;
     }
 
-    if ((bUpdate) && (DrawCanvas))
+    if (bUpdate)
     {
-        DrawCanvas->Refresh(true, NULL);
-        DrawCanvas->Update();
+        Repaint();
     }
 
     event.Skip();
@@ -5485,8 +5428,22 @@ void XPMEditorPanel::OnSpinCtrl4Change(wxSpinEvent& event)
 
 }
 
+/** The Hot Spot colour must be updated
+  */
 void XPMEditorPanel::OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event)
 {
     cHotSpotColour = event.GetColour();
     Repaint();
 }
+
+#if __WXMSW__
+/** The mouse capture has been lost
+    Reinitialize the tools
+  */
+void XPMEditorPanel::OnMouseCaptureLost(wxMouseCaptureLostEvent& event)
+{
+    //the mouse capture was lost
+    InitToolData();
+}
+
+#endif

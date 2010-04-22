@@ -313,6 +313,10 @@ class XPMEditorPanel: public wxPanel
 		void OnHotSpotButtonToggle(wxCommandEvent& event);
 		//*)
 
+#if __WXMSW__
+		void OnMouseCaptureLost(wxMouseCaptureLostEvent& event); ///< \brief the mouse capture was lost
+#endif
+
 		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
 		void OnLineColorChanged(wxCommandEvent& event);        ///< \brief the Line colour in the colour picker changed
 		void OnFillColorChanged(wxCommandEvent& event);        ///< \brief the Fill colour in the colour picker changed

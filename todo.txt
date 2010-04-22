@@ -19,12 +19,44 @@
 
 8 - Quick Help display (tooltip)
 
-8 - SDK Codeblocks: rajouter une classe cbEditorPanelBase
-                    rajouter ces méthodes à la classe cbPlugin
+9 - Copy To / Paste from file
+
+10 - Invert colours Selection / IMAGE
+
+11 - the draw bug from wxWidgets (SetUserScale) appears when dynamically draw the tools.
+     Or it is a round-off error (double to int value conversion)
+     use wxDC::Blit instead (and wherever dScale is used to draw...)
+        pipette OK
+        pen OK
+        brush (all 4) OK
+        fill OK
+        HotSpot OK
+
+12 - hideable panels with flat wxButtons (wxAUI ?)
+
+        INTERFACE: Zoom, Rotate, Show Grid, hide/show other panels
+
+        MAIN Panel: Draw Canvas + Status Text
+
+        TOOLBOX Panel: (like quick properties panel in wxSmith)
+            SubPanel TOOLS  : the drawing Tools
+            SubPanel IMAGE  : Size, JPEG Quality, Resolution
+            SubPanel EFFECTS: Rotate, Flip, Stretch, Blur, RotateHue, Convert colours (Greyscale, Mono, ...)
+            SubPanel HELP   : quick help
+
+13 - Save As: does not update the file status in the Project Manager
+
+14 - Undo : mask colour not saved, and resetted to black after Undo.
+
+
+--- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
+
+1 - SDK Codeblocks: add a class cbEditorPanelBase
+                    add these methods to the class cbPlugin
                         GetQuickHelpPanel
                         SetQuickHelpPanel
 
-9 - wxSmith: Picker class missing.
-             Style field in wxCustomClass is not saved
+2 - wxSmith: Picker classes missing.
+              Style field in wxCustomClass is not saved
 
-
+3 - Save As: does not update the file status in the Project Manager

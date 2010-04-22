@@ -2734,7 +2734,7 @@
 1271101290 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1271769696 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1271968479 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
 	<wx/clrpicker.h>
@@ -2775,7 +2775,7 @@
 	<wx/colour.h>
 	<wx/control.h>
 
-1271428550 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+1271967439 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
 	<sdk.h>
 	<filefilters.h>
 	<wx/msgdlg.h>
@@ -2828,8 +2828,14 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271613776 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1271966271 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
+	"wxStretchImage.h"
+	"wxMirror.h"
+	"wxRotate.h"
+	"wxBlur.h"
+	"wxRotateHue.h"
+	"wxConversion.h"
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>
 	<wx/brush.h>
@@ -2844,6 +2850,7 @@
 	<wx/dragimag.h>
 	<wx/fontdlg.h>
 	<wx/textfile.h>
+	<math.h>
 	<wx/scrolwin.h>
 	<wx/artprov.h>
 	<wx/sizer.h>
@@ -2855,13 +2862,16 @@
 	"XPMColorPicker.h"
 	<wx/spinctrl.h>
 	<wx/tglbtn.h>
+	<wx/radiobut.h>
 	"wxResizeCtrl.h"
 	<wx/settings.h>
+	<wx/bmpbuttn.h>
 	<wx/intl.h>
 	<wx/button.h>
 	<wx/image.h>
 	<wx/string.h>
 	<wx/combobox.h>
+	<wx/clrpicker.h>
 	"xpm/brush.xpm"
 	"xpm/curve.xpm"
 	"xpm/ellipse.xpm"
@@ -2876,6 +2886,9 @@
 	"xpm/roundedrect.xpm"
 	"xpm/selection.xpm"
 	"xpm/text.xpm"
+	"xpm/left.xpm"
+	"xpm/right.xpm"
+	"xpm/hotspot.xpm"
 	"xpm/cross_cursor.xpm"
 	"xpm/pipette_cursor.xpm"
 	"xpm/fill_cursor.xpm"
@@ -2900,7 +2913,7 @@
 	"wx/defs.h"
 	"wx/dynarray.h"
 
-1270541592 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\brush.xpm
+1271763996 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\brush.xpm
 
 1269797542 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\curve.xpm
 
@@ -2936,13 +2949,13 @@
 
 1270409826 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\pen_cursor.xpm
 
-1270922087 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\circle.xpm
+1270922088 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\circle.xpm
 
-1270922160 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\square.xpm
+1270922162 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\square.xpm
 
-1270922110 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\left_hair.xpm
+1270922112 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\left_hair.xpm
 
-1270922139 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
+1270922140 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
 
 1271228826 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\src\toggle.cpp
 	"wx/wxprec.h"
@@ -6128,4 +6141,113 @@
 	<wx/radiobut.h>
 	<wx/button.h>
 	<wx/dialog.h>
+
+1271950760 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\colourpickerpanel.cpp
+	"ColourPickerPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271950760 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\colourpickerpanel.h
+	<wx/sizer.h>
+	"XPMColorPicker.h"
+	<wx/panel.h>
+
+1271963497 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\canvaspanel.cpp
+	"CanvasPanel.h"
+	<wx/settings.h>
+	<wx/intl.h>
+	<wx/string.h>
+
+1271963512 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\canvaspanel.h
+	<wx/scrolwin.h>
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	"wxResizeCtrl.h"
+	<wx/panel.h>
+
+1271963539 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\effectpanel.cpp
+	"EffectPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271950828 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\effectpanel.h
+	<wx/sizer.h>
+	<wx/panel.h>
+	<wx/button.h>
+
+1271950552 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\helppanel.cpp
+	"HelpPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271950264 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\helppanel.h
+	<wx/sizer.h>
+	<wx/textctrl.h>
+	<wx/panel.h>
+	<wx/button.h>
+
+1271951274 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\imagepanel.cpp
+	"ImagePanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271951240 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\imagepanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/spinctrl.h>
+	<wx/panel.h>
+
+1271963593 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\interfacepanel.cpp
+	"InterfacePanel.h"
+	<wx/artprov.h>
+	<wx/bitmap.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+
+1271951128 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\interfacepanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/checkbox.h>
+	<wx/panel.h>
+	<wx/bmpbuttn.h>
+	<wx/button.h>
+	<wx/combobox.h>
+
+1271950528 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\quickhelppanel.cpp
+	"QuickHelpPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1271950528 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\quickhelppanel.h
+	<wx/notebook.h>
+	<wx/sizer.h>
+	<wx/panel.h>
+
+1271964134 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\toolpanel.cpp
+	"ToolPanel.h"
+	<wx/artprov.h>
+	<wx/bitmap.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+
+1271963769 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\toolpanel.h
+	<wx/bitmap.h>
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/things/toggle.h>
+	<wx/spinctrl.h>
+	<wx/tglbtn.h>
+	<wx/radiobut.h>
+	<wx/panel.h>
+	<wx/button.h>
+	<wx/clrpicker.h>
+
+1271685336 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\left.xpm
+
+1271684150 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\right.xpm
+
+1271764594 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\hotspot.xpm
 

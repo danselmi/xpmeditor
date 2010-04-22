@@ -369,6 +369,22 @@ bool XPMEditorBase::Save(void)
         return(false);
     }
 
+    //check if hotspot is present
+    if ((img.GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_X) > 0) &&
+        (img.GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_Y) > 0) &&
+        (bt != wxBITMAP_TYPE_CUR)
+       )
+    {
+        //hot spot not supported in this format
+        wxString sMsg;
+        sMsg = _("There is a Hot Spot in this image - however, the selected format does not support ");
+        sMsg += _("Hot Spot information. The information will be lost.");
+        sMsg += _("The following formats support Hot Spot:\n");
+        sMsg += _("*.cur - cursor format - Windows only\n");
+        sMsg += _("Do you want to continue ?");
+        if (::wxMessageBox(sMsg, _("File saving error"), wxYES_NO | wxICON_QUESTION) == wxNO) return(false);
+    }
+
     //save the file
     NotifyPlugins(cbEVT_EDITOR_BEFORE_SAVE);
     img.SaveFile(m_Filename, bt);
