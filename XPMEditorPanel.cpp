@@ -1138,19 +1138,21 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
                 iSourceY = -rSelection.GetTop();
             };
 
-            iSelWidth = m_SelectionBitmap.GetWidth();
-            iSelHeight = m_SelectionBitmap.GetHeight();
-/*
+            iSelWidth = m_SelectionBitmap.GetWidth() - iSourceX;
+            iSelHeight = m_SelectionBitmap.GetHeight() - iSourceY;
+
+            //if (iSelWidth + iStartX > )
+
             dc.Blit(iStartX * dScale, iStartY * dScale,
                     iSelWidth * dScale, iSelHeight * dScale,
                     &memDC2, iSourceX * dScale, iSourceY * dScale, wxCOPY, true
                    ); //Selection
-*/
 
+/*
             dc.Blit(rSelection.GetLeft() * dScale, rSelection.GetTop() * dScale,
                     m_SelectionBitmap.GetWidth() * dScale, m_SelectionBitmap.GetHeight() * dScale,
                     &memDC2, 0, 0, wxCOPY, true); //Selection
-
+*/
 
             //draw the selection border
             int iPenWidth;
@@ -1628,7 +1630,17 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
     iResult = IsPointInSelection(ptPosition.x, ptPosition.y);
     switch(iResult)
     {
-        case 1 : ProcessDragAction(x, y, false, false, false, true); break;
+        case 1 : if (    (!bUsingTool)
+                          || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
+                         )
+                 {
+                     ProcessDragAction(x, y, false, false, false, true);
+                 }
+                 else
+                 {
+                     ProcessToolAction(iTool, x, y, false, false, false, true);
+                 }
+                 break;
         case 2 :
         case 3 :
         case 4 :
@@ -1636,7 +1648,17 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
         case 6 :
         case 7 :
         case 8 :
-        case 9 : ProcessSizeAction(x, y, false, false, false, true, iResult); break;
+        case 9 : if (    (!bUsingTool)
+                          || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
+                         )
+                 {
+                     ProcessSizeAction(x, y, false, false, false, true, iResult); break;
+                 }
+                 else
+                 {
+                     ProcessToolAction(iTool, x, y, false, false, false, true);
+                 }
+                 break;
         case 0 :
         default: ProcessToolAction(iTool, x, y, false, false, false, true); break;
     }
@@ -2088,6 +2110,12 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
 {
     if (bLeftDown)
     {
+        //Release the mouse capture to prevent weird behaviour (cursor seems blocked)
+        //this is due to the fact that the mouse is captured again during the drag action
+        if (DrawCanvas)
+        {
+            if (DrawCanvas->HasCapture()) DrawCanvas->ReleaseMouse();
+        }
 
         //Undo & modification flag
         AddUndo();
@@ -2205,10 +2233,10 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
         iRight = rSelection.GetRight();
         iTop = rSelection.GetTop();
         iBottom = rSelection.GetBottom();
-        if ((iDirection == 2) || (iDirection == 6) || (iDirection == 7)) iTop = y;
-        if ((iDirection == 3) || (iDirection == 6) || (iDirection == 8)) iLeft = x;
-        if ((iDirection == 4) || (iDirection == 8) || (iDirection == 9)) iBottom = y;
-        if ((iDirection == 5) || (iDirection == 7) || (iDirection == 9)) iRight = x;
+        if ((iDirection == 2) || (iDirection == 6) || (iDirection == 7)) iTop = y / dScale;
+        if ((iDirection == 3) || (iDirection == 6) || (iDirection == 8)) iLeft = x / dScale;
+        if ((iDirection == 4) || (iDirection == 8) || (iDirection == 9)) iBottom = y / dScale;
+        if ((iDirection == 5) || (iDirection == 7) || (iDirection == 9)) iRight = x / dScale;
 
         if (m_SelectionImage.IsOk())
         {
@@ -3383,7 +3411,17 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
         iResult = IsPointInSelection(x, y);
         switch(iResult)
         {
-            case 1 : ProcessDragAction(xx, yy, true, false, true, false); break;
+            case 1 : if (    (!bUsingTool)
+                          || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
+                         )
+                     {
+                         ProcessDragAction(xx, yy, true, false, true, false);
+                     }
+                     else
+                     {
+                         ProcessToolAction(iTool, xx, yy, true, false, true, false);
+                     }
+                     break;
             case 2 :
             case 3 :
             case 4 :
@@ -3391,7 +3429,17 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
             case 6 :
             case 7 :
             case 8 :
-            case 9 : ProcessSizeAction(xx, yy, true, false, true, false, iResult); break;
+            case 9 : if (    (!bUsingTool)
+                          || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
+                         )
+                     {
+                         ProcessSizeAction(xx, yy, true, false, true, false, iResult);
+                     }
+                     else
+                     {
+                         ProcessToolAction(iTool, xx, yy, true, false, true, false);
+                     }
+                     break;
             case 0 :
             default: ProcessToolAction(iTool, xx, yy, true, false, true, false); break;
         }
@@ -4791,7 +4839,9 @@ void XPMEditorPanel::OnDrawCanvasKeyDown(wxKeyEvent& event)
 
     bUpdate = false;
     iModifiers = event.GetModifiers();
-    if (iModifiers & wxMOD_CONTROL) dx = 1; else dx = 5;
+    dx = 5;
+    if (iModifiers & wxMOD_CONTROL) dx = 1;
+    if (iModifiers & wxMOD_SHIFT) dx = 10;
 
     switch(event.GetKeyCode())
     {

@@ -15,8 +15,6 @@
 
 6 - Rotate Hue: from colour to colour
 
-7 - Selection: clip selection to bitmap when drawing
-
 8 - Quick Help display (tooltip)
 
 9 - Copy To / Paste from file
