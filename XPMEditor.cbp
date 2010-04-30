@@ -52,8 +52,6 @@
 		<Compiler>
 			<Add option="-DWXUSINGDLL" />
 		</Compiler>
-		<Unit filename="ColourPickerPanel.cpp" />
-		<Unit filename="ColourPickerPanel.h" />
 		<Unit filename="QuickHelpPanel.cpp" />
 		<Unit filename="QuickHelpPanel.h" />
 		<Unit filename="XPMColorPicker.cpp" />

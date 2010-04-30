@@ -2828,7 +2828,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271966271 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1272144401 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	"wxStretchImage.h"
 	"wxMirror.h"
@@ -8426,4 +8426,72 @@
 	"wx/list.h"
 	"wx/module.h"
 	"wx/dataobj.h"
+
+1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\dcbuffer.h
+	"wx/dcmemory.h"
+	"wx/dcclient.h"
+	"wx/window.h"
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\rawbmp.h
+	"wx/image.h"
+
+1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\dragimag.h
+	"wx/generic/dragimgg.h"
+	"wx/msw/dragimag.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+
+1236337250 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\generic\dragimgg.h
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/cursor.h"
+	"wx/treectrl.h"
+	"wx/listctrl.h"
+	"wx/log.h"
+	"wx/overlay.h"
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\overlay.h
+	"wx/defs.h"
+
+1236337276 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\msw\dragimag.h
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/cursor.h"
+	"wx/treectrl.h"
+	"wx/listctrl.h"
+
+1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\fontdlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+	"wx/generic/fontdlgg.h"
+	"wx/msw/fontdlg.h"
+	"wx/gtk/fontdlg.h"
+	"wx/gtk1/fontdlg.h"
+	"wx/os2/fontdlg.h"
+	"wx/mac/fontdlg.h"
+
+1236337250 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\generic\fontdlgg.h
+	"wx/defs.h"
+	"wx/gdicmn.h"
+	"wx/font.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1236337276 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\msw\fontdlg.h
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\textfile.h
+	"wx/defs.h"
+	"wx/textbuf.h"
+	"wx/file.h"
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\textbuf.h
+	"wx/defs.h"
+	"wx/arrstr.h"
+	"wx/convauto.h"
+	"wx/string.h"
+	"wx/dynarray.h"
 
