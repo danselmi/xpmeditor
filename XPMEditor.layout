@@ -22,11 +22,11 @@
 	<File name="XPMEditorBase.h" open="0" top="0" tabpos="2">
 		<Cursor position="5366" topLine="76" />
 	</File>
-	<File name="XPMEditorPanel.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="59171" topLine="1207" />
+	<File name="XPMEditorPanel.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="60951" topLine="1199" />
 	</File>
-	<File name="XPMEditorPanel.h" open="1" top="0" tabpos="1">
-		<Cursor position="24329" topLine="380" />
+	<File name="XPMEditorPanel.h" open="1" top="1" tabpos="2">
+		<Cursor position="19628" topLine="402" />
 	</File>
 	<File name="XPMUndo.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="15022" topLine="466" />
@@ -40,8 +40,8 @@
 	<File name="test.bmp" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="todo.txt" open="1" top="0" tabpos="3">
-		<Cursor position="511" topLine="0" />
+	<File name="todo.txt" open="0" top="0" tabpos="2">
+		<Cursor position="1749" topLine="27" />
 	</File>
 	<File name="wxConversion.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="4051" topLine="50" />

@@ -44,6 +44,7 @@ class XPMColorPicker : public wxPanel
         //colours getter / setter
         wxColour GetLineColour(void);   ///< @brief return the current line colour
         wxColour GetFillColour(void);   ///< @brief return the current fill colour
+        wxColour GetUnusedColour(void); ///< @brief return the 1st unused colour
         int GetLineColourIndex(void);   ///< @brief return the current line colour index
         int GetFillColourIndex(void);   ///< @brief return the current fill colour index
         void SetLineColour(int iIndex, bool bPostEvent = true); ///< @brief set the current line colour

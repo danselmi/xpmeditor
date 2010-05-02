@@ -21,16 +21,15 @@
 
 10 - Invert colours Selection / IMAGE
 
-11 - the draw bug from wxWidgets (SetUserScale) appears when dynamically draw the tools.
-     Or it is a round-off error (double to int value conversion)
-     use wxDC::Blit instead (and wherever dScale is used to draw...)
-        pipette OK
-        pen OK
-        brush (all 4) OK
-        fill OK
-        HotSpot OK
+12 - Zoom + Pen does not work good after moving selection
 
-12 - hideable panels with flat wxButtons (wxAUI ?)
+13 - Selection is not drawn when it is overlapping bitmap edges + zoom
+
+14 - Redraw background: the bottom right corner is not covered when zooming out
+
+15 - bug with resize selection with big zooms
+
+16 - hideable panels with flat wxButtons (wxAUI ?)
 
         INTERFACE: Zoom, Rotate, Show Grid, hide/show other panels
 
@@ -42,9 +41,19 @@
             SubPanel EFFECTS: Rotate, Flip, Stretch, Blur, RotateHue, Convert colours (Greyscale, Mono, ...)
             SubPanel HELP   : quick help
 
-13 - Save As: does not update the file status in the Project Manager
+17 - Save As: does not update the file status in the Project Manager
 
-14 - Undo : mask colour not saved, and resetted to black after Undo.
+18 - Undo : mask colour not saved, and resetted to black after Undo.
+
+19 - Draw Opaque option
+
+20 - Polygon / RoundedRect / Rect / Ellipse :
+        - add the square / circle option
+        - add the draw opaque / draw empty option
+
+21 - Selection: better drawing to do
+
+22 - Brush style options for Polygon / Rectangle / Ellipse / RoundRect
 
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------

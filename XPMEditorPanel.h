@@ -140,6 +140,7 @@ class XPMEditorPanel: public wxPanel
 		wxButton* Button1;
 		wxStaticText* StaticText6;
 		wxCustomButton* BrushButton;
+		wxColourPickerCtrl* GridColour;
 		wxRadioButton* BottomCenter;
 		wxCustomButton* LineButton;
 		wxCustomButton* PenButton;
@@ -200,6 +201,7 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_STATICTEXT3;
 		static const long ID_SPINCTRL2;
 		static const long ID_CHECKBOX1;
+		static const long ID_CUSTOM3;
 		static const long ID_BUTTON1;
 		static const long ID_BUTTON2;
 		static const long ID_BUTTON3;
@@ -321,6 +323,7 @@ class XPMEditorPanel: public wxPanel
 		void OnLineColorChanged(wxCommandEvent& event);        ///< \brief the Line colour in the colour picker changed
 		void OnFillColorChanged(wxCommandEvent& event);        ///< \brief the Fill colour in the colour picker changed
 		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief The colour of the hotspot changed
+		void OnGridColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief The colour of the grid changed
 
 		void BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size);
 		void ToggleButtons(int iIndex, bool bClearSelection = true); ///< @brief toggle all Tools Buttons OFF, except the iIndex one.
@@ -407,6 +410,7 @@ class XPMEditorPanel: public wxPanel
         //scale factor & scrollbars
         double dScale;          ///< \brief scale factor
         bool bShowGrid;         ///< \brief Grid display
+        wxColour cGridColour; ///< @brief the grid colour
         void DoSetScrollBars(void); ///< \brief Set scrollbars size
 
         //Sizing
@@ -459,9 +463,14 @@ class XPMEditorPanel: public wxPanel
         wxCustomButton* tools[XPM_NUMBER_TOOLS]; ///< \brief the buttons associated to the tools
         int iToolUsed; ///< \brief the index of the tool currently in use
         wxCursor ToolCursor[XPM_NUMBER_TOOLS]; ///< \brief the cursors associated to the tools
-        ToolData tdata; ///< \brief tool specific data
+        ToolData tdata;          ///< \brief tool specific data
         void InitToolData(void); ///< @brief init tool data for a first use
-        bool bUsingTool;  ///< @brief true if a tool is currently in use
+        bool bUsingTool;         ///< @brief true if a tool is currently in use
+        void SnapRectToGrid(int *x1, int *y1,
+                            int *x2, int *y2, bool bInvert = true); ///< @brief snap coordinates to grid
+        void SnapToGrid(int *x, int *y, bool bUp); ///< @brief snap coordinates to grid
+        wxBitmap m_bmDrawBitmap;  ///< @brief the bitmap which will be used to draw the tool effect
+        bool m_bDrawToolDynamic;  ///< @brief true if m_bmDrawBitmap must be blited during paint
 
         //hotspot position
         int iHotSpotX;              ///< @brief HotSpot X coordinate. A negative value means there are no HotSpot

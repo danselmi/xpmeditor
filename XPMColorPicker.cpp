@@ -396,6 +396,48 @@ wxColour XPMColorPicker::GetFillColour(void)
     return(ColourArray[iFillColor]);
 }
 
+/** return the 1st unused colour
+  * Unused colour are: not Fill Colour, not Line Colour, not transparent colour
+  * This method will return a colour outside the palette if there are 3 colours or less in the current palette
+  */
+wxColour XPMColorPicker::GetUnusedColour(void)
+{
+    //return the 1st unused colour, or black if none is found
+
+    if (iPaletteSize < 4)
+    {
+        //palette is too small
+        wxColour colour1(255,0,0); //red
+        wxColour colour2(0,255,0); //green
+        wxColour colour3(0,0,255); //blue
+        wxColour colour4(0,0,0);   //black
+        wxColour colour5(0,0,0);   //white
+        wxColour cFillColour;
+        wxColour cLineColour;
+        cFillColour = GetFillColour();
+        cLineColour = GetLineColour();
+
+
+        //try with the 5 colours
+        if ((colour1 != cFillColour) && (colour1 != cLineColour) && (colour1 != cTransparent)) return(colour1);
+        if ((colour2 != cFillColour) && (colour2 != cLineColour) && (colour2 != cTransparent)) return(colour2);
+        if ((colour3 != cFillColour) && (colour3 != cLineColour) && (colour3 != cTransparent)) return(colour3);
+        if ((colour4 != cFillColour) && (colour4 != cLineColour) && (colour4 != cTransparent)) return(colour4);
+        if ((colour5 != cFillColour) && (colour5 != cLineColour) && (colour5 != cTransparent)) return(colour5);
+        return(colour5);
+    }
+
+    int i;
+    wxColour cColour;
+    for(i=0;i<iPaletteSize;i++)
+    {
+        cColour = GetPaletteColour(i);
+        if ((i != iLineColor) && (i != iFillColor) && (cColour != cTransparent)) return(cColour);
+    }
+
+    return(*wxBLACK);
+}
+
 /** Return the current line colour index
   * If an error occur, the colour returned is BLACK by default
   * @return the index representing the current line colour

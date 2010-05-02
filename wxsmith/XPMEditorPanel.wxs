@@ -97,6 +97,15 @@
 						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 						<border>5</border>
 					</object>
+					<object class="sizeritem">
+						<object class="Custom" name="ID_CUSTOM3" subclass="wxColourPickerCtrl" variable="GridColour" member="yes">
+							<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),*wxBLACK,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+							<include_file>wx/clrpicker.h</include_file>
+							<style></style>
+						</object>
+						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
 					<object class="spacer">
 						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 						<border>5</border>
