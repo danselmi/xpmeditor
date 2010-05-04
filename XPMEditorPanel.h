@@ -32,16 +32,18 @@ class wxCustomButton;
 class wxScrolledWindow;
 class wxRadioButton;
 class wxStaticText;
+class wxSlider;
 class wxToggleButton;
 class wxBitmapButton;
 class wxSpinCtrl;
 class wxBoxSizer;
 class wxResizeCtrl;
 class wxButton;
+class wxChoice;
 //*)
 
 #define XPM_NUMBER_TOOLS 15
-#define XPM_MAXPOINTS 25
+#define XPM_MAXPOINTS 200
 
 /// @brief Structure used to store Tool specific data
 struct ToolData
@@ -119,6 +121,9 @@ class XPMEditorPanel: public wxPanel
 		void UpdateConfiguration(void); ///< @brief ask all the image editors to update their configuration
 
 		//(*Declarations(XPMEditorPanel)
+		wxSlider* Slider1;
+		wxStaticText* StaticText10;
+		wxStaticText* StaticText9;
 		wxBoxSizer* ToolSizer;
 		wxCustomButton* HotSpotButton;
 		wxSpinCtrl* SpinCtrl4;
@@ -129,6 +134,7 @@ class XPMEditorPanel: public wxPanel
 		wxStaticText* sCursorPos;
 		wxButton* Button4;
 		wxScrolledWindow* DrawCanvas;
+		wxPanel* ImagePropPanel;
 		wxRadioButton* TopCenter;
 		wxSpinCtrl* SpinCtrl1;
 		wxSpinCtrl* BMPWidth;
@@ -145,6 +151,7 @@ class XPMEditorPanel: public wxPanel
 		wxCustomButton* LineButton;
 		wxCustomButton* PenButton;
 		wxStaticText* StaticText8;
+		wxStaticText* StaticText11;
 		wxPanel* AlignmentPanel;
 		wxBitmapButton* BitmapButton2;
 		wxStaticText* StaticText1;
@@ -175,6 +182,7 @@ class XPMEditorPanel: public wxPanel
 		wxToggleButton* BackgroundButton;
 		wxCustomButton* LassoButton;
 		wxCustomButton* RectangleButton;
+		wxStaticText* StaticText12;
 		wxCustomButton* CircleBrushButton;
 		wxRadioButton* BottomRight;
 		wxRadioButton* CenterRight;
@@ -186,6 +194,7 @@ class XPMEditorPanel: public wxPanel
 		wxCustomButton* CurveButton;
 		wxCustomButton* TextButton;
 		wxRadioButton* TopLeft;
+		wxChoice* Choice1;
 		wxCustomButton* PolygonButton;
 		//*)
 
@@ -196,10 +205,6 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_COMBOBOX1;
 		static const long ID_BITMAPBUTTON1;
 		static const long ID_BITMAPBUTTON2;
-		static const long ID_STATICTEXT2;
-		static const long ID_SPINCTRL1;
-		static const long ID_STATICTEXT3;
-		static const long ID_SPINCTRL2;
 		static const long ID_CHECKBOX1;
 		static const long ID_CUSTOM3;
 		static const long ID_BUTTON1;
@@ -209,6 +214,17 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_BUTTON5;
 		static const long ID_BUTTON6;
 		static const long ID_CUSTOM1;
+		static const long ID_STATICTEXT10;
+		static const long ID_STATICTEXT11;
+		static const long ID_SLIDER1;
+		static const long ID_STATICTEXT12;
+		static const long ID_STATICTEXT2;
+		static const long ID_SPINCTRL1;
+		static const long ID_STATICTEXT3;
+		static const long ID_SPINCTRL2;
+		static const long ID_STATICTEXT13;
+		static const long ID_CHOICE1;
+		static const long ID_PANEL3;
 		static const long ID_SELECT_BUTN;
 		static const long ID_LASSO_BTN;
 		static const long ID_HOTSPOT_BTN;

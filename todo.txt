@@ -13,8 +13,6 @@
 
 5 - jpg quality
 
-6 - Rotate Hue: from colour to colour
-
 8 - Quick Help display (tooltip)
 
 9 - Copy To / Paste from file
@@ -26,8 +24,6 @@
 13 - Selection is not drawn when it is overlapping bitmap edges + zoom
 
 14 - Redraw background: the bottom right corner is not covered when zooming out
-
-15 - bug with resize selection with big zooms
 
 16 - hideable panels with flat wxButtons (wxAUI ?)
 
@@ -67,3 +63,15 @@
               Style field in wxCustomClass is not saved
 
 3 - Save As: does not update the file status in the Project Manager
+
+---- SOLVED ----------------------------------------------
+XPMEditorPanel.cpp
+XPMEditorPanel.h
+XPMEditorPanel.wxs
+wxRotateHue.cpp
+wxRotateHue.h
+wxRotateHue.wxs
+
+15 - bug with resize selection with big zooms
+
+6 - Rotate Hue: from colour to colour

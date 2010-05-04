@@ -4,10 +4,10 @@
 //(*Headers(wxRotateHue)
 #include <wx/sizer.h>
 #include <wx/stattext.h>
-#include <wx/spinctrl.h>
 #include <wx/radiobut.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
+#include <wx/clrpicker.h>
 //*)
 
 class wxRotateHue: public wxDialog
@@ -18,13 +18,16 @@ class wxRotateHue: public wxDialog
 		virtual ~wxRotateHue();
 
 		//(*Declarations(wxRotateHue)
-		wxSpinCtrl* SpinCtrl1;
 		wxStaticText* StaticText2;
 		wxButton* Button1;
+		wxColourPickerCtrl* PickerTo;
 		wxRadioButton* RadioButton4;
 		wxStaticText* StaticText1;
+		wxStaticText* StaticText3;
 		wxButton* Button2;
 		wxRadioButton* RadioButton3;
+		wxColourPickerCtrl* PickerFrom;
+		wxStaticText* StaticText4;
 		//*)
 
 	protected:
@@ -32,7 +35,10 @@ class wxRotateHue: public wxDialog
 		//(*Identifiers(wxRotateHue)
 		static const long ID_STATICTEXT1;
 		static const long ID_STATICTEXT2;
-		static const long ID_SPINCTRL1;
+		static const long ID_STATICTEXT3;
+		static const long ID_CUSTOM3;
+		static const long ID_STATICTEXT4;
+		static const long ID_CUSTOM1;
 		static const long ID_RADIOBUTTON3;
 		static const long ID_RADIOBUTTON4;
 		static const long ID_BUTTON1;

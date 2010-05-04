@@ -43,12 +43,14 @@
 #include <wx/checkbox.h>
 #include <wx/things/toggle.h>
 #include <wx/bitmap.h>
-#include "XPMColorPicker.h"
 #include <wx/spinctrl.h>
+#include "XPMColorPicker.h"
 #include <wx/tglbtn.h>
 #include <wx/radiobut.h>
 #include "wxResizeCtrl.h"
+#include <wx/slider.h>
 #include <wx/settings.h>
+#include <wx/choice.h>
 #include <wx/bmpbuttn.h>
 #include <wx/intl.h>
 #include <wx/button.h>
@@ -96,10 +98,6 @@ const long XPMEditorPanel::ID_STATICTEXT1 = wxNewId();
 const long XPMEditorPanel::ID_COMBOBOX1 = wxNewId();
 const long XPMEditorPanel::ID_BITMAPBUTTON1 = wxNewId();
 const long XPMEditorPanel::ID_BITMAPBUTTON2 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT2 = wxNewId();
-const long XPMEditorPanel::ID_SPINCTRL1 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT3 = wxNewId();
-const long XPMEditorPanel::ID_SPINCTRL2 = wxNewId();
 const long XPMEditorPanel::ID_CHECKBOX1 = wxNewId();
 const long XPMEditorPanel::ID_CUSTOM3 = wxNewId();
 const long XPMEditorPanel::ID_BUTTON1 = wxNewId();
@@ -109,6 +107,17 @@ const long XPMEditorPanel::ID_BUTTON4 = wxNewId();
 const long XPMEditorPanel::ID_BUTTON5 = wxNewId();
 const long XPMEditorPanel::ID_BUTTON6 = wxNewId();
 const long XPMEditorPanel::ID_CUSTOM1 = wxNewId();
+const long XPMEditorPanel::ID_STATICTEXT10 = wxNewId();
+const long XPMEditorPanel::ID_STATICTEXT11 = wxNewId();
+const long XPMEditorPanel::ID_SLIDER1 = wxNewId();
+const long XPMEditorPanel::ID_STATICTEXT12 = wxNewId();
+const long XPMEditorPanel::ID_STATICTEXT2 = wxNewId();
+const long XPMEditorPanel::ID_SPINCTRL1 = wxNewId();
+const long XPMEditorPanel::ID_STATICTEXT3 = wxNewId();
+const long XPMEditorPanel::ID_SPINCTRL2 = wxNewId();
+const long XPMEditorPanel::ID_STATICTEXT13 = wxNewId();
+const long XPMEditorPanel::ID_CHOICE1 = wxNewId();
+const long XPMEditorPanel::ID_PANEL3 = wxNewId();
 const long XPMEditorPanel::ID_SELECT_BUTN = wxNewId();
 const long XPMEditorPanel::ID_LASSO_BTN = wxNewId();
 const long XPMEditorPanel::ID_HOTSPOT_BTN = wxNewId();
@@ -293,18 +302,23 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	//(*Initialize(XPMEditorPanel)
 	wxBoxSizer* BoxSizer4;
 	wxBoxSizer* BoxSizer6;
+	wxBoxSizer* BoxSizer15;
 	wxBoxSizer* BoxSizer5;
 	wxBoxSizer* BoxSizer10;
 	wxBoxSizer* BoxSizer7;
+	wxBoxSizer* BoxSizer8;
 	wxBoxSizer* BoxSizer13;
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer11;
+	wxBoxSizer* BoxSizer16;
 	wxBoxSizer* BoxSizer12;
+	wxBoxSizer* BoxSizer18;
 	wxBoxSizer* BoxSizer14;
+	wxBoxSizer* BoxSizer17;
 	wxBoxSizer* BoxSizer1;
 	wxBoxSizer* BoxSizer9;
 	wxBoxSizer* BoxSizer3;
-
+	
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	PanelSizer = new wxBoxSizer(wxVERTICAL);
 	BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -329,16 +343,6 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	BoxSizer2->Add(BitmapButton1, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	BitmapButton2 = new wxBitmapButton(this, ID_BITMAPBUTTON2, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON2"));
 	BoxSizer2->Add(BitmapButton2, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("SIZE:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-	BoxSizer2->Add(StaticText2, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	BMPWidth = new wxSpinCtrl(this, ID_SPINCTRL1, _T("0"), wxDefaultPosition, wxSize(71,21), 0, 0, 10000, 0, _T("ID_SPINCTRL1"));
-	BMPWidth->SetValue(_T("0"));
-	BoxSizer2->Add(BMPWidth, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	StaticText3 = new wxStaticText(this, ID_STATICTEXT3, _("x"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
-	BoxSizer2->Add(StaticText3, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	BMPHeight = new wxSpinCtrl(this, ID_SPINCTRL2, _T("0"), wxDefaultPosition, wxSize(71,21), 0, 0, 10000, 0, _T("ID_SPINCTRL2"));
-	BMPHeight->SetValue(_T("0"));
-	BoxSizer2->Add(BMPHeight, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	CheckBox1 = new wxCheckBox(this, ID_CHECKBOX1, _("Show Grid"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
 	CheckBox1->SetValue(false);
 	CheckBox1->Disable();
@@ -364,6 +368,45 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	PanelSizer->Add(BoxSizer13, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ColourPicker = new XPMColorPicker(this,ID_CUSTOM1,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM1"));
 	PanelSizer->Add(ColourPicker, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	ImagePropPanel = new wxPanel(this, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
+	BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
+	BoxSizer15 = new wxBoxSizer(wxHORIZONTAL);
+	StaticText9 = new wxStaticText(ImagePropPanel, ID_STATICTEXT10, _("JPEG QUALITY:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT10"));
+	BoxSizer15->Add(StaticText9, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer16 = new wxBoxSizer(wxHORIZONTAL);
+	StaticText10 = new wxStaticText(ImagePropPanel, ID_STATICTEXT11, _("(poor)"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT11"));
+	BoxSizer16->Add(StaticText10, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	Slider1 = new wxSlider(ImagePropPanel, ID_SLIDER1, 0, 0, 100, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_SLIDER1"));
+	BoxSizer16->Add(Slider1, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	StaticText11 = new wxStaticText(ImagePropPanel, ID_STATICTEXT12, _("(good)"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT12"));
+	BoxSizer16->Add(StaticText11, 1, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer15->Add(BoxSizer16, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer8->Add(BoxSizer15, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
+	StaticText2 = new wxStaticText(ImagePropPanel, ID_STATICTEXT2, _("SIZE:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
+	BoxSizer17->Add(StaticText2, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	BMPWidth = new wxSpinCtrl(ImagePropPanel, ID_SPINCTRL1, _T("0"), wxDefaultPosition, wxSize(71,21), 0, 0, 10000, 0, _T("ID_SPINCTRL1"));
+	BMPWidth->SetValue(_T("0"));
+	BoxSizer17->Add(BMPWidth, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	StaticText3 = new wxStaticText(ImagePropPanel, ID_STATICTEXT3, _("x"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
+	BoxSizer17->Add(StaticText3, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	BMPHeight = new wxSpinCtrl(ImagePropPanel, ID_SPINCTRL2, _T("0"), wxDefaultPosition, wxSize(71,21), 0, 0, 10000, 0, _T("ID_SPINCTRL2"));
+	BMPHeight->SetValue(_T("0"));
+	BoxSizer17->Add(BMPHeight, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer8->Add(BoxSizer17, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer18 = new wxBoxSizer(wxHORIZONTAL);
+	StaticText12 = new wxStaticText(ImagePropPanel, ID_STATICTEXT13, _("Type"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT13"));
+	BoxSizer18->Add(StaticText12, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	Choice1 = new wxChoice(ImagePropPanel, ID_CHOICE1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+	Choice1->Append(_("bitmap (*.bmp)"));
+	Choice1->Append(_("jpeg (*.jpg)"));
+	Choice1->Append(_("png (*.png)"));
+	BoxSizer18->Add(Choice1, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer8->Add(BoxSizer18, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	ImagePropPanel->SetSizer(BoxSizer8);
+	BoxSizer8->Fit(ImagePropPanel);
+	BoxSizer8->SetSizeHints(ImagePropPanel);
+	PanelSizer->Add(ImagePropPanel, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
 	ToolSizer = new wxBoxSizer(wxVERTICAL);
 	ToolPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
@@ -537,12 +580,10 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	SetSizer(PanelSizer);
 	PanelSizer->Fit(this);
 	PanelSizer->SetSizeHints(this);
-
+	
 	Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnZoomChanged);
 	Connect(ID_BITMAPBUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateCounterClockwise);
 	Connect(ID_BITMAPBUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateClockwise);
-	Connect(ID_SPINCTRL1,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
-	Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
 	Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnShowGrid);
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnStretchImage);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnMirror);
@@ -550,6 +591,8 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotate);
 	Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateHueClick);
 	Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnButtonColourDepthClick);
+	Connect(ID_SPINCTRL1,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
+	Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
 	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnSelectButtonToggle);
 	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLassoButtonToggle);
 	Connect(ID_HOTSPOT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnHotSpotButtonToggle);
@@ -2298,15 +2341,16 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
         GetBoundingRect(&rSelection);
         m_bEraseSelection = false;
 
-        int iLeft, iTop, iRight, iBottom;
+        int iLeft, iTop, iRight, iBottom, xx, yy;
+        DrawCanvas->CalcUnscrolledPosition(x, y, &xx, &yy);
         iLeft = rSelection.GetLeft();
         iRight = rSelection.GetRight();
         iTop = rSelection.GetTop();
         iBottom = rSelection.GetBottom();
-        if ((iDirection == 2) || (iDirection == 6) || (iDirection == 7)) iTop = y / dScale;
-        if ((iDirection == 3) || (iDirection == 6) || (iDirection == 8)) iLeft = x / dScale;
-        if ((iDirection == 4) || (iDirection == 8) || (iDirection == 9)) iBottom = y / dScale;
-        if ((iDirection == 5) || (iDirection == 7) || (iDirection == 9)) iRight = x / dScale;
+        if ((iDirection == 2) || (iDirection == 6) || (iDirection == 7)) iTop = yy / dScale;
+        if ((iDirection == 3) || (iDirection == 6) || (iDirection == 8)) iLeft = xx / dScale;
+        if ((iDirection == 4) || (iDirection == 8) || (iDirection == 9)) iBottom = yy / dScale;
+        if ((iDirection == 5) || (iDirection == 7) || (iDirection == 9)) iRight = xx / dScale;
 
         if (m_SelectionImage.IsOk())
         {
@@ -5552,10 +5596,13 @@ void XPMEditorPanel::OnRotateHueClick(wxCommandEvent& event)
     //show the dialog box
     if (rd.ShowModal() == 0)
     {
-        int iAngle;
+        wxColour cFrom, cTo;
         double dAngle;
-        iAngle = rd.SpinCtrl1->GetValue();
-        dAngle = iAngle / 360;
+        cFrom = rd.PickerFrom->GetColour();
+        cTo = rd.PickerTo->GetColour();
+        wxImage::HSVValue FromHSV = wxImage::RGBtoHSV(wxImage::RGBValue(cFrom.Red(), cFrom.Green(), cFrom.Blue()));
+        wxImage::HSVValue ToHSV = wxImage::RGBtoHSV(wxImage::RGBValue(cTo.Red(), cTo.Green(), cTo.Blue()));
+        dAngle = ToHSV.hue - FromHSV.hue;
 
         if ((rd.RadioButton3->GetValue()))
         {

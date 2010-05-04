@@ -27,20 +27,54 @@
 								<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 									<label>Hue rotation:</label>
 								</object>
-								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 								<border>5</border>
-								<option>1</option>
 							</object>
 							<object class="sizeritem">
-								<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="SpinCtrl1" member="yes">
-									<value>0</value>
-									<min>-360</min>
-									<max>360</max>
-									<size>72,21</size>
+								<object class="wxBoxSizer" variable="BoxSizer6" member="no">
+									<object class="sizeritem">
+										<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+											<label>From:</label>
+										</object>
+										<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="sizeritem">
+										<object class="Custom" name="ID_CUSTOM3" subclass="wxColourPickerCtrl" variable="PickerFrom" member="yes">
+											<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),*wxRED,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+											<include_file>wx/clrpicker.h</include_file>
+											<style></style>
+										</object>
+										<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
 								</object>
-								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-								<border>5</border>
-								<option>1</option>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+							</object>
+							<object class="sizeritem">
+								<object class="wxBoxSizer" variable="BoxSizer7" member="no">
+									<object class="sizeritem">
+										<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
+											<label>To:</label>
+										</object>
+										<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="sizeritem">
+										<object class="Custom" name="ID_CUSTOM1" subclass="wxColourPickerCtrl" variable="PickerTo" member="yes">
+											<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),*wxGREEN,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+											<include_file>wx/clrpicker.h</include_file>
+											<style></style>
+										</object>
+										<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 							</object>
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>

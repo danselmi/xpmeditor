@@ -8,7 +8,10 @@
 //(*IdInit(wxRotateHue)
 const long wxRotateHue::ID_STATICTEXT1 = wxNewId();
 const long wxRotateHue::ID_STATICTEXT2 = wxNewId();
-const long wxRotateHue::ID_SPINCTRL1 = wxNewId();
+const long wxRotateHue::ID_STATICTEXT3 = wxNewId();
+const long wxRotateHue::ID_CUSTOM3 = wxNewId();
+const long wxRotateHue::ID_STATICTEXT4 = wxNewId();
+const long wxRotateHue::ID_CUSTOM1 = wxNewId();
 const long wxRotateHue::ID_RADIOBUTTON3 = wxNewId();
 const long wxRotateHue::ID_RADIOBUTTON4 = wxNewId();
 const long wxRotateHue::ID_BUTTON1 = wxNewId();
@@ -24,7 +27,9 @@ wxRotateHue::wxRotateHue(wxWindow* parent,wxWindowID id,const wxPoint& pos,const
 {
 	//(*Initialize(wxRotateHue)
 	wxBoxSizer* BoxSizer4;
+	wxBoxSizer* BoxSizer6;
 	wxBoxSizer* BoxSizer5;
+	wxBoxSizer* BoxSizer7;
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer1;
 	wxBoxSizer* BoxSizer3;
@@ -38,10 +43,19 @@ wxRotateHue::wxRotateHue(wxWindow* parent,wxWindowID id,const wxPoint& pos,const
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
 	BoxSizer4 = new wxBoxSizer(wxVERTICAL);
 	StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Hue rotation:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-	BoxSizer4->Add(StaticText2, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	SpinCtrl1 = new wxSpinCtrl(this, ID_SPINCTRL1, _T("0"), wxDefaultPosition, wxSize(72,21), 0, -360, 360, 0, _T("ID_SPINCTRL1"));
-	SpinCtrl1->SetValue(_T("0"));
-	BoxSizer4->Add(SpinCtrl1, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer4->Add(StaticText2, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
+	BoxSizer6 = new wxBoxSizer(wxHORIZONTAL);
+	StaticText3 = new wxStaticText(this, ID_STATICTEXT3, _("From:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
+	BoxSizer6->Add(StaticText3, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	PickerFrom = new wxColourPickerCtrl(this,ID_CUSTOM3,*wxRED,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM3"));
+	BoxSizer6->Add(PickerFrom, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer4->Add(BoxSizer6, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
+	StaticText4 = new wxStaticText(this, ID_STATICTEXT4, _("To:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT4"));
+	BoxSizer7->Add(StaticText4, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	PickerTo = new wxColourPickerCtrl(this,ID_CUSTOM1,*wxGREEN,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM1"));
+	BoxSizer7->Add(PickerTo, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer4->Add(BoxSizer7, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer3->Add(BoxSizer4, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 0);
 	BoxSizer3->Add(-1,-1,1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	BoxSizer5 = new wxBoxSizer(wxVERTICAL);
