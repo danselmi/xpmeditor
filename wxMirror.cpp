@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      wxMirror.cpp
+ * Purpose:   A dialog box for flipping the Image or the selection  - code
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #include "wxMirror.h"
 
 //(*InternalHeaders(wxMirror)

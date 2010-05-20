@@ -1,3 +1,14 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      wxConvertion.cpp
+ * Purpose:   A dialog box for converting the Image or the selection to GrayScale or Monochrome - code
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
+
 #include "wxConversion.h"
 
 //(*InternalHeaders(wxConversion)

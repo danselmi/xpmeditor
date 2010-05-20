@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxPanel" name="XPMInterfacePanel">
+		<pos_arg>1</pos_arg>
+		<size_arg>1</size_arg>
+		<object class="wxBoxSizer" variable="BoxSizer2" member="no">
+			<object class="sizeritem">
+				<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+					<label>ZOOM:</label>
+					<style>wxALIGN_CENTRE</style>
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxComboBox" name="ID_COMBOBOX1" variable="ZoomFactor" member="yes">
+					<content>
+						<item>10%</item>
+						<item>25%</item>
+						<item>50%</item>
+						<item>75%</item>
+						<item>100%</item>
+						<item>125%</item>
+						<item>150%</item>
+						<item>175%</item>
+						<item>200%</item>
+						<item>400%</item>
+						<item>800%</item>
+						<item>1600%</item>
+						<item>Custom</item>
+					</content>
+					<style>wxCB_DROPDOWN</style>
+					<handler function="OnZoomChanged" entry="EVT_COMBOBOX" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBitmapButton" name="ID_BITMAPBUTTON1" variable="BitmapButton1" member="yes">
+					<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+					<handler function="OnRotateCounterClockwise" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBitmapButton" name="ID_BITMAPBUTTON2" variable="BitmapButton2" member="yes">
+					<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+					<handler function="OnRotateClockwise" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox1" member="yes">
+					<label>Show Grid</label>
+					<enabled>0</enabled>
+					<handler function="OnShowGrid" entry="EVT_CHECKBOX" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="Custom" name="ID_CUSTOM3" subclass="wxColourPickerCtrl" variable="GridColour" member="yes">
+					<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),*wxBLACK,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
+					<include_file>wx/clrpicker.h</include_file>
+					<style></style>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+			</object>
+		</object>
+	</object>
+</wxsmith>

@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      wxStretchImage.h
+ * Purpose:   A dialog box for stretching (rescaling) the Image or the selection  - definition
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #ifndef WXSTRETCHIMAGE_H
 #define WXSTRETCHIMAGE_H
 

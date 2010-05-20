@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      wxConvertion.h
+ * Purpose:   A dialog box for converting the Image or the selection to GrayScale or Monochrome - denition
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #ifndef WXCONVERSION_H
 #define WXCONVERSION_H
 

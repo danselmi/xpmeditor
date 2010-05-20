@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      wxRotate.cpp
+ * Purpose:   A dialog box for rotating the Image or the selection  - code
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #include "wxRotate.h"
 //(*InternalHeaders(wxRotate)
 #include <wx/intl.h>
@@ -41,7 +51,7 @@ wxRotate::wxRotate(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer1;
 	wxBoxSizer* BoxSizer3;
-	
+
 	Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("id"));
 	SetClientSize(wxDefaultSize);
 	Move(wxDefaultPosition);
@@ -94,7 +104,7 @@ wxRotate::wxRotate(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSiz
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
 	Center();
-	
+
 	Connect(ID_RADIOBUTTON6,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&wxRotate::OnRadioButton6Select);
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxRotate::OnButtonOKClick);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxRotate::OnButtonCancelClick);

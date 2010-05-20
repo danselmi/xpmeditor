@@ -1,3 +1,12 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      wxRotate.h
+ * Purpose:   A dialog box for rotating the Image or the selection  - definition
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
 #ifndef WXROTATE_H
 #define WXROTATE_H
 

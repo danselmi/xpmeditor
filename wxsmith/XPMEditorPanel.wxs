@@ -9,73 +9,20 @@
 			<object class="sizeritem">
 				<object class="wxBoxSizer" variable="BoxSizer2" member="no">
 					<object class="sizeritem">
-						<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
-							<label>ZOOM:</label>
-							<style>wxALIGN_CENTRE</style>
+						<object class="Custom" name="ID_INTERFACEPANEL1" subclass="XPMInterfacePanel" variable="InterfacePanel" member="yes">
+							<creating_code>$(THIS) = new $(CLASS)($(PARENT));</creating_code>
+							<include_file>XPMInterfacePanel.h</include_file>
+							<local_include>1</local_include>
 						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-						<border>5</border>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 					</object>
 					<object class="sizeritem">
-						<object class="wxComboBox" name="ID_COMBOBOX1" variable="ZoomFactor" member="yes">
-							<content>
-								<item>10%</item>
-								<item>25%</item>
-								<item>50%</item>
-								<item>75%</item>
-								<item>100%</item>
-								<item>125%</item>
-								<item>150%</item>
-								<item>175%</item>
-								<item>200%</item>
-								<item>400%</item>
-								<item>800%</item>
-								<item>1600%</item>
-								<item>Custom</item>
-							</content>
-							<handler function="OnZoomChanged" entry="EVT_COMBOBOX" />
+						<object class="Custom" name="ID_IMG_PROPERTIES_1" subclass="XPMImagePropertiesPanel" variable="PropertiesPanel" member="yes">
+							<creating_code>$(THIS) = new $(CLASS)($(PARENT));</creating_code>
+							<include_file>XPMImagePropertiesPanel.h</include_file>
+							<local_include>1</local_include>
 						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxBitmapButton" name="ID_BITMAPBUTTON1" variable="BitmapButton1" member="yes">
-							<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-							<handler function="OnRotateCounterClockwise" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxBitmapButton" name="ID_BITMAPBUTTON2" variable="BitmapButton2" member="yes">
-							<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-							<handler function="OnRotateClockwise" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox1" member="yes">
-							<label>Show Grid</label>
-							<enabled>0</enabled>
-							<handler function="OnShowGrid" entry="EVT_CHECKBOX" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="Custom" name="ID_CUSTOM3" subclass="wxColourPickerCtrl" variable="GridColour" member="yes">
-							<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),*wxBLACK,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
-							<include_file>wx/clrpicker.h</include_file>
-							<style></style>
-						</object>
-						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-						<border>5</border>
-					</object>
-					<object class="spacer">
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-						<option>1</option>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -83,176 +30,23 @@
 			<object class="sizeritem">
 				<object class="wxBoxSizer" variable="BoxSizer13" member="no">
 					<object class="sizeritem">
-						<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
-							<label>STRETCH</label>
-							<handler function="OnStretchImage" entry="EVT_BUTTON" />
+						<object class="Custom" name="ID_IMG_MANIP_1" subclass="XPMImageManipulationPanel" variable="ImageManipulationPanel" member="yes">
+							<creating_code>$(THIS) = new $(CLASS)($(PARENT));</creating_code>
+							<include_file>XPMImageManipulationPanel.h</include_file>
+							<local_include>1</local_include>
+							<style></style>
 						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxButton" name="ID_BUTTON2" variable="Button2" member="yes">
-							<label>MIRROR</label>
-							<handler function="OnMirror" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxButton" name="ID_BUTTON3" variable="Button3" member="yes">
-							<label>BLUR</label>
-							<handler function="OnBlur" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxButton" name="ID_BUTTON4" variable="Button4" member="yes">
-							<label>ROTATE</label>
-							<handler function="OnRotate" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxButton" name="ID_BUTTON5" variable="Button5" member="yes">
-							<label>HUE</label>
-							<handler function="OnRotateHueClick" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxButton" name="ID_BUTTON6" variable="Button6" member="yes">
-							<label>COLOUR DEPTH</label>
-							<handler function="OnButtonColourDepthClick" entry="EVT_BUTTON" />
-						</object>
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-					</object>
-					<object class="spacer">
-						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-						<option>1</option>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 			</object>
 			<object class="sizeritem">
-				<object class="Custom" name="ID_CUSTOM1" subclass="XPMColorPicker" variable="ColourPicker" member="yes">
-					<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
-					<include_file>XPMColorPicker.h</include_file>
+				<object class="Custom" name="ID_COLOUR_PICKER_1" subclass="XPMColourPickerPanel" variable="ColourPicker" member="yes">
+					<creating_code>$(THIS) = new $(CLASS)($(PARENT));</creating_code>
+					<include_file>XPMColourPickerPanel.h</include_file>
 					<local_include>1</local_include>
 					<style></style>
-				</object>
-				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-			</object>
-			<object class="sizeritem">
-				<object class="wxPanel" name="ID_PANEL3" variable="ImagePropPanel" member="yes">
-					<object class="wxBoxSizer" variable="BoxSizer8" member="no">
-						<object class="sizeritem">
-							<object class="wxBoxSizer" variable="BoxSizer15" member="no">
-								<object class="sizeritem">
-									<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText9" member="yes">
-										<label>JPEG QUALITY:</label>
-									</object>
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-									<border>5</border>
-									<option>1</option>
-								</object>
-								<object class="sizeritem">
-									<object class="wxBoxSizer" variable="BoxSizer16" member="no">
-										<object class="sizeritem">
-											<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText10" member="yes">
-												<label>(poor)</label>
-											</object>
-											<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-											<border>5</border>
-											<option>1</option>
-										</object>
-										<object class="sizeritem">
-											<object class="wxSlider" name="ID_SLIDER1" variable="Slider1" member="yes" />
-											<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-											<border>5</border>
-										</object>
-										<object class="sizeritem">
-											<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText11" member="yes">
-												<label>(good)</label>
-											</object>
-											<flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-											<border>5</border>
-											<option>1</option>
-										</object>
-									</object>
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-								</object>
-							</object>
-							<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						</object>
-						<object class="sizeritem">
-							<object class="wxBoxSizer" variable="BoxSizer17" member="no">
-								<object class="sizeritem">
-									<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
-										<label>SIZE:</label>
-									</object>
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-									<border>5</border>
-								</object>
-								<object class="sizeritem">
-									<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="BMPWidth" member="yes">
-										<value>0</value>
-										<max>10000</max>
-										<size>71,21</size>
-										<handler function="OnBitmapSizeChanged" entry="EVT_SPINCTRL" />
-									</object>
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-									<border>5</border>
-								</object>
-								<object class="sizeritem">
-									<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
-										<label>x</label>
-									</object>
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-									<border>5</border>
-								</object>
-								<object class="sizeritem">
-									<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="BMPHeight" member="yes">
-										<value>0</value>
-										<max>10000</max>
-										<size>71,21</size>
-										<handler function="OnBitmapSizeChanged" entry="EVT_SPINCTRL" />
-									</object>
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-									<border>5</border>
-								</object>
-							</object>
-							<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						</object>
-						<object class="sizeritem">
-							<object class="wxBoxSizer" variable="BoxSizer18" member="no">
-								<object class="sizeritem">
-									<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText12" member="yes">
-										<label>Type</label>
-									</object>
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-									<border>5</border>
-								</object>
-								<object class="sizeritem">
-									<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes">
-										<content>
-											<item>bitmap (*.bmp)</item>
-											<item>jpeg (*.jpg)</item>
-											<item>png (*.png)</item>
-										</content>
-									</object>
-									<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-									<border>5</border>
-									<option>1</option>
-								</object>
-							</object>
-							<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						</object>
-					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 			</object>

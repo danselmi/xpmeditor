@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxPanel" name="XPMImageManipulationPanel">
+		<pos_arg>1</pos_arg>
+		<size_arg>1</size_arg>
+		<object class="wxBoxSizer" variable="BoxSizer13" member="no">
+			<object class="sizeritem">
+				<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+					<label>STRETCH</label>
+					<handler function="OnButtonStretchClick" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxButton" name="ID_BUTTON2" variable="Button2" member="yes">
+					<label>MIRROR</label>
+					<handler function="OnButtonMirrorClick" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxButton" name="ID_BUTTON3" variable="Button3" member="yes">
+					<label>BLUR</label>
+					<handler function="OnButtonBlurClick" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxButton" name="ID_BUTTON4" variable="Button4" member="yes">
+					<label>ROTATE</label>
+					<handler function="OnButtonRotateClick" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxButton" name="ID_BUTTON5" variable="Button5" member="yes">
+					<label>HUE</label>
+					<handler function="OnButtonHueClick" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxButton" name="ID_BUTTON6" variable="Button6" member="yes">
+					<label>COLOUR DEPTH</label>
+					<handler function="OnButtonColourDepthClick" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxButton" name="ID_BUTTON7" variable="Button7" member="yes">
+					<label>INVERT</label>
+					<handler function="OnButtonInvertClick" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+			</object>
+			<object class="spacer">
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+		</object>
+	</object>
+</wxsmith>

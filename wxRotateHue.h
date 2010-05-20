@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      wxRotateHue.h
+ * Purpose:   A dialog box for converting the colours in the Image or the selection  - definition
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #ifndef WXROTATEHUE_H
 #define WXROTATEHUE_H
 

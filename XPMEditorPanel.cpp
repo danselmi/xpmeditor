@@ -15,6 +15,7 @@
 #include "wxBlur.h"
 #include "wxRotateHue.h"
 #include "wxConversion.h"
+#include "wxInvertDialog.h"
 
 #include <wx/dcclient.h>
 #include <wx/dcbuffer.h>
@@ -40,23 +41,21 @@
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
-#include <wx/checkbox.h>
 #include <wx/things/toggle.h>
+#include "XPMInterfacePanel.h"
 #include <wx/bitmap.h>
 #include <wx/spinctrl.h>
-#include "XPMColorPicker.h"
 #include <wx/tglbtn.h>
 #include <wx/radiobut.h>
+#include "XPMImageManipulationPanel.h"
 #include "wxResizeCtrl.h"
-#include <wx/slider.h>
 #include <wx/settings.h>
-#include <wx/choice.h>
-#include <wx/bmpbuttn.h>
+#include "XPMColourPickerPanel.h"
+#include "XPMImagePropertiesPanel.h"
 #include <wx/intl.h>
 #include <wx/button.h>
 #include <wx/image.h>
 #include <wx/string.h>
-#include <wx/combobox.h>
 #include <wx/clrpicker.h>
 //*)
 
@@ -75,8 +74,6 @@
 #include "xpm/roundedrect.xpm"
 #include "xpm/selection.xpm"
 #include "xpm/text.xpm"
-#include "xpm/left.xpm"
-#include "xpm/right.xpm"
 #include "xpm/hotspot.xpm"
 
 //cursors
@@ -94,30 +91,10 @@
 //----------- INIITIALISATION & DECLARATIONS ------------------------------
 
 //(*IdInit(XPMEditorPanel)
-const long XPMEditorPanel::ID_STATICTEXT1 = wxNewId();
-const long XPMEditorPanel::ID_COMBOBOX1 = wxNewId();
-const long XPMEditorPanel::ID_BITMAPBUTTON1 = wxNewId();
-const long XPMEditorPanel::ID_BITMAPBUTTON2 = wxNewId();
-const long XPMEditorPanel::ID_CHECKBOX1 = wxNewId();
-const long XPMEditorPanel::ID_CUSTOM3 = wxNewId();
-const long XPMEditorPanel::ID_BUTTON1 = wxNewId();
-const long XPMEditorPanel::ID_BUTTON2 = wxNewId();
-const long XPMEditorPanel::ID_BUTTON3 = wxNewId();
-const long XPMEditorPanel::ID_BUTTON4 = wxNewId();
-const long XPMEditorPanel::ID_BUTTON5 = wxNewId();
-const long XPMEditorPanel::ID_BUTTON6 = wxNewId();
-const long XPMEditorPanel::ID_CUSTOM1 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT10 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT11 = wxNewId();
-const long XPMEditorPanel::ID_SLIDER1 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT12 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT2 = wxNewId();
-const long XPMEditorPanel::ID_SPINCTRL1 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT3 = wxNewId();
-const long XPMEditorPanel::ID_SPINCTRL2 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT13 = wxNewId();
-const long XPMEditorPanel::ID_CHOICE1 = wxNewId();
-const long XPMEditorPanel::ID_PANEL3 = wxNewId();
+const long XPMEditorPanel::ID_INTERFACEPANEL1 = wxNewId();
+const long XPMEditorPanel::ID_IMG_PROPERTIES_1 = wxNewId();
+const long XPMEditorPanel::ID_IMG_MANIP_1 = wxNewId();
+const long XPMEditorPanel::ID_COLOUR_PICKER_1 = wxNewId();
 const long XPMEditorPanel::ID_SELECT_BUTN = wxNewId();
 const long XPMEditorPanel::ID_LASSO_BTN = wxNewId();
 const long XPMEditorPanel::ID_HOTSPOT_BTN = wxNewId();
@@ -302,111 +279,32 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	//(*Initialize(XPMEditorPanel)
 	wxBoxSizer* BoxSizer4;
 	wxBoxSizer* BoxSizer6;
-	wxBoxSizer* BoxSizer15;
 	wxBoxSizer* BoxSizer5;
 	wxBoxSizer* BoxSizer10;
 	wxBoxSizer* BoxSizer7;
-	wxBoxSizer* BoxSizer8;
 	wxBoxSizer* BoxSizer13;
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer11;
-	wxBoxSizer* BoxSizer16;
 	wxBoxSizer* BoxSizer12;
-	wxBoxSizer* BoxSizer18;
 	wxBoxSizer* BoxSizer14;
-	wxBoxSizer* BoxSizer17;
 	wxBoxSizer* BoxSizer1;
 	wxBoxSizer* BoxSizer9;
 	wxBoxSizer* BoxSizer3;
-	
+
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	PanelSizer = new wxBoxSizer(wxVERTICAL);
 	BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
-	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("ZOOM:"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE, _T("ID_STATICTEXT1"));
-	BoxSizer2->Add(StaticText1, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	ZoomFactor = new wxComboBox(this, ID_COMBOBOX1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
-	ZoomFactor->Append(_("10%"));
-	ZoomFactor->Append(_("25%"));
-	ZoomFactor->Append(_("50%"));
-	ZoomFactor->Append(_("75%"));
-	ZoomFactor->Append(_("100%"));
-	ZoomFactor->Append(_("125%"));
-	ZoomFactor->Append(_("150%"));
-	ZoomFactor->Append(_("175%"));
-	ZoomFactor->Append(_("200%"));
-	ZoomFactor->Append(_("400%"));
-	ZoomFactor->Append(_("800%"));
-	ZoomFactor->Append(_("1600%"));
-	ZoomFactor->Append(_("Custom"));
-	BoxSizer2->Add(ZoomFactor, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BitmapButton1 = new wxBitmapButton(this, ID_BITMAPBUTTON1, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON1"));
-	BoxSizer2->Add(BitmapButton1, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BitmapButton2 = new wxBitmapButton(this, ID_BITMAPBUTTON2, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON2"));
-	BoxSizer2->Add(BitmapButton2, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	CheckBox1 = new wxCheckBox(this, ID_CHECKBOX1, _("Show Grid"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
-	CheckBox1->SetValue(false);
-	CheckBox1->Disable();
-	BoxSizer2->Add(CheckBox1, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	GridColour = new wxColourPickerCtrl(this,ID_CUSTOM3,*wxBLACK,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM3"));
-	BoxSizer2->Add(GridColour, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	BoxSizer2->Add(-1,-1,1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	InterfacePanel = new XPMInterfacePanel(this);
+	BoxSizer2->Add(InterfacePanel, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	PropertiesPanel = new XPMImagePropertiesPanel(this);
+	BoxSizer2->Add(PropertiesPanel, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	PanelSizer->Add(BoxSizer2, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer13 = new wxBoxSizer(wxHORIZONTAL);
-	Button1 = new wxButton(this, ID_BUTTON1, _("STRETCH"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
-	BoxSizer13->Add(Button1, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	Button2 = new wxButton(this, ID_BUTTON2, _("MIRROR"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
-	BoxSizer13->Add(Button2, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	Button3 = new wxButton(this, ID_BUTTON3, _("BLUR"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
-	BoxSizer13->Add(Button3, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	Button4 = new wxButton(this, ID_BUTTON4, _("ROTATE"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON4"));
-	BoxSizer13->Add(Button4, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	Button5 = new wxButton(this, ID_BUTTON5, _("HUE"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON5"));
-	BoxSizer13->Add(Button5, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	Button6 = new wxButton(this, ID_BUTTON6, _("COLOUR DEPTH"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON6"));
-	BoxSizer13->Add(Button6, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BoxSizer13->Add(-1,-1,1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	ImageManipulationPanel = new XPMImageManipulationPanel(this);
+	BoxSizer13->Add(ImageManipulationPanel, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	PanelSizer->Add(BoxSizer13, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	ColourPicker = new XPMColorPicker(this,ID_CUSTOM1,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM1"));
+	ColourPicker = new XPMColourPickerPanel(this);
 	PanelSizer->Add(ColourPicker, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	ImagePropPanel = new wxPanel(this, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
-	BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
-	BoxSizer15 = new wxBoxSizer(wxHORIZONTAL);
-	StaticText9 = new wxStaticText(ImagePropPanel, ID_STATICTEXT10, _("JPEG QUALITY:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT10"));
-	BoxSizer15->Add(StaticText9, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	BoxSizer16 = new wxBoxSizer(wxHORIZONTAL);
-	StaticText10 = new wxStaticText(ImagePropPanel, ID_STATICTEXT11, _("(poor)"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT11"));
-	BoxSizer16->Add(StaticText10, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	Slider1 = new wxSlider(ImagePropPanel, ID_SLIDER1, 0, 0, 100, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_SLIDER1"));
-	BoxSizer16->Add(Slider1, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	StaticText11 = new wxStaticText(ImagePropPanel, ID_STATICTEXT12, _("(good)"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT12"));
-	BoxSizer16->Add(StaticText11, 1, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
-	BoxSizer15->Add(BoxSizer16, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer8->Add(BoxSizer15, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
-	StaticText2 = new wxStaticText(ImagePropPanel, ID_STATICTEXT2, _("SIZE:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-	BoxSizer17->Add(StaticText2, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	BMPWidth = new wxSpinCtrl(ImagePropPanel, ID_SPINCTRL1, _T("0"), wxDefaultPosition, wxSize(71,21), 0, 0, 10000, 0, _T("ID_SPINCTRL1"));
-	BMPWidth->SetValue(_T("0"));
-	BoxSizer17->Add(BMPWidth, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	StaticText3 = new wxStaticText(ImagePropPanel, ID_STATICTEXT3, _("x"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
-	BoxSizer17->Add(StaticText3, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	BMPHeight = new wxSpinCtrl(ImagePropPanel, ID_SPINCTRL2, _T("0"), wxDefaultPosition, wxSize(71,21), 0, 0, 10000, 0, _T("ID_SPINCTRL2"));
-	BMPHeight->SetValue(_T("0"));
-	BoxSizer17->Add(BMPHeight, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BoxSizer8->Add(BoxSizer17, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer18 = new wxBoxSizer(wxHORIZONTAL);
-	StaticText12 = new wxStaticText(ImagePropPanel, ID_STATICTEXT13, _("Type"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT13"));
-	BoxSizer18->Add(StaticText12, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	Choice1 = new wxChoice(ImagePropPanel, ID_CHOICE1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-	Choice1->Append(_("bitmap (*.bmp)"));
-	Choice1->Append(_("jpeg (*.jpg)"));
-	Choice1->Append(_("png (*.png)"));
-	BoxSizer18->Add(Choice1, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BoxSizer8->Add(BoxSizer18, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	ImagePropPanel->SetSizer(BoxSizer8);
-	BoxSizer8->Fit(ImagePropPanel);
-	BoxSizer8->SetSizeHints(ImagePropPanel);
-	PanelSizer->Add(ImagePropPanel, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
 	ToolSizer = new wxBoxSizer(wxVERTICAL);
 	ToolPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
@@ -580,19 +478,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	SetSizer(PanelSizer);
 	PanelSizer->Fit(this);
 	PanelSizer->SetSizeHints(this);
-	
-	Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnZoomChanged);
-	Connect(ID_BITMAPBUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateCounterClockwise);
-	Connect(ID_BITMAPBUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateClockwise);
-	Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnShowGrid);
-	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnStretchImage);
-	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnMirror);
-	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnBlur);
-	Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotate);
-	Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRotateHueClick);
-	Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnButtonColourDepthClick);
-	Connect(ID_SPINCTRL1,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
-	Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnBitmapSizeChanged);
+
 	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnSelectButtonToggle);
 	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLassoButtonToggle);
 	Connect(ID_HOTSPOT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnHotSpotButtonToggle);
@@ -646,18 +532,9 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	DrawCanvas->Connect(wxEVT_MOUSE_CAPTURE_LOST ,(wxObjectEventFunction)&XPMEditorPanel::OnMouseCaptureLost,0,this);
 #endif
 
-    //Bitmap Button rotate
-    BitmapButton2->SetBitmapLabel(left_xpm);
-    BitmapButton1->SetBitmapLabel(right_xpm);
-
-	//transparent color changed
-	Connect(ID_CUSTOM1,wxEVT_TRANSPARENT_COLOR_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnTransparentColorChanged);
-	Connect(ID_CUSTOM1,wxEVT_FILL_COLOR_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnFillColorChanged);
-	Connect(ID_CUSTOM1,wxEVT_LINE_COLOR_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnLineColorChanged);
-
     //colour picker control event
 	HotSpotColourPicker->Connect(wxEVT_COMMAND_COLOURPICKER_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnHotSpotColourPickerColourChanged,0,this);
-	GridColour->Connect(wxEVT_COMMAND_COLOURPICKER_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnGridColourPickerColourChanged,0,this);
+
 
     //ResizeCtrl
     ResizeCtrl1->SetChild(TextEdit);
@@ -1068,12 +945,19 @@ void XPMEditorPanel::SetBitmap(wxBitmap *bm)
 
         //Set the scrollbars and draw area size
         sDrawAreaSize = wxSize(m_Bitmap->GetWidth(), m_Bitmap->GetHeight());
-        if (BMPWidth) BMPWidth->SetValue(m_Bitmap->GetWidth());
-        if (BMPHeight) BMPHeight->SetValue(m_Bitmap->GetHeight());
+        if (PropertiesPanel)
+        {
+            if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetValue(m_Bitmap->GetWidth());
+            if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPHeight->SetValue(m_Bitmap->GetHeight());
+        }
 
         int iFactor;
         iFactor = dScale * 100;
-        if (ZoomFactor) ZoomFactor->SetValue(wxString::Format(_("%d%%"), iFactor));
+        if (InterfacePanel)
+        {
+            if (InterfacePanel->ZoomFactor) InterfacePanel->ZoomFactor->SetValue(wxString::Format(_("%d%%"), iFactor));
+        }
+
 
         DoSetScrollBars();
 
@@ -1357,46 +1241,21 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
 
 /** The user has changed the size of the bitmap in 1 of the 2 spinboxes.
   */
-void XPMEditorPanel::OnBitmapSizeChanged(wxSpinEvent& event)
+void XPMEditorPanel::OnImageSizeChanged(wxSpinEvent& event)
 {
-    int iWidth, iHeight;
 
-    if (BMPWidth) iWidth = BMPWidth->GetValue();
-    if (BMPHeight) iHeight = BMPHeight->GetValue();
-    if (m_undo_buffer) m_undo_buffer->AddUndo(xpm_size_undo, m_Image);
-    SetDrawAreaSize(wxSize(iWidth, iHeight));
-}
-
-/** The user has changed the Zoom factor in the ComboBox "Zoom"
-  */
-void XPMEditorPanel::OnZoomChanged(wxCommandEvent& event)
-{
-    wxString s;
-    double dScale2;
-
-    s = ZoomFactor->GetValue();
-    s.Replace(_("%"), _(""));
-    if (s.ToDouble(&dScale2))
+    if (PropertiesPanel)
     {
-        if (dScale2 < 0) dScale2 = - dScale2;
-        if (dScale2 == 0.0) return;
-        dScale2 = dScale2 / 100;
-        SetScaleFactor(dScale2);
-    }
-    else if (s.Find(_("Custom")) >= 0)
-    {
-        XPMCustomZoom cz(this);
-        long lValue;
-        lValue = dScale * 100;
-        wxString sCurrentZoom = wxString::Format(_("%d"), lValue);
-        cz.TextCtrl1->SetValue(sCurrentZoom);
-        if (cz.ShowModal())
-        {
-            ZoomFactor->SetValue(wxString::Format(_("%d%%"), dScale * 100));
-        }
+        int iWidth, iHeight;
+
+        if (PropertiesPanel->BMPWidth) iWidth = PropertiesPanel->BMPWidth->GetValue();
+        if (PropertiesPanel->BMPHeight) iHeight = PropertiesPanel->BMPHeight->GetValue();
+        if (m_undo_buffer) m_undo_buffer->AddUndo(xpm_size_undo, m_Image);
+        SetDrawAreaSize(wxSize(iWidth, iHeight));
     }
 
 }
+
 
 /** Return the current applied scaling factor (== zoom factor)
   * a factor of 1 indicate no zooming (100%)
@@ -1417,10 +1276,21 @@ void XPMEditorPanel::SetScaleFactor(double dNewScalingFactor)
     //Set Scaling Factor
     dScale = dNewScalingFactor;
     wxString s = wxString::Format(_("%d%%"), dScale * 100);
-    ZoomFactor->SetValue(s);
+    if (InterfacePanel) InterfacePanel->ZoomFactor->SetValue(s);
     DoSetScrollBars();
 
-    if (dScale >= 4.0) CheckBox1->Enable(true); else CheckBox1->Disable();
+
+    if (InterfacePanel)
+    {
+        if (dScale >= 4.0)
+        {
+            InterfacePanel->CheckBox1->Enable(true);
+        }
+        else
+        {
+            InterfacePanel->CheckBox1->Disable();
+        }
+    }
     //UpdateBitmap(); //rescale the memory bitmap
 
     Repaint();
@@ -1446,8 +1316,12 @@ void XPMEditorPanel::SetDrawAreaSize(wxSize sNewDrawAreaSize)
         sDrawAreaSize = sNewDrawAreaSize;
 
         //indicate the size of the bitmap in the spinboxes
-        if (BMPWidth) BMPWidth->SetValue(sDrawAreaSize.GetWidth());
-        if (BMPHeight) BMPHeight->SetValue(sDrawAreaSize.GetHeight());
+        if (PropertiesPanel)
+        {
+            if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetValue(sDrawAreaSize.GetWidth());
+            if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPHeight->SetValue(sDrawAreaSize.GetHeight());
+        }
+
 
         //resize the image
         if (m_Image)
@@ -1514,9 +1388,12 @@ void XPMEditorPanel::DoSetScrollBars(void)
     }
 }
 
-void XPMEditorPanel::OnShowGrid(wxCommandEvent& event)
+/**Show or hide the grid
+  *@param bShow: true if the grid should be displayed, false otherwise
+  */
+void XPMEditorPanel::ShowGrid(bool bShow)
 {
-    bShowGrid = CheckBox1->IsChecked();
+    bShowGrid = bShow;
     Repaint();
 }
 
@@ -1570,8 +1447,13 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
          //refresh the bitmap
         Repaint();
 
-        if (BMPWidth) BMPWidth->SetValue(xx);
-        if (BMPHeight) BMPHeight->SetValue(yy);
+        if (PropertiesPanel)
+        {
+            if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetValue(xx);
+            if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPHeight->SetValue(yy);
+        }
+
+
         dc.SetPen(pGrayPen);
         //xx = xx / dScale;
         //yy = yy / dScale;
@@ -4137,7 +4019,13 @@ void XPMEditorPanel::ClearRedoBuffer(void)
 bool XPMEditorPanel::AddUndo(wxBitmap *bm)
 {
     //add 1 UNDO operation to the buffer
-    if (m_undo_buffer) return(m_undo_buffer->AddUndo(xpm_bitmap_undo, bm));
+    if (bm)
+    {
+        wxImage img = bm->ConvertToImage();
+        img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+
+        if (m_undo_buffer) return(m_undo_buffer->AddUndo(xpm_image_undo, &img));
+    }
     return(false);
 }
 
@@ -4148,7 +4036,13 @@ bool XPMEditorPanel::AddUndo(wxBitmap *bm)
 bool XPMEditorPanel::AddUndo(wxImage *img)
 {
     //add 1 UNDO operation to the buffer
-    if (m_undo_buffer) return(m_undo_buffer->AddUndo(xpm_image_undo, img));
+    if (img)
+    {
+        wxImage img2(*img);
+        img2.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+
+        if (m_undo_buffer) return(m_undo_buffer->AddUndo(xpm_image_undo, &img2));
+    }
     return(false);
 }
 
@@ -4158,7 +4052,14 @@ bool XPMEditorPanel::AddUndo(wxImage *img)
 bool XPMEditorPanel::AddUndo(void)
 {
     //add 1 Undo operation to the Buffer
-    if (m_undo_buffer) return(m_undo_buffer->AddUndo(xpm_image_undo, m_Image));
+    if (m_Image)
+    {
+        wxImage img(*m_Image);
+        img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+
+        if (m_undo_buffer) return(m_undo_buffer->AddUndo(xpm_image_undo, &img));
+    }
+
     return(false);
 }
 
@@ -4168,7 +4069,14 @@ bool XPMEditorPanel::AddUndo(void)
 bool XPMEditorPanel::AddRedo(void)
 {
     //add 1 Redo operation to the Buffer
-    if (m_undo_buffer) return(m_undo_buffer->AddRedo(xpm_image_undo, m_Image));
+    if (m_Image)
+    {
+        wxImage img(*m_Image);
+        img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+
+        if (m_undo_buffer) return(m_undo_buffer->AddRedo(xpm_image_undo, &img));
+    }
+
     return(false);
 }
 
@@ -4179,8 +4087,15 @@ bool XPMEditorPanel::AddRedo(void)
 bool XPMEditorPanel::AddRedo(wxBitmap *bm)
 {
     //add 1 REDO operation to the buffer
-    if (m_undo_buffer) return(m_undo_buffer->AddRedo(xpm_bitmap_undo, bm));
+    if (bm)
+    {
+        wxImage img = bm->ConvertToImage();
+        img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+
+        if (m_undo_buffer) return(m_undo_buffer->AddRedo(xpm_image_undo, &img));
+    }
     return(false);
+
 }
 
 /** Add 1 Redo operation to the redo buffer
@@ -4190,7 +4105,13 @@ bool XPMEditorPanel::AddRedo(wxBitmap *bm)
 bool XPMEditorPanel::AddRedo(wxImage *img)
 {
     //add 1 REDO operation to the buffer
-    if (m_undo_buffer) return(m_undo_buffer->AddRedo(xpm_image_undo, img));
+    if (img)
+    {
+        wxImage img2(*img);
+        img2.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+
+        if (m_undo_buffer) return(m_undo_buffer->AddRedo(xpm_image_undo, &img2));
+    }
     return(false);
 }
 
@@ -5230,8 +5151,11 @@ void XPMEditorPanel::OnStretchImage(wxCommandEvent& event)
             sDrawAreaSize = wxSize(iWidth, iHeight);
 
             //indicate the size of the bitmap in the spinboxes
-            if (BMPWidth) BMPWidth->SetValue(sDrawAreaSize.GetWidth());
-            if (BMPHeight) BMPHeight->SetValue(sDrawAreaSize.GetHeight());
+            if (PropertiesPanel)
+            {
+                if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetValue(sDrawAreaSize.GetWidth());
+                if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPHeight->SetValue(sDrawAreaSize.GetHeight());
+            }
 
             //resize the image
             if (m_Image)
@@ -5510,7 +5434,7 @@ void XPMEditorPanel::OnRotate(wxCommandEvent& event)
 }
 
 /** Rotate 90 degree counter-clockwise handler **/
-void XPMEditorPanel::OnRotateCounterClockwise(wxCommandEvent& event)
+void XPMEditorPanel::RotateCounterClockwise(void)
 {
     wxImage img;
 
@@ -5540,7 +5464,7 @@ void XPMEditorPanel::OnRotateCounterClockwise(wxCommandEvent& event)
 }
 
 /** Rotate 90 degree clockwise handler **/
-void XPMEditorPanel::OnRotateClockwise(wxCommandEvent& event)
+void XPMEditorPanel::RotateClockwise(void)
 {
     wxImage img;
 
@@ -5630,7 +5554,76 @@ void XPMEditorPanel::OnRotateHueClick(wxCommandEvent& event)
     }
 }
 
+/** Invert the image or the selection **/
+void XPMEditorPanel::OnInvertImageClick(wxCommandEvent& event)
+{
+     wxInvertDialog id(this);
 
+    //init the dialog box
+    if (HasSelection())
+    {
+        id.RadioButton4->Enable(true);
+        id.RadioButton4->SetValue(true);
+    }
+    else
+    {
+        id.RadioButton4->Enable(false);
+        id.RadioButton3->SetValue(true);
+    }
+
+    //show the dialog box
+    if (id.ShowModal() == 0)
+    {
+        if ((id.RadioButton3->GetValue()))
+        {
+           //invert image
+           if (m_Image)
+           {
+               AddUndo();
+               wxImage img;
+               img = InvertImage(*m_Image);
+               SetImage(&img);
+               SetModified(true);
+           }
+        }
+        else
+        {
+            //invert selection
+            if (HasSelection())
+            {
+                wxImage img;
+                img = InvertImage(m_SelectionImage);
+                m_SelectionImage = img;
+                m_SelectionBitmap = wxBitmap(m_SelectionImage);
+                m_bEraseSelection = false;
+                Repaint();
+            }
+        }
+    }
+}
+
+/** Invert the colours of an image
+  * @param img: the image to be inverted. The image is copied first - it is therefore not modified
+  * @return : a new image, with the colours inverted
+  */
+wxImage XPMEditorPanel::InvertImage(wxImage img)
+{
+    //invert the colours of an image
+    wxBitmap bmp(img);
+    wxBitmap bmp2(img);
+    wxMemoryDC dc;
+    wxMemoryDC dc2;
+
+    dc.SelectObject(bmp);
+    dc2.SelectObject(bmp2);
+    dc.Blit(0,0, bmp2.GetWidth(), bmp2.GetHeight(), &dc2, 0, 0, wxSRC_INVERT);
+    dc.SelectObject(wxNullBitmap);
+    dc2.SelectObject(wxNullBitmap);
+
+    wxImage imgResult;
+    imgResult = bmp.ConvertToImage();
+    return(imgResult);
+}
 
 void XPMEditorPanel::OnButtonColourDepthClick(wxCommandEvent& event)
 {
@@ -6087,3 +6080,5 @@ void XPMEditorPanel::SnapToGrid(int *x, int *y, bool bUp)
         *y = *y * dScale;
     }
 }
+
+

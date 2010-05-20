@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxPanel" name="XPMImagePropertiesPanel">
+		<pos_arg>1</pos_arg>
+		<size_arg>1</size_arg>
+		<object class="wxBoxSizer" variable="BoxSizer8" member="no">
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer17" member="no">
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+							<label>SIZE:</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="BMPWidth" member="yes">
+							<value>0</value>
+							<max>10000</max>
+							<size>71,21</size>
+							<handler function="OnImageSizeChanged" entry="EVT_SPINCTRL" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+							<label>x</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="BMPHeight" member="yes">
+							<value>0</value>
+							<max>10000</max>
+							<size>71,21</size>
+							<handler function="OnImageSizeChanged" entry="EVT_SPINCTRL" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer18" member="no">
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText12" member="yes">
+							<label>Type</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes">
+							<content>
+								<item>auto (based on file extension)</item>
+								<item>bitmap (*.bmp)</item>
+								<item>cursor (*.cur)</item>
+								<item>icon (*.icon)</item>
+								<item>jpeg (*.jpg)</item>
+								<item>pcx (*.pcx)</item>
+								<item>png (*.png)</item>
+								<item>pnm (*.pnm)</item>
+								<item>tiff (*tif, *.tiff)</item>
+								<item>xpm (*.xpm)</item>
+							</content>
+							<handler function="OnImageTypeChanged" entry="EVT_CHOICE" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+			</object>
+			<object class="sizeritem">
+				<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+					<label>Advanced</label>
+					<handler function="OnButtonAdvancedPropClick" entry="EVT_BUTTON" />
+				</object>
+				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+		</object>
+	</object>
+</wxsmith>

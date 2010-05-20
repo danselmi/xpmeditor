@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      wxRotateHue.cpp
+ * Purpose:   A dialog box for converting the colours in the Image or the selection  - code
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #include "wxRotateHue.h"
 
 //(*InternalHeaders(wxRotateHue)
@@ -33,7 +43,7 @@ wxRotateHue::wxRotateHue(wxWindow* parent,wxWindowID id,const wxPoint& pos,const
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer1;
 	wxBoxSizer* BoxSizer3;
-	
+
 	Create(parent, id, _("ROTATE HUE"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER, _T("id"));
 	SetClientSize(wxDefaultSize);
 	Move(wxDefaultPosition);
@@ -77,7 +87,7 @@ wxRotateHue::wxRotateHue(wxWindow* parent,wxWindowID id,const wxPoint& pos,const
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
 	Center();
-	
+
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxRotateHue::OnButtonOKClick);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxRotateHue::OnButtonCancelClick);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&wxRotateHue::OnClose);

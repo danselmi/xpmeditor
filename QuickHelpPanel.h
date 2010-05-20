@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      QuickHelpPanel.h
+ * Purpose:   A panel containing a simple manual for the plugin  - definition
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #ifndef QUICKHELPPANEL_H
 #define QUICKHELPPANEL_H
 

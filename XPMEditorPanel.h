@@ -23,23 +23,21 @@ class wxDragImage;
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>
 class wxSpinEvent;
+class XPMImageManipulationPanel;
 class wxColourPickerCtrl;
-class wxCheckBox;
 class wxTextCtrl;
-class XPMColorPicker;
-class wxComboBox;
+class XPMColourPickerPanel;
 class wxCustomButton;
 class wxScrolledWindow;
 class wxRadioButton;
 class wxStaticText;
-class wxSlider;
+class XPMInterfacePanel;
 class wxToggleButton;
-class wxBitmapButton;
 class wxSpinCtrl;
 class wxBoxSizer;
 class wxResizeCtrl;
 class wxButton;
-class wxChoice;
+class XPMImagePropertiesPanel;
 //*)
 
 #define XPM_NUMBER_TOOLS 15
@@ -120,53 +118,56 @@ class XPMEditorPanel: public wxPanel
 		//Configuration
 		void UpdateConfiguration(void); ///< @brief ask all the image editors to update their configuration
 
+		//Image & Selection manipulation
+		void RotateCounterClockwise(void); ///< \brief Rotate the image or the selection 90° Clockwise
+		void RotateClockwise(void);        ///< \brief Rotate the image or the selection 90° CounterClockwise
+		wxImage InvertImage(wxImage img);  ///< \brief Invert the colours of an image.
+
+		void ShowGrid(bool bShow); ///< Show or hide the grid
+
+		//handlers for events forwarded from child panels
+		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
+		void OnLineColorChanged(wxCommandEvent& event);        ///< \brief the Line colour in the colour picker changed
+		void OnFillColorChanged(wxCommandEvent& event);        ///< \brief the Fill colour in the colour picker changed
+		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief The colour of the hotspot changed
+		void OnGridColourPickerColourChanged(wxColourPickerEvent& event);    ///< \brief The colour of the grid changed
+		void OnImageSizeChanged(wxSpinEvent& event);           ///< \brief The size of the image changed
+		void OnStretchImage(wxCommandEvent& event);            ///< \brief Stretch the image or the selection
+		void OnMirror(wxCommandEvent& event);                  ///< \brief Flip the image or the selection
+		void OnBlur(wxCommandEvent& event);                    ///< \brief Blur the image or the selection
+		void OnRotate(wxCommandEvent& event);                  ///< \brief Rotate the image or the selection
+		void OnRotateHueClick(wxCommandEvent& event);          ///< \brief Convert some colours from the image or the selection
+		void OnButtonColourDepthClick(wxCommandEvent& event);  ///< \brief Convert to Gray Scale / Monochrome the image or the selection
+		void OnInvertImageClick(wxCommandEvent& event);        ///< \brief Invert the image or the selection
+
 		//(*Declarations(XPMEditorPanel)
-		wxSlider* Slider1;
-		wxStaticText* StaticText10;
-		wxStaticText* StaticText9;
 		wxBoxSizer* ToolSizer;
 		wxCustomButton* HotSpotButton;
 		wxSpinCtrl* SpinCtrl4;
 		wxCustomButton* FillButton;
 		wxCustomButton* EraserButton;
-		wxSpinCtrl* BMPHeight;
 		wxRadioButton* CenterCenter;
 		wxStaticText* sCursorPos;
-		wxButton* Button4;
 		wxScrolledWindow* DrawCanvas;
-		wxPanel* ImagePropPanel;
 		wxRadioButton* TopCenter;
 		wxSpinCtrl* SpinCtrl1;
-		wxSpinCtrl* BMPWidth;
-		wxStaticText* StaticText2;
+		XPMImagePropertiesPanel* PropertiesPanel;
 		wxBoxSizer* CanvasSizer;
 		wxTextCtrl* TextEdit;
 		wxRadioButton* CenterLeft;
 		wxCustomButton* SquareBrushButton;
-		wxButton* Button1;
 		wxStaticText* StaticText6;
 		wxCustomButton* BrushButton;
-		wxColourPickerCtrl* GridColour;
 		wxRadioButton* BottomCenter;
 		wxCustomButton* LineButton;
 		wxCustomButton* PenButton;
 		wxStaticText* StaticText8;
-		wxStaticText* StaticText11;
 		wxPanel* AlignmentPanel;
-		wxBitmapButton* BitmapButton2;
-		wxStaticText* StaticText1;
-		wxStaticText* StaticText3;
-		wxBitmapButton* BitmapButton1;
-		wxButton* Button2;
 		wxPanel* ToolPanel;
-		wxCheckBox* CheckBox1;
-		wxButton* Button6;
 		wxButton* FontButton;
 		wxCustomButton* PipetteButton;
-		wxButton* Button5;
 		wxRadioButton* BottomLeft;
 		wxColourPickerCtrl* HotSpotColourPicker;
-		wxButton* Button3;
 		wxSpinCtrl* SpinCtrl3;
 		wxStaticText* StaticText5;
 		wxCustomButton* SelectButton;
@@ -174,15 +175,14 @@ class XPMEditorPanel: public wxPanel
 		wxStaticText* StaticText7;
 		wxCustomButton* EllipseButton;
 		wxRadioButton* TopRight;
+		XPMImageManipulationPanel* ImageManipulationPanel;
 		wxCustomButton* RHairBrushButton;
 		wxSpinCtrl* SpinCtrl2;
-		wxComboBox* ZoomFactor;
-		XPMColorPicker* ColourPicker;
 		wxBoxSizer* PanelSizer;
 		wxToggleButton* BackgroundButton;
 		wxCustomButton* LassoButton;
 		wxCustomButton* RectangleButton;
-		wxStaticText* StaticText12;
+		XPMColourPickerPanel* ColourPicker;
 		wxCustomButton* CircleBrushButton;
 		wxRadioButton* BottomRight;
 		wxRadioButton* CenterRight;
@@ -190,41 +190,21 @@ class XPMEditorPanel: public wxPanel
 		wxBoxSizer* AngleSizer;
 		wxBoxSizer* ToolPanelSizer;
 		wxStaticText* StaticText4;
+		XPMInterfacePanel* InterfacePanel;
 		wxCustomButton* LHairBrushButton;
 		wxCustomButton* CurveButton;
 		wxCustomButton* TextButton;
 		wxRadioButton* TopLeft;
-		wxChoice* Choice1;
 		wxCustomButton* PolygonButton;
 		//*)
 
 	protected:
 
 		//(*Identifiers(XPMEditorPanel)
-		static const long ID_STATICTEXT1;
-		static const long ID_COMBOBOX1;
-		static const long ID_BITMAPBUTTON1;
-		static const long ID_BITMAPBUTTON2;
-		static const long ID_CHECKBOX1;
-		static const long ID_CUSTOM3;
-		static const long ID_BUTTON1;
-		static const long ID_BUTTON2;
-		static const long ID_BUTTON3;
-		static const long ID_BUTTON4;
-		static const long ID_BUTTON5;
-		static const long ID_BUTTON6;
-		static const long ID_CUSTOM1;
-		static const long ID_STATICTEXT10;
-		static const long ID_STATICTEXT11;
-		static const long ID_SLIDER1;
-		static const long ID_STATICTEXT12;
-		static const long ID_STATICTEXT2;
-		static const long ID_SPINCTRL1;
-		static const long ID_STATICTEXT3;
-		static const long ID_SPINCTRL2;
-		static const long ID_STATICTEXT13;
-		static const long ID_CHOICE1;
-		static const long ID_PANEL3;
+		static const long ID_INTERFACEPANEL1;
+		static const long ID_IMG_PROPERTIES_1;
+		static const long ID_IMG_MANIP_1;
+		static const long ID_COLOUR_PICKER_1;
 		static const long ID_SELECT_BUTN;
 		static const long ID_LASSO_BTN;
 		static const long ID_HOTSPOT_BTN;
@@ -275,10 +255,7 @@ class XPMEditorPanel: public wxPanel
 
 		//(*Handlers(XPMEditorPanel)
 		void OnDrawCanvasPaint(wxPaintEvent& event);
-		void OnBitmapSizeChanged(wxSpinEvent& event);
-		void OnZoomChanged(wxCommandEvent& event);
 		void OnDrawCanvasResize(wxSizeEvent& event);
-		void OnShowGrid(wxCommandEvent& event);
 		void OnDrawCanvasMouseMove(wxMouseEvent& event);
 		void OnDrawCanvasLeftDown(wxMouseEvent& event);
 		void OnDrawCanvasLeftUp(wxMouseEvent& event);
@@ -310,14 +287,6 @@ class XPMEditorPanel: public wxPanel
 		void OnBackgroundButtonToggle(wxCommandEvent& event);
 		void OnTextEditText(wxCommandEvent& event);
 		void OnDrawCanvasKeyDown(wxKeyEvent& event);
-		void OnStretchImage(wxCommandEvent& event);
-		void OnMirror(wxCommandEvent& event);
-		void OnBlur(wxCommandEvent& event);
-		void OnRotate(wxCommandEvent& event);
-		void OnRotateCounterClockwise(wxCommandEvent& event);
-		void OnRotateClockwise(wxCommandEvent& event);
-		void OnRotateHueClick(wxCommandEvent& event);
-		void OnButtonColourDepthClick(wxCommandEvent& event);
 		void OnTopLeftSelect(wxCommandEvent& event);
 		void OnTopCenterSelect(wxCommandEvent& event);
 		void OnTopRightSelect(wxCommandEvent& event);
@@ -334,12 +303,6 @@ class XPMEditorPanel: public wxPanel
 #if __WXMSW__
 		void OnMouseCaptureLost(wxMouseCaptureLostEvent& event); ///< \brief the mouse capture was lost
 #endif
-
-		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
-		void OnLineColorChanged(wxCommandEvent& event);        ///< \brief the Line colour in the colour picker changed
-		void OnFillColorChanged(wxCommandEvent& event);        ///< \brief the Fill colour in the colour picker changed
-		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief The colour of the hotspot changed
-		void OnGridColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief The colour of the grid changed
 
 		void BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size);
 		void ToggleButtons(int iIndex, bool bClearSelection = true); ///< @brief toggle all Tools Buttons OFF, except the iIndex one.

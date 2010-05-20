@@ -56,6 +56,8 @@
 		<Unit filename="QuickHelpPanel.h" />
 		<Unit filename="XPMColorPicker.cpp" />
 		<Unit filename="XPMColorPicker.h" />
+		<Unit filename="XPMColourPickerPanel.cpp" />
+		<Unit filename="XPMColourPickerPanel.h" />
 		<Unit filename="XPMCustomZoom.cpp" />
 		<Unit filename="XPMCustomZoom.h" />
 		<Unit filename="XPMEditor.cpp" />
@@ -64,6 +66,12 @@
 		<Unit filename="XPMEditorBase.h" />
 		<Unit filename="XPMEditorPanel.cpp" />
 		<Unit filename="XPMEditorPanel.h" />
+		<Unit filename="XPMImageManipulationPanel.cpp" />
+		<Unit filename="XPMImageManipulationPanel.h" />
+		<Unit filename="XPMImagePropertiesPanel.cpp" />
+		<Unit filename="XPMImagePropertiesPanel.h" />
+		<Unit filename="XPMInterfacePanel.cpp" />
+		<Unit filename="XPMInterfacePanel.h" />
 		<Unit filename="XPMUndo.cpp" />
 		<Unit filename="XPMUndo.h" />
 		<Unit filename="manifest.xml" />
@@ -73,6 +81,8 @@
 		<Unit filename="wxBlur.h" />
 		<Unit filename="wxConversion.cpp" />
 		<Unit filename="wxConversion.h" />
+		<Unit filename="wxInvertDialog.cpp" />
+		<Unit filename="wxInvertDialog.h" />
 		<Unit filename="wxMirror.cpp" />
 		<Unit filename="wxMirror.h" />
 		<Unit filename="wxResizeCtrl.cpp" />
@@ -128,6 +138,11 @@
 					<wxDialog wxs="wxsmith/wxRotateHue.wxs" src="wxRotateHue.cpp" hdr="wxRotateHue.h" name="wxRotateHue" language="CPP" />
 					<wxDialog wxs="wxsmith/wxConversion.wxs" src="wxConversion.cpp" hdr="wxConversion.h" name="wxConversion" language="CPP" />
 					<wxPanel wxs="wxsmith/QuickHelpPanel.wxs" src="QuickHelpPanel.cpp" hdr="QuickHelpPanel.h" name="QuickHelpPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMColourPickerPanel.wxs" src="XPMColourPickerPanel.cpp" hdr="XPMColourPickerPanel.h" name="XPMColourPickerPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMInterfacePanel.wxs" src="XPMInterfacePanel.cpp" hdr="XPMInterfacePanel.h" name="XPMInterfacePanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMImagePropertiesPanel.wxs" src="XPMImagePropertiesPanel.cpp" hdr="XPMImagePropertiesPanel.h" name="XPMImagePropertiesPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMImageManipulationPanel.wxs" src="XPMImageManipulationPanel.cpp" hdr="XPMImageManipulationPanel.h" name="XPMImageManipulationPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/wxInvertDialog.wxs" src="wxInvertDialog.cpp" hdr="wxInvertDialog.h" name="wxInvertDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

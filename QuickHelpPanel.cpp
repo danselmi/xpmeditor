@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      QuickHelpPanel.cpp
+ * Purpose:   A panel containing a simple manual for the plugin  - code
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #include "QuickHelpPanel.h"
 
 //(*InternalHeaders(QuickHelpPanel)
@@ -25,7 +35,7 @@ QuickHelpPanel::QuickHelpPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 {
 	//(*Initialize(QuickHelpPanel)
 	wxBoxSizer* BoxSizer1;
-	
+
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer1 = new wxBoxSizer(wxVERTICAL);
 	Notebook1 = new wxNotebook(this, ID_NOTEBOOK1, wxDefaultPosition, wxSize(364,242), 0, _T("ID_NOTEBOOK1"));

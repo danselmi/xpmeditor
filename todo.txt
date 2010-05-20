@@ -11,13 +11,15 @@
 
 4 - resize all cursors to fit in a 16 x 16 square
 
-5 - jpg quality
+5 - Image property dialog box: jpg quality
+                               png compression
+                               image resolution
+                               image size
+                               colour depth
 
 8 - Quick Help display (tooltip)
 
 9 - Copy To / Paste from file
-
-10 - Invert colours Selection / IMAGE
 
 12 - Zoom + Pen does not work good after moving selection
 
@@ -29,6 +31,8 @@
 
         INTERFACE: Zoom, Rotate, Show Grid, hide/show other panels
 
+        COLOUR PANEL: ColourPicker
+
         MAIN Panel: Draw Canvas + Status Text
 
         TOOLBOX Panel: (like quick properties panel in wxSmith)
@@ -38,8 +42,6 @@
             SubPanel HELP   : quick help
 
 17 - Save As: does not update the file status in the Project Manager
-
-18 - Undo : mask colour not saved, and resetted to black after Undo.
 
 19 - Draw Opaque option
 
@@ -65,13 +67,11 @@
 3 - Save As: does not update the file status in the Project Manager
 
 ---- SOLVED ----------------------------------------------
-XPMEditorPanel.cpp
-XPMEditorPanel.h
-XPMEditorPanel.wxs
-wxRotateHue.cpp
-wxRotateHue.h
-wxRotateHue.wxs
 
 15 - bug with resize selection with big zooms
 
+10 - Invert colours Selection / IMAGE
+
 6 - Rotate Hue: from colour to colour
+
+18 - Undo : mask colour not saved, and resetted to black after Undo.

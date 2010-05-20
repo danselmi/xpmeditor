@@ -1,0 +1,43 @@
+1 - Copy / Paste:
+    before copy : bitmap put in clipboard has a Mask
+    after paste : bitmap does not have mask
+
+2 - Configuration panel:
+      How to handle XPMs
+      Undo / Redo buffer
+      Color palette (how many colors, and which one).
+
+3 - Use wrapsizer for tools. (copy wrapsizer.cpp / h from wxWidgets 2.9.0)
+
+4 - resize all cursors to fit in a 16 x 16 square
+
+5 - jpg quality
+
+6 - Rotate Hue: from colour to colour
+
+7 - Selection: clip selection to bitmap when drawing
+
+8 - Quick Help display (tooltip)
+
+9 - Copy To / Paste from file
+
+10 - Invert colours Selection / IMAGE
+
+11 - Save HotSpot
+
+12 - hideable panels with flat wxButtons (wxAUI ?)
+
+        TOOLS : the drawing Tools
+        IMAGE : Size, JPEG Quality, Resolution
+        HELP  : quick help
+
+13 - Save As: does not update the file status in the Project Manager
+
+
+12 - SDK Codeblocks: rajouter une classe cbEditorPanelBase
+                    rajouter ces méthodes à la classe cbPlugin
+                        GetQuickHelpPanel
+                        SetQuickHelpPanel
+
+13 - wxSmith: Picker class missing.
+             Style field in wxCustomClass is not saved

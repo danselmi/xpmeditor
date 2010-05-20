@@ -1,38 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="default" />
+	<File name="QuickHelpPanel.h" open="0" top="0" tabpos="0">
+		<Cursor position="217" topLine="0" />
+	</File>
 	<File name="XPMColorPicker.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="22967" topLine="645" />
+		<Cursor position="3270" topLine="0" />
 	</File>
 	<File name="XPMColorPicker.h" open="0" top="0" tabpos="0">
-		<Cursor position="413" topLine="3" />
+		<Cursor position="2787" topLine="0" />
+	</File>
+	<File name="XPMColourPickerPanel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2025" topLine="51" />
+	</File>
+	<File name="XPMColourPickerPanel.h" open="0" top="0" tabpos="0">
+		<Cursor position="2452" topLine="0" />
 	</File>
 	<File name="XPMCustomZoom.cpp" open="0" top="0" tabpos="8">
-		<Cursor position="3897" topLine="82" />
+		<Cursor position="3897" topLine="0" />
 	</File>
 	<File name="XPMEditor.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="8736" topLine="258" />
+		<Cursor position="1154" topLine="0" />
 	</File>
 	<File name="XPMEditor.h" open="0" top="0" tabpos="0">
-		<Cursor position="829" topLine="19" />
+		<Cursor position="829" topLine="0" />
 	</File>
 	<File name="XPMEditorBase.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="12482" topLine="367" />
+		<Cursor position="12482" topLine="0" />
 	</File>
 	<File name="XPMEditorBase.h" open="0" top="0" tabpos="2">
-		<Cursor position="5366" topLine="76" />
+		<Cursor position="5366" topLine="0" />
 	</File>
-	<File name="XPMEditorPanel.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="60951" topLine="1199" />
+	<File name="XPMEditorPanel.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="200532" topLine="5560" />
 	</File>
-	<File name="XPMEditorPanel.h" open="1" top="1" tabpos="2">
-		<Cursor position="19628" topLine="402" />
+	<File name="XPMEditorPanel.h" open="1" top="0" tabpos="4">
+		<Cursor position="6692" topLine="106" />
+	</File>
+	<File name="XPMImageManipulationPanel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="4059" topLine="68" />
+	</File>
+	<File name="XPMImagePropertiesPanel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="5176" topLine="84" />
+	</File>
+	<File name="XPMImagePropertiesPanel.h" open="0" top="0" tabpos="0">
+		<Cursor position="145" topLine="0" />
+	</File>
+	<File name="XPMInterfacePanel.h" open="0" top="0" tabpos="0">
+		<Cursor position="667" topLine="0" />
 	</File>
 	<File name="XPMUndo.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="15022" topLine="466" />
+		<Cursor position="10384" topLine="0" />
 	</File>
 	<File name="XPMUndo.h" open="0" top="0" tabpos="4">
-		<Cursor position="709" topLine="6" />
+		<Cursor position="709" topLine="0" />
 	</File>
 	<File name="manifest.xml" open="0" top="0" tabpos="4">
 		<Cursor position="243" topLine="0" />
@@ -40,17 +61,32 @@
 	<File name="test.bmp" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="todo.txt" open="0" top="0" tabpos="2">
-		<Cursor position="1749" topLine="27" />
+	<File name="todo.txt" open="1" top="0" tabpos="1">
+		<Cursor position="2377" topLine="0" />
+	</File>
+	<File name="wxBlur.h" open="0" top="0" tabpos="0">
+		<Cursor position="211" topLine="0" />
 	</File>
 	<File name="wxConversion.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="4051" topLine="50" />
+		<Cursor position="4538" topLine="62" />
 	</File>
-	<File name="wxRotate.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="21" topLine="0" />
+	<File name="wxConversion.h" open="0" top="0" tabpos="0">
+		<Cursor position="244" topLine="0" />
 	</File>
-	<File name="wxRotateHue.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1056" topLine="14" />
+	<File name="wxInvertDialog.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="3222" topLine="36" />
+	</File>
+	<File name="wxMirror.h" open="0" top="0" tabpos="0">
+		<Cursor position="214" topLine="0" />
+	</File>
+	<File name="wxRotate.h" open="0" top="0" tabpos="0">
+		<Cursor position="132" topLine="0" />
+	</File>
+	<File name="wxRotateHue.h" open="0" top="0" tabpos="0">
+		<Cursor position="234" topLine="0" />
+	</File>
+	<File name="wxStretchImage.h" open="0" top="0" tabpos="0">
+		<Cursor position="413" topLine="0" />
 	</File>
 	<File name="wxthings\include\wx\things\toggle.h" open="0" top="0" tabpos="0">
 		<Cursor position="2867" topLine="61" />
