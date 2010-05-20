@@ -1,33 +1,25 @@
-1 - Copy / Paste:
-    before copy : bitmap put in clipboard has a Mask
-    after paste : bitmap does not have mask
+IMPROVEMENTS / NEW FEATURES:
 
-2 - Configuration panel:
+1 - Configuration panel:
       How to handle XPMs
       Undo / Redo buffer
       Color palette (how many colors, and which one).
 
-3 - Use wrapsizer for tools. (copy wrapsizer.cpp / h from wxWidgets 2.9.0)
+2 - Use wrapsizer for tools. (copy wrapsizer.cpp / h from wxWidgets 2.9.0)
 
-4 - resize all cursors to fit in a 16 x 16 square
+3 - resize all cursors to fit in a 16 x 16 square
 
-5 - Image property dialog box: jpg quality
+4 - Image property dialog box: jpg quality
                                png compression
                                image resolution
                                image size
                                colour depth
 
-8 - Quick Help display (tooltip)
+5 - Quick Help display (tooltip)
 
-9 - Copy To / Paste from file
+6 - Copy To / Paste from file
 
-12 - Zoom + Pen does not work good after moving selection
-
-13 - Selection is not drawn when it is overlapping bitmap edges + zoom
-
-14 - Redraw background: the bottom right corner is not covered when zooming out
-
-16 - hideable panels with flat wxButtons (wxAUI ?)
+7 - hideable panels with flat wxButtons (wxAUI ?)
 
         INTERFACE: Zoom, Rotate, Show Grid, hide/show other panels
 
@@ -41,18 +33,29 @@
             SubPanel EFFECTS: Rotate, Flip, Stretch, Blur, RotateHue, Convert colours (Greyscale, Mono, ...)
             SubPanel HELP   : quick help
 
-17 - Save As: does not update the file status in the Project Manager
+8 - Draw Opaque option
 
-19 - Draw Opaque option
-
-20 - Polygon / RoundedRect / Rect / Ellipse :
+9 - Polygon / RoundedRect / Rect / Ellipse :
         - add the square / circle option
         - add the draw opaque / draw empty option
 
-21 - Selection: better drawing to do
+10 - Selection: better drawing to do
 
-22 - Brush style options for Polygon / Rectangle / Ellipse / RoundRect
+11 - Brush style options for Polygon / Rectangle / Ellipse / RoundRect
 
+BUGS:
+
+1 - Copy / Paste:
+    before copy : bitmap put in clipboard has a Mask
+    after paste : bitmap does not have mask
+
+2 - Zoom + Pen does not work good after moving selection
+
+3 - Selection is not drawn when it is overlapping bitmap edges + zoom
+
+4 - Redraw background: the bottom right corner is not covered when zooming out
+
+5 - Save As: does not update the file status in the Project Manager
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
 
