@@ -20,12 +20,16 @@
 #include <wx/button.h>
 //*)
 
+class XPMEditorPanel;
+
 class XPMImagePropertiesPanel: public wxPanel
 {
 	public:
 
 		XPMImagePropertiesPanel(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~XPMImagePropertiesPanel();
+
+		void SetParentPanel(XPMEditorPanel *p); ///< \brief set the parent panel for this tool panel
 
 		//(*Declarations(XPMImagePropertiesPanel)
 		wxSpinCtrl* BMPHeight;
@@ -56,6 +60,8 @@ class XPMImagePropertiesPanel: public wxPanel
 		void OnImageTypeChanged(wxCommandEvent& event);
 		void OnImageSizeChanged(wxSpinEvent& event);
 		//*)
+
+		XPMEditorPanel *m_parent;
 
 		DECLARE_EVENT_TABLE()
 };

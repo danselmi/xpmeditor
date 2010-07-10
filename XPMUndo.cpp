@@ -46,7 +46,7 @@ XPMUndo::~XPMUndo()
 
 //---- Parent panel -----
 /** Set the parent panel for the Undo Buffer
-  * @param pPanel: a pointer to the new parent
+  * \param pPanel: a pointer to the new parent
   */
 void XPMUndo::SetParentPanel(XPMEditorPanel *pPanel)
 {
@@ -56,7 +56,7 @@ void XPMUndo::SetParentPanel(XPMEditorPanel *pPanel)
 
 
 /** Get the parent panel for the Undo Buffer
-  * @return: a pointer to the parent
+  * \return: a pointer to the parent
   */
 XPMEditorPanel* XPMUndo::GetParentPanel(void)
 {
@@ -69,7 +69,7 @@ XPMEditorPanel* XPMUndo::GetParentPanel(void)
 /** Set the maximal number of Undo & Redo actions
   * a negative value indicates an unlimited Undo Redo buffer
   * Previous Undo / Redo actions are not deleted.
-  * @param iSize : the new limit
+  * \param iSize : the new limit
   */
 void XPMUndo::SetMaxUndoSize(long lSize)
 {
@@ -79,7 +79,7 @@ void XPMUndo::SetMaxUndoSize(long lSize)
 
 /** Get the maximal number of Undo & Redo actions
   * a negative value indicates an unlimited Undo Redo buffer
-  * @return : the limit
+  * \return : the limit
   */
 long XPMUndo::GetMaxUndoSize(void)
 {
@@ -91,7 +91,7 @@ long XPMUndo::GetMaxUndoSize(void)
   * If memory needs to be increased, memory allocation occurs
   * If the buffer has already reached the maximum size set by SetMaxUndoSize(), then
   * the oldest Undo action is released.
-  * @return true on success, false on failure
+  * \return true on success, false on failure
   */
 bool XPMUndo::IncreaseMemoryUndo(void)
 {
@@ -149,7 +149,7 @@ bool XPMUndo::IncreaseMemoryUndo(void)
   * If memory needs to be increased, memory allocation occurs
   * If the buffer has already reached the maximum size set by SetMaxUndoSize(), then
   * the oldest Redo action is released.
-  * @return true on success, false on failure
+  * \return true on success, false on failure
   */
 bool XPMUndo::IncreaseMemoryRedo(void)
 {
@@ -232,8 +232,8 @@ void XPMUndo::ClearRedoBuffer(void)
 }
 
 /** Release a specific Undo / Redo action
-  * @param iUndoRedo: 0 for release an Undo action, 1 for releasing a Redo action
-  * @param lIndex: the index of the action to be released
+  * \param iUndoRedo: 0 for release an Undo action, 1 for releasing a Redo action
+  * \param lIndex: the index of the action to be released
   */
 void XPMUndo::ReleaseUndoRedoAction(int iUndoRedo, long lIndex)
 {
@@ -297,7 +297,7 @@ void XPMUndo::ReleaseRedoBuffer(void)
 
 //----- Undo & Redo methods --------------------
 /** return true if it is possible to Undo something, false otherwise
-  * @return true if Undo is possible, false otherwise
+  * \return true if Undo is possible, false otherwise
   */
 bool XPMUndo::CanUndo(void)
 {
@@ -307,7 +307,7 @@ bool XPMUndo::CanUndo(void)
 }
 
 /** return true if it is possible to Redo something, false otherwise
-  * @return true if Redo is possible, false otherwise
+  * \return true if Redo is possible, false otherwise
   */
 bool XPMUndo::CanRedo(void)
 {
@@ -317,10 +317,10 @@ bool XPMUndo::CanRedo(void)
 }
 
 /** Add 1 Undo action to the buffer
-  * @param iType: the type of Undo action
-  * @param pData: the data associated with the Undo action
-  * @param bClearRedo : true if the RedoBuffer should be cleared
-  * @return true on success, false on failure
+  * \param iType: the type of Undo action
+  * \param pData: the data associated with the Undo action
+  * \param bClearRedo : true if the RedoBuffer should be cleared
+  * \return true on success, false on failure
   */
 bool XPMUndo::AddUndo(Undo_Action_Type iType, void *pData, bool bClearRedo)
 {
@@ -392,9 +392,9 @@ bool XPMUndo::AddUndo(Undo_Action_Type iType, void *pData, bool bClearRedo)
 }
 
 /** Add 1 Redo action to the buffer
-  * @param iType: the type of Redo action
-  * @param pData: the data associated with the Undo action
-  * @return true on success, false on failure
+  * \param iType: the type of Redo action
+  * \param pData: the data associated with the Undo action
+  * \return true on success, false on failure
   */
 bool XPMUndo::AddRedo(Undo_Action_Type iType, void *pData)
 {
@@ -465,7 +465,7 @@ bool XPMUndo::AddRedo(Undo_Action_Type iType, void *pData)
 }
 
 /** Performs an Undo operation
-  * @return no return value
+  * \return no return value
   */
 void XPMUndo::Undo(void)
 {
@@ -488,7 +488,7 @@ void XPMUndo::Undo(void)
 }
 
 /** Performs an Redo operation
-  * @return no return value
+  * \return no return value
   */
 void XPMUndo::Redo(void)
 {
@@ -512,9 +512,9 @@ void XPMUndo::Redo(void)
 }
 
 /** Do the Undo / Redo action
-  * @param parent: the XPMEditorPanel on which the action is performed
-  * @param buffer: the Undo / Redo buffer
-  * @param lIndex: the index of the action to perform
+  * \param parent: the XPMEditorPanel on which the action is performed
+  * \param buffer: the Undo / Redo buffer
+  * \param lIndex: the index of the action to perform
   */
 void XPMUndo::PerformAction(XPMEditorPanel *parent, xpm_undo_action *buffer, long lIndex)
 {

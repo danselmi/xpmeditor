@@ -18,12 +18,16 @@
 #include <wx/button.h>
 //*)
 
+class XPMEditorPanel;
+
 class XPMImageManipulationPanel: public wxPanel
 {
 	public:
 
 		XPMImageManipulationPanel(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~XPMImageManipulationPanel();
+
+		void SetParentPanel(XPMEditorPanel *p); ///< \brief set the parent panel for this tool panel
 
 		//(*Declarations(XPMImageManipulationPanel)
 		wxButton* Button4;
@@ -58,6 +62,8 @@ class XPMImageManipulationPanel: public wxPanel
 		void OnButtonColourDepthClick(wxCommandEvent& event);
 		void OnButtonInvertClick(wxCommandEvent& event);
 		//*)
+
+		XPMEditorPanel *m_parent;
 
 		DECLARE_EVENT_TABLE()
 };

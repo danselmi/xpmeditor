@@ -42,8 +42,6 @@ END_EVENT_TABLE()
 XPMInterfacePanel::XPMInterfacePanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(XPMInterfacePanel)
-	wxBoxSizer* BoxSizer2;
-
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
 	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("ZOOM:"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE, _T("ID_STATICTEXT1"));
@@ -62,26 +60,28 @@ XPMInterfacePanel::XPMInterfacePanel(wxWindow* parent,wxWindowID id,const wxPoin
 	ZoomFactor->Append(_("800%"));
 	ZoomFactor->Append(_("1600%"));
 	ZoomFactor->Append(_("Custom"));
-	BoxSizer2->Add(ZoomFactor, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer2->Add(ZoomFactor, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
 	BitmapButton1 = new wxBitmapButton(this, ID_BITMAPBUTTON1, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON1"));
-	BoxSizer2->Add(BitmapButton1, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer2->Add(BitmapButton1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	BitmapButton2 = new wxBitmapButton(this, ID_BITMAPBUTTON2, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON2"));
-	BoxSizer2->Add(BitmapButton2, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer2->Add(BitmapButton2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	CheckBox1 = new wxCheckBox(this, ID_CHECKBOX1, _("Show Grid"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
 	CheckBox1->SetValue(false);
 	CheckBox1->Disable();
-	BoxSizer2->Add(CheckBox1, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer2->Add(CheckBox1, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	GridColour = new wxColourPickerCtrl(this,ID_CUSTOM3,*wxBLACK,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM3"));
-	BoxSizer2->Add(GridColour, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer2->Add(GridColour, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	SetSizer(BoxSizer2);
 	BoxSizer2->Fit(this);
 	BoxSizer2->SetSizeHints(this);
-
+	
 	Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&XPMInterfacePanel::OnZoomChanged);
 	Connect(ID_BITMAPBUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMInterfacePanel::OnRotateCounterClockwise);
 	Connect(ID_BITMAPBUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMInterfacePanel::OnRotateClockwise);
 	Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&XPMInterfacePanel::OnShowGrid);
 	//*)
+
+	m_parent = NULL;
 
 	GridColour->Connect(wxEVT_COMMAND_COLOURPICKER_CHANGED,(wxObjectEventFunction)&XPMInterfacePanel::OnGridColourPickerColourChanged,0,this);
 
@@ -96,14 +96,19 @@ XPMInterfacePanel::~XPMInterfacePanel()
 	//*)
 }
 
+/** Set the parent panel
+  * \param [in] a pointer to the new parent
+  */
+void XPMInterfacePanel::SetParentPanel(XPMEditorPanel *p)
+{
+    m_parent = p;
+}
+
 /** The user has changed the Zoom factor in the ComboBox "Zoom"
   */
 void XPMInterfacePanel::OnZoomChanged(wxCommandEvent& event)
 {
-    XPMEditorPanel *parent;
-
-    parent = (XPMEditorPanel *) GetParent();
-    if (parent)
+    if (m_parent)
     {
         wxString s;
         double dScale2;
@@ -115,14 +120,14 @@ void XPMInterfacePanel::OnZoomChanged(wxCommandEvent& event)
             if (dScale2 < 0) dScale2 = - dScale2;
             if (dScale2 == 0.0) return;
             dScale2 = dScale2 / 100;
-            parent->SetScaleFactor(dScale2);
+            m_parent->SetScaleFactor(dScale2);
         }
         else if (s.Find(_("Custom")) >= 0)
         {
-            XPMCustomZoom cz(parent);
+            XPMCustomZoom cz(m_parent);
             long lValue;
             double dScale;
-            dScale = parent->GetScaleFactor();
+            dScale = m_parent->GetScaleFactor();
             lValue = dScale * 100;
             wxString sCurrentZoom = wxString::Format(_("%d"), lValue);
             cz.TextCtrl1->SetValue(sCurrentZoom);
@@ -137,36 +142,27 @@ void XPMInterfacePanel::OnZoomChanged(wxCommandEvent& event)
 /** Rotate 90 degree counter-clockwise handler **/
 void XPMInterfacePanel::OnRotateCounterClockwise(wxCommandEvent& event)
 {
-    XPMEditorPanel *parent;
-
-    parent = (XPMEditorPanel *) GetParent();
-    if (parent)
+    if (m_parent)
     {
-        parent->RotateCounterClockwise();
+        m_parent->RotateCounterClockwise();
     }
 }
 
 /** Rotate 90 degree clockwise handler **/
 void XPMInterfacePanel::OnRotateClockwise(wxCommandEvent& event)
 {
-    XPMEditorPanel *parent;
-
-    parent = (XPMEditorPanel *) GetParent();
-    if (parent)
+    if (m_parent)
     {
-        parent->RotateClockwise();
+        m_parent->RotateClockwise();
     }
 }
 
 /** The Grid must be displayed **/
 void XPMInterfacePanel::OnShowGrid(wxCommandEvent& event)
 {
-    XPMEditorPanel *parent;
-
-    parent = (XPMEditorPanel *) GetParent();
-    if (parent)
+    if (m_parent)
     {
-        parent->ShowGrid(CheckBox1->IsChecked());
+        m_parent->ShowGrid(CheckBox1->IsChecked());
     }
 }
 
@@ -174,12 +170,9 @@ void XPMInterfacePanel::OnShowGrid(wxCommandEvent& event)
   */
 void XPMInterfacePanel::OnGridColourPickerColourChanged(wxColourPickerEvent& event)
 {
-    XPMEditorPanel *parent;
-
-    parent = (XPMEditorPanel *) GetParent();
-    if (parent)
+    if (m_parent)
     {
-        parent->OnGridColourPickerColourChanged(event);
+        m_parent->OnGridColourPickerColourChanged(event);
     }
 
 }

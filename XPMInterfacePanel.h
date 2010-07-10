@@ -21,6 +21,8 @@
 #include <wx/clrpicker.h>
 //*)
 
+class XPMEditorPanel;
+
 class XPMInterfacePanel: public wxPanel
 {
 	public:
@@ -28,10 +30,13 @@ class XPMInterfacePanel: public wxPanel
 		XPMInterfacePanel(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~XPMInterfacePanel();
 
+		void SetParentPanel(XPMEditorPanel *p); ///< \brief set the parent panel for this tool panel
+
 		//(*Declarations(XPMInterfacePanel)
 		wxColourPickerCtrl* GridColour;
 		wxBitmapButton* BitmapButton2;
 		wxStaticText* StaticText1;
+		wxBoxSizer* BoxSizer2;
 		wxBitmapButton* BitmapButton1;
 		wxCheckBox* CheckBox1;
 		wxComboBox* ZoomFactor;
@@ -56,6 +61,8 @@ class XPMInterfacePanel: public wxPanel
 		void OnRotateClockwise(wxCommandEvent& event);
 		void OnShowGrid(wxCommandEvent& event);
 		//*)
+
+		XPMEditorPanel *m_parent;
 
 		void OnGridColourPickerColourChanged(wxColourPickerEvent& event);    ///< \brief The colour of the grid changed
 
