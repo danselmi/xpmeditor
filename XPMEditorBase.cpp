@@ -27,10 +27,10 @@
 XPMEditorBase::EditorsSet XPMEditorBase::m_AllEditors;
 
 /** Constructor
-  * @param parent    a pointer to the parent window
-  * @param title     the title which will appear in the tab
-  * @param bitmap    a pointer to the Bitmap to display. Can be NULL
-  * @param sFileName the filename associated to the editor. Can be empty
+  * \param parent    a pointer to the parent window
+  * \param title     the title which will appear in the tab
+  * \param bitmap    a pointer to the Bitmap to display. Can be NULL
+  * \param sFileName the filename associated to the editor. Can be empty
   */
 XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *img, wxString sFileName)
     :EditorBase(parent,title)
@@ -80,8 +80,8 @@ XPMEditorBase::~XPMEditorBase()
 }
 
 /** Static method. Indicate if the editor opened is an image editor
-  * @param a pointer to the editor to test
-  * @return true if the editor is an Image Editor, false otherwise
+  * \param a pointer to the editor to test
+  * \return true if the editor is an Image Editor, false otherwise
   */
 bool XPMEditorBase::IsImgEditor(EditorBase* editor)
 {
@@ -102,7 +102,7 @@ void XPMEditorBase::CloseAllEditors(void)
 }
 
 /** Set the panel to be used by the editor
-  * @param Panel: a pointer to the wxPanel to use for this editor
+  * \param Panel: a pointer to the wxPanel to use for this editor
   */
 void XPMEditorBase::SetPanel(wxPanel *Panel)
 {
@@ -111,7 +111,7 @@ void XPMEditorBase::SetPanel(wxPanel *Panel)
 }
 
 /** Get the panel used by the editor
-  * @return Panel: a pointer to the wxPanel used by editor
+  * \return Panel: a pointer to the wxPanel used by editor
   */
 wxPanel* XPMEditorBase::GetPanel(void)
 {
@@ -121,7 +121,7 @@ wxPanel* XPMEditorBase::GetPanel(void)
 
 //---------------- Save, Close, Readonly, is modified ---------------------------
 /** Return true if the image was modified, false otherwise
-  * @return true if the image was modified, false otherwise
+  * \return true if the image was modified, false otherwise
   */
 
 bool XPMEditorBase::GetModified(void) const
@@ -131,7 +131,7 @@ bool XPMEditorBase::GetModified(void) const
 }
 
 /** Set the modification flag
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::SetModified(bool bModified)
 {
@@ -176,7 +176,7 @@ void XPMEditorBase::UpdateModified(void)
 }
 
 /** Post application wide events
-  * @return true if the image was ReadOnly, false otherwise
+  * \return true if the image was ReadOnly, false otherwise
   */
 void XPMEditorBase::NotifyPlugins(wxEventType type, int intArg, const wxString& strArg, int xArg, int yArg)
 {
@@ -194,7 +194,7 @@ void XPMEditorBase::NotifyPlugins(wxEventType type, int intArg, const wxString& 
 }
 
 /** Return true if the image is ReadOnly, false otherwise
-  * @return true if the image was ReadOnly, false otherwise
+  * \return true if the image was ReadOnly, false otherwise
   */
 bool XPMEditorBase::IsReadOnly(void) const
 {
@@ -203,7 +203,7 @@ bool XPMEditorBase::IsReadOnly(void) const
 }
 
 /** Return true if the image is ReadOnly, false otherwise
-  * @return true if the image was ReadOnly, false otherwise
+  * \return true if the image was ReadOnly, false otherwise
   */
 bool XPMEditorBase::GetReadOnly(void) const
 {
@@ -212,7 +212,7 @@ bool XPMEditorBase::GetReadOnly(void) const
 }
 
 /** Set the modification flag
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::SetReadOnly(bool bReadOnly)
 {
@@ -222,7 +222,7 @@ void XPMEditorBase::SetReadOnly(bool bReadOnly)
 
 /** Save the image under a new name
   * Set the modification flag
-  * @return true on success, false on failure
+  * \return true on success, false on failure
   */
 bool XPMEditorBase::SaveAs(void)
 {
@@ -281,6 +281,8 @@ bool XPMEditorBase::SaveAs(void)
     SetTitle(m_Shortname);
     // invalidate m_pProjectFile, because if kept, it would point to the ProjectFile with old name and
     // cause ProjectManager::RemoveFileFromProject called via context menu to crash
+    if (m_pProjectFile) m_pProjectFile->SetFileState(fvsNormal); //so the original project file will be shown as unmodified.
+    UpdateModified();
     SetProjectFile(0);
     //Manager::Get()->GetLogManager()->Log(mltDevDebug, "Filename=%s\nShort=%s", m_Filename.c_str(), m_Shortname.c_str());
     m_bIsFileNameOK = true;
@@ -302,7 +304,7 @@ bool XPMEditorBase::SaveAs(void)
 
 /** Save the image
   * Set the modification flag
-  * @return true on success, false on failure
+  * \return true on success, false on failure
   */
 bool XPMEditorBase::Save(void)
 {
@@ -396,7 +398,7 @@ bool XPMEditorBase::Save(void)
 }
 
 /** Close the image
-  * @return true on success, false on failure
+  * \return true on success, false on failure
   */
 bool XPMEditorBase::Close(void)
 {
@@ -406,9 +408,9 @@ bool XPMEditorBase::Close(void)
 }
 
 /** Set the Project file of the Image. Can be NULL
-  * @param project_file pointer to the Project File. Can be NULL
-  * @param preserve_modified boolean indicating if file modification flag should be preserved
-  * @return no return value
+  * \param project_file pointer to the Project File. Can be NULL
+  * \param preserve_modified boolean indicating if file modification flag should be preserved
+  * \return no return value
   */
 void XPMEditorBase::SetProjectFile(ProjectFile* project_file, bool preserve_modified)
 {
@@ -441,7 +443,7 @@ void XPMEditorBase::SetProjectFile(ProjectFile* project_file, bool preserve_modi
 //---------------- UNDO & REDO ---------------------------
 
 /** Return true if UNDO can be done, false otherwise
-  * @return true if UNDO can be done, false otherwise
+  * \return true if UNDO can be done, false otherwise
   */
 bool XPMEditorBase::CanUndo(void) const
 {
@@ -451,7 +453,7 @@ bool XPMEditorBase::CanUndo(void) const
 }
 
 /** Return true if UNDO can be done, false otherwise
-  * @return true if UNDO can be done, false otherwise
+  * \return true if UNDO can be done, false otherwise
   */
 bool XPMEditorBase::CanRedo(void) const
 {
@@ -461,7 +463,7 @@ bool XPMEditorBase::CanRedo(void) const
 }
 
 /** Clear the Undo Buffer
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::ClearUndoBuffer(void)
 {
@@ -471,7 +473,7 @@ void XPMEditorBase::ClearUndoBuffer(void)
 }
 
 /** Clear the Redo Buffer
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::ClearRedoBuffer(void)
 {
@@ -481,8 +483,8 @@ void XPMEditorBase::ClearRedoBuffer(void)
 }
 
 /** Add 1 Undo operation to the undo buffer
-  * @param bm a pointer to the bitmap to add to the Undo Buffer. A copy of this bitmap is done
-  * @return true on success, false otherwise
+  * \param bm a pointer to the bitmap to add to the Undo Buffer. A copy of this bitmap is done
+  * \return true on success, false otherwise
   */
 bool XPMEditorBase::AddUndo(wxBitmap *bm)
 {
@@ -492,8 +494,8 @@ bool XPMEditorBase::AddUndo(wxBitmap *bm)
 }
 
 /** Add 1 Undo operation to the undo buffer
-  * @param img: a pointer to the image to add to the Undo Buffer. A copy of this image is done
-  * @return true on success, false otherwise
+  * \param img: a pointer to the image to add to the Undo Buffer. A copy of this image is done
+  * \return true on success, false otherwise
   */
 bool XPMEditorBase::AddUndo(wxImage *img)
 {
@@ -503,7 +505,7 @@ bool XPMEditorBase::AddUndo(wxImage *img)
 }
 
 /** Add 1 Undo operation to the undo buffer
-  * @return true on success, false otherwise
+  * \return true on success, false otherwise
   */
 bool XPMEditorBase::AddUndo(void)
 {
@@ -513,7 +515,7 @@ bool XPMEditorBase::AddUndo(void)
 }
 
 /** Add 1 Undo operation to the redo buffer
-  * @return true on success, false otherwise
+  * \return true on success, false otherwise
   */
 bool XPMEditorBase::AddRedo(void)
 {
@@ -523,8 +525,8 @@ bool XPMEditorBase::AddRedo(void)
 }
 
 /** Add 1 Redo operation to the redo buffer
-  * @param bm a pointer to the bitmap to add to the Redo Buffer. A copy of this bitmap is done
-  * @return true on success, false otherwise
+  * \param bm a pointer to the bitmap to add to the Redo Buffer. A copy of this bitmap is done
+  * \return true on success, false otherwise
   */
 bool XPMEditorBase::AddRedo(wxBitmap *bm)
 {
@@ -534,8 +536,8 @@ bool XPMEditorBase::AddRedo(wxBitmap *bm)
 }
 
 /** Add 1 Redo operation to the redo buffer
-  * @param img: a pointer to the image to add to the Redo Buffer. A copy of this image is done
-  * @return true on success, false otherwise
+  * \param img: a pointer to the image to add to the Redo Buffer. A copy of this image is done
+  * \return true on success, false otherwise
   */
 bool XPMEditorBase::AddRedo(wxImage *img)
 {
@@ -545,7 +547,7 @@ bool XPMEditorBase::AddRedo(wxImage *img)
 }
 
 /** Performs an Undo operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::Undo(void)
 {
@@ -555,7 +557,7 @@ void XPMEditorBase::Undo(void)
 }
 
 /** Performs a Redo operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::Redo(void)
 {
@@ -566,7 +568,7 @@ void XPMEditorBase::Redo(void)
 
 //---------------- Clipboard operations ---------------------------
 /** Return true if there is some Selection, false otherwise
-  * @return true if something is selected, false otherwise
+  * \return true if something is selected, false otherwise
   */
 bool XPMEditorBase::HasSelection(void) const
 {
@@ -576,7 +578,7 @@ bool XPMEditorBase::HasSelection(void) const
 }
 
 /** Return true if copy is possible, false otherwise
-  * @return true if copy is possible, false otherwise
+  * \return true if copy is possible, false otherwise
   */
 bool XPMEditorBase::CanCopy(void) const
 {
@@ -585,7 +587,7 @@ bool XPMEditorBase::CanCopy(void) const
 }
 
 /** Return true if cut is possible, false otherwise
-  * @return true if cut is possible, false otherwise
+  * \return true if cut is possible, false otherwise
   */
 bool XPMEditorBase::CanCut(void) const
 {
@@ -594,7 +596,7 @@ bool XPMEditorBase::CanCut(void) const
 }
 
 /** Return true if paste is possible, false otherwise
-  * @return true if paste is possible, false otherwise
+  * \return true if paste is possible, false otherwise
   */
 bool XPMEditorBase::CanPaste(void) const
 {
@@ -609,7 +611,7 @@ bool XPMEditorBase::CanPaste(void) const
 }
 
 /** perform a "cut" clipbopard operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::Cut(void)
 {
@@ -619,7 +621,7 @@ void XPMEditorBase::Cut(void)
 }
 
 /** perform a "copy" clipbopard operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::Copy(void)
 {
@@ -629,7 +631,7 @@ void XPMEditorBase::Copy(void)
 }
 
 /** perform a "paste" clipbopard operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::Paste(void)
 {
@@ -639,7 +641,7 @@ void XPMEditorBase::Paste(void)
 }
 
 /** clear the current selection
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorBase::ClearSelection(void)
 {
@@ -649,7 +651,7 @@ void XPMEditorBase::ClearSelection(void)
 }
 
 /** Get the smallest bounding rectangle encompassing the selection
-  * @param r the rectangle (wxRect) containing the result
+  * \param r the rectangle (wxRect) containing the result
   */
 void XPMEditorBase::GetBoundingRect(wxRect *r)
 {
@@ -659,7 +661,7 @@ void XPMEditorBase::GetBoundingRect(wxRect *r)
 }
 
 /** Return a copy of the current Image
-  * @return a pointer if succesfull, NULL otherwise
+  * \return a pointer if succesfull, NULL otherwise
   */
 wxImage XPMEditorBase::GetImage(void)
 {
@@ -669,8 +671,8 @@ wxImage XPMEditorBase::GetImage(void)
 }
 
 /** Set the current visible Image
-  * @param a pointer to the Image to set. If NULL, a default blank bitmap is created
-  * @return a pointer if succesfull, NULL otherwise
+  * \param a pointer to the Image to set. If NULL, a default blank bitmap is created
+  * \return a pointer if succesfull, NULL otherwise
   */
 void XPMEditorBase::SetImage(wxImage *img)
 {
@@ -680,7 +682,7 @@ void XPMEditorBase::SetImage(wxImage *img)
 }
 
 /** Get the wxScrolledWindow used to draw the bitmap
-  * @return a pointer to the wxScrolledWindow if succesfull, NULL otherwise
+  * \return a pointer to the wxScrolledWindow if succesfull, NULL otherwise
   */
 wxScrolledWindow* XPMEditorBase::GetDrawCanvas(void)
 {
@@ -690,7 +692,7 @@ wxScrolledWindow* XPMEditorBase::GetDrawCanvas(void)
 }
 
 /** wxEVT_SIZE event handler (resize event)
-  * @param event: the wxSizeEvent describing the event.
+  * \param event: the wxSizeEvent describing the event.
   */
 void XPMEditorBase::OnResize(wxSizeEvent& event)
 {

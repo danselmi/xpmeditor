@@ -30,11 +30,11 @@ XPMColourPickerPanel::XPMColourPickerPanel(wxWindow* parent,wxWindowID id,const 
 {
 	//(*Initialize(XPMColourPickerPanel)
 	wxBoxSizer* BoxSizer1;
-
+	
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
-	ColourPicker = new XPMColorPicker(this,ID_COLOURPICKER1,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_COLOURPICKER1"));
-	BoxSizer1->Add(ColourPicker, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	ColourPicker = new XPMColorPicker(this,ID_COLOURPICKER1,wxDefaultPosition,wxDefaultSize,0,_T("ID_COLOURPICKER1"));
+	BoxSizer1->Add(ColourPicker, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
@@ -43,6 +43,8 @@ XPMColourPickerPanel::XPMColourPickerPanel(wxWindow* parent,wxWindowID id,const 
 	Connect(ID_COLOURPICKER1,wxEVT_TRANSPARENT_COLOR_CHANGED,(wxObjectEventFunction)&XPMColourPickerPanel::OnTransparentColorChanged);
 	Connect(ID_COLOURPICKER1,wxEVT_FILL_COLOR_CHANGED,(wxObjectEventFunction)&XPMColourPickerPanel::OnFillColorChanged);
 	Connect(ID_COLOURPICKER1,wxEVT_LINE_COLOR_CHANGED,(wxObjectEventFunction)&XPMColourPickerPanel::OnLineColorChanged);
+
+	m_parent = NULL;
 }
 
 XPMColourPickerPanel::~XPMColourPickerPanel()
@@ -52,16 +54,21 @@ XPMColourPickerPanel::~XPMColourPickerPanel()
 }
 
 //-------- INTERFACE METHODS ----------------
+/** Set the parent panel
+  * \param [in] a pointer to the new parent
+  */
+void XPMColourPickerPanel::SetParentPanel(XPMEditorPanel *p)
+{
+    m_parent = p;
+}
+
 /** The transparent colour changed
   */
 void XPMColourPickerPanel::OnTransparentColorChanged(wxCommandEvent& event)
 {
-    XPMEditorPanel *parent;
-
-    parent = (XPMEditorPanel *) GetParent();
-    if (parent)
+    if (m_parent)
     {
-        parent->OnTransparentColorChanged(event);
+        m_parent->OnTransparentColorChanged(event);
     }
 }
 
@@ -69,12 +76,9 @@ void XPMColourPickerPanel::OnTransparentColorChanged(wxCommandEvent& event)
   */
 void XPMColourPickerPanel::OnLineColorChanged(wxCommandEvent& event)
 {
-    XPMEditorPanel *parent;
-
-    parent = (XPMEditorPanel *) GetParent();
-    if (parent)
+    if (m_parent)
     {
-        parent->OnLineColorChanged(event);
+        m_parent->OnLineColorChanged(event);
     }
 }
 
@@ -82,12 +86,9 @@ void XPMColourPickerPanel::OnLineColorChanged(wxCommandEvent& event)
   */
 void XPMColourPickerPanel::OnFillColorChanged(wxCommandEvent& event)
 {
-    XPMEditorPanel *parent;
-
-    parent = (XPMEditorPanel *) GetParent();
-    if (parent)
+    if (m_parent)
     {
-        parent->OnFillColorChanged(event);
+        m_parent->OnFillColorChanged(event);
     }
 }
 
@@ -108,7 +109,7 @@ void XPMColourPickerPanel::Repaint(void)
 
 /** Return the current line colour
   * If an error occur, the colour returned is BLACK by default
-  * @return a wxColour representing the current line colour
+  * \return a wxColour representing the current line colour
   */
 wxColour XPMColourPickerPanel::GetLineColour(void)
 {
@@ -118,7 +119,7 @@ wxColour XPMColourPickerPanel::GetLineColour(void)
 
 /** Return the current fill colour
   * If an error occur, the colour returned is WHITE by default
-  * @return a wxColour representing the current fill colour
+  * \return a wxColour representing the current fill colour
   */
 wxColour XPMColourPickerPanel::GetFillColour(void)
 {
@@ -137,7 +138,7 @@ wxColour XPMColourPickerPanel::GetUnusedColour(void)
 }
 
 /** Return the current line colour index
-  * @return the index representing the current line colour
+  * \return the index representing the current line colour
   */
 int XPMColourPickerPanel::GetLineColourIndex(void)
 {
@@ -146,7 +147,7 @@ int XPMColourPickerPanel::GetLineColourIndex(void)
 }
 
 /** Return the current fill colour index
-  * @return the index representing the current fill colour
+  * \return the index representing the current fill colour
   */
 int XPMColourPickerPanel::GetFillColourIndex(void)
 {
@@ -156,8 +157,8 @@ int XPMColourPickerPanel::GetFillColourIndex(void)
 
 /** Set the current line colour
   * If an error occur, the colour set is the 1st colour of the palette by default
-  * @param iIndex: the index in the wxColourArray representing the new line colour
-  * @param bPostEvent: if true, a wxEVT_LINE_COLOR_CHANGED is generated (default)
+  * \param iIndex: the index in the wxColourArray representing the new line colour
+  * \param bPostEvent: if true, a wxEVT_LINE_COLOR_CHANGED is generated (default)
   */
 void XPMColourPickerPanel::SetLineColour(int iIndex, bool bPostEvent)
 {
@@ -166,8 +167,8 @@ void XPMColourPickerPanel::SetLineColour(int iIndex, bool bPostEvent)
 
 /** Set the current fill colour
   * If an error occur, the colour set is the 1st colour of the palette by default
-  * @param iIndex: the index in the wxColourArray representing the new fill colour
-  * @param bPostEvent: if true, a wxEVT_FILL_COLOR_CHANGED is generated (default)
+  * \param iIndex: the index in the wxColourArray representing the new fill colour
+  * \param bPostEvent: if true, a wxEVT_FILL_COLOR_CHANGED is generated (default)
   */
 void XPMColourPickerPanel::SetFillColour(int iIndex, bool bPostEvent)
 {
@@ -175,7 +176,7 @@ void XPMColourPickerPanel::SetFillColour(int iIndex, bool bPostEvent)
 }
 
 /** get the palette size
-  * @return the amount of colours in the palette
+  * \return the amount of colours in the palette
   */
 int XPMColourPickerPanel::GetPaletteSize(void)
 {
@@ -185,8 +186,8 @@ int XPMColourPickerPanel::GetPaletteSize(void)
 
 /** set the palette size
   * if the new palette is larger, then all the new colours are initialized to blakc
-  * @param iSize: the new amount of colours in the palette
-  * @return true on success, false on failure
+  * \param iSize: the new amount of colours in the palette
+  * \return true on success, false on failure
   */
 bool XPMColourPickerPanel::SetPaletteSize(int iSize)
 {
@@ -195,8 +196,8 @@ bool XPMColourPickerPanel::SetPaletteSize(int iSize)
 }
 
 /** set the specific palette colour
-  * @param iIndex: the index of the colour to be changed. If not valid,nothing is done
-  * @param cColor: the new colour
+  * \param iIndex: the index of the colour to be changed. If not valid,nothing is done
+  * \param cColor: the new colour
   */
 void XPMColourPickerPanel::SetPaletteColour(int iIndex, wxColour cColor)
 {
@@ -204,8 +205,8 @@ void XPMColourPickerPanel::SetPaletteColour(int iIndex, wxColour cColor)
 }
 
 /** get the specific palette colour
-  * @param iIndex: the index of the colour to be changed. If not valid, wxBLACK is returned
-  * @return  the colour
+  * \param iIndex: the index of the colour to be changed. If not valid, wxBLACK is returned
+  * \return  the colour
   */
 wxColour XPMColourPickerPanel::GetPaletteColour(int iIndex)
 {
@@ -214,7 +215,7 @@ wxColour XPMColourPickerPanel::GetPaletteColour(int iIndex)
 }
 
 /** Get the transparent colour
-  * @return : the transparent colour
+  * \return : the transparent colour
   */
 wxColour XPMColourPickerPanel::GetTransparentColour(void)
 {
@@ -223,8 +224,8 @@ wxColour XPMColourPickerPanel::GetTransparentColour(void)
 }
 
 /** Set the transparent colour
-  * @param cColour: the new transparent colour
-  * @param bPostEvent: if true, a wxEVT_TRANSPARENT_COLOR_CHANGED is generated (default)
+  * \param cColour: the new transparent colour
+  * \param bPostEvent: if true, a wxEVT_TRANSPARENT_COLOR_CHANGED is generated (default)
   */
 void XPMColourPickerPanel::SetTransparentColour(wxColour cColour, bool bPostEvent)
 {

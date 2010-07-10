@@ -12,58 +12,59 @@
 #define XPM_EDITOR_PANEL_H
 
 
-
 class wxDragImage;
 //class wxBitmap;
 
 #include <wx/image.h>
 #include <wx/bitmap.h>
 #include <wx/clrpicker.h>
+#include <wx/spinctrl.h>
 
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>
-class wxSpinEvent;
-class XPMImageManipulationPanel;
-class wxColourPickerCtrl;
-class wxTextCtrl;
 class XPMColourPickerPanel;
-class wxCustomButton;
-class wxScrolledWindow;
-class wxRadioButton;
-class wxStaticText;
 class XPMInterfacePanel;
-class wxToggleButton;
-class wxSpinCtrl;
-class wxBoxSizer;
-class wxResizeCtrl;
-class wxButton;
-class XPMImagePropertiesPanel;
+class wxAuiManager;
+class XPMDrawCanvasPanel;
+class XPMFoldPanel;
+class wxAuiManagerEvent;
 //*)
+
+class wxScrolledWindow;
+
+class XPMToolPanel;
+class XPMHelpPanel;
+class XPMImagePropertiesPanel;
+class XPMImageManipulationPanel;
+class XPMUndo;
+class wxResizeCtrl;
+class wxStaticText;
 
 #define XPM_NUMBER_TOOLS 15
 #define XPM_MAXPOINTS 200
 
-/// @brief Structure used to store Tool specific data
+/// \brief Structure used to store Tool specific data
 struct ToolData
 {
-    int x1;          ///< @brief the 1st click X position
-    int y1;          ///< @brief the 1st click Y position
-    int x2;          ///< @brief the 2nd click X position
-    int y2;          ///< @brief the 2nd click Y position
-    int iNbClicks;   ///< @brief the number of times the left mouse button has been clicked with the tool
-    int iStyle;      ///< @brief represent a style for the tool (like the brush style: square, circle, ...)
-    int iSize;       ///< @brief represent the size to be applied to the tool (brush thickness for example)
-    wxPoint pts[XPM_MAXPOINTS+1]; ///< @brief an array of points. Statically limited to 25, to simplify the plugin
-    int iNbPoints;   ///< @brief how many points are in the array
-    int iRadius;     ///< @brief the radius for rounded rectangle
-    wxString sText;  ///< @brief the text string to be used for the tool (Text tool)
-    wxFont font;     ///< @brief the font to be used for the tool (Text tool)
-    int iHorizAlign; ///< @brief text horizontal alignment: wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
-    int iVertAlign;  ///< @brief text horizontal alignment: wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
-    int angle;       ///< @brief text angle
+    int x1;          ///< \brief the 1st click X position
+    int y1;          ///< \brief the 1st click Y position
+    int x2;          ///< \brief the 2nd click X position
+    int y2;          ///< \brief the 2nd click Y position
+    int iNbClicks;   ///< \brief the number of times the left mouse button has been clicked with the tool
+    int iStyle;      ///< \brief represent a style for the tool (like the brush style: square, circle, ...)
+    int iSize;       ///< \brief represent the thickness to be applied to the tool (line thickness for example)
+    int iSize2;      ///< \brief represent the size to be applied to the tool (brush size for example)
+    wxPoint pts[XPM_MAXPOINTS+1]; ///< \brief an array of points. Statically limited to 25, to simplify the plugin
+    int iNbPoints;   ///< \brief how many points are in the array
+    int iRadius;     ///< \brief the radius for rounded rectangle
+    wxString sText;  ///< \brief the text string to be used for the tool (Text tool)
+    wxFont font;     ///< \brief the font to be used for the tool (Text tool)
+    int iHorizAlign; ///< \brief text horizontal alignment: wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
+    int iVertAlign;  ///< \brief text horizontal alignment: wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
+    int angle;       ///< \brief text angle
 };
 
-class XPMUndo;
+
 
 class XPMEditorPanel: public wxPanel
 {
@@ -116,7 +117,7 @@ class XPMEditorPanel: public wxPanel
 		void Paste(void);                ///< \brief perform a Paste operation
 
 		//Configuration
-		void UpdateConfiguration(void); ///< @brief ask all the image editors to update their configuration
+		void UpdateConfiguration(void); ///< \brief ask all the image editors to update their configuration
 
 		//Image & Selection manipulation
 		void RotateCounterClockwise(void); ///< \brief Rotate the image or the selection 90° Clockwise
@@ -124,6 +125,14 @@ class XPMEditorPanel: public wxPanel
 		wxImage InvertImage(wxImage img);  ///< \brief Invert the colours of an image.
 
 		void ShowGrid(bool bShow); ///< Show or hide the grid
+
+		//tools data
+		void InitToolData(void);     ///< \brief init tool data for a first use
+		void GetToolData(ToolData *t);  ///< \brief get the tool data
+		void SetToolData(ToolData *t);  ///< \brief set the tool data
+		void SetToolCursor(const wxCursor &cursor);  ///< \brief Set the cursor for the DrawCanvas
+
+		void ShowCanvasWidgets(bool bShow); ///< \brief hide or show some widgets
 
 		//handlers for events forwarded from child panels
 		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
@@ -139,118 +148,60 @@ class XPMEditorPanel: public wxPanel
 		void OnRotateHueClick(wxCommandEvent& event);          ///< \brief Convert some colours from the image or the selection
 		void OnButtonColourDepthClick(wxCommandEvent& event);  ///< \brief Convert to Gray Scale / Monochrome the image or the selection
 		void OnInvertImageClick(wxCommandEvent& event);        ///< \brief Invert the image or the selection
+		void OnFontButtonClick(wxCommandEvent& event);         ///< \brief The font for the text edition has been changed
+		void OnBackgroundButtonToggle(wxCommandEvent& event);  ///< \brief The background mode for the text edition has been changed
+		void OnTopLeftSelect(wxCommandEvent& event);           ///< \brief The Text alignment changed to top-left
+		void OnTopCenterSelect(wxCommandEvent& event);         ///< \brief The Text alignment changed to top-center
+		void OnTopRightSelect(wxCommandEvent& event);          ///< \brief The Text alignment changed to top-right
+		void OnCenterLeftSelect(wxCommandEvent& event);        ///< \brief The Text alignment changed to center-left
+		void OnCenterCenterSelect(wxCommandEvent& event);      ///< \brief The Text alignment changed to center-center
+		void OnCenterRightSelect(wxCommandEvent& event);       ///< \brief The Text alignment changed to center-right
+		void OnBottomLeftSelect(wxCommandEvent& event);        ///< \brief The Text alignment changed to bottom-left
+		void OnBottomCenterSelect(wxCommandEvent& event);      ///< \brief The Text alignment changed to bottom-center
+		void OnBottomRightSelect(wxCommandEvent& event);       ///< \brief The Text alignment changed to bottom-right
+		void OnSpinAngleChange(wxSpinEvent& event);            ///< \brief The Text orientation angle changed.
+
+		//tool panel event handler - forwarded from ToolPanel.
+		void OnEllipseButtonToggle(wxCommandEvent& event);     ///< \brief The Ellipse Tool Button has been toggled
+		void OnRRectButtonToggle(wxCommandEvent& event);       ///< \brief The Rounded Rectangle Tool Button has been toggled
+		void OnRectangleButtonToggle(wxCommandEvent& event);   ///< \brief The Rectangle Tool Button has been toggled
+		void OnPolygonButtonToggle(wxCommandEvent& event);     ///< \brief The Polygon Tool Button has been toggled
+		void OnEraserButtonToggle(wxCommandEvent& event);      ///< \brief The Eraser Tool Button has been toggled
+		void OnTextButtonToggle(wxCommandEvent& event);        ///< \brief The Text Tool Button has been toggled
+		void OnCurveButtonToggle(wxCommandEvent& event);       ///< \brief The Curve Tool Button has been toggled
+		void OnLineButtonToggle(wxCommandEvent& event);        ///< \brief The Line Tool Button has been toggled
+		void OnPipetteButtonToggle(wxCommandEvent& event);     ///< \brief The Pipette Tool Button has been toggled
+		void OnFillButtonToggle(wxCommandEvent& event);        ///< \brief The Fill Tool Button has been toggled
+		void OnPenButtonToggle(wxCommandEvent& event);         ///< \brief The Pen Tool Button has been toggled
+		void OnBrushButtonToggle(wxCommandEvent& event);       ///< \brief The Brush Tool Button has been toggled
+		void OnLassoButtonToggle(wxCommandEvent& event);       ///< \brief The Lasso Tool Button has been toggled
+		void OnSelectButtonToggle(wxCommandEvent& event);      ///< \brief The Select Tool Button has been toggled
+		void OnSquareBrushButtonToggle(wxCommandEvent& event); ///< \brief The Square Brush Sub-Tool Button has been toggled
+		void OnCircleBrushButtonToggle(wxCommandEvent& event); ///< \brief The Circle Brush Sub-Tool Button has been toggled
+		void OnLHairBrushButtonToggle(wxCommandEvent& event);  ///< \brief The Left Hair Brush Sub-Tool Button has been toggled
+		void OnRHairBrushButtonToggle(wxCommandEvent& event);  ///< \brief The Right Hair Brush Sub-Tool Button has been toggled
+		void OnHotSpotButtonToggle(wxCommandEvent& event);     ///< \brief The HotSpot Tool Button has been toggled
 
 		//(*Declarations(XPMEditorPanel)
-		wxBoxSizer* ToolSizer;
-		wxCustomButton* HotSpotButton;
-		wxSpinCtrl* SpinCtrl4;
-		wxCustomButton* FillButton;
-		wxCustomButton* EraserButton;
-		wxRadioButton* CenterCenter;
-		wxStaticText* sCursorPos;
-		wxScrolledWindow* DrawCanvas;
-		wxRadioButton* TopCenter;
-		wxSpinCtrl* SpinCtrl1;
-		XPMImagePropertiesPanel* PropertiesPanel;
-		wxBoxSizer* CanvasSizer;
-		wxTextCtrl* TextEdit;
-		wxRadioButton* CenterLeft;
-		wxCustomButton* SquareBrushButton;
-		wxStaticText* StaticText6;
-		wxCustomButton* BrushButton;
-		wxRadioButton* BottomCenter;
-		wxCustomButton* LineButton;
-		wxCustomButton* PenButton;
-		wxStaticText* StaticText8;
-		wxPanel* AlignmentPanel;
-		wxPanel* ToolPanel;
-		wxButton* FontButton;
-		wxCustomButton* PipetteButton;
-		wxRadioButton* BottomLeft;
-		wxColourPickerCtrl* HotSpotColourPicker;
-		wxSpinCtrl* SpinCtrl3;
-		wxStaticText* StaticText5;
-		wxCustomButton* SelectButton;
-		wxResizeCtrl* ResizeCtrl1;
-		wxStaticText* StaticText7;
-		wxCustomButton* EllipseButton;
-		wxRadioButton* TopRight;
-		XPMImageManipulationPanel* ImageManipulationPanel;
-		wxCustomButton* RHairBrushButton;
-		wxSpinCtrl* SpinCtrl2;
-		wxBoxSizer* PanelSizer;
-		wxToggleButton* BackgroundButton;
-		wxCustomButton* LassoButton;
-		wxCustomButton* RectangleButton;
+		XPMFoldPanel* FoldPanel;
+		wxAuiManager* m_AUIXPMEditor;
+		XPMDrawCanvasPanel* DrawCanvasPanel;
 		XPMColourPickerPanel* ColourPicker;
-		wxCustomButton* CircleBrushButton;
-		wxRadioButton* BottomRight;
-		wxRadioButton* CenterRight;
-		wxCustomButton* RRectButton;
-		wxBoxSizer* AngleSizer;
-		wxBoxSizer* ToolPanelSizer;
-		wxStaticText* StaticText4;
 		XPMInterfacePanel* InterfacePanel;
-		wxCustomButton* LHairBrushButton;
-		wxCustomButton* CurveButton;
-		wxCustomButton* TextButton;
-		wxRadioButton* TopLeft;
-		wxCustomButton* PolygonButton;
 		//*)
-
+		/*
+		XPMFoldPanel *FoldPanel;               ///< \brief The panel containing 4 foldbars, and all the drawing tools (buttons)
+		XPMInterfacePanel *InterfacePanel;     ///< \brief A panel allowing to rotate or zoom the image
+		XPMColourPickerPanel *ColourPicker;    ///< \brief A panel containing the Colour Picker
+		XPMDrawCanvasPanel *DrawCanvasPanel;   ///< \brief a panel container for the drawing canvas
+        */
 	protected:
 
 		//(*Identifiers(XPMEditorPanel)
-		static const long ID_INTERFACEPANEL1;
-		static const long ID_IMG_PROPERTIES_1;
-		static const long ID_IMG_MANIP_1;
-		static const long ID_COLOUR_PICKER_1;
-		static const long ID_SELECT_BUTN;
-		static const long ID_LASSO_BTN;
-		static const long ID_HOTSPOT_BTN;
-		static const long ID_PEN_BTN;
-		static const long ID_BRUSH_BTN;
-		static const long ID_PIPETTE_BTN;
-		static const long ID_FILL_BTN;
-		static const long ID_LINE_BTN;
-		static const long ID_CURVE_BTN;
-		static const long ID_ERASER_BTN;
-		static const long ID_TEXT_BTN;
-		static const long ID_RECTANGLE_BTN;
-		static const long ID_POLYGON_BTN;
-		static const long ID_ELLIPSE_BTN;
-		static const long ID_ROUNDEDRECT_BTN;
-		static const long ID_SQUARE_BRUSH;
-		static const long ID_CIRCLE_BRUSH;
-		static const long ID_LRHAIR_BRUSH;
-		static const long ID_LHAIR_BRUSH;
-		static const long ID_CUSTOM2;
-		static const long ID_FONT_BUTTON;
-		static const long ID_BKMODE_TOGGLEBUTTON;
-		static const long ID_STATICTEXT8;
-		static const long ID_RADIOBUTTON1;
-		static const long ID_RADIOBUTTON9;
-		static const long ID_RADIOBUTTON8;
-		static const long ID_RADIOBUTTON7;
-		static const long ID_RADIOBUTTON6;
-		static const long ID_RADIOBUTTON5;
-		static const long ID_RADIOBUTTON4;
-		static const long ID_RADIOBUTTON3;
-		static const long ID_RADIOBUTTON2;
-		static const long ID_PANEL2;
-		static const long ID_STATICTEXT9;
-		static const long ID_SPINCTRL6;
-		static const long ID_STATICTEXT5;
-		static const long ID_SPINCTRL3;
-		static const long ID_STATICTEXT7;
-		static const long ID_SPINCTRL5;
-		static const long ID_STATICTEXT6;
-		static const long ID_SPINCTRL4;
-		static const long ID_PANEL1;
-		static const long ID_TEXTCTRL1;
-		static const long ID_RESIZECTRL1;
-		static const long ID_SCROLLEDWINDOW1;
-		static const long ID_STATICTEXT4;
+		static const long ID_DRAWCANVASPANEL;
+		static const long ID_FOLDPANEL;
+		static const long ID_INTERFACEPANEL;
+		static const long ID_COLOURPICKERPANEL;
 		//*)
 
 		//(*Handlers(XPMEditorPanel)
@@ -262,42 +213,9 @@ class XPMEditorPanel: public wxPanel
 		void OnDrawCanvasMouseLeave(wxMouseEvent& event);
 		void OnDrawCanvasLeftDClick(wxMouseEvent& event);
 		void OnDrawCanvasEraseBackground(wxEraseEvent& event);
-		void OnSpinSizeChanged(wxSpinEvent& event);
-		void OnSpinRadiusChanged(wxSpinEvent& event);
-		void OnEllipseButtonToggle(wxCommandEvent& event);
-		void OnRRectButtonToggle(wxCommandEvent& event);
-		void OnRectangleButtonToggle(wxCommandEvent& event);
-		void OnPolygonButtonToggle(wxCommandEvent& event);
-		void OnEraserButtonToggle(wxCommandEvent& event);
-		void OnTextButtonToggle(wxCommandEvent& event);
-		void OnCurveButtonToggle(wxCommandEvent& event);
-		void OnLineButtonToggle(wxCommandEvent& event);
-		void OnPipetteButtonToggle(wxCommandEvent& event);
-		void OnFillButtonToggle(wxCommandEvent& event);
-		void OnPenButtonToggle(wxCommandEvent& event);
-		void OnBrushButtonToggle(wxCommandEvent& event);
-		void OnLassoButtonToggle(wxCommandEvent& event);
-		void OnSelectButtonToggle(wxCommandEvent& event);
-		void OnSquareBrushButtonToggle(wxCommandEvent& event);
-		void OnCircleBrushButtonToggle(wxCommandEvent& event);
-		void OnLHairBrushButtonToggle(wxCommandEvent& event);
-		void OnRHairBrushButtonToggle(wxCommandEvent& event);
 		void OnDrawCanvasRightUp(wxMouseEvent& event);
-		void OnFontButtonClick(wxCommandEvent& event);
-		void OnBackgroundButtonToggle(wxCommandEvent& event);
 		void OnTextEditText(wxCommandEvent& event);
 		void OnDrawCanvasKeyDown(wxKeyEvent& event);
-		void OnTopLeftSelect(wxCommandEvent& event);
-		void OnTopCenterSelect(wxCommandEvent& event);
-		void OnTopRightSelect(wxCommandEvent& event);
-		void OnCenterLeftSelect(wxCommandEvent& event);
-		void OnCenterCenterSelect(wxCommandEvent& event);
-		void OnCenterRightSelect(wxCommandEvent& event);
-		void OnBottomLeftSelect(wxCommandEvent& event);
-		void OnBottomCenterSelect(wxCommandEvent& event);
-		void OnBottomRightSelect(wxCommandEvent& event);
-		void OnSpinCtrl4Change(wxSpinEvent& event);
-		void OnHotSpotButtonToggle(wxCommandEvent& event);
 		//*)
 
 #if __WXMSW__
@@ -305,70 +223,85 @@ class XPMEditorPanel: public wxPanel
 #endif
 
 		void BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size);
-		void ToggleButtons(int iIndex, bool bClearSelection = true); ///< @brief toggle all Tools Buttons OFF, except the iIndex one.
-		void SetToolCursor(void); ///< @brief Set the correct cursor, according to the currently selected tool & option
-        int GetToolID(void);  ///< @brief Get the tool ID currently in use
-        void SetToolID(int iTool); ///< @brief Set the tool ID currently in use
+		void ToggleButtons(int iIndex, bool bClearSelection = true); ///< \brief toggle all Tools Buttons OFF, except the iIndex one.
+		void SetToolCursor(void); ///< \brief Set the correct cursor, according to the currently selected tool & option
+        int GetToolID(void);  ///< \brief Get the tool ID currently in use
+        void SetToolID(int iTool); ///< \brief Set the tool ID currently in use
         void ProcessToolAction(int iTool, int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief draw the tool action: select box for Selection tool, rectangle for rectangle tool, ...
-        void HideControls(int iIndex, bool bChecked); ///< @brief Hide or Show specific tool controls - like style listbox for Brush tool...
-        void HideControlsAndDoLayout(int iIndex, bool bChecked); ///< @brief Hide or Show specific tool controls - like style listbox for Brush tool... + update the layout
+                              bool bPressed, bool bDClick); ///< \brief draw the tool action: select box for Selection tool, rectangle for rectangle tool, ...
 
         //methods for processing the tools
         void ProcessPen(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Pen tool
+                              bool bPressed, bool bDClick); ///< \brief process the Pen tool
         void ProcessFill(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Fill tool
+                              bool bPressed, bool bDClick); ///< \brief process the Fill tool
         void ProcessPipette(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Pipette tool
+                              bool bPressed, bool bDClick); ///< \brief process the Pipette tool
         void ProcessSelect(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Selection tool
+                              bool bPressed, bool bDClick); ///< \brief process the Selection tool
         void ProcessLasso(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Lasso (complex selection) tool
+                              bool bPressed, bool bDClick); ///< \brief process the Lasso (complex selection) tool
         void ProcessRectangle(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Rectangle tool
+                              bool bPressed, bool bDClick); ///< \brief process the Rectangle tool
         void ProcessLine(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Line tool
+                              bool bPressed, bool bDClick); ///< \brief process the Line tool
         void ProcessCurve(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Curve tool
+                              bool bPressed, bool bDClick); ///< \brief process the Curve tool
         void ProcessRoundedRectangle(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Rounded Rectangle tool
+                              bool bPressed, bool bDClick); ///< \brief process the Rounded Rectangle tool
         void ProcessEllipse(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< @brief process the Ellipse tool
+                              bool bPressed, bool bDClick); ///< \brief process the Ellipse tool
         void ProcessPolygon(int x, int y,
                             bool bLeftDown, bool bLeftUp,
-                            bool bPressed, bool bDClick); ///< @brief process the Polygon tool
+                            bool bPressed, bool bDClick); ///< \brief process the Polygon tool
         void ProcessEraser(int x, int y,
                             bool bLeftDown, bool bLeftUp,
-                            bool bPressed, bool bDClick); ///< @brief process the Eraser tool
+                            bool bPressed, bool bDClick); ///< \brief process the Eraser tool
         void ProcessBrush(int x, int y,
                             bool bLeftDown, bool bLeftUp,
-                            bool bPressed, bool bDClick); ///< @brief process the Brush tool
+                            bool bPressed, bool bDClick); ///< \brief process the Brush tool
         void ProcessText(int x, int y,
                          bool bLeftDown, bool bLeftUp,
-                         bool bPressed, bool bDClick); ///< @brief process the text tool
+                         bool bPressed, bool bDClick); ///< \brief process the text tool
         void ProcessDragAction(int x, int y,
                                bool bLeftDown, bool bLeftUp,
-                               bool bPressed, bool bDClick); ///< @brief process the drag & drop image tool
+                               bool bPressed, bool bDClick); ///< \brief process the drag & drop image tool
         void ProcessSizeAction(int x, int y,
                                bool bLeftDown, bool bLeftUp,
-                               bool bPressed, bool bDClick, int iDirection); ///< @brief process the stretch selection tool
+                               bool bPressed, bool bDClick, int iDirection); ///< \brief process the stretch selection tool
         void ProcessHotSpot(int x, int y,
                                bool bLeftDown, bool bLeftUp,
-                               bool bPressed, bool bDClick); ///< @brief process the hot spot tool
+                               bool bPressed, bool bDClick); ///< \brief process the hot spot tool
+
+        void UpdateAUIColours(void);   ///< \brief Get the same colours as codeblocks configuration
+        void UpdateMinimalSizes(void); ///< \brief set minimal sizes for the AUI Panes
 
     private:
+        //debugging function
+        void LogToFile(wxString sLogText, wxString sFilePath); ///< \brief Debugging function : writes a string to a text file
+
+        //child panels and widgets
+        XPMToolPanel *ToolPanel;    ///< \brief The panel containing all the tools
+        XPMHelpPanel *HelpPanel;    ///< \brief The panel containing some help info
+        XPMImagePropertiesPanel *PropertiesPanel;  ///< \brief The panel containing the image properties (size, compression, ...)
+        XPMImageManipulationPanel *ImageManipulationPanel;  ///< \brief The panel containing image manipulation tools (invert colours, rotate, ...)
+
+		wxScrolledWindow* DrawCanvas;          ///< \brief A scrolling window containing the image to edit
+		wxTextCtrl* TextEdit;                  ///< \brief A Text Editor belonging to DrawCanvas, for adding text to image
+		wxResizeCtrl *ResizeCtrl1;             ///< \brief A widget belonging to DrawCanvas, allowing to resize the text editor
+		wxStaticText *sCursorPos;              ///< \brief A text belonging to DrawCanvas, displaying cursor position information
+
         //bitmap, images methods
         wxColour cMaskColour;           ///< \brief the current mask colour
         wxBitmap *m_Bitmap;             ///< \brief the temporary bitmap, used for drawing
@@ -389,7 +322,7 @@ class XPMEditorPanel: public wxPanel
         //scale factor & scrollbars
         double dScale;          ///< \brief scale factor
         bool bShowGrid;         ///< \brief Grid display
-        wxColour cGridColour; ///< @brief the grid colour
+        wxColour cGridColour; ///< \brief the grid colour
         void DoSetScrollBars(void); ///< \brief Set scrollbars size
 
         //Sizing
@@ -439,27 +372,23 @@ class XPMEditorPanel: public wxPanel
         XPMUndo *m_undo_buffer;  ///< \brief the Undo buffer
 
         //Drawing tools ids, & cursors
-        wxCustomButton* tools[XPM_NUMBER_TOOLS]; ///< \brief the buttons associated to the tools
-        int iToolUsed; ///< \brief the index of the tool currently in use
-        wxCursor ToolCursor[XPM_NUMBER_TOOLS]; ///< \brief the cursors associated to the tools
         ToolData tdata;          ///< \brief tool specific data
-        void InitToolData(void); ///< @brief init tool data for a first use
-        bool bUsingTool;         ///< @brief true if a tool is currently in use
+        bool bUsingTool;         ///< \brief true if a tool is currently in use
         void SnapRectToGrid(int *x1, int *y1,
-                            int *x2, int *y2, bool bInvert = true); ///< @brief snap coordinates to grid
-        void SnapToGrid(int *x, int *y, bool bUp); ///< @brief snap coordinates to grid
-        wxBitmap m_bmDrawBitmap;  ///< @brief the bitmap which will be used to draw the tool effect
-        bool m_bDrawToolDynamic;  ///< @brief true if m_bmDrawBitmap must be blited during paint
+                            int *x2, int *y2, bool bInvert = true); ///< \brief snap coordinates to grid
+        void SnapToGrid(int *x, int *y, bool bUp); ///< \brief snap coordinates to grid
+        wxBitmap m_bmDrawBitmap;  ///< \brief the bitmap which will be used to draw the tool effect
+        bool m_bDrawToolDynamic;  ///< \brief true if m_bmDrawBitmap must be blited during paint
 
         //hotspot position
-        int iHotSpotX;              ///< @brief HotSpot X coordinate. A negative value means there are no HotSpot
-        int iHotSpotY;              ///< @brief HotSpot Y coordinate. A negative value means there are no HotSpot
-        wxColour cHotSpotColour;    ///< @brief HotSpot colour
+        int iHotSpotX;              ///< \brief HotSpot X coordinate. A negative value means there are no HotSpot
+        int iHotSpotY;              ///< \brief HotSpot Y coordinate. A negative value means there are no HotSpot
+        wxColour cHotSpotColour;    ///< \brief HotSpot colour
 
         //standard configuration
-        int iXPMDefaultWidth;  ///< @brief the default width of a new XPM
-        int iXPMDefaultHeight; ///< @brief the default height of a new XPM
-        wxColour cBackgroundColour; ///< @brief Background colour for the canvas
+        int iXPMDefaultWidth;  ///< \brief the default width of a new XPM
+        int iXPMDefaultHeight; ///< \brief the default height of a new XPM
+        wxColour cBackgroundColour; ///< \brief Background colour for the canvas
 
 
         DECLARE_EVENT_TABLE()

@@ -22,12 +22,12 @@ wxResizeCtrl::wxResizeCtrl(void) : wxWindow()
 }
 
 /** CONSTRUCTOR
-  * @param parent: pointer to the parent window
-  * @param id: id of the new window. Set to -1 for automatic generation
-  * @param pos: the position of the new window
-  * @param size: the size of the new window
-  * @param style: the style to be apply to the window
-  * @param name: the name to be given to this window
+  * \param parent: pointer to the parent window
+  * \param id: id of the new window. Set to -1 for automatic generation
+  * \param pos: the position of the new window
+  * \param size: the size of the new window
+  * \param style: the style to be apply to the window
+  * \param name: the name to be given to this window
   */
 wxResizeCtrl::wxResizeCtrl(wxWindow *parent,
                      wxWindowID id,
@@ -42,13 +42,13 @@ wxResizeCtrl::wxResizeCtrl(wxWindow *parent,
 }
 
 /** constructor - call SetChild()
-  * @param parent: pointer to the parent window
-  * @param id: id of the new window. Set to -1 for automatic generation
-  * @param child: the child window
-  * @param pos: the position of the new window
-  * @param size: the size of the new window
-  * @param style: the style to be apply to the window
-  * @param name: the name to be given to this window
+  * \param parent: pointer to the parent window
+  * \param id: id of the new window. Set to -1 for automatic generation
+  * \param child: the child window
+  * \param pos: the position of the new window
+  * \param size: the size of the new window
+  * \param style: the style to be apply to the window
+  * \param name: the name to be given to this window
   */
 wxResizeCtrl::wxResizeCtrl(wxWindow *parent,
                      wxWindowID id,
@@ -71,12 +71,12 @@ wxResizeCtrl::~wxResizeCtrl(void)
 }
 
 /** Create the window
-  * @param parent: pointer to the parent window
-  * @param id: id of the new window. Set to -1 for automatic generation
-  * @param pos: the position of the new window
-  * @param size: the size of the new window
-  * @param style: the style to be apply to the window
-  * @param name: the name to be given to this window
+  * \param parent: pointer to the parent window
+  * \param id: id of the new window. Set to -1 for automatic generation
+  * \param pos: the position of the new window
+  * \param size: the size of the new window
+  * \param style: the style to be apply to the window
+  * \param name: the name to be given to this window
   */
 void wxResizeCtrl::Create(wxWindow *parent,
                     wxWindowID id,
@@ -112,7 +112,7 @@ void wxResizeCtrl::Create(wxWindow *parent,
 }
 
 /** Set the child window
-  * @param Child: a pointer to the new child window
+  * \param Child: a pointer to the new child window
   */
 void wxResizeCtrl::SetChild(wxWindow *Child)
 {
@@ -125,7 +125,7 @@ void wxResizeCtrl::SetChild(wxWindow *Child)
 }
 
 /** Get the child window
-  * @return : a pointer to the child window
+  * \return : a pointer to the child window
   */
 wxWindow* wxResizeCtrl::GetChild(void)
 {
@@ -133,7 +133,7 @@ wxWindow* wxResizeCtrl::GetChild(void)
 }
 
 /** Set the size of the resizing border, in pixel
-  * @param iNewMargin: the new margin, in pixel
+  * \param iNewMargin: the new margin, in pixel
   */
 void wxResizeCtrl::SetMargin(int iNewMargin)
 {
@@ -145,7 +145,7 @@ void wxResizeCtrl::SetMargin(int iNewMargin)
 }
 
 /** Get the size of the resizing border, in pixel
-  * @return : the margin, in pixel
+  * \return : the margin, in pixel
   */
 int wxResizeCtrl::GetMargin(void)
 {
@@ -153,7 +153,7 @@ int wxResizeCtrl::GetMargin(void)
 }
 
 /** Set the colour of the resizing border
-  * @param cColour: the new olour of the resizing border
+  * \param cColour: the new olour of the resizing border
   */
 void wxResizeCtrl::SetColour(wxColour cColour)
 {
@@ -163,7 +163,7 @@ void wxResizeCtrl::SetColour(wxColour cColour)
 }
 
 /** Set the colour of the resizing border
-  * @param cColour: the new olour of the resizing border
+  * \param cColour: the new olour of the resizing border
   */
 wxColour wxResizeCtrl::GetColour(void)
 {
@@ -171,7 +171,7 @@ wxColour wxResizeCtrl::GetColour(void)
 }
 
 /** compute the new size and pos of the child, and resize / move it
-  * @param s: the size of the wxResizeCtrl client area
+  * \param s: the size of the wxResizeCtrl client area
   */
 void wxResizeCtrl::SetChildSize(wxSize s)
 {

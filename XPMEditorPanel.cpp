@@ -31,116 +31,38 @@
 #include <wx/dragimag.h>
 #include <wx/fontdlg.h>
 #include <wx/textfile.h>
+#include <wx/stattext.h>
+#include <wx/textfile.h>
 #include <math.h>
 
 #define PI 3.14159265358979
 
-//(*InternalHeaders(XPMEditorPanel)
-#include <wx/scrolwin.h>
-#include <wx/artprov.h>
-#include <wx/sizer.h>
-#include <wx/stattext.h>
-#include <wx/textctrl.h>
-#include <wx/things/toggle.h>
-#include "XPMInterfacePanel.h"
-#include <wx/bitmap.h>
-#include <wx/spinctrl.h>
-#include <wx/tglbtn.h>
-#include <wx/radiobut.h>
+#include "XPMToolPanel.h"
+#include "XPMHelpPanel.h"
+#include "XPMImagePropertiesPanel.h"
 #include "XPMImageManipulationPanel.h"
 #include "wxResizeCtrl.h"
-#include <wx/settings.h>
+
+//(*InternalHeaders(XPMEditorPanel)
+#include "XPMInterfacePanel.h"
+#include "XPMDrawCanvasPanel.h"
+#include <wx/aui/aui.h>
 #include "XPMColourPickerPanel.h"
-#include "XPMImagePropertiesPanel.h"
 #include <wx/intl.h>
-#include <wx/button.h>
-#include <wx/image.h>
+#include "XPMFoldPanel.h"
 #include <wx/string.h>
-#include <wx/clrpicker.h>
 //*)
 
-//button icons
-#include "xpm/brush.xpm"
-#include "xpm/curve.xpm"
-#include "xpm/ellipse.xpm"
-#include "xpm/eraser.xpm"
-#include "xpm/fill.xpm"
-#include "xpm/lasso.xpm"
-#include "xpm/line.xpm"
-#include "xpm/pen.xpm"
-#include "xpm/pipette.xpm"
-#include "xpm/polygon.xpm"
-#include "xpm/rectangle.xpm"
-#include "xpm/roundedrect.xpm"
-#include "xpm/selection.xpm"
-#include "xpm/text.xpm"
-#include "xpm/hotspot.xpm"
+#define _DEBUG_XPM_EDITOR_PANEL 0
 
-//cursors
-#include "xpm/cross_cursor.xpm"
-#include "xpm/pipette_cursor.xpm"
-#include "xpm/fill_cursor.xpm"
-#include "xpm/pen_cursor.xpm"
-
-//additional tools icons
-#include "xpm/circle.xpm"
-#include "xpm/square.xpm"
-#include "xpm/left_hair.xpm"
-#include "xpm/right_hair.xpm"
 
 //----------- INIITIALISATION & DECLARATIONS ------------------------------
 
 //(*IdInit(XPMEditorPanel)
-const long XPMEditorPanel::ID_INTERFACEPANEL1 = wxNewId();
-const long XPMEditorPanel::ID_IMG_PROPERTIES_1 = wxNewId();
-const long XPMEditorPanel::ID_IMG_MANIP_1 = wxNewId();
-const long XPMEditorPanel::ID_COLOUR_PICKER_1 = wxNewId();
-const long XPMEditorPanel::ID_SELECT_BUTN = wxNewId();
-const long XPMEditorPanel::ID_LASSO_BTN = wxNewId();
-const long XPMEditorPanel::ID_HOTSPOT_BTN = wxNewId();
-const long XPMEditorPanel::ID_PEN_BTN = wxNewId();
-const long XPMEditorPanel::ID_BRUSH_BTN = wxNewId();
-const long XPMEditorPanel::ID_PIPETTE_BTN = wxNewId();
-const long XPMEditorPanel::ID_FILL_BTN = wxNewId();
-const long XPMEditorPanel::ID_LINE_BTN = wxNewId();
-const long XPMEditorPanel::ID_CURVE_BTN = wxNewId();
-const long XPMEditorPanel::ID_ERASER_BTN = wxNewId();
-const long XPMEditorPanel::ID_TEXT_BTN = wxNewId();
-const long XPMEditorPanel::ID_RECTANGLE_BTN = wxNewId();
-const long XPMEditorPanel::ID_POLYGON_BTN = wxNewId();
-const long XPMEditorPanel::ID_ELLIPSE_BTN = wxNewId();
-const long XPMEditorPanel::ID_ROUNDEDRECT_BTN = wxNewId();
-const long XPMEditorPanel::ID_SQUARE_BRUSH = wxNewId();
-const long XPMEditorPanel::ID_CIRCLE_BRUSH = wxNewId();
-const long XPMEditorPanel::ID_LRHAIR_BRUSH = wxNewId();
-const long XPMEditorPanel::ID_LHAIR_BRUSH = wxNewId();
-const long XPMEditorPanel::ID_CUSTOM2 = wxNewId();
-const long XPMEditorPanel::ID_FONT_BUTTON = wxNewId();
-const long XPMEditorPanel::ID_BKMODE_TOGGLEBUTTON = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT8 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON1 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON9 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON8 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON7 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON6 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON5 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON4 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON3 = wxNewId();
-const long XPMEditorPanel::ID_RADIOBUTTON2 = wxNewId();
-const long XPMEditorPanel::ID_PANEL2 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT9 = wxNewId();
-const long XPMEditorPanel::ID_SPINCTRL6 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT5 = wxNewId();
-const long XPMEditorPanel::ID_SPINCTRL3 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT7 = wxNewId();
-const long XPMEditorPanel::ID_SPINCTRL5 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT6 = wxNewId();
-const long XPMEditorPanel::ID_SPINCTRL4 = wxNewId();
-const long XPMEditorPanel::ID_PANEL1 = wxNewId();
-const long XPMEditorPanel::ID_TEXTCTRL1 = wxNewId();
-const long XPMEditorPanel::ID_RESIZECTRL1 = wxNewId();
-const long XPMEditorPanel::ID_SCROLLEDWINDOW1 = wxNewId();
-const long XPMEditorPanel::ID_STATICTEXT4 = wxNewId();
+const long XPMEditorPanel::ID_DRAWCANVASPANEL = wxNewId();
+const long XPMEditorPanel::ID_FOLDPANEL = wxNewId();
+const long XPMEditorPanel::ID_INTERFACEPANEL = wxNewId();
+const long XPMEditorPanel::ID_COLOURPICKERPANEL = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(XPMEditorPanel,wxPanel)
@@ -151,15 +73,18 @@ END_EVENT_TABLE()
 //---------------------------- CONSTRUCTORS  ------------------------------
 
 /** Constructor - Create a new Image Editor panel
-  * @param parent: the parent window for the panel
-  * @param id = wxID_ANY : the window identifier for this panel
-  * @param pos = wxDefaultPosition : the desired position of the panel after creation
-  * @param size = wxDefaultSize : the desired size of the panel after creation
+  * \param parent: the parent window for the panel
+  * \param id = wxID_ANY : the window identifier for this panel
+  * \param pos = wxDefaultPosition : the desired position of the panel after creation
+  * \param size = wxDefaultSize : the desired size of the panel after creation
   */
 XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
-	cHotSpotColour = *wxCYAN; //we need to put it before BuildContent, because it is used during the HotSpotColourPicker initialisation
+
+	ResizeCtrl1 = NULL; //necessary to avoid race condition, when building the panel
+	TextEdit = NULL;    //necessary to avoid race condition, when building the panel
 	BuildContent(parent,id,pos,size);
+
 	m_Bitmap = NULL;
 	m_Image = NULL;
 	bCanResizeX = false;
@@ -168,52 +93,6 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	bSizingY = false;
 	OldX = 0; OldY = 0;
 	dScale = 1;
-
-	//set the bitmaps on the button
-	wxBitmap bBrush(brush_xpm);
-	BrushButton->SetLabel(bBrush);
-
-	wxBitmap bCurve(CURVE_xpm);
-	CurveButton->SetLabel(bCurve);
-
-	wxBitmap bEllipse(ELLIPSE_xpm);
-	EllipseButton->SetLabel(bEllipse);
-
-	wxBitmap bEraser(ERASER_xpm);
-	EraserButton->SetLabel(bEraser);
-
-	wxBitmap bFill(FILL_xpm);
-	FillButton->SetLabel(bFill);
-
-	wxBitmap bLasso(LASSO_xpm);
-	LassoButton->SetLabel(bLasso);
-
-	wxBitmap bLine(LINE_xpm);
-	LineButton->SetLabel(bLine);
-
-	wxBitmap bPen(PEN_xpm);
-	PenButton->SetLabel(bPen);
-
-	wxBitmap bPipette(PIPETTE_xpm);
-	PipetteButton->SetLabel(bPipette);
-
-	wxBitmap bPolygon(POLYGON_xpm);
-	PolygonButton->SetLabel(bPolygon);
-
-	wxBitmap bRectangle(RECT_xpm);
-	RectangleButton->SetLabel(bRectangle);
-
-	wxBitmap bRoundedRectangle(RRECT_xpm);
-	RRectButton->SetLabel(bRoundedRectangle);
-
-	wxBitmap bSelection(SEL_xpm);
-	SelectButton->SetLabel(bSelection);
-
-	wxBitmap bText(TEXT_xpm);
-    TextButton->SetLabel(bText);
-
-    wxBitmap bHotSpot(hotspot_xpm);
-    HotSpotButton->SetLabel(bHotSpot);
 
 	//selection initialisation
 	NbPointsMax = 100;
@@ -225,31 +104,9 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     m_undo_buffer = new XPMUndo;
     if (m_undo_buffer) m_undo_buffer->SetParentPanel(this);
 
-    SquareBrushButton->Hide();
-    SquareBrushButton->SetLabel(square_xpm);
-    CircleBrushButton->Hide();
-    CircleBrushButton->SetLabel(circle_xpm);
-    LHairBrushButton->Hide();
-    LHairBrushButton->SetLabel(left_hair_xpm);
-    RHairBrushButton->Hide();
-    RHairBrushButton->SetLabel(right_hair_xpm);
 
-    StaticText4->Hide();
-    SpinCtrl1->Hide();
-    StaticText5->Hide();
-    SpinCtrl2->Hide();
-    StaticText6->Hide();
-    SpinCtrl3->Hide();
-    FontButton->Hide();
     TextEdit->Hide();
     ResizeCtrl1->Hide();
-    BackgroundButton->Hide();
-    AlignmentPanel->Hide();
-    StaticText8->Hide();
-    SpinCtrl4->Hide();
-    HotSpotColourPicker->Hide();
-    ToolPanelSizer->Layout();
-    ToolPanelSizer->FitInside(ToolPanel);
 
     bUsingTool = false;
     m_DragImage = NULL;
@@ -269,329 +126,286 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 }
 
 /** Create all the widgets in the panel. Called by the constructor
-  * @param parent: the parent window for the panel
-  * @param id = wxID_ANY : the window identifier for this panel
-  * @param pos = wxDefaultPosition : the desired position of the panel after creation
-  * @param size = wxDefaultSize : the desired size of the panel after creation
+  * \param parent: the parent window for the panel
+  * \param id = wxID_ANY : the window identifier for this panel
+  * \param pos = wxDefaultPosition : the desired position of the panel after creation
+  * \param size = wxDefaultSize : the desired size of the panel after creation
   */
 void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(XPMEditorPanel)
-	wxBoxSizer* BoxSizer4;
-	wxBoxSizer* BoxSizer6;
-	wxBoxSizer* BoxSizer5;
-	wxBoxSizer* BoxSizer10;
-	wxBoxSizer* BoxSizer7;
-	wxBoxSizer* BoxSizer13;
-	wxBoxSizer* BoxSizer2;
-	wxBoxSizer* BoxSizer11;
-	wxBoxSizer* BoxSizer12;
-	wxBoxSizer* BoxSizer14;
-	wxBoxSizer* BoxSizer1;
-	wxBoxSizer* BoxSizer9;
-	wxBoxSizer* BoxSizer3;
-
-	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
-	PanelSizer = new wxBoxSizer(wxVERTICAL);
-	BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+	Create(parent, wxID_ANY, wxDefaultPosition, wxSize(199,144), wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
+	m_AUIXPMEditor = new wxAuiManager(this, wxAUI_MGR_ALLOW_FLOATING|wxAUI_MGR_ALLOW_ACTIVE_PANE|wxAUI_MGR_DEFAULT);
+	DrawCanvasPanel = new XPMDrawCanvasPanel(this);
+	m_AUIXPMEditor->AddPane(DrawCanvasPanel, wxAuiPaneInfo().Name(_T("Image")).CenterPane().Caption(_("Image")));
+	FoldPanel = new XPMFoldPanel(this);
+	m_AUIXPMEditor->AddPane(FoldPanel, wxAuiPaneInfo().Name(_T("Tools")).DefaultPane().Caption(_("Tools")).CloseButton(false).Left());
 	InterfacePanel = new XPMInterfacePanel(this);
-	BoxSizer2->Add(InterfacePanel, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	PropertiesPanel = new XPMImagePropertiesPanel(this);
-	BoxSizer2->Add(PropertiesPanel, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	PanelSizer->Add(BoxSizer2, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer13 = new wxBoxSizer(wxHORIZONTAL);
-	ImageManipulationPanel = new XPMImageManipulationPanel(this);
-	BoxSizer13->Add(ImageManipulationPanel, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	PanelSizer->Add(BoxSizer13, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	m_AUIXPMEditor->AddPane(InterfacePanel, wxAuiPaneInfo().Name(_T("Interface")).DefaultPane().Caption(_("Interface")).CloseButton(false).Top());
 	ColourPicker = new XPMColourPickerPanel(this);
-	PanelSizer->Add(ColourPicker, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
-	ToolSizer = new wxBoxSizer(wxVERTICAL);
-	ToolPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	ToolPanelSizer = new wxBoxSizer(wxVERTICAL);
-	BoxSizer6 = new wxBoxSizer(wxHORIZONTAL);
-	SelectButton = new wxCustomButton(ToolPanel,ID_SELECT_BUTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_SELECT_BUTN"));
-	SelectButton->SetBitmapDisabled(SelectButton->CreateBitmapDisabled(SelectButton->GetBitmapLabel()));
-	SelectButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer6->Add(SelectButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	LassoButton = new wxCustomButton(ToolPanel,ID_LASSO_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LASSO_BTN"));
-	LassoButton->SetBitmapDisabled(LassoButton->CreateBitmapDisabled(LassoButton->GetBitmapLabel()));
-	LassoButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer6->Add(LassoButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	HotSpotButton = new wxCustomButton(ToolPanel,ID_HOTSPOT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_HOTSPOT_BTN"));
-	HotSpotButton->SetBitmapDisabled(HotSpotButton->CreateBitmapDisabled(HotSpotButton->GetBitmapLabel()));
-	HotSpotButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer6->Add(HotSpotButton, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	ToolPanelSizer->Add(BoxSizer6, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
-	PenButton = new wxCustomButton(ToolPanel,ID_PEN_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PEN_BTN"));
-	PenButton->SetBitmapDisabled(PenButton->CreateBitmapDisabled(PenButton->GetBitmapLabel()));
-	PenButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer5->Add(PenButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	BrushButton = new wxCustomButton(ToolPanel,ID_BRUSH_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_BRUSH_BTN"));
-	BrushButton->SetBitmapDisabled(BrushButton->CreateBitmapDisabled(BrushButton->GetBitmapLabel()));
-	BrushButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer5->Add(BrushButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	PipetteButton = new wxCustomButton(ToolPanel,ID_PIPETTE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PIPETTE_BTN"));
-	PipetteButton->SetBitmapDisabled(PipetteButton->CreateBitmapDisabled(PipetteButton->GetBitmapLabel()));
-	PipetteButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer5->Add(PipetteButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	FillButton = new wxCustomButton(ToolPanel,ID_FILL_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_FILL_BTN"));
-	FillButton->SetBitmapDisabled(FillButton->CreateBitmapDisabled(FillButton->GetBitmapLabel()));
-	FillButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer5->Add(FillButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	ToolPanelSizer->Add(BoxSizer5, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
-	LineButton = new wxCustomButton(ToolPanel,ID_LINE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LINE_BTN"));
-	LineButton->SetBitmapDisabled(LineButton->CreateBitmapDisabled(LineButton->GetBitmapLabel()));
-	LineButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer7->Add(LineButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	CurveButton = new wxCustomButton(ToolPanel,ID_CURVE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CURVE_BTN"));
-	CurveButton->SetBitmapDisabled(CurveButton->CreateBitmapDisabled(CurveButton->GetBitmapLabel()));
-	CurveButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer7->Add(CurveButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	EraserButton = new wxCustomButton(ToolPanel,ID_ERASER_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ERASER_BTN"));
-	EraserButton->SetBitmapDisabled(EraserButton->CreateBitmapDisabled(EraserButton->GetBitmapLabel()));
-	EraserButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer7->Add(EraserButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	TextButton = new wxCustomButton(ToolPanel,ID_TEXT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_TEXT_BTN"));
-	TextButton->SetBitmapDisabled(TextButton->CreateBitmapDisabled(TextButton->GetBitmapLabel()));
-	TextButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer7->Add(TextButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	ToolPanelSizer->Add(BoxSizer7, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer10 = new wxBoxSizer(wxHORIZONTAL);
-	RectangleButton = new wxCustomButton(ToolPanel,ID_RECTANGLE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_RECTANGLE_BTN"));
-	RectangleButton->SetBitmapDisabled(RectangleButton->CreateBitmapDisabled(RectangleButton->GetBitmapLabel()));
-	RectangleButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer10->Add(RectangleButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	PolygonButton = new wxCustomButton(ToolPanel,ID_POLYGON_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_POLYGON_BTN"));
-	PolygonButton->SetBitmapDisabled(PolygonButton->CreateBitmapDisabled(PolygonButton->GetBitmapLabel()));
-	PolygonButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer10->Add(PolygonButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	EllipseButton = new wxCustomButton(ToolPanel,ID_ELLIPSE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ELLIPSE_BTN"));
-	EllipseButton->SetBitmapDisabled(EllipseButton->CreateBitmapDisabled(EllipseButton->GetBitmapLabel()));
-	EllipseButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer10->Add(EllipseButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	RRectButton = new wxCustomButton(ToolPanel,ID_ROUNDEDRECT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ROUNDEDRECT_BTN"));
-	RRectButton->SetBitmapDisabled(RRectButton->CreateBitmapDisabled(RRectButton->GetBitmapLabel()));
-	RRectButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer10->Add(RRectButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	ToolPanelSizer->Add(BoxSizer10, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	ToolPanelSizer->Add(-1,-1,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
-	SquareBrushButton = new wxCustomButton(ToolPanel,ID_SQUARE_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_SQUARE_BRUSH"));
-	SquareBrushButton->SetBitmapDisabled(SquareBrushButton->CreateBitmapDisabled(SquareBrushButton->GetBitmapLabel()));
-	SquareBrushButton->SetBitmapMargin(wxSize(5,5));
-	BoxSizer1->Add(SquareBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	CircleBrushButton = new wxCustomButton(ToolPanel,ID_CIRCLE_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CIRCLE_BRUSH"));
-	CircleBrushButton->SetBitmapDisabled(CircleBrushButton->CreateBitmapDisabled(CircleBrushButton->GetBitmapLabel()));
-	CircleBrushButton->SetBitmapMargin(wxSize(5,5));
-	BoxSizer1->Add(CircleBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	RHairBrushButton = new wxCustomButton(ToolPanel,ID_LRHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LRHAIR_BRUSH"));
-	RHairBrushButton->SetBitmapDisabled(RHairBrushButton->CreateBitmapDisabled(RHairBrushButton->GetBitmapLabel()));
-	RHairBrushButton->SetBitmapMargin(wxSize(5,5));
-	BoxSizer1->Add(RHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	LHairBrushButton = new wxCustomButton(ToolPanel,ID_LHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LHAIR_BRUSH"));
-	LHairBrushButton->SetBitmapDisabled(LHairBrushButton->CreateBitmapDisabled(LHairBrushButton->GetBitmapLabel()));
-	LHairBrushButton->SetBitmapMargin(wxSize(5,5));
-	BoxSizer1->Add(LHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	ToolPanelSizer->Add(BoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	HotSpotColourPicker = new wxColourPickerCtrl(ToolPanel,ID_CUSTOM2,cHotSpotColour,wxDefaultPosition,wxDefaultSize,wxCLRP_USE_TEXTCTRL,wxDefaultValidator,_T("ID_CUSTOM2"));
-	ToolPanelSizer->Add(HotSpotColourPicker, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
-	FontButton = new wxButton(ToolPanel, ID_FONT_BUTTON, _("FONT"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_FONT_BUTTON"));
-	ToolPanelSizer->Add(FontButton, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
-	BackgroundButton = new wxToggleButton(ToolPanel, ID_BKMODE_TOGGLEBUTTON, _("OPAQUE"), wxDefaultPosition, wxSize(90,23), 0, wxDefaultValidator, _T("ID_BKMODE_TOGGLEBUTTON"));
-	ToolPanelSizer->Add(BackgroundButton, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
-	AlignmentPanel = new wxPanel(ToolPanel, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
-	BoxSizer14 = new wxBoxSizer(wxVERTICAL);
-	StaticText7 = new wxStaticText(AlignmentPanel, ID_STATICTEXT8, _("Alignment"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT8"));
-	BoxSizer14->Add(StaticText7, 0, wxALL|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
-	BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-	TopLeft = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP, wxDefaultValidator, _T("ID_RADIOBUTTON1"));
-	TopLeft->SetValue(true);
-	BoxSizer4->Add(TopLeft, 1, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 1);
-	TopCenter = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON9, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON9"));
-	BoxSizer4->Add(TopCenter, 1, wxTOP|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_TOP, 1);
-	TopRight = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON8, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON8"));
-	BoxSizer4->Add(TopRight, 1, wxTOP|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_TOP, 1);
-	BoxSizer14->Add(BoxSizer4, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 0);
-	BoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
-	CenterLeft = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON7, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON7"));
-	BoxSizer9->Add(CenterLeft, 1, wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
-	CenterCenter = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON6, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON6"));
-	BoxSizer9->Add(CenterCenter, 1, wxLEFT|wxRIGHT|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
-	CenterRight = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON5, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON5"));
-	BoxSizer9->Add(CenterRight, 1, wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 1);
-	BoxSizer14->Add(BoxSizer9, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
-	BoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
-	BottomLeft = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON4, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON4"));
-	BoxSizer11->Add(BottomLeft, 1, wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
-	BottomCenter = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON3, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON3"));
-	BoxSizer11->Add(BottomCenter, 1, wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 1);
-	BottomRight = new wxRadioButton(AlignmentPanel, ID_RADIOBUTTON2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON2"));
-	BoxSizer11->Add(BottomRight, 1, wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_BOTTOM, 1);
-	BoxSizer14->Add(BoxSizer11, 0, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 0);
-	AlignmentPanel->SetSizer(BoxSizer14);
-	BoxSizer14->Fit(AlignmentPanel);
-	BoxSizer14->SetSizeHints(AlignmentPanel);
-	ToolPanelSizer->Add(AlignmentPanel, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 0);
-	AngleSizer = new wxBoxSizer(wxVERTICAL);
-	StaticText8 = new wxStaticText(ToolPanel, ID_STATICTEXT9, _("Angle (deg):"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT9"));
-	AngleSizer->Add(StaticText8, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	SpinCtrl4 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL6, _T("0"), wxDefaultPosition, wxSize(72,21), 0, 0, 360, 0, _T("ID_SPINCTRL6"));
-	SpinCtrl4->SetValue(_T("0"));
-	AngleSizer->Add(SpinCtrl4, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 5);
-	ToolPanelSizer->Add(AngleSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	StaticText4 = new wxStaticText(ToolPanel, ID_STATICTEXT5, _("Size:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT5"));
-	ToolPanelSizer->Add(StaticText4, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	SpinCtrl1 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL3, _T("2"), wxDefaultPosition, wxSize(83,21), 0, 2, 16, 2, _T("ID_SPINCTRL3"));
-	SpinCtrl1->SetValue(_T("2"));
-	ToolPanelSizer->Add(SpinCtrl1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	StaticText6 = new wxStaticText(ToolPanel, ID_STATICTEXT7, _("Radius:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT7"));
-	ToolPanelSizer->Add(StaticText6, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	SpinCtrl3 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL5, _T("1"), wxDefaultPosition, wxSize(20,21), 0, 1, 1000, 1, _T("ID_SPINCTRL5"));
-	SpinCtrl3->SetValue(_T("1"));
-	ToolPanelSizer->Add(SpinCtrl3, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	StaticText5 = new wxStaticText(ToolPanel, ID_STATICTEXT6, _("Thickness:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT6"));
-	ToolPanelSizer->Add(StaticText5, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	SpinCtrl2 = new wxSpinCtrl(ToolPanel, ID_SPINCTRL4, _T("1"), wxDefaultPosition, wxSize(20,21), 0, 1, 16, 1, _T("ID_SPINCTRL4"));
-	SpinCtrl2->SetValue(_T("1"));
-	ToolPanelSizer->Add(SpinCtrl2, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	ToolPanelSizer->Add(62,-1,1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	ToolPanel->SetSizer(ToolPanelSizer);
-	ToolPanelSizer->Fit(ToolPanel);
-	ToolPanelSizer->SetSizeHints(ToolPanel);
-	ToolSizer->Add(ToolPanel, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
-	BoxSizer3->Add(ToolSizer, 0, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 0);
-	CanvasSizer = new wxBoxSizer(wxVERTICAL);
-	DrawCanvas = new wxScrolledWindow(this, ID_SCROLLEDWINDOW1, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL|wxSUNKEN_BORDER, _T("ID_SCROLLEDWINDOW1"));
-	DrawCanvas->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
-	TextEdit = new wxTextCtrl(DrawCanvas, ID_TEXTCTRL1, _("Text"), wxPoint(57,193), wxDefaultSize, wxTE_MULTILINE|wxTE_LEFT|wxTE_CHARWRAP, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	ResizeCtrl1 = new wxResizeCtrl(DrawCanvas,ID_RESIZECTRL1,wxPoint(6,7),wxSize(119,74),0,_T("ID_RESIZECTRL1"));
-	CanvasSizer->Add(DrawCanvas, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
-	sCursorPos = new wxStaticText(this, ID_STATICTEXT4, _("Cursor at: "), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT4"));
-	BoxSizer12->Add(sCursorPos, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	CanvasSizer->Add(BoxSizer12, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BoxSizer3->Add(CanvasSizer, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	PanelSizer->Add(BoxSizer3, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	SetSizer(PanelSizer);
-	PanelSizer->Fit(this);
-	PanelSizer->SetSizeHints(this);
+	m_AUIXPMEditor->AddPane(ColourPicker, wxAuiPaneInfo().Name(_T("Colours")).DefaultPane().Caption(_("Colours")).CloseButton(false).Top());
+	m_AUIXPMEditor->Update();
 
-	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnSelectButtonToggle);
-	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLassoButtonToggle);
-	Connect(ID_HOTSPOT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnHotSpotButtonToggle);
-	Connect(ID_PEN_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnPenButtonToggle);
-	Connect(ID_BRUSH_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnBrushButtonToggle);
-	Connect(ID_PIPETTE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnPipetteButtonToggle);
-	Connect(ID_FILL_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnFillButtonToggle);
-	Connect(ID_LINE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLineButtonToggle);
-	Connect(ID_CURVE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnCurveButtonToggle);
-	Connect(ID_ERASER_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnEraserButtonToggle);
-	Connect(ID_TEXT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnTextButtonToggle);
-	Connect(ID_RECTANGLE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRectangleButtonToggle);
-	Connect(ID_POLYGON_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnPolygonButtonToggle);
-	Connect(ID_ELLIPSE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnEllipseButtonToggle);
-	Connect(ID_ROUNDEDRECT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRRectButtonToggle);
-	Connect(ID_SQUARE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnSquareBrushButtonToggle);
-	Connect(ID_CIRCLE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnCircleBrushButtonToggle);
-	Connect(ID_LRHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnLHairBrushButtonToggle);
-	Connect(ID_LHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnRHairBrushButtonToggle);
-	Connect(ID_FONT_BUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnFontButtonClick);
-	Connect(ID_BKMODE_TOGGLEBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMEditorPanel::OnBackgroundButtonToggle);
-	Connect(ID_RADIOBUTTON1,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnTopLeftSelect);
-	Connect(ID_RADIOBUTTON9,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnTopCenterSelect);
-	Connect(ID_RADIOBUTTON8,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnTopRightSelect);
-	Connect(ID_RADIOBUTTON7,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnCenterLeftSelect);
-	Connect(ID_RADIOBUTTON6,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnCenterCenterSelect);
-	Connect(ID_RADIOBUTTON5,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnCenterRightSelect);
-	Connect(ID_RADIOBUTTON4,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnBottomLeftSelect);
-	Connect(ID_RADIOBUTTON3,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnBottomCenterSelect);
-	Connect(ID_RADIOBUTTON2,wxEVT_COMMAND_RADIOBUTTON_SELECTED,(wxObjectEventFunction)&XPMEditorPanel::OnBottomRightSelect);
-	Connect(ID_SPINCTRL6,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinCtrl4Change);
-	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
-	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinRadiusChanged);
-	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnSpinSizeChanged);
-	Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnTextEditText);
-	DrawCanvas->Connect(wxEVT_PAINT,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasPaint,0,this);
-	DrawCanvas->Connect(wxEVT_ERASE_BACKGROUND,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasEraseBackground,0,this);
-	DrawCanvas->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown,0,this);
-	DrawCanvas->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftDown,0,this);
-	DrawCanvas->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftUp,0,this);
-	DrawCanvas->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftDClick,0,this);
-	DrawCanvas->Connect(wxEVT_RIGHT_UP,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasRightUp,0,this);
-	DrawCanvas->Connect(wxEVT_MOTION,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseMove,0,this);
-	DrawCanvas->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseLeave,0,this);
-	DrawCanvas->Connect(wxEVT_SIZE,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasResize,0,this);
 	Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown);
 	//*)
+
+	//to do : register an event handler when AUI colours are updated
+	//EVT_MENU(idSettingsEnvironment, MainFrame::OnSettingsEnvironment)
+    UpdateMinimalSizes();
+	UpdateAUIColours();
+
+	wxString sFilePath;
+	sFilePath = ConfigManager::GetExecutableFolder();
+	sFilePath = sFilePath + _("\\XPMEditor_log.txt");
+
+	LogToFile(_("Step 1"), sFilePath);
+
+	if (DrawCanvasPanel)
+	{
+	    DrawCanvas  = DrawCanvasPanel->DrawCanvas;
+		TextEdit    = DrawCanvasPanel->TextEdit;
+		ResizeCtrl1 = DrawCanvasPanel->ResizeCtrl1;
+		sCursorPos  = DrawCanvasPanel->sCursorPos;
+
+		DrawCanvasPanel->TextEdit->Connect(wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnTextEditText);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_PAINT,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasPaint,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_ERASE_BACKGROUND,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasEraseBackground,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_LEFT_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftDown,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftUp,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasLeftDClick,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_RIGHT_UP,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasRightUp,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_MOTION,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseMove,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseLeave,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SIZE,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasResize,0,this);
+	}
+	else
+	{
+	    DrawCanvas  = NULL;
+		TextEdit    = NULL;
+		ResizeCtrl1 = NULL;
+		sCursorPos  = NULL;
+	}
+
+	//init pointers to panels
+	if (FoldPanel)
+	{
+	    ToolPanel = FoldPanel->GetToolPanel();
+	    HelpPanel = FoldPanel->GetHelpPanel();
+	    PropertiesPanel = FoldPanel->GetPropertiesPanel();
+	    ImageManipulationPanel = FoldPanel->GetImageManipulationPanel();
+	}
+	else
+	{
+	    ToolPanel = NULL;
+	    HelpPanel = NULL;
+	    PropertiesPanel = NULL;
+	    ImageManipulationPanel = NULL;
+	}
+
 
 #if __WXMSW__
 	//Mouse Capture lost event
 	DrawCanvas->Connect(wxEVT_MOUSE_CAPTURE_LOST ,(wxObjectEventFunction)&XPMEditorPanel::OnMouseCaptureLost,0,this);
 #endif
 
-    //colour picker control event
-	HotSpotColourPicker->Connect(wxEVT_COMMAND_COLOURPICKER_CHANGED,(wxObjectEventFunction)&XPMEditorPanel::OnHotSpotColourPickerColourChanged,0,this);
-
+    //set the parents of the child panels
+    if (ColourPicker) ColourPicker->SetParentPanel(this);
+    if (InterfacePanel) InterfacePanel->SetParentPanel(this);
+    if (FoldPanel) FoldPanel->SetParentPanel(this);
 
     //ResizeCtrl
     ResizeCtrl1->SetChild(TextEdit);
-
-    //tools IDs
-	tools[XPM_ID_SELECT_TOOL] = SelectButton;
-	tools[XPM_ID_LASSO_TOOL] = LassoButton;
-	tools[XPM_ID_PEN_TOOL] = PenButton;
-	tools[XPM_ID_BRUSH_TOOL] = BrushButton;
-    tools[XPM_ID_PIPETTE_TOOL] = PipetteButton;
-    tools[XPM_ID_FILL_TOOL] = FillButton;
-    tools[XPM_ID_CURVE_TOOL] = CurveButton;
-    tools[XPM_ID_LINE_TOOL] = LineButton;
-    tools[XPM_ID_ERASER_TOOL] = EraserButton;
-    tools[XPM_ID_TEXT_TOOL] = TextButton;
-    tools[XPM_ID_RECTANGLE_TOOL]= RectangleButton;
-    tools[XPM_ID_POLYGON_TOOL]= PolygonButton;
-    tools[XPM_ID_ELLIPSE_TOOL]= EllipseButton;
-    tools[XPM_ID_ROUNDEDRECT_TOOL] = RRectButton;
-    tools[XPM_ID_HOTSPOT_TOOL] = HotSpotButton;
-
-    //tools cursors
-    wxImage ImgCrossCursor(cross_cursor_xpm);
-    ImgCrossCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 16);
-    ImgCrossCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 16);
-    wxImage ImgPenCursor(pen_cursor_xpm);
-    ImgPenCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 14);
-    ImgPenCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 25);
-    wxImage ImgPipetteCursor(pipette_cursor_xpm);
-    ImgPipetteCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 8);
-    ImgPipetteCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 23);
-    wxImage ImgFillCursor(fill_cursor_xpm);
-    ImgFillCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 8);
-    ImgFillCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 22);
-
-
-    ToolCursor[XPM_ID_SELECT_TOOL] = wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_LASSO_TOOL] = wxCursor(ImgCrossCursor);
-	ToolCursor[XPM_ID_PEN_TOOL] = wxCursor(ImgPenCursor);
-	ToolCursor[XPM_ID_BRUSH_TOOL] = wxCursor(wxCURSOR_PAINT_BRUSH);
-    ToolCursor[XPM_ID_PIPETTE_TOOL] = wxCursor(ImgPipetteCursor);
-    ToolCursor[XPM_ID_FILL_TOOL] = wxCursor(ImgFillCursor);
-    ToolCursor[XPM_ID_CURVE_TOOL] = wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_LINE_TOOL] = wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_ERASER_TOOL] = wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_TEXT_TOOL] = wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_RECTANGLE_TOOL]= wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_POLYGON_TOOL]= wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_ELLIPSE_TOOL]= wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_ROUNDEDRECT_TOOL] = wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_HOTSPOT_TOOL] = wxCursor(ImgCrossCursor);
-
     ToggleButtons(-1, false); //Toggle All buttons off.
 
 	dScale = 1;
 	bShowGrid = false;
 	cGridColour = *wxBLACK;
+
+}
+
+/** Debugging function : writes a string to a text file
+  * The identifer _DEBUG_XPM_EDITOR_PANEL must be defined with a value different from 0
+  * see at the beginning of this file
+  * \param sLogText : the string to write in the file.
+  *                   a new line will be created
+  * \param sFilePath: the path of the file
+  *                   if the file does not exist, it will be created
+  */
+void XPMEditorPanel::LogToFile(wxString sLogText, wxString sFilePath)
+{
+    #if _DEBUG_XPM_EDITOR_PANEL != 0
+
+        wxTextFile tf(sFilePath);
+
+        if (tf.Exists())
+        {
+            if (!tf.Open()) return;
+        }
+        else
+        {
+            if (!tf.Create()) return;
+        }
+
+        tf.AddLine(sLogText);
+        tf.Write();
+        tf.Close();
+
+    #endif
+}
+
+
+/** Set minimal sizes for the AUI Panes
+  * Minimal sizes will be set for :
+  *  - the tools panel (FoldPanel)
+  *  - the interface panel (InterfacePanel)
+  *  - the colour picker panel
+  * Floating size, and minimal sizes are given
+  */
+void XPMEditorPanel::UpdateMinimalSizes(void)
+{
+    if (m_AUIXPMEditor)
+    {
+        wxAuiPaneInfo auiColPickerInfo;
+        wxAuiPaneInfo auiInterfaceInfo;
+        wxAuiPaneInfo auiFoldInfo;
+
+        auiColPickerInfo = m_AUIXPMEditor->GetPane(ColourPicker);
+        auiInterfaceInfo = m_AUIXPMEditor->GetPane(InterfacePanel);
+        auiFoldInfo = m_AUIXPMEditor->GetPane(FoldPanel);
+
+        if ((auiColPickerInfo.IsOk()) && (ColourPicker))
+        {
+            //Colour Picker
+            wxSize sMinSize;
+            wxSize sBestSize;
+
+            if (ColourPicker->ColourPicker)
+            {
+                sMinSize  = ColourPicker->ColourPicker->DoGetMinSize();
+                sBestSize = ColourPicker->ColourPicker->GetBestSize();
+            }
+
+            auiColPickerInfo = auiColPickerInfo.BestSize(sBestSize)
+                                               //.FloatingSize(sBestSize)
+                                               .MinSize(sMinSize);
+
+
+            if (m_AUIXPMEditor->DetachPane(ColourPicker))
+            {
+                m_AUIXPMEditor->AddPane(ColourPicker, auiColPickerInfo);
+            }
+
+        }
+
+        if ((auiInterfaceInfo.IsOk()) && (InterfacePanel))
+        {
+            //Interface Panel
+            wxSize sMinSize;
+            wxSize sBestSize;
+
+            if (InterfacePanel->GetSizer())
+            {
+                sMinSize  = InterfacePanel->GetSizer()->GetMinSize();
+                sBestSize =  InterfacePanel->GetBestSize();
+            }
+
+
+            auiInterfaceInfo = auiInterfaceInfo.BestSize(sBestSize)
+                                               .FloatingSize(sBestSize)
+                                               .MinSize(sMinSize);
+
+            if (m_AUIXPMEditor->DetachPane(InterfacePanel))
+            {
+                m_AUIXPMEditor->AddPane(InterfacePanel, auiInterfaceInfo);
+            }
+        }
+
+        if ((auiFoldInfo.IsOk()) && (FoldPanel))
+        {
+            //Tools panel
+            wxSize sMinSize;
+            wxSize sBestSize;
+
+            if (FoldPanel->FoldPanelBar1)
+            {
+                sMinSize  = FoldPanel->FoldPanelBar1->GetMinSize();
+                sBestSize = FoldPanel->FoldPanelBar1->GetBestSize();
+            }
+
+            auiFoldInfo = auiFoldInfo.BestSize(sBestSize)
+                                     .FloatingSize(sBestSize)
+                                     .MinSize(sMinSize);
+
+            if (m_AUIXPMEditor->DetachPane(FoldPanel))
+            {
+                m_AUIXPMEditor->AddPane(FoldPanel, auiFoldInfo);
+            }
+        }
+
+        m_AUIXPMEditor->Update();
+    }
+}
+
+/** Get the same colours as codeblocks configuration
+  * Code::Blocks wxAUIManager is fetched, and its colours & metrics are read
+  * These colours & metrics are then applied to the current wxAUIManager
+  */
+void XPMEditorPanel::UpdateAUIColours(void)
+{
+    wxAuiManager *auiCodeBlocksManager;
+    wxAuiDockArt *auiCodeBlocksDockArt;
+    wxAuiDockArt *auiXPMEditorDockArt;
+
+    ConfigManager* cfg = Manager::Get()->GetConfigManager(_T("app"));
+
+    //recover wxAUIManager from Code::Blocks main window
+    auiCodeBlocksManager = wxAuiManager::GetManager(GetParent());
+    if (!auiCodeBlocksManager) return;
+
+    //recover wxAuiDockArt from Code::Blocks main window
+    auiCodeBlocksDockArt = auiCodeBlocksManager->GetArtProvider();
+    if (!auiCodeBlocksDockArt) return;
+
+    //recover wxAuiDockArt from this panel
+    if (!m_AUIXPMEditor) return;
+    auiXPMEditorDockArt = m_AUIXPMEditor->GetArtProvider();
+    if (!auiXPMEditorDockArt) return;
+
+    //copy the colours
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_ACTIVE_CAPTION_COLOUR,              cfg->ReadColour(_T("/environment/aui/active_caption_colour"), auiXPMEditorDockArt->GetColour(wxAUI_DOCKART_ACTIVE_CAPTION_COLOUR)));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_ACTIVE_CAPTION_GRADIENT_COLOUR,     cfg->ReadColour(_T("/environment/aui/active_caption_gradient_colour"), auiXPMEditorDockArt->GetColour(wxAUI_DOCKART_ACTIVE_CAPTION_GRADIENT_COLOUR)));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_ACTIVE_CAPTION_TEXT_COLOUR,         cfg->ReadColour(_T("/environment/aui/active_caption_text_colour"), auiXPMEditorDockArt->GetColour(wxAUI_DOCKART_ACTIVE_CAPTION_TEXT_COLOUR)));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR,            cfg->ReadColour(_T("/environment/aui/inactive_caption_colour"), auiXPMEditorDockArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR)));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_GRADIENT_COLOUR,   cfg->ReadColour(_T("/environment/aui/inactive_caption_gradient_colour"), auiXPMEditorDockArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_GRADIENT_COLOUR)));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR,       cfg->ReadColour(_T("/environment/aui/inactive_caption_text_colour"), auiXPMEditorDockArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR)));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_BACKGROUND_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_BACKGROUND_COLOUR));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_SASH_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_SASH_COLOUR));
+    //auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_ACTIVE_CAPTION_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_ACTIVE_CAPTION_COLOUR));
+    //auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_ACTIVE_CAPTION_GRADIENT_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_ACTIVE_CAPTION_GRADIENT_COLOUR));
+    //auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_GRADIENT_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_GRADIENT_COLOUR));
+    //auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_ACTIVE_CAPTION_TEXT_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_ACTIVE_CAPTION_TEXT_COLOUR));
+    //auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR));
+    //auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_BORDER_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_BORDER_COLOUR));
+    auiXPMEditorDockArt->SetColour(wxAUI_DOCKART_GRIPPER_COLOUR, auiCodeBlocksDockArt->GetColour(wxAUI_DOCKART_GRIPPER_COLOUR));
+
+    //copy the font
+    auiXPMEditorDockArt->SetFont(wxAUI_DOCKART_CAPTION_FONT, auiCodeBlocksDockArt->GetFont(wxAUI_DOCKART_CAPTION_FONT));
+    auiXPMEditorDockArt->SetFont(wxAUI_DOCKART_GRADIENT_TYPE, auiCodeBlocksDockArt->GetFont(wxAUI_DOCKART_GRADIENT_TYPE));
+
+    //copy the metrics
+    auiXPMEditorDockArt->SetMetric(wxAUI_DOCKART_PANE_BORDER_SIZE,   cfg->ReadInt(_T("/environment/aui/border_size"), auiXPMEditorDockArt->GetMetric(wxAUI_DOCKART_PANE_BORDER_SIZE)));
+    auiXPMEditorDockArt->SetMetric(wxAUI_DOCKART_SASH_SIZE,          cfg->ReadInt(_T("/environment/aui/sash_size"), auiXPMEditorDockArt->GetMetric(wxAUI_DOCKART_SASH_SIZE)));
+    auiXPMEditorDockArt->SetMetric(wxAUI_DOCKART_CAPTION_SIZE,       cfg->ReadInt(_T("/environment/aui/caption_size"), auiXPMEditorDockArt->GetMetric(wxAUI_DOCKART_CAPTION_SIZE)));
+    //auiXPMEditorDockArt->SetMetric(wxAUI_DOCKART_SASH_SIZE, auiCodeBlocksDockArt->GetMetric(wxAUI_DOCKART_SASH_SIZE));
+    //auiXPMEditorDockArt->SetMetric(wxAUI_DOCKART_CAPTION_SIZE, auiCodeBlocksDockArt->GetMetric(wxAUI_DOCKART_CAPTION_SIZE));
+    auiXPMEditorDockArt->SetMetric(wxAUI_DOCKART_GRIPPER_SIZE, auiCodeBlocksDockArt->GetMetric(wxAUI_DOCKART_GRIPPER_SIZE));
+    //auiXPMEditorDockArt->SetMetric(wxAUI_DOCKART_PANE_BORDER_SIZE, auiCodeBlocksDockArt->GetMetric(wxAUI_DOCKART_PANE_BORDER_SIZE));
+    auiXPMEditorDockArt->SetMetric(wxAUI_DOCKART_PANE_BUTTON_SIZE, auiCodeBlocksDockArt->GetMetric(wxAUI_DOCKART_PANE_BUTTON_SIZE));
+
+    //apply the colours & metrics
+    m_AUIXPMEditor->Update();
 }
 
 /** Destructor
@@ -627,7 +441,7 @@ XPMEditorPanel::~XPMEditorPanel()
 //--------------------- MODIFICATION FLAGS METHODS  -----------------------
 
 /** Update the modification flag
-  * @param bModified : the modification flag
+  * \param bModified : the modification flag
   */
 void XPMEditorPanel::SetModified(bool bModified)
 {
@@ -637,7 +451,7 @@ void XPMEditorPanel::SetModified(bool bModified)
 }
 
 /** Get the modification flag
-  * @return : the modification flag
+  * \return : the modification flag
   */
 bool XPMEditorPanel::GetModified(void)
 {
@@ -651,7 +465,7 @@ bool XPMEditorPanel::GetModified(void)
 
 /** Return the scaled internal bitmap.
   * The returned pointer to the wxBitmap is NOT a copy: do NOT delete it.
-  * @return a pointer to the wxBitmap used internally by the editor
+  * \return a pointer to the wxBitmap used internally by the editor
   *         this wxBitmap is used for scaling and all draw modification.
   *         It is converted as an image before saving, or before any manipulation requiring a wxImage
   *         Both a wxBitmap and wxImage are stored because it is the only way to work around a wxWidgets bug:
@@ -780,9 +594,9 @@ void XPMEditorPanel::CutSelection(void)
   * no border checks are performed.
   * if the selection is beyond the image boundaries (may happen when pasting a bigger image from clipboard,
   * or when moving the selection), then the selection image beyond the boundaries is hidden.
-  * @param dx : the increment by which the selection must be moved horizontally.
+  * \param dx : the increment by which the selection must be moved horizontally.
                 Positive value moves the selection to the right
-  * @param dy : the increment by which the selection must be moved vertically.
+  * \param dy : the increment by which the selection must be moved vertically.
                 Positive value moves the selection to the bottom
   */
 void XPMEditorPanel::MoveSelection(int dx, int dy)
@@ -807,7 +621,7 @@ void XPMEditorPanel::MoveSelection(int dx, int dy)
 
 /** Return the current associated image
   * All changes buffered are flushed first
-  * @return the wxImage stored.
+  * \return the wxImage stored.
   *         This is a copy of the wxImage
   */
 wxImage XPMEditorPanel::GetImage(void)
@@ -831,7 +645,7 @@ wxImage XPMEditorPanel::GetImage(void)
 /** Set the image to be edited
   * the previous one is discarded and deleted
   * Scale factor is kept.
-  * @param : a pointer to the new wxImage.
+  * \param : a pointer to the new wxImage.
   *          a copy is created by the method. It is therefore safe to delete it afterwards.
   *          if NULL, a blank wxImage with default size will be created
   */
@@ -906,7 +720,7 @@ void XPMEditorPanel::UpdateBitmap(void)
 }
 
 /** Set the unscaled internal bitmap.
-  * @param bm: a pointer to the wxBitmap to be used internally by the editor
+  * \param bm: a pointer to the wxBitmap to be used internally by the editor
   *         this wxBitmap is used for scaling and all draw modification.
   *         The method will create a copy of the wxBitmap passed in parameter
   *         It is therefore safe to delete it afterwards
@@ -994,7 +808,7 @@ void XPMEditorPanel::UpdateImage(void)
 }
 
 /** return a pointer to the wxScrolledWindow on which the Bitmap is drawn.
-    @return a pointer to the wxScrolledWindow on which the Bitmap is drawn on success, NULL otherwise
+    \return a pointer to the wxScrolledWindow on which the Bitmap is drawn on success, NULL otherwise
   */
 wxScrolledWindow* XPMEditorPanel::GetDrawCanvas(void)
 {
@@ -1029,6 +843,7 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
 {
     //wxPaintDC dc(DrawCanvas);
     wxBufferedPaintDC dc(DrawCanvas);
+
     int iMax, jMax;
 
     if (DrawCanvas) DrawCanvas->PrepareDC(dc);
@@ -1259,7 +1074,7 @@ void XPMEditorPanel::OnImageSizeChanged(wxSpinEvent& event)
 
 /** Return the current applied scaling factor (== zoom factor)
   * a factor of 1 indicate no zooming (100%)
-  * @return the scale factor (double)
+  * \return the scale factor (double)
   */
 double XPMEditorPanel::GetScaleFactor(void)
 {
@@ -1269,7 +1084,7 @@ double XPMEditorPanel::GetScaleFactor(void)
 
 /** Set the new  scaling factor (== zoom factor)
   * a factor of 1 indicate no zooming (100%)
-  * @param dNewScalingFactor : the new scale factor (double)
+  * \param dNewScalingFactor : the new scale factor (double)
   */
 void XPMEditorPanel::SetScaleFactor(double dNewScalingFactor)
 {
@@ -1297,7 +1112,7 @@ void XPMEditorPanel::SetScaleFactor(double dNewScalingFactor)
 }
 
 /** Return the size of the current draw area (== the size of the bitmap), in pixel
-  * @return the current draw area, in pixel
+  * \return the current draw area, in pixel
   */
 wxSize XPMEditorPanel::GetDrawAreaSize(void)
 {
@@ -1306,7 +1121,7 @@ wxSize XPMEditorPanel::GetDrawAreaSize(void)
 }
 
 /** Set the size of the draw area (== the size of the bitmap), in pixel
-  * @param sNewDrawAreaSize the new draw area, in pixel
+  * \param sNewDrawAreaSize the new draw area, in pixel
   */
 void XPMEditorPanel::SetDrawAreaSize(wxSize sNewDrawAreaSize)
 {
@@ -1389,7 +1204,7 @@ void XPMEditorPanel::DoSetScrollBars(void)
 }
 
 /**Show or hide the grid
-  *@param bShow: true if the grid should be displayed, false otherwise
+  *\param bShow: true if the grid should be displayed, false otherwise
   */
 void XPMEditorPanel::ShowGrid(bool bShow)
 {
@@ -1529,30 +1344,9 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
             bCanResizeX = false;
             bCanResizeY = true;
         }
-        else if ((x >= 0) && (y >= 0))
-        {
-            bCanResizeX = false;
-            bCanResizeY = false;
-            int iResult, xxx, yyy;
-            event.GetPosition(&xxx, &yyy);
-            iResult = IsPointInSelection(xxx, yyy);
-            switch(iResult)
-            {
-                case 1 : SetCursor(wxCURSOR_HAND  ); break;
-                case 2 : SetCursor(wxCURSOR_SIZENS); break;
-                case 3 : SetCursor(wxCURSOR_SIZEWE); break;
-                case 4 : SetCursor(wxCURSOR_SIZENS); break;
-                case 5 : SetCursor(wxCURSOR_SIZEWE); break;
-                case 6 : SetCursor(wxCURSOR_SIZENWSE); break;
-                case 7 : SetCursor(wxCURSOR_SIZENESW); break;
-                case 8 : SetCursor(wxCURSOR_SIZENESW); break;
-                case 9 : SetCursor(wxCURSOR_SIZENWSE); break;
-                default: SetToolCursor();
-                         break;
-            }
-        }
         else
         {
+            //else if ((x >= 0) && (y >= 0))
             bCanResizeX = false;
             bCanResizeY = false;
             int iResult, xxx, yyy;
@@ -1681,13 +1475,13 @@ void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
 
 
 /** draw the tool action: select box for Selection tool, rectangle for rectangle tool, ...
-  * @param iTool: the index of the tool used
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param iTool: the index of the tool used
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                                          bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -1770,12 +1564,12 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
 }
 
 /** Process the Pipette tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessPipette(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -1808,12 +1602,12 @@ void XPMEditorPanel::ProcessPipette(int x, int y,
 }
 
 /** Process the HotSpot tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessHotSpot(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -1837,12 +1631,12 @@ void XPMEditorPanel::ProcessHotSpot(int x, int y,
 }
 
 /** Process the Fill tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessFill(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -1880,12 +1674,12 @@ void XPMEditorPanel::ProcessFill(int x, int y,
 }
 
 /** Process the Pen tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessPen(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -1947,12 +1741,12 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 
 /** Process the Text tool in action
   * a text control will be shown - this text control can be resized
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessText(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2006,19 +1800,19 @@ void XPMEditorPanel::ProcessText(int x, int y,
             AddUndo();
             SetModified(true);
             ToggleButtons(-1, false);
-            HideControlsAndDoLayout(-1, false);
+            if (ToolPanel)  ToolPanel->HideControlsAndDoLayout(-1, false);
             Repaint();
         }
     }
 }
 
 /** Process the Selection tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessSelect(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2087,12 +1881,12 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
 }
 
 /** Process the Drag & Drop tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessDragAction(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2195,13 +1989,13 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
 }
 
 /** Process the stretch selection tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
-  * @param iDirection: the direction of the stretch
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
+  * \param iDirection: the direction of the stretch
   *            2: top; 3 : left; 4: bottom; 5 : right;
   *            6:top left;      7: top right;
   *            8: bottom left;  9 bottom right
@@ -2267,12 +2061,12 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
 }
 
 /** Process the Lasso (complex selection) tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessLasso(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2355,12 +2149,12 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
 }
 
 /** Process the Brush tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessBrush(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2385,7 +2179,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 
             int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
-            iSize = tdata.iSize;
+            iSize = tdata.iSize2;
 
             switch (tdata.iStyle)
             {
@@ -2398,7 +2192,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
                         {
                             mem_dc.DrawPoint(xx - iSize / 2 + i, yy + iSize / 2 - i);
                         }
-                        //mem_dc.DrawLine(xx - tdata.iSize /2.828 ,yy + tdata.iSize / 2.828, xx + tdata.iSize / 2.828, yy - tdata.iSize / 2.828);
+                        //mem_dc.DrawLine(xx - tdata.iSize2 /2.828 ,yy + tdata.iSize2 / 2.828, xx + tdata.iSize2 / 2.828, yy - tdata.iSize2 / 2.828);
                         break;
 
                 case XPM_BRUSH_STYLE_RIGHTHAIR:
@@ -2406,7 +2200,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
                         {
                             mem_dc.DrawPoint(xx - iSize / 2 + i, yy - iSize / 2 + i);
                         }
-                        //mem_dc.DrawLine(xx - tdata.iSize / 2.828, yy - tdata.iSize /2.828, xx + tdata.iSize /2.828, yy + tdata.iSize / 2.828);
+                        //mem_dc.DrawLine(xx - tdata.iSize2 / 2.828, yy - tdata.iSize2 /2.828, xx + tdata.iSize2 /2.828, yy + tdata.iSize2 / 2.828);
                         break;
 
                 case XPM_BRUSH_STYLE_SQUARE   :
@@ -2438,7 +2232,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 
             int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
-            iSize = tdata.iSize;
+            iSize = tdata.iSize2;
 
             switch (tdata.iStyle)
             {
@@ -2451,7 +2245,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
                     {
                             mem_dc.DrawPoint(xx - iSize / 2 + i, yy + iSize / 2 - i);
                     }
-                    //mem_dc.DrawLine(xx - tdata.iSize /2.828,yy + tdata.iSize / 2.828, xx + tdata.iSize / 2.828, yy - tdata.iSize / 2.828);
+                    //mem_dc.DrawLine(xx - tdata.iSize2 /2.828,yy + tdata.iSize2 / 2.828, xx + tdata.iSize2 / 2.828, yy - tdata.iSize2 / 2.828);
                     break;
 
                 case XPM_BRUSH_STYLE_RIGHTHAIR:
@@ -2459,7 +2253,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
                     {
                             mem_dc.DrawPoint(xx - iSize / 2 + i, yy - iSize / 2 + i);
                     }
-                    //mem_dc.DrawLine(xx - tdata.iSize / 2.828, yy - tdata.iSize / 2.828, xx + tdata.iSize / 2.828, yy + tdata.iSize / 2.828);
+                    //mem_dc.DrawLine(xx - tdata.iSize2 / 2.828, yy - tdata.iSize2 / 2.828, xx + tdata.iSize2 / 2.828, yy + tdata.iSize2 / 2.828);
                     break;
 
                 case XPM_BRUSH_STYLE_SQUARE   :
@@ -2484,12 +2278,12 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 }
 
 /** Process the Eraser tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessEraser(int x, int y,
                                       bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2514,10 +2308,10 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
 
             int xx, yy;
             xx = x / dScale; yy = y / dScale;
-            mem_dc.DrawRectangle(xx - tdata.iSize / 2,
-                                 yy - tdata.iSize / 2,
-                                 tdata.iSize,
-                                 tdata.iSize);
+            mem_dc.DrawRectangle(xx - tdata.iSize2 / 2,
+                                 yy - tdata.iSize2 / 2,
+                                 tdata.iSize2,
+                                 tdata.iSize2);
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
@@ -2540,10 +2334,10 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             int xx, yy;
             xx = x / dScale; yy = y / dScale;
 
-            mem_dc.DrawRectangle(xx - tdata.iSize / 2,
-                                 yy - tdata.iSize / 2,
-                                 tdata.iSize,
-                                 tdata.iSize);
+            mem_dc.DrawRectangle(xx - tdata.iSize2 / 2,
+                                 yy - tdata.iSize2 / 2,
+                                 tdata.iSize2,
+                                 tdata.iSize2);
             mem_dc.SelectObject(wxNullBitmap);
         }
         UpdateImage();
@@ -2557,12 +2351,12 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
 }
 
 /** Process the Polygon tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessPolygon(int x, int y,
                                       bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2667,12 +2461,12 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
 }
 
 /** Process the Rectangle tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessRectangle(int x, int y,
                                       bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2767,12 +2561,12 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
 }
 
 /** Process the Line tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessLine(int x, int y,
                                 bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2872,12 +2666,12 @@ void XPMEditorPanel::ProcessLine(int x, int y,
 }
 
 /** Process the Curve tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessCurve(int x, int y,
                                 bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -2987,12 +2781,12 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
 }
 
 /** Process the RoundedRectangle tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
                                       bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -3089,12 +2883,12 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
 }
 
 /** Process the Ellipse tool in action
-  * @param x: the new mouse X position - Scaled coordinates - clipped to bitmap
-  * @param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
-  * @param bLeftDown: true if a mouse left button DOWN event has been triggered
-  * @param bLeftUp: true if a mouse left button UP event has been triggered
-  * @param bPressed: true if the left mouse button is currently pressed
-  * @param bDClick: true if the a double-click event occured
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
   */
 void XPMEditorPanel::ProcessEllipse(int x, int y,
                                     bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
@@ -3200,121 +2994,55 @@ void XPMEditorPanel::InitToolData(void)
     {
         if (DrawCanvas->HasCapture()) DrawCanvas->ReleaseMouse();
     }
-    tdata.x1 = -1;
-    tdata.y1 = -1;
-    tdata.x2 = -1;
-    tdata.y2 = -1;
-    tdata.iNbClicks = 0;
-    tdata.iNbPoints = 0;
-    if (DrawCanvas) tdata.font = DrawCanvas->GetFont(); else tdata.font = GetFont();
-    tdata.sText = _("");
+    if (ToolPanel) ToolPanel->InitToolData();
+}
 
-    int i;
-    for(i=0;i < XPM_MAXPOINTS; i++)
+/** Get the tool data (size of the cursor, radius when applicable, ...)
+  * \param t: pointer to the ToolData structure receiving the information
+  */
+void XPMEditorPanel::GetToolData(ToolData *t)
+{
+    //get the tool data
+    if (t)
     {
-        tdata.pts[i].x = -1;
-        tdata.pts[i].y = -1;
+        memcpy(t, &tdata, sizeof(ToolData));
     }
+}
 
-    switch(iToolUsed)
+/** Set the tool data (size of the cursor, radius when applicable, ...)
+  * \param t: pointer to the ToolData structure containing the information
+  */
+void XPMEditorPanel::SetToolData(ToolData *t)
+{
+    //set the tool data
+    if (t)
     {
-        case XPM_ID_ERASER_TOOL:
-        case XPM_ID_BRUSH_TOOL : tdata.iSize = SpinCtrl1->GetValue();
-                                 if (tdata.iSize < 2) tdata.iSize = 2;
-                                 break;
-
-        case XPM_ID_LINE_TOOL:
-        case XPM_ID_CURVE_TOOL:
-        case XPM_ID_RECTANGLE_TOOL:
-        case XPM_ID_POLYGON_TOOL:
-        case XPM_ID_ELLIPSE_TOOL: tdata.iSize = SpinCtrl2->GetValue();
-                                  if (tdata.iSize < 1) tdata.iSize = 1;
-                                  break;
-
-        case XPM_ID_ROUNDEDRECT_TOOL: tdata.iSize = SpinCtrl2->GetValue();
-                                      if (tdata.iSize < 1) tdata.iSize = 1;
-
-                                      tdata.iRadius = SpinCtrl3->GetValue();
-                                      if (tdata.iRadius < 0) tdata.iRadius = 0;
-                                      break;
-
-        case XPM_ID_TEXT_TOOL: if (BackgroundButton->GetValue())
-                               {
-                                   tdata.iStyle = wxTRANSPARENT;
-                               }
-                               else
-                               {
-                                   tdata.iStyle = wxSOLID;
-                               }
-                               if (TopLeft->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_LEFT;
-                                   tdata.iVertAlign = wxALIGN_TOP;
-                               }
-                               if (TopCenter->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_CENTER;
-                                   tdata.iVertAlign = wxALIGN_TOP;
-                               }
-                               if (TopRight->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_RIGHT;
-                                   tdata.iVertAlign = wxALIGN_TOP;
-                               }
-                               if (CenterLeft->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_LEFT;
-                                   tdata.iVertAlign = wxALIGN_CENTER;
-                               }
-                               if (CenterCenter->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_CENTER;
-                                   tdata.iVertAlign = wxALIGN_CENTER;
-                               }
-                               if (CenterRight->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_RIGHT;
-                                   tdata.iVertAlign = wxALIGN_CENTER;
-                               }
-                               if (BottomLeft->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_LEFT;
-                                   tdata.iVertAlign = wxALIGN_BOTTOM;
-                               }
-                               if (BottomCenter->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_CENTER;
-                                   tdata.iVertAlign = wxALIGN_BOTTOM;
-                               }
-                               if (BottomRight->GetValue())
-                               {
-                                   tdata.iHorizAlign = wxALIGN_RIGHT;
-                                   tdata.iVertAlign = wxALIGN_BOTTOM;
-                               }
-
-                               tdata.angle = SpinCtrl4->GetValue();
-                               break;
-
-        default: break;
+        memcpy(&tdata, t, sizeof(ToolData));
     }
-
 }
 
 /** Return the ID of the tool currently in use
-  * @param the tool ID, -1 if no tool are currently selected
+  * \param the tool ID, -1 if no tool are currently selected
   */
 int XPMEditorPanel::GetToolID(void)
 {
-    return(iToolUsed);
+    if (ToolPanel)
+    {
+        return(ToolPanel->GetToolID());
+    }
+    return(-1);
 }
 
 /** Set the ID of the tool currently in use
   * Do not modify the state of the buttons
-  * @param the tool ID, -1 if no tool are currently selected
+  * \param the tool ID, -1 if no tool are currently selected
   */
 void XPMEditorPanel::SetToolID(int iTool)
 {
-    iToolUsed = iTool;
+    if (ToolPanel)
+    {
+        ToolPanel->SetToolID(iTool);
+    }
 }
 
 /** Set the correct cursor, according to the currently selected tool & option
@@ -3322,127 +3050,30 @@ void XPMEditorPanel::SetToolID(int iTool)
 void XPMEditorPanel::SetToolCursor(void)
 {
     //Set the correct cursor, according to the currently selected tool & option
-    int iTool;
-    iTool = GetToolID();
-
-    if ((iTool < 0) || (iTool >= XPM_NUMBER_TOOLS))
+    if (ToolPanel)
     {
-        SetCursor(wxCURSOR_ARROW);
-    }
-    else if (iTool == XPM_ID_BRUSH_TOOL)
-    {
-        //create the correct cursor
-        //1 - create the bitmap
-        int iSize, iSizeMin;
-        double dScale2;
-        if (dScale < 1) dScale2 = 1; else dScale2 = dScale;
-        if (tdata.iSize < 2) tdata.iSize = 2;
-        iSize = tdata.iSize * dScale2;
-        if (tdata.iStyle == XPM_BRUSH_STYLE_SQUARE) iSize = iSize + 2 * dScale2;
-        if ((tdata.iStyle == XPM_BRUSH_STYLE_CIRCLE) && (tdata.iSize * dScale2 <= 4)) iSize = 5;
-        if (iSize < 8) iSizeMin = 8; else iSizeMin = iSize;
-        wxBitmap bm(iSizeMin, iSizeMin);
-
-        //2 - draw on the bitmap
-        wxMemoryDC mem_dc;
-        mem_dc.SelectObject(bm);
-        mem_dc.SetBrush(*wxRED_BRUSH);
-        mem_dc.SetPen(*wxRED_PEN);
-
-        switch (tdata.iStyle)
-        {
-            case XPM_BRUSH_STYLE_CIRCLE   :
-                mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
-                mem_dc.SetBrush(*wxBLACK_BRUSH);
-                mem_dc.SetPen(*wxWHITE_PEN);
-                mem_dc.DrawCircle(iSizeMin/2, iSizeMin/2, iSizeMin/2);
-                break;
-
-            case XPM_BRUSH_STYLE_LEFTHAIR :
-                mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
-                mem_dc.SetBrush(*wxBLACK_BRUSH);
-                mem_dc.SetPen(*wxBLACK_PEN);
-                mem_dc.DrawLine(0,iSizeMin-1, iSizeMin-1, 0);
-                break;
-
-            case XPM_BRUSH_STYLE_RIGHTHAIR:
-                mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
-                mem_dc.SetBrush(*wxBLACK_BRUSH);
-                mem_dc.SetPen(*wxBLACK_PEN);
-                mem_dc.DrawLine(0,0, iSizeMin-1, iSizeMin-1);
-                break;
-
-            case XPM_BRUSH_STYLE_SQUARE   :
-            default:
-                mem_dc.DrawRectangle(0,0,iSizeMin+2, iSizeMin+2);
-                mem_dc.SetBrush(*wxBLACK_BRUSH);
-                mem_dc.SetPen(*wxWHITE_PEN);
-                mem_dc.DrawRectangle(1,1,iSizeMin, iSizeMin);
-                break;
-        }
-        mem_dc.SetPen(*wxRED_PEN);
-        mem_dc.DrawPoint(iSizeMin / 2, iSizeMin / 2);
-        mem_dc.SelectObject(wxNullBitmap);
-
-        //3 - convert the wxBitmap to a wxImage, and set the HotSpot
-        wxImage img;
-        img = bm.ConvertToImage();
-        img.SetMaskColour(255,0,0);
-        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, iSizeMin / 2);
-        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, iSizeMin / 2);
-
-        //4 - create and set the cursor
-        wxCursor cursor(img);
-        SetCursor(cursor);
-    }
-    else if (iTool == XPM_ID_ERASER_TOOL)
-    {
-        //create the correct cursor
-        //1 - create the bitmap
-        int iSize, iSizeMin;
-        double dScale2;
-        if (tdata.iSize < 2) tdata.iSize = 2;
-        if (dScale < 1) dScale2 = 1; else dScale2 = dScale;
-        iSize = (tdata.iSize + 2) * dScale2;
-        if (iSize < 8) iSizeMin = 8; else iSizeMin = iSize;
-        wxBitmap bm(iSizeMin, iSizeMin);
-
-
-        //2 - draw on the bitmap
-        wxMemoryDC mem_dc;
-        mem_dc.SelectObject(bm);
-        mem_dc.SetBrush(*wxRED_BRUSH);
-        mem_dc.SetPen(*wxRED_PEN);
-
-        mem_dc.DrawRectangle(0,0,iSizeMin, iSizeMin);
-        mem_dc.SetBrush(*wxBLACK_BRUSH);
-        mem_dc.SetPen(*wxWHITE_PEN);
-        mem_dc.DrawRectangle(1,1,iSizeMin-2, iSizeMin-2);
-        mem_dc.SetPen(*wxRED_PEN);
-        mem_dc.DrawPoint(iSizeMin / 2, iSizeMin / 2);
-        mem_dc.SelectObject(wxNullBitmap);
-
-        //3 - convert the wxBitmap to a wxImage, and set the HotSpot
-        wxImage img;
-        img = bm.ConvertToImage();
-        img.SetMaskColour(255,0,0);
-        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, iSizeMin / 2);
-        img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, iSizeMin / 2);
-
-        //4 - create and set the cursor
-        wxCursor cursor(img);
-        SetCursor(cursor);
-    }
-    else
-    {
-        SetCursor(ToolCursor[iTool]);
+        ToolPanel->SetToolCursor();
     }
 }
 
+/** Set the cursor for the DrawCanvas
+  * \param cursor: the cursor to be set
+  */
+void XPMEditorPanel::SetToolCursor(const wxCursor &cursor)
+{
+    //Set the correct cursor, according to the currently selected tool & option
+    if (DrawCanvas)
+    {
+        DrawCanvas->SetCursor(cursor);
+    }
+}
+
+
+
 /** Return if the cursor is hovering over the selection
-  * @param x : x position of the mouse cursor, relative to DrawCanvas. Unscrolled, scaled
-  * @param y : y position of the mouse cursor, relative to DrawCanvas. Unscrolled, scaled
-  * @return  1 if the cursor is hovering over the selection
+  * \param x : x position of the mouse cursor, relative to DrawCanvas. Unscrolled, scaled
+  * \param y : y position of the mouse cursor, relative to DrawCanvas. Unscrolled, scaled
+  * \return  1 if the cursor is hovering over the selection
   *          2 if the cursor is hovering over the EDGE of the selection - above
   *          3 if the cursor is hovering over the EDGE of the selection - right
   *          4 if the cursor is hovering over the EDGE of the selection - under
@@ -3674,7 +3305,7 @@ void XPMEditorPanel::OnDrawCanvasMouseLeave(wxMouseEvent& event)
 //------ SELECTION METHODS --------------------------------------
 
 /** Get the smallest bounding rectangle encompassing the selection
-  * @param r the rectangle (wxRect) containing the result
+  * \param r the rectangle (wxRect) containing the result
   */
 void XPMEditorPanel::GetBoundingRect(wxRect *r)
 {
@@ -3741,8 +3372,8 @@ void XPMEditorPanel::ConvertSelectionToRect(void)
   * if the new image is smaller than the rectangle, then the new image is pasted as (0,0) on the selection,
   * and the remaining space is filled with the mask (transparent) colour
   * if the new image is bigger than the rectangle, then it is resized first to fit to the rectangle
-  * @param newImage: the new image which will replace the rectangle
-  * @param rRect: a wxRect representing the rectangle to be replaced
+  * \param newImage: the new image which will replace the rectangle
+  * \param rRect: a wxRect representing the rectangle to be replaced
   *           the rectangle will be modified to fit in the image, if necessary
   */
 void XPMEditorPanel::ReplaceRect(const wxImage &newImage, wxRect rRect)
@@ -3777,9 +3408,9 @@ void XPMEditorPanel::ReplaceRect(const wxImage &newImage, wxRect rRect)
 /** Paste a new image in the image, at the specified position
   * if the new image is bigger than the buffer image, then the new image is cropped.
   * if the paste position is outside the buffer image, nothing is done
-  * @param newImage: the new image which will replace the rectangle
-  * @param x : the X coordinate where the paste will occur
-  * @param y : the Y coordinate where the paste will occur
+  * \param newImage: the new image which will replace the rectangle
+  * \param x : the X coordinate where the paste will occur
+  * \param y : the Y coordinate where the paste will occur
   */
 void XPMEditorPanel::PasteImage(const wxImage &newImage, int x, int y)
 {
@@ -3808,7 +3439,7 @@ void XPMEditorPanel::PasteImage(const wxImage &newImage, int x, int y)
 }
 
 /** clear the current selection
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::ClearSelection(void)
 {
@@ -3827,7 +3458,7 @@ void XPMEditorPanel::ClearSelection(void)
 }
 
 /** Paste the content of the selection to the current selection coordinates
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::PasteSelection(void)
 {
@@ -3839,7 +3470,7 @@ void XPMEditorPanel::PasteSelection(void)
 
 
 /** Return true if there is some Selection, false otherwise
-  * @return true if something is selected, false otherwise
+  * \return true if something is selected, false otherwise
   */
 bool XPMEditorPanel::HasSelection(void) const
 {
@@ -3850,7 +3481,7 @@ bool XPMEditorPanel::HasSelection(void) const
 
 //---------- CLIPBOARD OPERATIONS -----------------
 /** perform a "cut" clipbopard operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::Cut(void)
 {
@@ -3875,7 +3506,7 @@ void XPMEditorPanel::Cut(void)
 }
 
 /** perform a "copy" clipbopard operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::Copy(void)
 {
@@ -3891,7 +3522,7 @@ void XPMEditorPanel::Copy(void)
 }
 
 /** perform a "paste" clipbopard operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::Paste(void)
 {
@@ -3975,7 +3606,7 @@ void XPMEditorPanel::Paste(void)
 //---------------- UNDO & REDO ---------------------------
 
 /** Return true if UNDO can be done, false otherwise
-  * @return true if UNDO can be done, false otherwise
+  * \return true if UNDO can be done, false otherwise
   */
 bool XPMEditorPanel::CanUndo(void) const
 {
@@ -3985,7 +3616,7 @@ bool XPMEditorPanel::CanUndo(void) const
 }
 
 /** Return true if UNDO can be done, false otherwise
-  * @return true if UNDO can be done, false otherwise
+  * \return true if UNDO can be done, false otherwise
   */
 bool XPMEditorPanel::CanRedo(void) const
 {
@@ -3995,7 +3626,7 @@ bool XPMEditorPanel::CanRedo(void) const
 }
 
 /** Clear the Undo Buffer
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::ClearUndoBuffer(void)
 {
@@ -4004,7 +3635,7 @@ void XPMEditorPanel::ClearUndoBuffer(void)
 }
 
 /** Clear the Redo Buffer
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::ClearRedoBuffer(void)
 {
@@ -4013,8 +3644,8 @@ void XPMEditorPanel::ClearRedoBuffer(void)
 }
 
 /** Add 1 Undo operation to the undo buffer
-  * @param bm a pointer to the bitmap to add to the Undo Buffer. A copy of this bitmap is done
-  * @return true on success, false otherwise
+  * \param bm a pointer to the bitmap to add to the Undo Buffer. A copy of this bitmap is done
+  * \return true on success, false otherwise
   */
 bool XPMEditorPanel::AddUndo(wxBitmap *bm)
 {
@@ -4030,8 +3661,8 @@ bool XPMEditorPanel::AddUndo(wxBitmap *bm)
 }
 
 /** Add 1 Undo operation to the undo buffer
-  * @param img: a pointer to the image to add to the Undo Buffer. A copy of this image is done
-  * @return true on success, false otherwise
+  * \param img: a pointer to the image to add to the Undo Buffer. A copy of this image is done
+  * \return true on success, false otherwise
   */
 bool XPMEditorPanel::AddUndo(wxImage *img)
 {
@@ -4047,7 +3678,7 @@ bool XPMEditorPanel::AddUndo(wxImage *img)
 }
 
 /** Add 1 Undo operation to the undo buffer
-  * @return true on success, false otherwise
+  * \return true on success, false otherwise
   */
 bool XPMEditorPanel::AddUndo(void)
 {
@@ -4064,7 +3695,7 @@ bool XPMEditorPanel::AddUndo(void)
 }
 
 /** Add 1 Undo operation to the redo buffer
-  * @return true on success, false otherwise
+  * \return true on success, false otherwise
   */
 bool XPMEditorPanel::AddRedo(void)
 {
@@ -4081,8 +3712,8 @@ bool XPMEditorPanel::AddRedo(void)
 }
 
 /** Add 1 Redo operation to the redo buffer
-  * @param bm a pointer to the bitmap to add to the Redo Buffer. A copy of this bitmap is done
-  * @return true on success, false otherwise
+  * \param bm a pointer to the bitmap to add to the Redo Buffer. A copy of this bitmap is done
+  * \return true on success, false otherwise
   */
 bool XPMEditorPanel::AddRedo(wxBitmap *bm)
 {
@@ -4099,8 +3730,8 @@ bool XPMEditorPanel::AddRedo(wxBitmap *bm)
 }
 
 /** Add 1 Redo operation to the redo buffer
-  * @param bm a pointer to the image to add to the Redo Buffer. A copy of this image is done
-  * @return true on success, false otherwise
+  * \param bm a pointer to the image to add to the Redo Buffer. A copy of this image is done
+  * \return true on success, false otherwise
   */
 bool XPMEditorPanel::AddRedo(wxImage *img)
 {
@@ -4116,7 +3747,7 @@ bool XPMEditorPanel::AddRedo(wxImage *img)
 }
 
 /** Performs an Undo operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::Undo(void)
 {
@@ -4125,7 +3756,7 @@ void XPMEditorPanel::Undo(void)
 }
 
 /** Performs a Redo operation
-  * @return no return value
+  * \return no return value
   */
 void XPMEditorPanel::Redo(void)
 {
@@ -4167,356 +3798,27 @@ void XPMEditorPanel::OnTransparentColorChanged(wxCommandEvent& event)
 
 //---- HANDLERS FOR ALL THE DRAWING TOOLS  ----
 /** toggle all Tools Buttons OFF, except the iIndex one.
-  * @param iIndex: the button to keep ON.
+  * \param iIndex: the button to keep ON.
   *                if the button is OFF, it will stay OFF.
   *                if iIndex < 0, then ALL buttons are turned OFF
-  * @param bClearSelection: if true, the current selection will be cleared (default).
+  * \param bClearSelection: if true, the current selection will be cleared (default).
   */
 void XPMEditorPanel::ToggleButtons(int iIndex, bool bClearSelection)
 {
     //toggle all Tools Buttons OFF, except the iIndex one.
-    int i;
-
-    if ((bClearSelection) && (HasSelection()))
+    if (ToolPanel)
     {
-        ClearSelection();
-        Repaint();
+        ToolPanel->ToggleButtons(iIndex, bClearSelection);
     }
-
-    for(i = 0;i<XPM_NUMBER_TOOLS;i++)
-    {
-        if ((i != iIndex) &&  (tools[i]))
-        {
-            if (tools[i]->GetValue()) tools[i]->SetValue(false);
-        }
-    }
-    SetToolID(-1);
-    if ((iIndex >=0) && (iIndex < XPM_NUMBER_TOOLS))
-    {
-        if (tools[iIndex]->GetValue()) SetToolID(iIndex);
-    }
-    else
-    {
-        SetToolID(-1);
-    }
-    InitToolData();
 }
 
-/** Hide or Show specific tool controls - like style listbox for Brush tool...
-  * @param iIndex: the tool selected
-  * @param bChecked: if true, the tool is Activated
+/** hide or show some widgets
+  * \param bShow : if true, show the controls. If false, hide them
   */
-void XPMEditorPanel::HideControls(int iIndex, bool bChecked)
+void XPMEditorPanel::ShowCanvasWidgets(bool bShow)
 {
-    //hide other controls potentially shown
-    if ((iIndex == XPM_ID_BRUSH_TOOL) && (bChecked))
-    {
-        //show brush tools
-        SpinCtrl1->SetValue(2);
-
-        //show tool specific control
-        LHairBrushButton->Show(true);
-        RHairBrushButton->Show(true);
-        CircleBrushButton->Show(true);
-        SquareBrushButton->Show(true);
-        StaticText4->Show(true);
-        SpinCtrl1->Show(true);
-        StaticText5->Hide();
-        SpinCtrl2->Hide();
-        StaticText6->Hide();
-        SpinCtrl3->Hide();
-        FontButton->Hide();
-        BackgroundButton->Hide();
-        TextEdit->Hide();
-        ResizeCtrl1->Hide();
-        AlignmentPanel->Hide();
-        StaticText8->Hide();
-        SpinCtrl4->Hide();
-        HotSpotColourPicker->Hide();
-    }
-    else if ((iIndex == XPM_ID_ERASER_TOOL) && (bChecked))
-    {
-        //show brush tools
-        SpinCtrl1->SetValue(2);
-        tdata.iSize = 1;
-
-        //show tool specific control
-        StaticText5->Hide();
-        SpinCtrl2->Hide();
-        StaticText6->Hide();
-        SpinCtrl3->Hide();
-        StaticText4->Show(true);
-        SpinCtrl1->Show(true);
-        LHairBrushButton->Hide();
-        RHairBrushButton->Hide();
-        CircleBrushButton->Hide();
-        SquareBrushButton->Hide();
-        FontButton->Hide();
-        BackgroundButton->Hide();
-        TextEdit->Hide();
-        ResizeCtrl1->Hide();
-        AlignmentPanel->Hide();
-        StaticText8->Hide();
-        SpinCtrl4->Hide();
-        HotSpotColourPicker->Hide();
-    }
-    else if (    ((iIndex == XPM_ID_LINE_TOOL) && (bChecked))
-              || ((iIndex == XPM_ID_CURVE_TOOL) && (bChecked))
-              || ((iIndex == XPM_ID_RECTANGLE_TOOL) && (bChecked))
-              || ((iIndex == XPM_ID_ELLIPSE_TOOL) && (bChecked))
-              || ((iIndex == XPM_ID_POLYGON_TOOL) && (bChecked))
-            )
-    {
-        //show brush tools
-        SpinCtrl2->SetValue(1);
-        tdata.iSize = 1;
-
-        //show tool specific control
-        StaticText4->Hide();
-        SpinCtrl1->Hide();
-        StaticText5->Show(true);
-        SpinCtrl2->Show(true);
-        StaticText6->Hide();
-        SpinCtrl3->Hide();
-        LHairBrushButton->Hide();
-        RHairBrushButton->Hide();
-        CircleBrushButton->Hide();
-        SquareBrushButton->Hide();
-        FontButton->Hide();
-        BackgroundButton->Hide();
-        TextEdit->Hide();
-        ResizeCtrl1->Hide();
-        AlignmentPanel->Hide();
-        StaticText8->Hide();
-        SpinCtrl4->Hide();
-        HotSpotColourPicker->Hide();
-    }
-    else if ((iIndex == XPM_ID_ROUNDEDRECT_TOOL) && (bChecked))
-    {
-        //show brush tools
-        SpinCtrl2->SetValue(1);
-        SpinCtrl3->SetValue(2);
-        tdata.iSize = 1;
-        tdata.iRadius = 2;
-
-        //show tool specific control
-        StaticText4->Hide();
-        SpinCtrl1->Hide();
-        StaticText6->Show(true);
-        SpinCtrl3->Show(true);
-        StaticText5->Show(true);
-        SpinCtrl2->Show(true);
-        LHairBrushButton->Hide();
-        RHairBrushButton->Hide();
-        CircleBrushButton->Hide();
-        SquareBrushButton->Hide();
-        FontButton->Hide();
-        BackgroundButton->Hide();
-        TextEdit->Hide();
-        ResizeCtrl1->Hide();
-        AlignmentPanel->Hide();
-        StaticText8->Hide();
-        SpinCtrl4->Hide();
-        HotSpotColourPicker->Hide();
-    }
-    else if ((iIndex == XPM_ID_TEXT_TOOL) && (bChecked))
-    {
-        StaticText4->Hide();
-        SpinCtrl1->Hide();
-        StaticText5->Hide();
-        SpinCtrl2->Hide();
-        StaticText6->Hide();
-        SpinCtrl3->Hide();
-        LHairBrushButton->Hide();
-        RHairBrushButton->Hide();
-        CircleBrushButton->Hide();
-        SquareBrushButton->Hide();
-        HotSpotColourPicker->Hide();
-        FontButton->Show(true);
-        BackgroundButton->Show(true);
-        //hide for now - will show them later
-        TextEdit->Hide();
-        ResizeCtrl1->Hide();
-        AlignmentPanel->Show(true);
-        StaticText8->Show(true);
-        SpinCtrl4->Show(true);
-    }
-    else if ((iIndex == XPM_ID_HOTSPOT_TOOL) && (bChecked))
-    {
-        StaticText4->Hide();
-        SpinCtrl1->Hide();
-        StaticText5->Hide();
-        SpinCtrl2->Hide();
-        StaticText6->Hide();
-        SpinCtrl3->Hide();
-        LHairBrushButton->Hide();
-        RHairBrushButton->Hide();
-        CircleBrushButton->Hide();
-        SquareBrushButton->Hide();
-        FontButton->Hide();
-        BackgroundButton->Hide();
-        TextEdit->Hide();
-        ResizeCtrl1->Hide();
-        AlignmentPanel->Hide();
-        StaticText8->Hide();
-        SpinCtrl4->Hide();
-        HotSpotColourPicker->Show(true);
-    }
-    else
-    {
-        //hide all tools
-        StaticText4->Hide();
-        SpinCtrl1->Hide();
-        StaticText5->Hide();
-        SpinCtrl2->Hide();
-        StaticText6->Hide();
-        SpinCtrl3->Hide();
-        LHairBrushButton->Hide();
-        RHairBrushButton->Hide();
-        CircleBrushButton->Hide();
-        SquareBrushButton->Hide();
-        FontButton->Hide();
-        BackgroundButton->Hide();
-        TextEdit->Hide();
-        ResizeCtrl1->Hide();
-        AlignmentPanel->Hide();
-        StaticText8->Hide();
-        SpinCtrl4->Hide();
-        HotSpotColourPicker->Hide();
-    }
-}
-
-/** Hide or Show specific tool controls - like style listbox for Brush tool...
-  * In addition, the panel layout (positionning of the controls on the panel) will be updated
-  * @param iIndex: the tool selected
-  * @param bChecked: if true, the tool is Activated
-  */
-void XPMEditorPanel::HideControlsAndDoLayout(int iIndex, bool bChecked)
-{
-    //hide other controls potentially shown and redo the layout
-    HideControls(iIndex, bChecked);
-    ToolPanelSizer->Layout();
-    ToolPanelSizer->FitInside(ToolPanel);
-}
-
-void XPMEditorPanel::OnSelectButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_SELECT_TOOL); else ToggleButtons(-1);
-
-    //hide other controls potentially shown
-    HideControlsAndDoLayout(XPM_ID_SELECT_TOOL, event.IsChecked());
-}
-
-
-void XPMEditorPanel::OnLassoButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_LASSO_TOOL); else ToggleButtons(-1);
-
-    //hide other controls potentially shown
-    HideControlsAndDoLayout(XPM_ID_LASSO_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnBrushButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked())
-    {
-        ToggleButtons(XPM_ID_BRUSH_TOOL);
-        HideControlsAndDoLayout(XPM_ID_BRUSH_TOOL, true);
-    }
-    else
-    {
-        ToggleButtons(-1);
-        //hide other controls potentially shown
-        HideControlsAndDoLayout(XPM_ID_BRUSH_TOOL, false);
-    }
-
-}
-
-void XPMEditorPanel::OnLineButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_LINE_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_LINE_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnCurveButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_CURVE_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_CURVE_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnPenButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_PEN_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_PEN_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnEllipseButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_ELLIPSE_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_ELLIPSE_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnRectangleButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_RECTANGLE_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_RECTANGLE_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnRRectButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_ROUNDEDRECT_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_ROUNDEDRECT_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnPipetteButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_PIPETTE_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_PIPETTE_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnPolygonButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_POLYGON_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_POLYGON_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnFillButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_FILL_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_FILL_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnEraserButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_ERASER_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_ERASER_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnTextButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_TEXT_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_TEXT_TOOL, event.IsChecked());
-}
-
-void XPMEditorPanel::OnHotSpotButtonToggle(wxCommandEvent& event)
-{
-    //toggle all the other buttons
-    if (event.IsChecked()) ToggleButtons(XPM_ID_HOTSPOT_TOOL); else ToggleButtons(-1);
-    HideControlsAndDoLayout(XPM_ID_HOTSPOT_TOOL, event.IsChecked());
+    if (TextEdit) TextEdit->Show(bShow);
+    if (ResizeCtrl1) ResizeCtrl1->Show(bShow);
 }
 
 //------ CONFIGURATION ---------------
@@ -4585,70 +3887,6 @@ wxPoint* XPMEditorPanel::CheckMemorySelection(int iNeeded)
         pSelection = (wxPoint*) realloc(pSelection, NbPointsMax * sizeof(wxPoint));
     }
     return(pSelection);
-}
-
-
-/** Event handler for Spin Control: the new value will update the size of the drawing tool
-  */
-void XPMEditorPanel::OnSpinSizeChanged(wxSpinEvent& event)
-{
-    tdata.iSize = event.GetPosition();
-    SetToolCursor();
-}
-
-void XPMEditorPanel::OnSpinRadiusChanged(wxSpinEvent& event)
-{
-    tdata.iRadius = event.GetPosition();
-}
-
-
-void XPMEditorPanel::OnSquareBrushButtonToggle(wxCommandEvent& event)
-{
-
-    if (event.IsChecked())
-    {
-        tdata.iStyle = XPM_BRUSH_STYLE_SQUARE;
-        CircleBrushButton->SetValue(false);
-        LHairBrushButton->SetValue(false);
-        RHairBrushButton->SetValue(false);
-        //SetToolCursor();
-    }
-}
-
-void XPMEditorPanel::OnCircleBrushButtonToggle(wxCommandEvent& event)
-{
-    if (event.IsChecked())
-    {
-        tdata.iStyle = XPM_BRUSH_STYLE_CIRCLE;
-        SquareBrushButton->SetValue(false);
-        LHairBrushButton->SetValue(false);
-        RHairBrushButton->SetValue(false);
-        //SetToolCursor();
-    }
-}
-
-void XPMEditorPanel::OnLHairBrushButtonToggle(wxCommandEvent& event)
-{
-    if (event.IsChecked())
-    {
-        tdata.iStyle = XPM_BRUSH_STYLE_LEFTHAIR;
-        SquareBrushButton->SetValue(false);
-        CircleBrushButton->SetValue(false);
-        RHairBrushButton->SetValue(false);
-        //SetToolCursor();
-    }
-}
-
-void XPMEditorPanel::OnRHairBrushButtonToggle(wxCommandEvent& event)
-{
-    if (event.IsChecked())
-    {
-        tdata.iStyle = XPM_BRUSH_STYLE_RIGHTHAIR;
-        SquareBrushButton->SetValue(false);
-        CircleBrushButton->SetValue(false);
-        LHairBrushButton->SetValue(false);
-        //SetToolCursor();
-    }
 }
 
 /** Draw the text bitmap on the selection image
@@ -4725,12 +3963,12 @@ void XPMEditorPanel::DrawTextBitmap(void)
 
 /** Draw a text rectangle
   * code copied from wxGrid
-  * @param dc: the dc to draw on
-  * @param value: the string to draw
-  * @param rect: the bounding rectangle
-  * @param horizAlign: the horizontal alignment wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
-  * @param vertAlign : the vertical alignment wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
-  * @param double: the angle / orientation of the text (in degrees, not in radians)
+  * \param dc: the dc to draw on
+  * \param value: the string to draw
+  * \param rect: the bounding rectangle
+  * \param horizAlign: the horizontal alignment wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
+  * \param vertAlign : the vertical alignment wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
+  * \param double: the angle / orientation of the text (in degrees, not in radians)
   */
 void XPMEditorPanel::DrawTextRectangle( wxDC& dc,
                                 const wxString& value,
@@ -4749,12 +3987,12 @@ void XPMEditorPanel::DrawTextRectangle( wxDC& dc,
 
 /** Draw a text rectangle
   * code copied from wxGrid
-  * @param dc: the dc to draw on
-  * @param value: the string to draw
-  * @param rect: the bounding rectangle
-  * @param horizAlign: the horizontal alignment wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
-  * @param vertAlign : the vertical alignment wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
-  * @param double: the angle / orientation of the text (in degrees, not in radians)
+  * \param dc: the dc to draw on
+  * \param value: the string to draw
+  * \param rect: the bounding rectangle
+  * \param horizAlign: the horizontal alignment wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
+  * \param vertAlign : the vertical alignment wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
+  * \param double: the angle / orientation of the text (in degrees, not in radians)
   */
 void XPMEditorPanel::DrawTextRectangle(wxDC& dc,
                                const wxArrayString& lines,
@@ -4859,8 +4097,8 @@ void XPMEditorPanel::DrawTextRectangle(wxDC& dc,
 /** Split multi-line text up into an array of strings.
   * Any existing contents of the string array are preserved.
   * code copied from wxGrid
-  * @param value: the string to split
-  * @param lines: the wxArrayString which will receive the strings - 1 per line
+  * \param value: the string to split
+  * \param lines: the wxArrayString which will receive the strings - 1 per line
   */
 void XPMEditorPanel::StringToLines(const wxString& value, wxArrayString& lines)
 {
@@ -4917,11 +4155,8 @@ void XPMEditorPanel::GetTextBoxSize(const wxDC& dc,
 }
 
 
-/** Process a char event. Here, it is mainly used for the text tool
-  */
-
-
-/** Change the font used by the text tool
+/** The font for the text edition has been changed
+  * \param event: the wxCommandEvent associated with the event
   */
 void XPMEditorPanel::OnFontButtonClick(wxCommandEvent& event)
 {
@@ -4948,17 +4183,18 @@ void XPMEditorPanel::OnFontButtonClick(wxCommandEvent& event)
 }
 
 /** Change the background mode used by the text tool (opaque or transparent)
+  * \param event: the wxCommandEvent associated with the event
   */
 void XPMEditorPanel::OnBackgroundButtonToggle(wxCommandEvent& event)
 {
     if (event.IsChecked())
     {
-        BackgroundButton->SetLabel(_("TRANSPARENT"));
+        if (ToolPanel) ToolPanel->BackgroundButton->SetLabel(_("TRANSPARENT"));
         tdata.iStyle = wxTRANSPARENT;
     }
     else
     {
-        BackgroundButton->SetLabel(_("OPAQUE"));
+        if (ToolPanel) ToolPanel->BackgroundButton->SetLabel(_("OPAQUE"));
         tdata.iStyle = wxSOLID;
     }
     DrawTextBitmap();
@@ -4975,7 +4211,7 @@ void XPMEditorPanel::OnLineColorChanged(wxCommandEvent& event)
 
     if (bUsingTool)
     {
-        switch(iToolUsed)
+        switch(GetToolID())
         {
             case XPM_ID_TEXT_TOOL: DrawTextBitmap();
                                    Repaint();
@@ -4996,7 +4232,7 @@ void XPMEditorPanel::OnFillColorChanged(wxCommandEvent& event)
 
     if (bUsingTool)
     {
-        switch(iToolUsed)
+        switch(GetToolID())
         {
             case XPM_ID_TEXT_TOOL: DrawTextBitmap();
                                    Repaint();
@@ -5006,11 +4242,14 @@ void XPMEditorPanel::OnFillColorChanged(wxCommandEvent& event)
     }
 }
 
+/** Process char events in the text editor for the Text Tool
+  * \param event: the wxCommandEvent class instance associated with the event.
+  */
 void XPMEditorPanel::OnTextEditText(wxCommandEvent& event)
 {
     if (bUsingTool)
     {
-        switch(iToolUsed)
+        switch(GetToolID())
         {
             case XPM_ID_TEXT_TOOL: tdata.sText = wxString(TextEdit->GetValue());
                                    DrawTextBitmap();
@@ -5312,6 +4551,7 @@ void XPMEditorPanel::OnBlur(wxCommandEvent& event)
     }
 }
 
+/** Rotate the image or the selection **/
 void XPMEditorPanel::OnRotate(wxCommandEvent& event)
 {
     wxRotate rd(this);
@@ -5603,8 +4843,8 @@ void XPMEditorPanel::OnInvertImageClick(wxCommandEvent& event)
 }
 
 /** Invert the colours of an image
-  * @param img: the image to be inverted. The image is copied first - it is therefore not modified
-  * @return : a new image, with the colours inverted
+  * \param img: the image to be inverted. The image is copied first - it is therefore not modified
+  * \return : a new image, with the colours inverted
   */
 wxImage XPMEditorPanel::InvertImage(wxImage img)
 {
@@ -5625,6 +4865,7 @@ wxImage XPMEditorPanel::InvertImage(wxImage img)
     return(imgResult);
 }
 
+/** Colour Depth change handler **/
 void XPMEditorPanel::OnButtonColourDepthClick(wxCommandEvent& event)
 {
     wxConversion cd(this);
@@ -5751,29 +4992,31 @@ void XPMEditorPanel::OnBottomRightSelect(wxCommandEvent& event)
 }
 
 /** Spin Control for text alignment - force 90, 180, 270 or 0 **/
-void XPMEditorPanel::OnSpinCtrl4Change(wxSpinEvent& event)
+void XPMEditorPanel::OnSpinAngleChange(wxSpinEvent& event)
 {
     int iCurrentPos;
+    wxSpinCtrl *SpinAngle;
     iCurrentPos = event.GetPosition();
 
     //wxMessageBox(wxString::Format(_("iPos=%d iCurrentPos=%d"), iPos, iCurrentPos));
+    if (ToolPanel) SpinAngle = ToolPanel->SpinAngle; else SpinAngle = NULL;
 
-    if (iPos > iCurrentPos)
+    if ((iPos > iCurrentPos) && (SpinAngle))
     {
         //the user downgrades the value
 
-        if (iCurrentPos <= 90) SpinCtrl4->SetValue(0);
-        if ((iCurrentPos <= 180) && (iCurrentPos > 90)) SpinCtrl4->SetValue(90);
-        if ((iCurrentPos <= 270) && (iCurrentPos > 180)) SpinCtrl4->SetValue(180);
-        if ((iCurrentPos <= 360) && (iCurrentPos > 270)) SpinCtrl4->SetValue(270);
+        if (iCurrentPos <= 90) SpinAngle->SetValue(0);
+        if ((iCurrentPos <= 180) && (iCurrentPos > 90)) SpinAngle->SetValue(90);
+        if ((iCurrentPos <= 270) && (iCurrentPos > 180)) SpinAngle->SetValue(180);
+        if ((iCurrentPos <= 360) && (iCurrentPos > 270)) SpinAngle->SetValue(270);
     }
-    else
+    else if (SpinAngle)
     {
         //the user upgrades the value
-        if (iCurrentPos > 270) SpinCtrl4->SetValue(0);
-        if ((iCurrentPos > 180) && (iCurrentPos <= 270)) SpinCtrl4->SetValue(270);
-        if ((iCurrentPos > 90) && (iCurrentPos <= 180)) SpinCtrl4->SetValue(180);
-        if ((iCurrentPos > 0) && (iCurrentPos <= 90)) SpinCtrl4->SetValue(90);
+        if (iCurrentPos > 270) SpinAngle->SetValue(0);
+        if ((iCurrentPos > 180) && (iCurrentPos <= 270)) SpinAngle->SetValue(270);
+        if ((iCurrentPos > 90) && (iCurrentPos <= 180)) SpinAngle->SetValue(180);
+        if ((iCurrentPos > 0) && (iCurrentPos <= 90)) SpinAngle->SetValue(90);
     }
     iPos = iCurrentPos;
 

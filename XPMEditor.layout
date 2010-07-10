@@ -4,65 +4,110 @@
 	<File name="QuickHelpPanel.h" open="0" top="0" tabpos="0">
 		<Cursor position="217" topLine="0" />
 	</File>
-	<File name="XPMColorPicker.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="3270" topLine="0" />
+	<File name="XPMColorPicker.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="673" topLine="0" />
 	</File>
-	<File name="XPMColorPicker.h" open="0" top="0" tabpos="0">
-		<Cursor position="2787" topLine="0" />
+	<File name="XPMColorPicker.h" open="0" top="0" tabpos="3">
+		<Cursor position="918" topLine="11" />
 	</File>
 	<File name="XPMColourPickerPanel.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="2025" topLine="51" />
+		<Cursor position="1388" topLine="28" />
 	</File>
 	<File name="XPMColourPickerPanel.h" open="0" top="0" tabpos="0">
-		<Cursor position="2452" topLine="0" />
+		<Cursor position="567" topLine="3" />
 	</File>
 	<File name="XPMCustomZoom.cpp" open="0" top="0" tabpos="8">
 		<Cursor position="3897" topLine="0" />
 	</File>
-	<File name="XPMEditor.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1154" topLine="0" />
+	<File name="XPMDrawCanvasPanel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="947" topLine="18" />
 	</File>
-	<File name="XPMEditor.h" open="0" top="0" tabpos="0">
-		<Cursor position="829" topLine="0" />
+	<File name="XPMDrawCanvasPanel.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="7" />
+	</File>
+	<File name="XPMEditor.cpp" open="0" top="0" tabpos="12">
+		<Cursor position="20752" topLine="489" />
+	</File>
+	<File name="XPMEditor.h" open="0" top="0" tabpos="9">
+		<Cursor position="4796" topLine="89" />
 	</File>
 	<File name="XPMEditorBase.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="12482" topLine="0" />
+		<Cursor position="20805" topLine="656" />
 	</File>
 	<File name="XPMEditorBase.h" open="0" top="0" tabpos="2">
-		<Cursor position="5366" topLine="0" />
+		<Cursor position="1763" topLine="21" />
 	</File>
-	<File name="XPMEditorPanel.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="200532" topLine="5560" />
+	<File name="XPMEditorPanel.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="7303" topLine="127" />
 	</File>
-	<File name="XPMEditorPanel.h" open="1" top="0" tabpos="4">
-		<Cursor position="6692" topLine="106" />
+	<File name="XPMEditorPanel.h" open="0" top="0" tabpos="2">
+		<Cursor position="17665" topLine="272" />
+	</File>
+	<File name="XPMFoldPanel.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="4238" topLine="110" />
+	</File>
+	<File name="XPMFoldPanel.h" open="0" top="0" tabpos="4">
+		<Cursor position="1516" topLine="13" />
+	</File>
+	<File name="XPMHelpPanel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1824" topLine="30" />
+	</File>
+	<File name="XPMHelpPanel.h" open="0" top="0" tabpos="3">
+		<Cursor position="833" topLine="1" />
 	</File>
 	<File name="XPMImageManipulationPanel.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="4059" topLine="68" />
+		<Cursor position="4180" topLine="49" />
+	</File>
+	<File name="XPMImageManipulationPanel.h" open="0" top="0" tabpos="0">
+		<Cursor position="939" topLine="29" />
 	</File>
 	<File name="XPMImagePropertiesPanel.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="5176" topLine="84" />
+		<Cursor position="4459" topLine="64" />
 	</File>
 	<File name="XPMImagePropertiesPanel.h" open="0" top="0" tabpos="0">
-		<Cursor position="145" topLine="0" />
+		<Cursor position="1014" topLine="27" />
+	</File>
+	<File name="XPMInterfacePanel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="4555" topLine="73" />
 	</File>
 	<File name="XPMInterfacePanel.h" open="0" top="0" tabpos="0">
-		<Cursor position="667" topLine="0" />
+		<Cursor position="974" topLine="29" />
+	</File>
+	<File name="XPMToolPanel.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="20526" topLine="248" />
+	</File>
+	<File name="XPMToolPanel.h" open="0" top="0" tabpos="0">
+		<Cursor position="1788" topLine="18" />
 	</File>
 	<File name="XPMUndo.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="10384" topLine="0" />
+		<Cursor position="15337" topLine="462" />
 	</File>
 	<File name="XPMUndo.h" open="0" top="0" tabpos="4">
-		<Cursor position="709" topLine="0" />
+		<Cursor position="3436" topLine="44" />
+	</File>
+	<File name="foldpanelex\include\wx\foldpanelex\captionbar.h" open="0" top="0" tabpos="4">
+		<Cursor position="726" topLine="0" />
+	</File>
+	<File name="foldpanelex\include\wx\foldpanelex\captionbarex.h" open="0" top="0" tabpos="0">
+		<Cursor position="1026" topLine="34" />
+	</File>
+	<File name="foldpanelex\include\wx\foldpanelex\folditemex.h" open="0" top="0" tabpos="0">
+		<Cursor position="655" topLine="0" />
+	</File>
+	<File name="foldpanelex\include\wx\foldpanelex\foldpanelex.h" open="0" top="0" tabpos="0">
+		<Cursor position="612" topLine="0" />
+	</File>
+	<File name="foldpanelex\src\captionbar.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="899" topLine="17" />
 	</File>
 	<File name="manifest.xml" open="0" top="0" tabpos="4">
-		<Cursor position="243" topLine="0" />
+		<Cursor position="210" topLine="0" />
 	</File>
 	<File name="test.bmp" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="todo.txt" open="1" top="0" tabpos="1">
-		<Cursor position="2377" topLine="0" />
+	<File name="todo.txt" open="1" top="0" tabpos="2">
+		<Cursor position="621" topLine="18" />
 	</File>
 	<File name="wxBlur.h" open="0" top="0" tabpos="0">
 		<Cursor position="211" topLine="0" />
@@ -79,6 +124,9 @@
 	<File name="wxMirror.h" open="0" top="0" tabpos="0">
 		<Cursor position="214" topLine="0" />
 	</File>
+	<File name="wxResizeCtrl.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="4523" topLine="127" />
+	</File>
 	<File name="wxRotate.h" open="0" top="0" tabpos="0">
 		<Cursor position="132" topLine="0" />
 	</File>
@@ -88,11 +136,14 @@
 	<File name="wxStretchImage.h" open="0" top="0" tabpos="0">
 		<Cursor position="413" topLine="0" />
 	</File>
+	<File name="wxthings\include\wx\things\thingdef.h" open="0" top="0" tabpos="0">
+		<Cursor position="1713" topLine="18" />
+	</File>
 	<File name="wxthings\include\wx\things\toggle.h" open="0" top="0" tabpos="0">
-		<Cursor position="2867" topLine="61" />
+		<Cursor position="9520" topLine="229" />
 	</File>
 	<File name="wxthings\src\toggle.cpp" open="0" top="0" tabpos="7">
-		<Cursor position="1141" topLine="24" />
+		<Cursor position="1626" topLine="24" />
 	</File>
 	<File name="xpm\brush.xpm" open="0" top="0" tabpos="3">
 		<Cursor position="70" topLine="0" />

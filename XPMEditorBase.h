@@ -44,10 +44,10 @@ class XPMEditorBase: public EditorBase
 		XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *img,
                         wxString sFileName);            ///< \brief Constructor
 		~XPMEditorBase();                             ///< \brief Destructor
-        static bool IsImgEditor(EditorBase* editor);    ///< @brief Check if given editor is an image editor
-        static void CloseAllEditors(void);              ///< @brief Close all editors
-        void SetPanel(wxPanel *Panel);                  ///< @brief Set the panel to be used by the editor
-        wxPanel* GetPanel(void);                        ///< @brief Get the panel used by the editor
+        static bool IsImgEditor(EditorBase* editor);    ///< \brief Check if given editor is an image editor
+        static void CloseAllEditors(void);              ///< \brief Close all editors
+        void SetPanel(wxPanel *Panel);                  ///< \brief Set the panel to be used by the editor
+        wxPanel* GetPanel(void);                        ///< \brief Get the panel used by the editor
 
         //Save, Close, Readonly, is modified
         virtual bool GetModified(void) const;       ///< \brief Get the modification flag for the image

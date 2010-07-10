@@ -28,11 +28,13 @@
 					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
 					<Add option="-DWXMAKINGDLL_THINGS" />
+					<Add option="-DWXMAKINGDLL_FOLDPANELEX" />
 					<Add directory="$(#cb)\include" />
 					<Add directory="$(#cb)\sdk\wxscintilla\include" />
 					<Add directory="$(#wx.include)" />
 					<Add directory="$(#wx.lib)\gcc_dll\mswu" />
 					<Add directory="wxthings\include" />
+					<Add directory="foldpanelex\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
@@ -49,9 +51,6 @@
 				</ExtraCommands>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-DWXUSINGDLL" />
-		</Compiler>
 		<Unit filename="QuickHelpPanel.cpp" />
 		<Unit filename="QuickHelpPanel.h" />
 		<Unit filename="XPMColorPicker.cpp" />
@@ -60,20 +59,39 @@
 		<Unit filename="XPMColourPickerPanel.h" />
 		<Unit filename="XPMCustomZoom.cpp" />
 		<Unit filename="XPMCustomZoom.h" />
+		<Unit filename="XPMDrawCanvasPanel.cpp" />
+		<Unit filename="XPMDrawCanvasPanel.h" />
 		<Unit filename="XPMEditor.cpp" />
 		<Unit filename="XPMEditor.h" />
 		<Unit filename="XPMEditorBase.cpp" />
 		<Unit filename="XPMEditorBase.h" />
 		<Unit filename="XPMEditorPanel.cpp" />
 		<Unit filename="XPMEditorPanel.h" />
+		<Unit filename="XPMFoldPanel.cpp" />
+		<Unit filename="XPMFoldPanel.h" />
+		<Unit filename="XPMHelpPanel.cpp" />
+		<Unit filename="XPMHelpPanel.h" />
 		<Unit filename="XPMImageManipulationPanel.cpp" />
 		<Unit filename="XPMImageManipulationPanel.h" />
 		<Unit filename="XPMImagePropertiesPanel.cpp" />
 		<Unit filename="XPMImagePropertiesPanel.h" />
 		<Unit filename="XPMInterfacePanel.cpp" />
 		<Unit filename="XPMInterfacePanel.h" />
+		<Unit filename="XPMToolPanel.cpp" />
+		<Unit filename="XPMToolPanel.h" />
 		<Unit filename="XPMUndo.cpp" />
 		<Unit filename="XPMUndo.h" />
+		<Unit filename="foldpanelex\include\wx\foldpanelex\captionbar.h" />
+		<Unit filename="foldpanelex\include\wx\foldpanelex\captionbarex.h" />
+		<Unit filename="foldpanelex\include\wx\foldpanelex\folditemex.h" />
+		<Unit filename="foldpanelex\include\wx\foldpanelex\foldpanelex.h" />
+		<Unit filename="foldpanelex\src\captionbar.cpp" />
+		<Unit filename="foldpanelex\src\captionbarex.cpp" />
+		<Unit filename="foldpanelex\src\folditemex.cpp" />
+		<Unit filename="foldpanelex\src\foldpanelex.cpp" />
+		<Unit filename="foldpanelex\src\icon_collapsed.xpm" />
+		<Unit filename="foldpanelex\src\icon_expanded.xpm" />
+		<Unit filename="foldpanelex\src\icon_theresmore.xpm" />
 		<Unit filename="manifest.xml" />
 		<Unit filename="test.bmp" />
 		<Unit filename="todo.txt" />
@@ -143,6 +161,10 @@
 					<wxPanel wxs="wxsmith/XPMImagePropertiesPanel.wxs" src="XPMImagePropertiesPanel.cpp" hdr="XPMImagePropertiesPanel.h" name="XPMImagePropertiesPanel" language="CPP" />
 					<wxPanel wxs="wxsmith/XPMImageManipulationPanel.wxs" src="XPMImageManipulationPanel.cpp" hdr="XPMImageManipulationPanel.h" name="XPMImageManipulationPanel" language="CPP" />
 					<wxDialog wxs="wxsmith/wxInvertDialog.wxs" src="wxInvertDialog.cpp" hdr="wxInvertDialog.h" name="wxInvertDialog" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMToolPanel.wxs" src="XPMToolPanel.cpp" hdr="XPMToolPanel.h" name="XPMToolPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMFoldPanel.wxs" src="XPMFoldPanel.cpp" hdr="XPMFoldPanel.h" name="XPMFoldPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMHelpPanel.wxs" src="XPMHelpPanel.cpp" hdr="XPMHelpPanel.h" name="XPMHelpPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMDrawCanvasPanel.wxs" src="XPMDrawCanvasPanel.cpp" hdr="XPMDrawCanvasPanel.h" fwddecl="1" name="XPMDrawCanvasPanel" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

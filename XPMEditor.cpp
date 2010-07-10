@@ -53,12 +53,14 @@ XPMEditor::~XPMEditor()
 }
 
 /** Test if a file can be opened by the plugin
-  * @param filename : the path to the file to be tested
-  * @return true if the file can be opened by the plugin, false otherwise
+  * \param filename : the path to the file to be tested
+  * \return true if the file can be opened by the plugin, false otherwise
   */
 bool XPMEditor::CanHandleFile(const wxString& filename) const
 {
    wxString fn;
+
+   if (!XPMEditor::Get()) return(false); //plugin not loaded
 
    fn = filename;
    fn.MakeUpper();
@@ -103,8 +105,8 @@ bool XPMEditor::CanHandleFile(const wxString& filename) const
 }
 
 /** Open a file in the editor
-  * @param filename : the path to the file to open
-  * @return 0 on success, 1 on failure.
+  * \param filename : the path to the file to open
+  * \return 0 on success, 1 on failure.
   */
 int XPMEditor::OpenFile(const wxString& filename)
 {
@@ -123,7 +125,7 @@ bool XPMEditor::HandlesEverything() const
 
 /** return a pointer to the unique instance of the plugin class.
   * static method
-  * @return a pointer to the unique class instance on success, NULL on failure (plugin not initialized)
+  * \return a pointer to the unique class instance on success, NULL on failure (plugin not initialized)
   */
 XPMEditor* XPMEditor::Get(void)
 {
@@ -166,8 +168,8 @@ void XPMEditor::OnRelease(bool appShutDown)
 
 /** Load an image from a file and open it in a new Image Editor
   * If the file is already opened in an editor, then activate this editor
-  * @param FileName : the full path to the file to open
-  * @return true on success, false on failure
+  * \param FileName : the full path to the file to open
+  * \return true on success, false on failure
   */
 bool XPMEditor::OpenInEditor(wxString FileName)
 {
@@ -236,8 +238,8 @@ bool XPMEditor::OpenInEditor(wxString FileName)
                 NewEditor->SetProjectFile(pf);
             }
             Manager::Get()->GetEditorManager()->SetActiveEditor(NewEditor);
+            return(true);
         }
-        return(true);
     }
 
   return(false);
@@ -253,8 +255,8 @@ void XPMEditor::CloseMyEditors(void)
 }
 
 /** Return the project file if the file belongs to an opened project, return NULL otherwise
-  * @param fileName: the wxString with the full path of the file to search
-  * @return a pointer to the ProjectFile if the file fileName belongs to an opened project.
+  * \param fileName: the wxString with the full path of the file to search
+  * \return a pointer to the ProjectFile if the file fileName belongs to an opened project.
             NULL if the file does not belong to an opened CodeBlocks project
   */
 ProjectFile* XPMEditor::FindProjectFile(const wxString& fileName)
@@ -277,8 +279,8 @@ ProjectFile* XPMEditor::FindProjectFile(const wxString& fileName)
 //---- CONFIGURATION METHODS ------------------------
 
 /** Read the configuration file
-  * @param bDefault: if true, will init the parameters to default values on failure
-  * @return true on success, false on failure
+  * \param bDefault: if true, will init the parameters to default values on failure
+  * \return true on success, false on failure
   *         note : if bDefault = true, the method can return false, but the parameters will be initialized to default values anyway
   */
 bool XPMEditor::ReadConfiguration(bool bDefault)
@@ -394,7 +396,7 @@ bool XPMEditor::ReadConfiguration(bool bDefault)
 }
 
 /** Write the configuration file
-  * @return true on success, false on failure
+  * \return true on success, false on failure
   */
 bool XPMEditor::WriteConfiguration(void)
 {
@@ -403,7 +405,7 @@ bool XPMEditor::WriteConfiguration(void)
 }
 
 /** set the size of the UNDO / REDO buffer
-  * @param iMax: the size of the Undo Buffer
+  * \param iMax: the size of the Undo Buffer
   *        the Redo buffer will automatically have the same size as the UNDO buffer
   *         a negative value indicates unlimited Undo / Redo
   */
@@ -415,7 +417,7 @@ void XPMEditor::SetMaxUndoRedo(int iMax)
 }
 
 /** get the size of the UNDO / REDO buffer
-  * @return the size of the Undo Buffer
+  * \return the size of the Undo Buffer
   *         the size of the Redo Buffer is the same
   *         a negative value indicates unlimited Undo / Redo
   */
@@ -426,8 +428,8 @@ int XPMEditor::GetMaxUndoRedo(void)
 }
 
 /** set the default width & height of a new image
-  * @param iWidth: the new width, in pixel.
-  * @param iHeight: the new height, in pixel.
+  * \param iWidth: the new width, in pixel.
+  * \param iHeight: the new height, in pixel.
   * if the values are <= 0, then the default value is used
   */
 void XPMEditor::SetDefaultImageSize(int iWidth, int iHeight)
@@ -441,8 +443,8 @@ void XPMEditor::SetDefaultImageSize(int iWidth, int iHeight)
 }
 
 /** Get the default width & height of a new image
-  * @param iWidth: a pointer to the width, in pixel.
-  * @param iHeight: a pointer the height, in pixel.
+  * \param iWidth: a pointer to the width, in pixel.
+  * \param iHeight: a pointer the height, in pixel.
   */
 void XPMEditor::GetDefaultImageSize(int *iWidth, int *iHeight)
 {
@@ -452,10 +454,10 @@ void XPMEditor::GetDefaultImageSize(int *iWidth, int *iHeight)
 }
 
 /** Set the default colour array
-  * @param array : the new array of colours
-  * @param inbColours: the number of elements in array
-  * @param cTransparentColour: the colour to be used as transparent mask
-  * @return true on success, false on failure (memory allocation problem)
+  * \param array : the new array of colours
+  * \param inbColours: the number of elements in array
+  * \param cTransparentColour: the colour to be used as transparent mask
+  * \return true on success, false on failure (memory allocation problem)
   * The caller is responsible for allocating & freeing the "array" array
   */
 bool XPMEditor::SetColourArray(wxColour *array, int inbColours,
@@ -478,12 +480,12 @@ bool XPMEditor::SetColourArray(wxColour *array, int inbColours,
 }
 
 /** Get the default colour array
-  * @param array : an array will receive the array of colours
+  * \param array : an array will receive the array of colours
   *                if NULL, it is ignored.
   *                if not NULL, the method will NOT allocate memory for copying the array.
-  * @param inbColours: a pointer to the number of elements in array
+  * \param inbColours: a pointer to the number of elements in array
   *                    if NULL, it is ignored.
-  * @param cTransparentColour: the colour to be used as transparent mask
+  * \param cTransparentColour: the colour to be used as transparent mask
   *                            if NULL, it is ignored.
   * The caller is responsible for allocating and freeing the memory for the array
   * Use GetColourArray(NULL, &iNbColours, NULL) to get the size of the array to be allocated.
@@ -503,7 +505,7 @@ void XPMEditor::GetColourArray(wxColour *array, int *inbColours, wxColour *cTran
 
 
 /** Set the background colour
-  * @param cBackColour: the new background colour
+  * \param cBackColour: the new background colour
   */
 void XPMEditor::SetBackGroundColour(wxColour cBackColour)
 {
@@ -513,7 +515,7 @@ void XPMEditor::SetBackGroundColour(wxColour cBackColour)
 }
 
 /** Get the background colour
-  * @return the background colour
+  * \return the background colour
   */
 wxColour XPMEditor::GetBackGroundColour(void)
 {

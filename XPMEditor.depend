@@ -775,11 +775,11 @@
 	"XPMEditor.h"
 	"XPMColorPicker.h"
 
-1267995396 c:\users\seb\documents\00_sdk\projects\cb\src\include\sdk.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\sdk.h
 	"sdk_common.h"
 	"sdk_precomp.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\sdk_common.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\sdk_common.h
 	<wx/wxprec.h>
 	"prep.h"
 	<wx/arrstr.h>
@@ -1874,7 +1874,7 @@
 
 1236337276 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\msw\filedlg.h
 
-1267995397 c:\users\seb\documents\00_sdk\projects\cb\src\include\prep.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\prep.h
 	<wx/version.h>
 
 1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\colordlg.h
@@ -2100,7 +2100,7 @@
 	"wx/convauto.h"
 	<stdio.h>
 
-1267994742 c:\users\seb\documents\00_sdk\projects\cb\src\sdk\wxscintilla\include\wx\wxscintilla.h
+1275238110 c:\users\seb\documents\00_sdk\projects\cb\src\sdk\wxscintilla\include\wx\wxscintilla.h
 	<wx/wx.h>
 	<wx/dnd.h>
 
@@ -2164,10 +2164,10 @@
 	"wx/object.h"
 	"wx/list.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\settings.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\settings.h
 	<wx/msw/winundef.h>
 
-1267995399 c:\users\seb\documents\00_sdk\projects\cb\src\include\globals.h
+1275238658 c:\users\seb\documents\00_sdk\projects\cb\src\include\globals.h
 	"settings.h"
 	<wx/string.h>
 	<wx/treectrl.h>
@@ -2177,12 +2177,12 @@
 	<wx/msgdlg.h>
 	<wx/bitmap.h>
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\sdk_events.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\sdk_events.h
 	<wx/event.h>
 	"settings.h"
 	"blockallocated.h"
 
-1267995397 c:\users\seb\documents\00_sdk\projects\cb\src\include\blockallocated.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\blockallocated.h
 	<vector>
 	<wx/file.h>
 	<wx/string.h>
@@ -2190,16 +2190,16 @@
 	"globals.h"
 	"prep.h"
 
-1267995397 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbexception.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbexception.h
 	<wx/string.h>
 	<wx/log.h>
 	<csignal>
 
-1267995396 c:\users\seb\documents\00_sdk\projects\cb\src\include\logger.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\logger.h
 	<wx/string.h>
 	"settings.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\editorbase.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\editorbase.h
 	<wx/hashmap.h>
 	<wx/frame.h>
 	<wx/panel.h>
@@ -2207,7 +2207,7 @@
 	"settings.h"
 	"cbexception.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbeditor.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbeditor.h
 	<wx/hashmap.h>
 	<wx/datetime.h>
 	<wx/fontmap.h>
@@ -2228,18 +2228,18 @@
 
 1236337278 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\unix\fontutil.h
 
-1267995396 c:\users\seb\documents\00_sdk\projects\cb\src\include\printing_types.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\printing_types.h
 	"settings.h"
 	<wx/print.h>
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\compileoptionsbase.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\compileoptionsbase.h
 	"globals.h"
 	<wx/hashmap.h>
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\compiletargetbase.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\compiletargetbase.h
 	"compileoptionsbase.h"
 
-1267995397 c:\users\seb\documents\00_sdk\projects\cb\src\include\projectbuildtarget.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\projectbuildtarget.h
 	"settings.h"
 	"globals.h"
 	"compiletargetbase.h"
@@ -2250,7 +2250,7 @@
 	<wx/treectrl.h>
 	"blockallocated.h"
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\projectfile.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\projectfile.h
 	<vector>
 	"settings.h"
 	"globals.h"
@@ -2260,7 +2260,7 @@
 	<wx/treectrl.h>
 	"blockallocated.h"
 
-1267995390 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbplugin.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbplugin.h
 	<wx/arrstr.h>
 	<wx/event.h>
 	<wx/intl.h>
@@ -2270,7 +2270,7 @@
 	"manager.h"
 	"pluginmanager.h"
 
-1267995392 c:\users\seb\documents\00_sdk\projects\cb\src\include\manager.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\manager.h
 	<map>
 	<vector>
 	<wx/msw/wrapwin.h>
@@ -2285,9 +2285,9 @@
 	"wx/string.h"
 	"wx/arrstr.h"
 
-1267995399 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbfunctor.h
+1275238658 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbfunctor.h
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\pluginmanager.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\pluginmanager.h
 	<vector>
 	<map>
 	<wx/dynarray.h>
@@ -2295,7 +2295,7 @@
 	"settings.h"
 	"manager.h"
 
-1267995398 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbproject.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbproject.h
 	<wx/datetime.h>
 	<wx/dynarray.h>
 	<wx/hashmap.h>
@@ -2307,23 +2307,23 @@
 	"projectbuildtarget.h"
 	<map>
 
-1267995392 c:\users\seb\documents\00_sdk\projects\cb\src\include\misctreeitemdata.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\misctreeitemdata.h
 	<wx/treectrl.h>
 
-1267995392 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbtool.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbtool.h
 	<wx/string.h>
 
-1267995390 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbworkspace.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbworkspace.h
 	<wx/string.h>
 	<wx/filename.h>
 	"globals.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\compilerfactory.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\compilerfactory.h
 	<wx/arrstr.h>
 	"compiler.h"
 	"settings.h"
 
-1267995398 c:\users\seb\documents\00_sdk\projects\cb\src\include\compiler.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\compiler.h
 	<vector>
 	<map>
 	<wx/string.h>
@@ -2332,18 +2332,18 @@
 	"compileoptionsbase.h"
 	"compileroptions.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\compileroptions.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\compileroptions.h
 	<wx/dynarray.h>
 	<wx/intl.h>
 	<wx/string.h>
 	"settings.h"
 
-1267995399 c:\users\seb\documents\00_sdk\projects\cb\src\include\workspaceloader.h
+1275238658 c:\users\seb\documents\00_sdk\projects\cb\src\include\workspaceloader.h
 	"ibaseworkspaceloader.h"
 
-1267995397 c:\users\seb\documents\00_sdk\projects\cb\src\include\ibaseworkspaceloader.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\ibaseworkspaceloader.h
 
-1267995396 c:\users\seb\documents\00_sdk\projects\cb\src\include\editorcolourset.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\editorcolourset.h
 	<wx/dynarray.h>
 	<wx/hashmap.h>
 	<wx/intl.h>
@@ -2351,13 +2351,13 @@
 	"settings.h"
 	"globals.h"
 
-1267995397 c:\users\seb\documents\00_sdk\projects\cb\src\include\pipedprocess.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\pipedprocess.h
 	"settings.h"
 	<wx/process.h>
 	<wx/txtstrm.h>
 	<wx/timer.h>
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\scrollingdialog.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\scrollingdialog.h
 	"wx/dialog.h"
 	"wx/propdlg.h"
 
@@ -2368,7 +2368,7 @@
 	"wx/defs.h"
 	"wx/dialog.h"
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbauibook.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\cbauibook.h
 	<wx/aui/auibook.h>
 	<wx/dynarray.h>
 
@@ -2414,7 +2414,7 @@
 1236337276 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\msw\minifram.h
 	"wx/frame.h"
 
-1267995390 c:\users\seb\documents\00_sdk\projects\cb\src\include\configmanager.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\configmanager.h
 	<wx/hashmap.h>
 	<wx/hashset.h>
 	"settings.h"
@@ -2433,11 +2433,11 @@
 	<ext/hash_set>
 	<hash_set>
 
-1267995381 c:\users\seb\documents\00_sdk\projects\cb\src\include\tinyxml\tinystr.h
+1275238649 c:\users\seb\documents\00_sdk\projects\cb\src\include\tinyxml\tinystr.h
 	<assert.h>
 	<string.h>
 
-1267995382 c:\users\seb\documents\00_sdk\projects\cb\src\include\tinyxml\tinyxml.h
+1275238649 c:\users\seb\documents\00_sdk\projects\cb\src\include\tinyxml\tinyxml.h
 	<ctype.h>
 	<stdio.h>
 	<stdlib.h>
@@ -2448,12 +2448,12 @@
 	<sstream>
 	"tinystr.h"
 
-1267995399 c:\users\seb\documents\00_sdk\projects\cb\src\include\base64.h
+1275238658 c:\users\seb\documents\00_sdk\projects\cb\src\include\base64.h
 	<wx/defs.h>
 	<wx/string.h>
 	"settings.h"
 
-1267995396 c:\users\seb\documents\00_sdk\projects\cb\src\include\editormanager.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\editormanager.h
 	<wx/list.h>
 	<wx/treectrl.h>
 	<wx/hashmap.h>
@@ -2463,12 +2463,12 @@
 	"printing_types.h"
 	"globals.h"
 
-1267995398 c:\users\seb\documents\00_sdk\projects\cb\src\include\logmanager.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\logmanager.h
 	"manager.h"
 	"logger.h"
 	<map>
 
-1267995390 c:\users\seb\documents\00_sdk\projects\cb\src\include\projectmanager.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\projectmanager.h
 	"globals.h"
 	<wx/event.h>
 	<wx/dynarray.h>
@@ -2478,11 +2478,11 @@
 	"manager.h"
 	"cbexception.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\menuitemsmanager.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\menuitemsmanager.h
 	"settings.h"
 	<wx/menu.h>
 
-1267995390 c:\users\seb\documents\00_sdk\projects\cb\src\include\scriptingmanager.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\scriptingmanager.h
 	<map>
 	<set>
 	"cbexception.h"
@@ -2492,36 +2492,36 @@
 	"menuitemsmanager.h"
 	<wx/intl.h>
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\toolsmanager.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\toolsmanager.h
 	<wx/event.h>
 	"manager.h"
 	"menuitemsmanager.h"
 	"cbtool.h"
 
-1267995392 c:\users\seb\documents\00_sdk\projects\cb\src\include\templatemanager.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\templatemanager.h
 	"settings.h"
 	"manager.h"
 	<wx/event.h>
 	"globals.h"
 
-1267995396 c:\users\seb\documents\00_sdk\projects\cb\src\include\macrosmanager.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\macrosmanager.h
 	"settings.h"
 	"manager.h"
 	<wx/regex.h>
 	<wx/filename.h>
 
-1267995390 c:\users\seb\documents\00_sdk\projects\cb\src\include\personalitymanager.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\personalitymanager.h
 	"settings.h"
 	"manager.h"
 	<wx/dynarray.h>
 
-1267995392 c:\users\seb\documents\00_sdk\projects\cb\src\include\uservarmanager.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\uservarmanager.h
 	"settings.h"
 	"manager.h"
 	"cbexception.h"
 	"globals.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\filemanager.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\filemanager.h
 	<wx/thread.h>
 	<wx/string.h>
 	<wx/log.h>
@@ -2532,7 +2532,7 @@
 	<wx/filename.h>
 	"configmanager.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\backgroundthread.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\backgroundthread.h
 	"safedelete.h"
 	<deque>
 	<list>
@@ -2541,14 +2541,14 @@
 	"wx/thread.h"
 	"manager.h"
 
-1267995390 c:\users\seb\documents\00_sdk\projects\cb\src\include\safedelete.h
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\safedelete.h
 	<map>
 	<vector>
 	<list>
 	<deque>
 	<algorithm>
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\xtra_res.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\xtra_res.h
 	<wx/wxprec.h>
 	<wx/xrc/xmlres.h>
 	<wx/xrc/xh_dlg.h>
@@ -2557,7 +2557,7 @@
 1236337266 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\xrc\xh_dlg.h
 	"wx/xrc/xmlres.h"
 
-1267995394 c:\users\seb\documents\00_sdk\projects\cb\src\include\infowindow.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\infowindow.h
 	<wx/event.h>
 	<wx/timer.h>
 	<wx/string.h>
@@ -2580,12 +2580,12 @@
 
 1236337276 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\msw\popupwin.h
 
-1267995397 c:\users\seb\documents\00_sdk\projects\cb\src\include\licenses.h
+1275238657 c:\users\seb\documents\00_sdk\projects\cb\src\include\licenses.h
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\sdk_precomp.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\sdk_precomp.h
 	"sdk_common.h"
 
-1267995400 c:\users\seb\documents\00_sdk\projects\cb\src\include\configurationpanel.h
+1275238658 c:\users\seb\documents\00_sdk\projects\cb\src\include\configurationpanel.h
 	"settings.h"
 	"scrollingdialog.h"
 	<wx/panel.h>
@@ -2633,7 +2633,7 @@
 	<wx/dcclient.h>
 	"XPMEditor.h"
 
-1267995395 c:\users\seb\documents\00_sdk\projects\cb\src\include\filefilters.h
+1275238656 c:\users\seb\documents\00_sdk\projects\cb\src\include\filefilters.h
 	<wx/string.h>
 	"settings.h"
 
@@ -2720,7 +2720,7 @@
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
 
-1271691178 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
+1275245352 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.cpp
 	"XPMCustomZoom.h"
 	<wx/sizer.h>
 	<wx/stattext.h>
@@ -2731,23 +2731,24 @@
 	<wx/valtext.h>
 	"XPMEditorPanel.h"
 
-1271101290 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
+1275245352 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcustomzoom.h
 	<wx/dialog.h>
 
-1272832253 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1278611326 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
 	<wx/clrpicker.h>
+	<wx/spinctrl.h>
 	<wx/panel.h>
 
-1271424020 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
+1278578813 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
 	<sdk.h>
 	<configurationpanel.h>
 	<wx/aui/auibook.h>
 	"XPMEditor.h"
 	"XPMColorPicker.h"
 
-1270997260 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
+1278578812 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 	<sdk.h>
@@ -2758,7 +2759,7 @@
 	"XPMCustomZoom.h"
 	"XPMUndo.h"
 
-1271423578 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
+1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
 	<editorbase.h>
 	<projectfile.h>
 	<wx/bitmap.h>
@@ -2768,14 +2769,14 @@
 	<set>
 	"XPMEditorPanel.h"
 
-1270997636 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
+1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
 
-1272801990 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
-	<wx/scrolwin.h>
+1278580428 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
 	<wx/colour.h>
 	<wx/control.h>
+	<wx/scrolbar.h>
 
-1271967439 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+1278578813 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
 	<sdk.h>
 	<filefilters.h>
 	<wx/msgdlg.h>
@@ -2806,7 +2807,7 @@
 	<wx/bitmap.h>
 	<wx/tglbtn.h>
 
-1271423864 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
+1278578813 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
 	"XPMEditor.h"
 	<wx/gdicmn.h>
 
@@ -2818,17 +2819,19 @@
 	<wx/grid.h>
 	<wx/bitmap.h>
 
-1272802763 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
+1278579965 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.cpp
 	"XPMColorPicker.h"
 	<wx/gdicmn.h>
 	<wx/dcclient.h>
+	<wx/dcbuffer.h>
 	<wx/brush.h>
 	<wx/pen.h>
-	<wx/tglbtn.h>
 	<wx/msgdlg.h>
 	<wx/colordlg.h>
+	<wx/renderer.h>
+	<wx/settings.h>
 
-1272830846 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1278612407 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	"wxStretchImage.h"
 	"wxMirror.h"
@@ -2836,6 +2839,7 @@
 	"wxBlur.h"
 	"wxRotateHue.h"
 	"wxConversion.h"
+	"wxInvertDialog.h"
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>
 	<wx/brush.h>
@@ -2850,53 +2854,21 @@
 	<wx/dragimag.h>
 	<wx/fontdlg.h>
 	<wx/textfile.h>
-	<math.h>
-	<wx/scrolwin.h>
-	<wx/artprov.h>
-	<wx/sizer.h>
 	<wx/stattext.h>
-	<wx/textctrl.h>
-	<wx/checkbox.h>
-	<wx/things/toggle.h>
-	<wx/bitmap.h>
-	"XPMColorPicker.h"
-	<wx/spinctrl.h>
-	<wx/tglbtn.h>
-	<wx/radiobut.h>
+	<wx/textfile.h>
+	<math.h>
+	"XPMToolPanel.h"
+	"XPMHelpPanel.h"
+	"XPMImagePropertiesPanel.h"
+	"XPMImageManipulationPanel.h"
 	"wxResizeCtrl.h"
-	<wx/settings.h>
-	<wx/bmpbuttn.h>
+	"XPMInterfacePanel.h"
+	"XPMDrawCanvasPanel.h"
+	<wx/aui/aui.h>
+	"XPMColourPickerPanel.h"
 	<wx/intl.h>
-	<wx/button.h>
-	<wx/image.h>
+	"XPMFoldPanel.h"
 	<wx/string.h>
-	<wx/combobox.h>
-	<wx/clrpicker.h>
-	"xpm/brush.xpm"
-	"xpm/curve.xpm"
-	"xpm/ellipse.xpm"
-	"xpm/eraser.xpm"
-	"xpm/fill.xpm"
-	"xpm/lasso.xpm"
-	"xpm/line.xpm"
-	"xpm/pen.xpm"
-	"xpm/pipette.xpm"
-	"xpm/polygon.xpm"
-	"xpm/rectangle.xpm"
-	"xpm/roundedrect.xpm"
-	"xpm/selection.xpm"
-	"xpm/text.xpm"
-	"xpm/left.xpm"
-	"xpm/right.xpm"
-	"xpm/hotspot.xpm"
-	"xpm/cross_cursor.xpm"
-	"xpm/pipette_cursor.xpm"
-	"xpm/fill_cursor.xpm"
-	"xpm/pen_cursor.xpm"
-	"xpm/circle.xpm"
-	"xpm/square.xpm"
-	"xpm/left_hair.xpm"
-	"xpm/right_hair.xpm"
 
 1236337242 c:\users\seb\documents\00_sdk\include\wx\gcc_2_8_10\include\wx\dcbuffer.h
 	"wx/dcmemory.h"
@@ -2941,7 +2913,7 @@
 
 1269797620 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\text.xpm
 
-1270318576 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\cross_cursor.xpm
+1274799222 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\cross_cursor.xpm
 
 1270410166 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\pipette_cursor.xpm
 
@@ -3744,10 +3716,11 @@
 	"wx/textctrl.h"
 	"wx/validate.h"
 
-1274358376 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1274805011 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
 	<wx/clrpicker.h>
+	<wx/spinctrl.h>
 	<wx/panel.h>
 
 1271424020 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
@@ -5601,7 +5574,7 @@
 	<wx/colour.h>
 	<wx/control.h>
 
-1271967440 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+1274772506 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
 	<sdk.h>
 	<filefilters.h>
 	<wx/msgdlg.h>
@@ -5638,7 +5611,7 @@
 	"wx/module.h"
 	"wx/dataobj.h"
 
-1274358376 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1274804108 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	"wxStretchImage.h"
 	"wxMirror.h"
@@ -5662,50 +5635,21 @@
 	<wx/fontdlg.h>
 	<wx/textfile.h>
 	<math.h>
+	"XPMToolPanel.h"
+	"XPMHelpPanel.h"
+	"XPMImagePropertiesPanel.h"
+	"XPMImageManipulationPanel.h"
 	<wx/scrolwin.h>
-	<wx/artprov.h>
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/textctrl.h>
-	<wx/things/toggle.h>
 	"XPMInterfacePanel.h"
-	<wx/bitmap.h>
-	<wx/spinctrl.h>
-	<wx/tglbtn.h>
-	<wx/radiobut.h>
-	"XPMImageManipulationPanel.h"
 	"wxResizeCtrl.h"
 	<wx/settings.h>
 	"XPMColourPickerPanel.h"
-	"XPMImagePropertiesPanel.h"
 	<wx/intl.h>
-	<wx/button.h>
-	<wx/image.h>
+	"XPMFoldPanel.h"
 	<wx/string.h>
-	<wx/clrpicker.h>
-	"xpm/brush.xpm"
-	"xpm/curve.xpm"
-	"xpm/ellipse.xpm"
-	"xpm/eraser.xpm"
-	"xpm/fill.xpm"
-	"xpm/lasso.xpm"
-	"xpm/line.xpm"
-	"xpm/pen.xpm"
-	"xpm/pipette.xpm"
-	"xpm/polygon.xpm"
-	"xpm/rectangle.xpm"
-	"xpm/roundedrect.xpm"
-	"xpm/selection.xpm"
-	"xpm/text.xpm"
-	"xpm/hotspot.xpm"
-	"xpm/cross_cursor.xpm"
-	"xpm/pipette_cursor.xpm"
-	"xpm/fill_cursor.xpm"
-	"xpm/pen_cursor.xpm"
-	"xpm/circle.xpm"
-	"xpm/square.xpm"
-	"xpm/left_hair.xpm"
-	"xpm/right_hair.xpm"
 
 1236337242 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_2_8_10\include\wx\dcbuffer.h
 	"wx/dcmemory.h"
@@ -5768,7 +5712,7 @@
 
 1269797620 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\text.xpm
 
-1270318576 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\cross_cursor.xpm
+1274799221 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\cross_cursor.xpm
 
 1270410166 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpm\pipette_cursor.xpm
 
@@ -5867,7 +5811,7 @@
 	"wx/treectrl.h"
 	"wx/listctrl.h"
 
-1271596044 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.cpp
+1278578813 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.cpp
 	"wxResizeCtrl.h"
 	<wx/dcclient.h>
 	<wx/utils.h>
@@ -6064,12 +6008,12 @@
 	"wx/cmndata.h"
 	"wx/bmpbutton.h"
 
-1271680748 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxblur.cpp
+1274355938 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxblur.cpp
 	"wxBlur.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1271678596 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxblur.h
+1274355938 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxblur.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/spinctrl.h>
@@ -6077,36 +6021,36 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1271691686 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxconversion.cpp
+1274355930 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxconversion.cpp
 	"wxConversion.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1271691276 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxconversion.h
+1274355930 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxconversion.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/radiobut.h>
 	<wx/button.h>
 	<wx/dialog.h>
 
-1271676914 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxmirror.cpp
+1274355938 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxmirror.cpp
 	"wxMirror.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1271676388 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxmirror.h
+1274355938 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxmirror.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/radiobut.h>
 	<wx/button.h>
 	<wx/dialog.h>
 
-1271691170 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.cpp
+1277660709 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.cpp
 	"wxRotate.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1271680794 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.h
+1277660708 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/spinctrl.h>
@@ -6114,25 +6058,25 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1271691166 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.cpp
+1277660711 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.cpp
 	"wxRotateHue.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1271688274 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.h
+1277660710 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.h
 	<wx/sizer.h>
 	<wx/stattext.h>
-	<wx/spinctrl.h>
 	<wx/radiobut.h>
 	<wx/button.h>
 	<wx/dialog.h>
+	<wx/clrpicker.h>
 
-1271677492 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxstretchimage.cpp
+1274355940 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxstretchimage.cpp
 	"wxStretchImage.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1271676206 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxstretchimage.h
+1274355940 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxstretchimage.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/textctrl.h>
@@ -6214,12 +6158,12 @@
 	<wx/button.h>
 	<wx/combobox.h>
 
-1272713592 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\quickhelppanel.cpp
+1278582015 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\quickhelppanel.cpp
 	"QuickHelpPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1272713592 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\quickhelppanel.h
+1274802488 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\quickhelppanel.h
 	<wx/notebook.h>
 	<wx/sizer.h>
 	<wx/panel.h>
@@ -11760,12 +11704,12 @@
 1236291636 c:\users\seb\documents\00_sdk\include\wx\gcc_compact\include\wx\os2\notebook.h
 	"wx/control.h"
 
-1274353291 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\quickhelppanel.cpp
+1274802487 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\quickhelppanel.cpp
 	"QuickHelpPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1274353301 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\quickhelppanel.h
+1274802486 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\quickhelppanel.h
 	<wx/notebook.h>
 	<wx/sizer.h>
 	<wx/panel.h>
@@ -17282,13 +17226,13 @@
 	"wx/string.h"
 	"wx/dynarray.h"
 
-1274352842 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcolourpickerpanel.cpp
+1274771662 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcolourpickerpanel.cpp
 	"XPMColourPickerPanel.h"
 	"XPMEditorPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1274345106 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcolourpickerpanel.h
+1274771636 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmcolourpickerpanel.h
 	<wx/sizer.h>
 	<wx/panel.h>
 	<XPMColorPicker.h>
@@ -17307,7 +17251,7 @@
 	<wx/combobox.h>
 	<wx/clrpicker.h>
 
-1274352960 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.h
+1274771751 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/checkbox.h>
@@ -17316,7 +17260,7 @@
 	<wx/combobox.h>
 	<wx/clrpicker.h>
 
-1274353821 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.h
+1274771509 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/spinctrl.h>
@@ -17324,24 +17268,24 @@
 	<wx/choice.h>
 	<wx/button.h>
 
-1274358224 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.cpp
+1274778699 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.cpp
 	"XPMImageManipulationPanel.h"
 	"XPMEditorPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1274358039 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.h
+1274771509 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.h
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/button.h>
 
-1274353825 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.cpp
+1274778704 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.cpp
 	"XPMImagePropertiesPanel.h"
 	"XPMEditorPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1274352963 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.cpp
+1274771847 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.cpp
 	"XPMInterfacePanel.h"
 	"XPMEditorPanel.h"
 	"XPMCustomZoom.h"
@@ -17364,4 +17308,3886 @@
 	<wx/radiobut.h>
 	<wx/button.h>
 	<wx/dialog.h>
+
+1236337272 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\src\captionbar.cpp
+	"wx/wxprec.h"
+	"wx/wx.h"
+	"wx/foldbar/foldpanelbar.h"
+
+1236337272 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\include\wx\foldbar\foldpanelbar.h
+	"wx/foldbar/foldpanelitem.h"
+	<wx/dynarray.h>
+
+1236337272 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\include\wx\foldbar\foldpanelitem.h
+	"wx/foldbar/captionbar.h"
+	<wx/dynarray.h>
+
+1236337272 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\include\wx\foldbar\captionbar.h
+	<wx/imaglist.h>
+
+1236337272 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\src\foldpanelbar.cpp
+	"wx/wxprec.h"
+	"wx/wx.h"
+	"wx/foldbar/foldpanelbar.h"
+	"icon_collapsed.xpm"
+	"icon_expanded.xpm"
+	"icon_theresmore.xpm"
+
+1236337272 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\src\icon_collapsed.xpm
+
+1236337272 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\src\icon_expanded.xpm
+
+1236337272 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\src\icon_theresmore.xpm
+
+1236337272 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\foldbar\src\foldpanelitem.cpp
+	"wx/wxprec.h"
+	"wx/wx.h"
+	"wx/foldbar/foldpanelbar.h"
+	<wx/arrimpl.cpp>
+
+1236337244 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\include\wx\gcc_cb\include\wx\arrimpl.cpp
+
+1274793859 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmtoolpanel.h
+	"XPMEditorPanel.h"
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/things/toggle.h>
+	<wx/spinctrl.h>
+	<wx/tglbtn.h>
+	<wx/radiobut.h>
+	<wx/panel.h>
+	<wx/button.h>
+	<wx/clrpicker.h>
+
+1274801380 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmtoolpanel.cpp
+	"XPMToolPanel.h"
+	<wx/dcclient.h>
+	<wx/dcmemory.h>
+	<wx/textctrl.h>
+	"wxResizeCtrl.h"
+	"xpm/brush.xpm"
+	"xpm/curve.xpm"
+	"xpm/ellipse.xpm"
+	"xpm/eraser.xpm"
+	"xpm/fill.xpm"
+	"xpm/lasso.xpm"
+	"xpm/line.xpm"
+	"xpm/pen.xpm"
+	"xpm/pipette.xpm"
+	"xpm/polygon.xpm"
+	"xpm/rectangle.xpm"
+	"xpm/roundedrect.xpm"
+	"xpm/selection.xpm"
+	"xpm/text.xpm"
+	"xpm/hotspot.xpm"
+	"xpm/cross_cursor.xpm"
+	"xpm/pipette_cursor.xpm"
+	"xpm/fill_cursor.xpm"
+	"xpm/pen_cursor.xpm"
+	"xpm/circle.xpm"
+	"xpm/square.xpm"
+	"xpm/left_hair.xpm"
+	"xpm/right_hair.xpm"
+	<wx/artprov.h>
+	<wx/bitmap.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+
+1274804835 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmfoldpanel.cpp
+	"XPMEditorPanel.h"
+	"XPMFoldPanel.h"
+	"XPMToolPanel.h"
+	"XPMImageManipulationPanel.h"
+	"XPMImagePropertiesPanel.h"
+	"XPMHelpPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1274804094 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmfoldpanel.h
+	<wx/dcclient.h>
+	<wx/sizer.h>
+	<wx/panel.h>
+	"wx/foldbar/foldpanelbar.h"
+
+1274803126 d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/panel.h>
+	<wx/button.h>
+
+1274803156 source:d:\work\03_missions\02_latelec_qt_wave2\04_programming\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.cpp
+	"XPMHelpPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1274357664 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxinvertdialog.cpp
+	"wxInvertDialog.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1274356252 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxinvertdialog.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/radiobut.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1278581984 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolourpickerpanel.cpp
+	"XPMColourPickerPanel.h"
+	"XPMEditorPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolourpickerpanel.h
+	<wx/sizer.h>
+	<wx/panel.h>
+	<XPMColorPicker.h>
+
+1278580428 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\\xpmcolorpicker.h
+	<wx/colour.h>
+	<wx/control.h>
+	<wx/scrolbar.h>
+
+1278582310 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmfoldpanel.cpp
+	"XPMEditorPanel.h"
+	"XPMFoldPanel.h"
+	"XPMToolPanel.h"
+	"XPMImageManipulationPanel.h"
+	"XPMImagePropertiesPanel.h"
+	"XPMHelpPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmfoldpanel.h
+	<wx/dcclient.h>
+	<wx/sizer.h>
+	<wx/panel.h>
+	"wx/foldpanelex/foldpanelex.h"
+
+1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\include\wx\foldbar\foldpanelbar.h
+	"wx/foldbar/foldpanelitem.h"
+	<wx/dynarray.h>
+
+1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\include\wx\foldbar\foldpanelitem.h
+	"wx/foldbar/captionbar.h"
+	<wx/dynarray.h>
+
+1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\include\wx\foldbar\captionbar.h
+	<wx/imaglist.h>
+
+1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmtoolpanel.h
+	"XPMEditorPanel.h"
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/things/toggle.h>
+	<wx/spinctrl.h>
+	<wx/tglbtn.h>
+	<wx/radiobut.h>
+	<wx/panel.h>
+	<wx/button.h>
+	<wx/clrpicker.h>
+
+1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.h
+	<wx/sizer.h>
+	<wx/panel.h>
+	<wx/button.h>
+
+1278582247 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/spinctrl.h>
+	<wx/panel.h>
+	<wx/choice.h>
+	<wx/button.h>
+
+1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/panel.h>
+	<wx/button.h>
+
+1278578797 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.cpp
+	"XPMHelpPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1278582280 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.cpp
+	"XPMImageManipulationPanel.h"
+	"XPMEditorPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1278608511 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.cpp
+	"XPMImagePropertiesPanel.h"
+	"XPMEditorPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1278618547 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.cpp
+	"XPMInterfacePanel.h"
+	"XPMEditorPanel.h"
+	"XPMCustomZoom.h"
+	<wx/artprov.h>
+	<wx/bitmap.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+	"xpm/left.xpm"
+	"xpm/right.xpm"
+
+1278618517 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/checkbox.h>
+	<wx/panel.h>
+	<wx/bmpbuttn.h>
+	<wx/combobox.h>
+	<wx/clrpicker.h>
+
+1278601917 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmtoolpanel.cpp
+	"XPMToolPanel.h"
+	<wx/dcclient.h>
+	<wx/dcmemory.h>
+	<wx/textctrl.h>
+	"wxResizeCtrl.h"
+	"xpm/brush.xpm"
+	"xpm/curve.xpm"
+	"xpm/ellipse.xpm"
+	"xpm/eraser.xpm"
+	"xpm/fill.xpm"
+	"xpm/lasso.xpm"
+	"xpm/line.xpm"
+	"xpm/pen.xpm"
+	"xpm/pipette.xpm"
+	"xpm/polygon.xpm"
+	"xpm/rectangle.xpm"
+	"xpm/roundedrect.xpm"
+	"xpm/selection.xpm"
+	"xpm/text.xpm"
+	"xpm/hotspot.xpm"
+	"xpm/cross_cursor.xpm"
+	"xpm/pipette_cursor.xpm"
+	"xpm/fill_cursor.xpm"
+	"xpm/pen_cursor.xpm"
+	"xpm/circle.xpm"
+	"xpm/square.xpm"
+	"xpm/left_hair.xpm"
+	"xpm/right_hair.xpm"
+	<wx/artprov.h>
+	<wx/bitmap.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+
+1236337272 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\src\captionbar.cpp
+	"wx/wxprec.h"
+	"wx/wx.h"
+	"wx/foldbar/foldpanelbar.h"
+
+1236337272 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\src\foldpanelbar.cpp
+	"wx/wxprec.h"
+	"wx/wx.h"
+	"wx/foldbar/foldpanelbar.h"
+	"icon_collapsed.xpm"
+	"icon_expanded.xpm"
+	"icon_theresmore.xpm"
+
+1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\src\icon_collapsed.xpm
+
+1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\src\icon_expanded.xpm
+
+1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\src\icon_theresmore.xpm
+
+1236337272 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\src\foldpanelitem.cpp
+	"wx/wxprec.h"
+	"wx/wx.h"
+	"wx/foldbar/foldpanelbar.h"
+	<wx/arrimpl.cpp>
+
+1236291646 c:\users\seb\documents\00_sdk\include\wx\gcc_compact\include\wx\arrimpl.cpp
+
+1236337244 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\arrimpl.cpp
+
+1278595248 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmdrawcanvaspanel.cpp
+	"XPMDrawCanvasPanel.h"
+	<wx/scrolwin.h>
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	"wxResizeCtrl.h"
+	<wx/settings.h>
+	<wx/intl.h>
+	<wx/string.h>
+
+1278595123 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmdrawcanvaspanel.h
+	<wx/panel.h>
+
+1236337250 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\aui\aui.h
+	"wx/aui/framemanager.h"
+	"wx/aui/dockart.h"
+	"wx/aui/floatpane.h"
+	"wx/aui/auibar.h"
+	"wx/aui/auibook.h"
+	"wx/aui/tabmdi.h"
+
+1236337250 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\aui\auibar.h
+	"wx/defs.h"
+	"wx/control.h"
+
+1236337250 c:\users\seb\documents\00_sdk\include\wx\gcc_cb\include\wx\aui\tabmdi.h
+	"wx/frame.h"
+	"wx/panel.h"
+	"wx/notebook.h"
+	"wx/icon.h"
+	"wx/aui/auibook.h"
+
+1278610443 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\foldpanelex.h
+	"wx/foldpanelex/folditemex.h"
+	<wx/scrolwin.h>
+	<wx/imaglist.h>
+	<wx/sizer.h>
+
+1278580393 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\folditemex.h
+	"wx/foldpanelex/captionbarex.h"
+	<wx/panel.h>
+	<wx/sizer.h>
+	<wx/dynarray.h>
+
+1278580373 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\captionbarex.h
+	<wx/window.h>
+	<wx/button.h>
+	<wx/imaglist.h>
+	<wx/dcclient.h>
+	<wx/event.h>
+	<wx/foldpanelex/captionbar.h>
+
+1278580638 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\captionbar.h
+	<wx/imaglist.h>
+
+1278491041 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\captionbar.cpp
+	"wx/wxprec.h"
+	"wx/wx.h"
+	"wx/foldpanelex/captionbar.h"
+
+1278342610 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\captionbarex.cpp
+	"wx/foldpanelex/captionbarex.h"
+	"icon_collapsed.xpm"
+	"icon_expanded.xpm"
+
+1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\icon_collapsed.xpm
+
+1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\icon_expanded.xpm
+
+1278610206 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\folditemex.cpp
+	"wx/foldpanelex/folditemex.h"
+
+1278610563 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\foldpanelex.cpp
+	"wx/foldpanelex/foldpanelex.h"
+	"icon_collapsed.xpm"
+	"icon_expanded.xpm"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\notebook.h
+	"wx/defs.h"
+	"wx/bookctrl.h"
+	"wx/univ/notebook.h"
+	"wx/msw/notebook.h"
+	"wx/generic/notebook.h"
+	"wx/gtk/notebook.h"
+	"wx/gtk1/notebook.h"
+	"wx/osx/notebook.h"
+	"wx/cocoa/notebook.h"
+	"wx/os2/notebook.h"
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\defs.h
+	"wx/platform.h"
+	"wx/version.h"
+	"wx/dlimpexp.h"
+	<stddef.h>
+	"wx/debug.h"
+	<sys/types.h>
+	<sys/types.h>
+	"wx/windowid.h"
+	<unistd.h>
+	"wx/msw/winundef.h"
+	"wx/features.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\platform.h
+	<stddef.h>
+	<TargetConditionals.h>
+	<AvailabilityMacros.h>
+	<unistd.h>
+	<TargetConditionals.h>
+	<AvailabilityMacros.h>
+	"wx/osx/config_xcode.h"
+	"wx/setup.h"
+	"wx/setup_gccxml.h"
+	"wx/msw/wince/libraries.h"
+	"wx/msw/libraries.h"
+	"wx/msw/gccpriv.h"
+	"wx/chkconf.h"
+	<AvailabilityMacros.h>
+	"wx/palmos/missing.h"
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\config_xcode.h
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\setup_gccxml.h
+
+1276344393 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wince\libraries.h
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\libraries.h
+
+1276344395 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\gccpriv.h
+	<_mingw.h>
+	<w32api.h>
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\chkconf.h
+	"wx/palmos/chkconf.h"
+	"wx/msw/wince/chkconf.h"
+	"wx/msw/chkconf.h"
+	"wx/gtk/chkconf.h"
+	"wx/cocoa/chkconf.h"
+	"wx/osx/chkconf.h"
+	"wx/os2/chkconf.h"
+	"wx/mgl/chkconf.h"
+	"wx/dfb/chkconf.h"
+	"wx/motif/chkconf.h"
+	"wx/x11/chkconf.h"
+	"wx/unix/chkconf.h"
+	"wx/univ/chkconf.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\chkconf.h
+
+1276344393 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wince\chkconf.h
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\chkconf.h
+
+1276344449 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\chkconf.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\chkconf.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\chkconf.h
+	"wx/osx/iphone/chkconf.h"
+	"wx/osx/carbon/chkconf.h"
+	"wx/osx/cocoa/chkconf.h"
+
+1276344426 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\iphone\chkconf.h
+
+1276344436 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\carbon\chkconf.h
+
+1276344427 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\cocoa\chkconf.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\chkconf.h
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\chkconf.h
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\chkconf.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\chkconf.h
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\chkconf.h
+
+1276344349 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\unix\chkconf.h
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\chkconf.h
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\missing.h
+	<stdarg.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<PalmTypes.h>
+	<MemoryMgr.h>
+	<StringMgr.h>
+	<UIResources.h>
+	<ErrorMgr.h>
+	<DataMgr.h>
+	<wchar.h>
+	<unistd.h>
+	<time.h>
+	<StatusBar.h>
+	<Loader.h>
+	<PalmTypesCompatibility.h>
+	<PenInputMgr.h>
+	"sections.h"
+	"pfall.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\version.h
+	"wx/cpp.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cpp.h
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dlimpexp.h
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\debug.h
+	<assert.h>
+	<limits.h>
+	"wx/chartype.h"
+	"wx/cpp.h"
+	"wx/dlimpexp.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\chartype.h
+	"wx/platform.h"
+	<sys/types.h>
+	<wchar.h>
+	<wcstr.h>
+	<stdlib.h>
+	<widec.h>
+	<ctype.h>
+	<stddef.h>
+	<stddef.h>
+	<string.h>
+	<ctype.h>
+	<tchar.h>
+	<ctype.h>
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\windowid.h
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\winundef.h
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\features.h
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\bookctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/dynarray.h"
+	"wx/notebook.h"
+	"wx/choicebk.h"
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\control.h
+	"wx/defs.h"
+	"wx/window.h"
+	"wx/univ/control.h"
+	"wx/palmos/control.h"
+	"wx/msw/control.h"
+	"wx/motif/control.h"
+	"wx/gtk/control.h"
+	"wx/gtk1/control.h"
+	"wx/osx/control.h"
+	"wx/cocoa/control.h"
+	"wx/os2/control.h"
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\window.h
+	"wx/event.h"
+	"wx/list.h"
+	"wx/cursor.h"
+	"wx/font.h"
+	"wx/colour.h"
+	"wx/region.h"
+	"wx/utils.h"
+	"wx/intl.h"
+	"wx/validate.h"
+	"wx/palette.h"
+	"wx/accel.h"
+	"wx/access.h"
+	"wx/palmos/window.h"
+	"wx/msw/window.h"
+	"wx/motif/window.h"
+	"wx/gtk/window.h"
+	"wx/gtk1/window.h"
+	"wx/x11/window.h"
+	"wx/mgl/window.h"
+	"wx/dfb/window.h"
+	"wx/osx/window.h"
+	"wx/cocoa/window.h"
+	"wx/os2/window.h"
+	"wx/univ/window.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\event.h
+	"wx/defs.h"
+	"wx/cpp.h"
+	"wx/object.h"
+	"wx/clntdata.h"
+	"wx/gdicmn.h"
+	"wx/cursor.h"
+	"wx/mousestate.h"
+	"wx/dynarray.h"
+	"wx/thread.h"
+	"wx/tracker.h"
+	"wx/typeinfo.h"
+	"wx/any.h"
+	"wx/meta/convertible.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\object.h
+	"wx/memory.h"
+	"wx/xti.h"
+	"wx/msw/msvcrt.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\memory.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/msgout.h"
+	<stddef.h>
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\string.h
+	"wx/defs.h"
+	<ctype.h>
+	<stdio.h>
+	<string.h>
+	<stdarg.h>
+	<limits.h>
+	<string.h>
+	<stdio.h>
+	<stdarg.h>
+	<limits.h>
+	<stdlib.h>
+	<strings.h>
+	"wx/wxcrtbase.h"
+	"wx/strvararg.h"
+	"wx/buffer.h"
+	"wx/strconv.h"
+	"wx/stringimpl.h"
+	"wx/stringops.h"
+	"wx/unichar.h"
+	"wx/tls.h"
+	"wx/iosfwrap.h"
+	"wx/crt.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\wxcrtbase.h
+	"wx/chartype.h"
+	<stdio.h>
+	<string.h>
+	<ctype.h>
+	<wchar.h>
+	<wctype.h>
+	<time.h>
+	<io.h>
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\strvararg.h
+	"wx/platform.h"
+	"wx/cpp.h"
+	"wx/chartype.h"
+	"wx/strconv.h"
+	"wx/buffer.h"
+	"wx/unichar.h"
+	"wx/stringimpl.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\strconv.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/buffer.h"
+	"typeinfo.h"
+	<stdlib.h>
+	"wx/fontenc.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\buffer.h
+	"wx/chartype.h"
+	"wx/wxcrtbase.h"
+	<stdlib.h>
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\typeinfo.h
+	"wx/defs.h"
+	<typeinfo>
+	<string.h>
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\fontenc.h
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\unichar.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/stringimpl.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\stringimpl.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/wxcrtbase.h"
+	<stdlib.h>
+	"wx/beforestd.h"
+	<string>
+	"wx/afterstd.h"
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\beforestd.h
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\afterstd.h
+	"wx/msw/winundef.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\stringops.h
+	"wx/chartype.h"
+	"wx/stringimpl.h"
+	"wx/unichar.h"
+	"wx/buffer.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\tls.h
+	"wx/defs.h"
+	"wx/msw/tls.h"
+	"wx/os2/tls.h"
+	"wx/unix/tls.h"
+	<stdlib.h>
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\tls.h
+	"wx/msw/wrapwin.h"
+	"wx/thread.h"
+	"wx/vector.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wrapwin.h
+	"wx/platform.h"
+	<winsock2.h>
+	<windows.h>
+	"wx/msw/winundef.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\thread.h
+	"wx/defs.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\vector.h
+	"wx/defs.h"
+	<vector>
+	<algorithm>
+	"wx/utils.h"
+	"wx/scopeguard.h"
+	"wx/meta/movable.h"
+	"wx/meta/if.h"
+	"wx/beforestd.h"
+	<new>
+	"wx/afterstd.h"
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\utils.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/filefn.h"
+	"wx/gdicmn.h"
+	"wx/mousestate.h"
+	"wx/longlong.h"
+	"wx/platinfo.h"
+	<direct.h>
+	<dirent.h>
+	<unistd.h>
+	<stdio.h>
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\list.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/beforestd.h"
+	<algorithm>
+	<iterator>
+	<list>
+	"wx/afterstd.h"
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\filefn.h
+	"wx/list.h"
+	"wx/arrstr.h"
+	"wx/msw/wince/time.h"
+	"wx/msw/private.h"
+	<time.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<sys/types.h>
+	<utime.h>
+	<sys/stat.h>
+	<unistd.h>
+	<stat.h>
+	<unistd.h>
+	<unix.h>
+	<process.h>
+	"wx/os2/private.h"
+	<direct.h>
+	<io.h>
+	<unistd.h>
+	<unistd.h>
+	<dirent.h>
+	<direct.h>
+	<dos.h>
+	<io.h>
+	<direct.h>
+	<dos.h>
+	<io.h>
+	<io.h>
+	<unistd.h>
+	<dir.h>
+	<fcntl.h>
+	<sys/types.h>
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\arrstr.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/dynarray.h"
+	"wx/beforestd.h"
+	<iterator>
+	"wx/afterstd.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dynarray.h
+	"wx/defs.h"
+	"wx/beforestd.h"
+	<vector>
+	<algorithm>
+	"wx/afterstd.h"
+
+1276344393 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wince\time.h
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\private.h
+	"wx/msw/wrapwin.h"
+	"wx/msw/microwin.h"
+	"wx/log.h"
+	"wx/window.h"
+	"wx/gdicmn.h"
+	"wx/colour.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\microwin.h
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\log.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/strvararg.h"
+	"wx/arrstr.h"
+	<time.h>
+	"wx/dynarray.h"
+	"wx/hashmap.h"
+	"wx/thread.h"
+	"wx/iosfwrap.h"
+	"wx/generic/logg.h"
+	"wx/cocoa/log.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\hashmap.h
+	"wx/string.h"
+	"wx/wxcrt.h"
+	<unordered_map>
+	<tr1/unordered_map>
+	<ext/hash_map>
+	<hash_map>
+	<stddef.h>
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\wxcrt.h
+	"wx/wxcrtbase.h"
+	"wx/string.h"
+	<string.h>
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\iosfwrap.h
+	<iostream.h>
+	<iosfwd>
+	"wx/msw/winundef.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\logg.h
+
+1276344478 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\log.h
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gdicmn.h
+	"wx/defs.h"
+	"wx/list.h"
+	"wx/string.h"
+	"wx/fontenc.h"
+	"wx/hashmap.h"
+	"wx/math.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\math.h
+	"wx/defs.h"
+	<math.h>
+	<float.h>
+	<ieeefp.h>
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\colour.h
+	"wx/defs.h"
+	"wx/gdiobj.h"
+	"wx/variant.h"
+	"wx/generic/colour.h"
+	"wx/msw/colour.h"
+	"wx/motif/colour.h"
+	"wx/gtk/colour.h"
+	"wx/gtk1/colour.h"
+	"wx/generic/colour.h"
+	"wx/generic/colour.h"
+	"wx/x11/colour.h"
+	"wx/osx/colour.h"
+	"wx/cocoa/colour.h"
+	"wx/os2/colour.h"
+
+1276344484 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gdiobj.h
+	"wx/object.h"
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\variant.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/arrstr.h"
+	"wx/list.h"
+	"wx/cpp.h"
+	"wx/longlong.h"
+	"wx/datetime.h"
+	"wx/iosfwrap.h"
+	"wx/any.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\longlong.h
+	"wx/defs.h"
+	"wx/string.h"
+	<limits.h>
+	"wx/iosfwrap.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\datetime.h
+	"wx/defs.h"
+	"wx/msw/wince/time.h"
+	<time.h>
+	<limits.h>
+	"wx/longlong.h"
+	"wx/anystr.h"
+	"wx/dynarray.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\anystr.h
+	"wx/string.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\any.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/meta/movable.h"
+	"wx/meta/if.h"
+	"wx/typeinfo.h"
+	"wx/datetime.h"
+	"wx/variant.h"
+
+1276344350 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\meta\movable.h
+	"wx/defs.h"
+	"wx/string.h"
+
+1276344349 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\meta\if.h
+	"wx/defs.h"
+
+1276344469 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\colour.h
+	"wx/object.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\colour.h
+	"wx/object.h"
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\colour.h
+	"wx/object.h"
+	"wx/string.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\colour.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\colour.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/palette.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palette.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdiobj.h"
+	"wx/palmos/palette.h"
+	"wx/msw/palette.h"
+	"wx/x11/palette.h"
+	"wx/generic/paletteg.h"
+	"wx/mgl/palette.h"
+	"wx/osx/palette.h"
+	"wx/os2/palette.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\palette.h
+	"wx/gdiobj.h"
+
+1276344395 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\palette.h
+	"wx/gdiobj.h"
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\palette.h
+	"wx/list.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\paletteg.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\palette.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\palette.h
+	"wx/gdiobj.h"
+
+1276344412 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\palette.h
+	"wx/gdiobj.h"
+	"wx/os2/private.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\private.h
+	<os2.h>
+	<os2def.h>
+	<X11/Xmd.h>
+	<Xm/VendorSP.h>
+	<types.h>
+	<tcpustd.h>
+	<sys/time.h>
+	"wx/dlimpexp.h"
+	"wx/fontenc.h"
+	"wx/thread.h"
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\colour.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/palette.h"
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\colour.h
+	"wx/osx/core/colour.h"
+
+1276344429 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\core\colour.h
+	"wx/object.h"
+	"wx/string.h"
+	"wx/osx/core/cfref.h"
+
+1276344429 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\core\cfref.h
+	<unistd.h>
+	<AvailabilityMacros.h>
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\colour.h
+	"wx/object.h"
+	"wx/string.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\colour.h
+	"wx/object.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mousestate.h
+	"wx/kbdstate.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\kbdstate.h
+	"wx/defs.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\platinfo.h
+	"wx/string.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\scopeguard.h
+	"wx/defs.h"
+	"wx/except.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\except.h
+	"wx/defs.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\tls.h
+	"wx/os2/private.h"
+	"wx/thread.h"
+	"wx/vector.h"
+
+1276344349 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\unix\tls.h
+	<pthread.h>
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\crt.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/wxcrt.h"
+	"wx/wxcrtvararg.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\wxcrtvararg.h
+	"wx/wxcrt.h"
+	"wx/strvararg.h"
+	"wx/string.h"
+	<stdarg.h>
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msgout.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/strvararg.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\xti.h
+	"wx/defs.h"
+	"wx/memory.h"
+	"wx/flags.h"
+	"wx/string.h"
+	"wx/arrstr.h"
+	"wx/hashmap.h"
+	"wx/log.h"
+	"wx/intl.h"
+	<typeinfo>
+	"wx/dynarray.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\flags.h
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\intl.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/translation.h"
+	"wx/fontenc.h"
+	"wx/language.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\translation.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/buffer.h"
+	"wx/language.h"
+	"wx/hashmap.h"
+	"wx/strconv.h"
+	"wx/scopedptr.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\language.h
+	"wx/defs.h"
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\scopedptr.h
+	"wx/defs.h"
+	"wx/checkeddelete.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\checkeddelete.h
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\msvcrt.h
+	<stdlib.h>
+	<crtdbg.h>
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\clntdata.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/hashmap.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cursor.h
+	"wx/defs.h"
+	"wx/palmos/cursor.h"
+	"wx/msw/cursor.h"
+	"wx/motif/cursor.h"
+	"wx/gtk/cursor.h"
+	"wx/gtk1/cursor.h"
+	"wx/x11/cursor.h"
+	"wx/mgl/cursor.h"
+	"wx/dfb/cursor.h"
+	"wx/osx/cursor.h"
+	"wx/cocoa/cursor.h"
+	"wx/os2/cursor.h"
+	"wx/utils.h"
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\cursor.h
+	"wx/palmos/gdiimage.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\gdiimage.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/list.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\cursor.h
+	"wx/msw/gdiimage.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\gdiimage.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/list.h"
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\cursor.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\cursor.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\cursor.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/image.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\image.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdicmn.h"
+	"wx/hashmap.h"
+	"wx/arrstr.h"
+	"wx/stream.h"
+	"wx/variant.h"
+	"wx/imagbmp.h"
+	"wx/imagpng.h"
+	"wx/imaggif.h"
+	"wx/imagpcx.h"
+	"wx/imagjpeg.h"
+	"wx/imagtga.h"
+	"wx/imagtiff.h"
+	"wx/imagpnm.h"
+	"wx/imagxpm.h"
+	"wx/imagiff.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\stream.h
+	"wx/defs.h"
+	<stdio.h>
+	"wx/object.h"
+	"wx/string.h"
+	"wx/filefn.h"
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagbmp.h
+	"wx/image.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagpng.h
+	"wx/defs.h"
+	"wx/image.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imaggif.h
+	"wx/image.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagpcx.h
+	"wx/image.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagjpeg.h
+	"wx/defs.h"
+	"wx/image.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagtga.h
+	"wx/image.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagtiff.h
+	"wx/defs.h"
+	"wx/image.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagpnm.h
+	"wx/image.h"
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagxpm.h
+	"wx/image.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imagiff.h
+	"wx/image.h"
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\cursor.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/colour.h"
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\cursor.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\cursor.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\cursor.h
+	"wx/bitmap.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\bitmap.h
+	"wx/string.h"
+	"wx/gdicmn.h"
+	"wx/colour.h"
+	"wx/variant.h"
+	"wx/palmos/bitmap.h"
+	"wx/msw/bitmap.h"
+	"wx/x11/bitmap.h"
+	"wx/gtk/bitmap.h"
+	"wx/gtk1/bitmap.h"
+	"wx/x11/bitmap.h"
+	"wx/mgl/bitmap.h"
+	"wx/dfb/bitmap.h"
+	"wx/osx/bitmap.h"
+	"wx/cocoa/bitmap.h"
+	"wx/os2/bitmap.h"
+	"wx/generic/mask.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\bitmap.h
+	"wx/palmos/gdiimage.h"
+	"wx/gdicmn.h"
+	"wx/palette.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\bitmap.h
+	"wx/msw/gdiimage.h"
+	"wx/palette.h"
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\bitmap.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/palette.h"
+	"wx/gdiobj.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\bitmap.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\bitmap.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/palette.h"
+	"wx/gdiobj.h"
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\bitmap.h
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\bitmap.h
+	"wx/dfb/dfbptr.h"
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\dfbptr.h
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\bitmap.h
+	"wx/palette.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\bitmap.h
+	"wx/palette.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\bitmap.h
+	"wx/os2/private.h"
+	"wx/os2/gdiimage.h"
+	"wx/gdicmn.h"
+	"wx/palette.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\gdiimage.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/list.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\mask.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\cursor.h
+	"wx/bitmap.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\cursor.h
+	"wx/bitmap.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\tracker.h
+	"wx/defs.h"
+
+1276344349 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\meta\convertible.h
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\font.h
+	"wx/defs.h"
+	"wx/fontenc.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/palmos/font.h"
+	"wx/msw/font.h"
+	"wx/motif/font.h"
+	"wx/gtk/font.h"
+	"wx/gtk1/font.h"
+	"wx/x11/font.h"
+	"wx/mgl/font.h"
+	"wx/dfb/font.h"
+	"wx/osx/font.h"
+	"wx/cocoa/font.h"
+	"wx/os2/font.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\font.h
+	"wx/gdicmn.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\font.h
+	"wx/gdicmn.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\font.h
+
+1276344449 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\font.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\font.h
+	"wx/hash.h"
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\hash.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/object.h"
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\font.h
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\font.h
+	"wx/hash.h"
+
+1276344381 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\font.h
+	"wx/dfb/dfbptr.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\font.h
+
+1276344475 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\font.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\font.h
+	"wx/gdiobj.h"
+	"wx/os2/private.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\region.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/palmos/region.h"
+	"wx/msw/region.h"
+	"wx/gtk/region.h"
+	"wx/gtk1/region.h"
+	"wx/x11/region.h"
+	"wx/mgl/region.h"
+	"wx/dfb/region.h"
+	"wx/osx/region.h"
+	"wx/cocoa/region.h"
+	"wx/os2/region.h"
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\region.h
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\region.h
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\region.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\region.h
+	"wx/list.h"
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\region.h
+	"wx/list.h"
+
+1276344423 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\region.h
+	"wx/list.h"
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\region.h
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\region.h
+	"wx/osx/carbon/region.h"
+	"wx/generic/region.h"
+
+1276344436 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\carbon\region.h
+	"wx/list.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\region.h
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\region.h
+	"wx/generic/region.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\region.h
+	"wx/list.h"
+	"wx/os2/private.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\validate.h
+	"wx/defs.h"
+	"wx/event.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\accel.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/generic/accel.h"
+	"wx/msw/accel.h"
+	"wx/motif/accel.h"
+	"wx/gtk/accel.h"
+	"wx/gtk1/accel.h"
+	"wx/osx/accel.h"
+	"wx/generic/accel.h"
+	"wx/os2/accel.h"
+
+1276344469 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\accel.h
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\accel.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\accel.h
+	"wx/object.h"
+	"wx/string.h"
+	"wx/event.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\accel.h
+	"wx/generic/accel.h"
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\accel.h
+	"wx/generic/accel.h"
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\accel.h
+	"wx/string.h"
+	"wx/event.h"
+
+1276344414 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\accel.h
+	"wx/object.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\access.h
+	"wx/defs.h"
+	"wx/variant.h"
+	"wx/msw/ole/access.h"
+
+1276344388 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\ole\access.h
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\window.h
+	"wx/hash.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\window.h
+	"wx/settings.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\settings.h
+	"wx/colour.h"
+	"wx/font.h"
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\window.h
+	"wx/region.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\window.h
+	"wx/dynarray.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\window.h
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\window.h
+	"wx/region.h"
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\window.h
+	"wx/font.h"
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\window.h
+	"wx/dfb/dfbptr.h"
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\window.h
+	"wx/brush.h"
+	"wx/dc.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\brush.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/palmos/brush.h"
+	"wx/msw/brush.h"
+	"wx/x11/brush.h"
+	"wx/gtk/brush.h"
+	"wx/gtk1/brush.h"
+	"wx/mgl/brush.h"
+	"wx/dfb/brush.h"
+	"wx/osx/brush.h"
+	"wx/cocoa/brush.h"
+	"wx/os2/brush.h"
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\brush.h
+	"wx/gdicmn.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\brush.h
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\brush.h
+	"wx/gdiobj.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\brush.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\brush.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1276344423 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\brush.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\brush.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\brush.h
+	"wx/gdicmn.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\brush.h
+	"wx/gdicmn.h"
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\brush.h
+	"wx/bitmap.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dc.h
+	"wx/object.h"
+	"wx/intl.h"
+	"wx/cursor.h"
+	"wx/font.h"
+	"wx/colour.h"
+	"wx/bitmap.h"
+	"wx/brush.h"
+	"wx/pen.h"
+	"wx/palette.h"
+	"wx/dynarray.h"
+	"wx/math.h"
+	"wx/image.h"
+	"wx/cmndata.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\pen.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/palmos/pen.h"
+	"wx/msw/pen.h"
+	"wx/x11/pen.h"
+	"wx/gtk/pen.h"
+	"wx/gtk1/pen.h"
+	"wx/mgl/pen.h"
+	"wx/dfb/pen.h"
+	"wx/osx/pen.h"
+	"wx/cocoa/pen.h"
+	"wx/os2/pen.h"
+
+1276344377 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\pen.h
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+	"wx/colour.h"
+
+1276344400 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\pen.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\pen.h
+	"wx/gdicmn.h"
+	"wx/gdiobj.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\pen.h
+
+1276344363 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\pen.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344423 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\pen.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\pen.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344442 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\pen.h
+	"wx/gdiobj.h"
+	"wx/colour.h"
+	"wx/bitmap.h"
+
+1276344478 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\pen.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\pen.h
+	"wx/gdiobj.h"
+	"wx/bitmap.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cmndata.h
+	"wx/window.h"
+	"wx/font.h"
+	"wx/encinfo.h"
+	"wx/colour.h"
+	"wx/gdicmn.h"
+	"wx/stream.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\encinfo.h
+	"wx/string.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\window.h
+	"wx/cocoa/NSView.h"
+
+1276344478 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nsview.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\objcassociate.h
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\window.h
+	<os2.h>
+	"wx/hash.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\window.h
+	"wx/bitmap.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\control.h
+	"wx/univ/inphand.h"
+	"wx/univ/inpcons.h"
+
+1276344345 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\inphand.h
+	"wx/univ/inpcons.h"
+
+1276344345 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\inpcons.h
+	"wx/object.h"
+	"wx/event.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\control.h
+	"wx/dynarray.h"
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\control.h
+	"wx/dynarray.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\control.h
+	"wx/window.h"
+	"wx/list.h"
+	"wx/validate.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\control.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\control.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/list.h"
+	"wx/window.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\control.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\control.h
+	"wx/cocoa/NSControl.h"
+
+1276344478 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nscontrol.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\control.h
+	"wx/dynarray.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\choicebk.h
+	"wx/defs.h"
+	"wx/bookctrl.h"
+	"wx/choice.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\choice.h
+	"wx/defs.h"
+	"wx/ctrlsub.h"
+	"wx/univ/choice.h"
+	"wx/msw/wince/choicece.h"
+	"wx/msw/choice.h"
+	"wx/motif/choice.h"
+	"wx/gtk/choice.h"
+	"wx/gtk1/choice.h"
+	"wx/osx/choice.h"
+	"wx/cocoa/choice.h"
+	"wx/os2/choice.h"
+	"wx/palmos/choice.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\ctrlsub.h
+	"wx/defs.h"
+	"wx/arrstr.h"
+	"wx/control.h"
+	"wx/msw/ctrlsub.h"
+	"wx/motif/ctrlsub.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\ctrlsub.h
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\ctrlsub.h
+	"wx/dynarray.h"
+	"wx/generic/ctrlsub.h"
+
+1276344469 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\ctrlsub.h
+	"wx/dynarray.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\choice.h
+	"wx/combobox.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\combobox.h
+	"wx/defs.h"
+	"wx/ctrlsub.h"
+	"wx/textentry.h"
+	"wx/univ/combobox.h"
+	"wx/msw/combobox.h"
+	"wx/motif/combobox.h"
+	"wx/gtk/combobox.h"
+	"wx/gtk1/combobox.h"
+	"wx/osx/combobox.h"
+	"wx/cocoa/combobox.h"
+	"wx/os2/combobox.h"
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\textentry.h
+	"wx/gdicmn.h"
+	"wx/gtk/textentry.h"
+	"wx/osx/textentry.h"
+	"wx/msw/textentry.h"
+	"wx/motif/textentry.h"
+	"wx/os2/textentry.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\textentry.h
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\textentry.h
+	"wx/control.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\textentry.h
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\textentry.h
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\textentry.h
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\combobox.h
+	"wx/combo.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\combo.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/renderer.h"
+	"wx/bitmap.h"
+	"wx/msw/combo.h"
+	"wx/generic/combo.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\renderer.h
+	"wx/gdicmn.h"
+	"wx/colour.h"
+	"wx/font.h"
+	"wx/bitmap.h"
+	"wx/string.h"
+
+1276344395 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\combo.h
+	"wx/timer.h"
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\timer.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/longlong.h"
+	"wx/event.h"
+	"wx/stopwatch.h"
+	"wx/utils.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\stopwatch.h
+	"wx/defs.h"
+	"wx/longlong.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\combo.h
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\combobox.h
+	"wx/choice.h"
+	"wx/textentry.h"
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\combobox.h
+	"wx/choice.h"
+	"wx/textentry.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\combobox.h
+	"wx/choice.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\combobox.h
+	"wx/defs.h"
+	"wx/object.h"
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\combobox.h
+	"wx/containr.h"
+	"wx/choice.h"
+	"wx/textctrl.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\containr.h
+	"wx/defs.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\textctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/textentry.h"
+	"wx/dynarray.h"
+	"wx/gdicmn.h"
+	"wx/ioswrap.h"
+	"wx/x11/textctrl.h"
+	"wx/univ/textctrl.h"
+	"wx/msw/wince/textctrlce.h"
+	"wx/msw/textctrl.h"
+	"wx/motif/textctrl.h"
+	"wx/gtk/textctrl.h"
+	"wx/gtk1/textctrl.h"
+	"wx/osx/textctrl.h"
+	"wx/cocoa/textctrl.h"
+	"wx/os2/textctrl.h"
+	"wx/palmos/textctrl.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\ioswrap.h
+	"wx/beforestd.h"
+	<iostream.h>
+	<iostream>
+	"wx/afterstd.h"
+	"wx/msw/winundef.h"
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\textctrl.h
+	"wx/univ/textctrl.h"
+	"wx/scrolwin.h"
+	"wx/arrstr.h"
+
+1276344345 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\textctrl.h
+	"wx/scrolwin.h"
+	"wx/univ/inphand.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\scrolwin.h
+	"wx/panel.h"
+	"wx/gtk/scrolwin.h"
+	"wx/gtk1/scrolwin.h"
+	"wx/generic/scrolwin.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\panel.h
+	"wx/generic/panelg.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\panelg.h
+	"wx/window.h"
+	"wx/containr.h"
+
+1276344449 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\scrolwin.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\scrolwin.h
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\scrolwin.h
+
+1276344393 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wince\textctrlce.h
+	"wx/dynarray.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\textctrl.h
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\textctrl.h
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\textctrl.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\textctrl.h
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\textctrl.h
+	"wx/control.h"
+	"wx/textctrl.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\textctrl.h
+	"wx/cocoa/NSTextField.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nstextfield.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\textctrl.h
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\textctrl.h
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\combobox.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+	"wx/textctrl.h"
+	"wx/dynarray.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\combobox.h
+	"wx/choice.h"
+	"wx/textentry.h"
+
+1276344393 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wince\choicece.h
+	"wx/defs.h"
+	"wx/dynarray.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\choice.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\choice.h
+	"wx/clntdata.h"
+	"wx/dynarray.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\choice.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\choice.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\choice.h
+	"wx/control.h"
+	"wx/dynarray.h"
+	"wx/arrstr.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\choice.h
+	"wx/cocoa/NSMenu.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nsmenu.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\choice.h
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\choice.h
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\notebook.h
+	"wx/arrstr.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\notebook.h
+	"wx/control.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\notebook.h
+	"wx/event.h"
+	"wx/control.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\notebook.h
+	"wx/list.h"
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\notebook.h
+	"wx/list.h"
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\notebook.h
+	"wx/event.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\notebook.h
+	"wx/cocoa/NSTabView.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nstabview.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+	"wx/cocoa/ObjcRef.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\objcref.h
+	"wx/osx/core/cfref.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\notebook.h
+	"wx/control.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\sizer.h
+	"wx/defs.h"
+	"wx/window.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\scrolbar.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/scrolbar.h"
+	"wx/msw/scrolbar.h"
+	"wx/motif/scrolbar.h"
+	"wx/gtk/scrolbar.h"
+	"wx/gtk1/scrolbar.h"
+	"wx/osx/scrolbar.h"
+	"wx/cocoa/scrolbar.h"
+	"wx/os2/scrolbar.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\scrolbar.h
+	"wx/univ/scrarrow.h"
+	"wx/renderer.h"
+
+1276344343 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\scrarrow.h
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\scrolbar.h
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\scrolbar.h
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\scrolbar.h
+	"wx/defs.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\scrolbar.h
+	"wx/defs.h"
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\scrolbar.h
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\scrolbar.h
+	"wx/cocoa/NSScroller.h"
+
+1276344478 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nsscroller.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+	"wx/cocoa/ObjcRef.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\scrolbar.h
+	"wx/scrolbar.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dcclient.h
+	"wx/dc.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dcbuffer.h
+	"wx/dcmemory.h"
+	"wx/dcclient.h"
+	"wx/window.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dcmemory.h
+	"wx/dc.h"
+	"wx/bitmap.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msgdlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/stockitem.h"
+	"wx/generic/msgdlgg.h"
+	"wx/cocoa/msgdlg.h"
+	"wx/palmos/msgdlg.h"
+	"wx/msw/msgdlg.h"
+	"wx/motif/msgdlg.h"
+	"wx/gtk/msgdlg.h"
+	"wx/osx/msgdlg.h"
+	"wx/os2/msgdlg.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dialog.h
+	"wx/defs.h"
+	"wx/toplevel.h"
+	"wx/univ/dialog.h"
+	"wx/palmos/dialog.h"
+	"wx/msw/dialog.h"
+	"wx/motif/dialog.h"
+	"wx/gtk/dialog.h"
+	"wx/gtk1/dialog.h"
+	"wx/osx/dialog.h"
+	"wx/cocoa/dialog.h"
+	"wx/os2/dialog.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\toplevel.h
+	"wx/nonownedwnd.h"
+	"wx/iconbndl.h"
+	"wx/containr.h"
+	"wx/weakref.h"
+	"wx/palmos/toplevel.h"
+	"wx/msw/toplevel.h"
+	"wx/gtk/toplevel.h"
+	"wx/gtk1/toplevel.h"
+	"wx/x11/toplevel.h"
+	"wx/mgl/toplevel.h"
+	"wx/dfb/toplevel.h"
+	"wx/osx/toplevel.h"
+	"wx/cocoa/toplevel.h"
+	"wx/os2/toplevel.h"
+	"wx/motif/toplevel.h"
+	"wx/univ/toplevel.h"
+
+1276344484 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\nonownedwnd.h
+	"wx/dfb/nonownedwnd.h"
+	"wx/osx/nonownedwnd.h"
+	"wx/window.h"
+
+1276344381 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\nonownedwnd.h
+	"wx/window.h"
+	"wx/dfb/dfbptr.h"
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\nonownedwnd.h
+	"wx/window.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\iconbndl.h
+	"wx/gdiobj.h"
+	"wx/gdicmn.h"
+	"wx/icon.h"
+	"wx/dynarray.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\icon.h
+	"wx/iconloc.h"
+	"wx/generic/icon.h"
+	"wx/msw/icon.h"
+	"wx/motif/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/generic/icon.h"
+	"wx/osx/icon.h"
+	"wx/generic/icon.h"
+	"wx/cocoa/icon.h"
+	"wx/os2/icon.h"
+	"wx/variant.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\iconloc.h
+	"wx/string.h"
+
+1276344469 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\icon.h
+	"wx/bitmap.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\icon.h
+	"wx/msw/gdiimage.h"
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\icon.h
+	"wx/bitmap.h"
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\icon.h
+	"wx/bitmap.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\icon.h
+	"wx/gdicmn.h"
+	"wx/gdiobj.h"
+
+1276344414 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\icon.h
+	"wx/bitmap.h"
+	"wx/os2/gdiimage.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\weakref.h
+	"wx/tracker.h"
+	"wx/meta/convertible.h"
+	"wx/meta/int2type.h"
+
+1276344349 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\meta\int2type.h
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\toplevel.h
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\toplevel.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\toplevel.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\toplevel.h
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\toplevel.h
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\toplevel.h
+
+1276344381 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\toplevel.h
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\toplevel.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\toplevel.h
+	"wx/hashmap.h"
+	"wx/cocoa/NSWindow.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nswindow.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+
+1276344414 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\toplevel.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\toplevel.h
+
+1276344343 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\toplevel.h
+	"wx/univ/inpcons.h"
+	"wx/univ/inphand.h"
+	"wx/icon.h"
+
+1276344343 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\dialog.h
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\dialog.h
+	"wx/panel.h"
+
+1276344395 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\dialog.h
+	"wx/panel.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\dialog.h
+
+1276344449 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\dialog.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\dialog.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\dialog.h
+	"wx/panel.h"
+
+1276344475 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\dialog.h
+	"wx/defs.h"
+	"wx/panel.h"
+	"wx/cocoa/NSPanel.h"
+
+1276344475 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nspanel.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+
+1276344412 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\dialog.h
+	"wx/panel.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\stockitem.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/string.h"
+	"wx/accel.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\msgdlgg.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\msgdlg.h
+	"wx/msgdlg.h"
+	"wx/generic/msgdlgg.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\msgdlg.h
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\msgdlg.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\msgdlg.h
+
+1276344449 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\msgdlg.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\msgdlg.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\msgdlg.h
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\colordlg.h
+	"wx/defs.h"
+	"wx/msw/colordlg.h"
+	"wx/osx/colordlg.h"
+	"wx/gtk/colordlg.h"
+	"wx/palmos/colordlg.h"
+	"wx/generic/colrdlgg.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\colordlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\colordlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\colordlg.h
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\colordlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\colrdlgg.h
+	"wx/defs.h"
+	"wx/gdicmn.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\clrpicker.h
+	"wx/defs.h"
+	"wx/pickerbase.h"
+	"wx/gtk/clrpicker.h"
+	"wx/generic/clrpickerg.h"
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\pickerbase.h
+	"wx/control.h"
+	"wx/sizer.h"
+	"wx/containr.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\clrpicker.h
+	"wx/button.h"
+
+1276344482 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\button.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+	"wx/control.h"
+	"wx/univ/button.h"
+	"wx/msw/button.h"
+	"wx/motif/button.h"
+	"wx/gtk/button.h"
+	"wx/gtk1/button.h"
+	"wx/osx/button.h"
+	"wx/cocoa/button.h"
+	"wx/os2/button.h"
+	"wx/palmos/button.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\button.h
+	"wx/bitmap.h"
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\button.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\button.h
+
+1276344449 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\button.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\button.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/list.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\button.h
+	"wx/control.h"
+	"wx/gdicmn.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\button.h
+	"wx/cocoa/NSButton.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nsbutton.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+	"wx/cocoa/ObjcRef.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\button.h
+	"wx/control.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\button.h
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\clrpickerg.h
+	"wx/button.h"
+	"wx/bmpbuttn.h"
+	"wx/cmndata.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\bmpbuttn.h
+	"wx/defs.h"
+	"wx/button.h"
+	"wx/univ/bmpbuttn.h"
+	"wx/msw/bmpbuttn.h"
+	"wx/motif/bmpbuttn.h"
+	"wx/gtk/bmpbuttn.h"
+	"wx/gtk1/bmpbuttn.h"
+	"wx/osx/bmpbuttn.h"
+	"wx/cocoa/bmpbuttn.h"
+	"wx/os2/bmpbuttn.h"
+	"wx/palmos/bmpbuttn.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\bmpbuttn.h
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\bmpbuttn.h
+	"wx/button.h"
+	"wx/bitmap.h"
+	"wx/brush.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\bmpbuttn.h
+	"wx/motif/bmpmotif.h"
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\bmpmotif.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\bmpbuttn.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\bmpbuttn.h
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\bmpbuttn.h
+	"wx/button.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\bmpbuttn.h
+	"wx/cocoa/NSButton.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\bmpbuttn.h
+	"wx/button.h"
+	"wx/dcclient.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\bmpbuttn.h
+	"wx/button.h"
+	"wx/bitmap.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\spinctrl.h
+	"wx/defs.h"
+	"wx/spinbutt.h"
+	"wx/msw/spinctrl.h"
+	"wx/os2/spinctrl.h"
+	"wx/gtk/spinctrl.h"
+	"wx/gtk1/spinctrl.h"
+	"wx/osx/spinctrl.h"
+	"wx/generic/spinctlg.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\spinbutt.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/event.h"
+	"wx/univ/spinbutt.h"
+	"wx/msw/spinbutt.h"
+	"wx/motif/spinbutt.h"
+	"wx/gtk/spinbutt.h"
+	"wx/gtk1/spinbutt.h"
+	"wx/osx/spinbutt.h"
+	"wx/cocoa/spinbutt.h"
+	"wx/os2/spinbutt.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\spinbutt.h
+	"wx/univ/scrarrow.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\spinbutt.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\spinbutt.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\spinbutt.h
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\spinbutt.h
+
+1276344414 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\spinbutt.h
+	"wx/control.h"
+	"wx/event.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\spinctrl.h
+	"wx/spinbutt.h"
+	"wx/dynarray.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\spinctrl.h
+	"wx/spinbutt.h"
+	"wx/dynarray.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\spinctrl.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\spinctrl.h
+	"wx/defs.h"
+	"wx/control.h"
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\spinctrl.h
+	"wx/containr.h"
+	"wx/textctrl.h"
+
+1276344469 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\spinctlg.h
+	"wx/textctrl.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\stattext.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/stattext.h"
+	"wx/msw/stattext.h"
+	"wx/motif/stattext.h"
+	"wx/gtk/stattext.h"
+	"wx/gtk1/stattext.h"
+	"wx/osx/stattext.h"
+	"wx/cocoa/stattext.h"
+	"wx/os2/stattext.h"
+	"wx/palmos/stattext.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\stattext.h
+	"wx/generic/stattextg.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\stattextg.h
+	"wx/stattext.h"
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\stattext.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\stattext.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\stattext.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\stattext.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\stattext.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\stattext.h
+	"wx/cocoa/NSTextField.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\stattext.h
+	"wx/control.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\stattext.h
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\valtext.h
+	"wx/defs.h"
+	"wx/validate.h"
+
+1276344338 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\aui\auibook.h
+	"wx/defs.h"
+	"wx/aui/framemanager.h"
+	"wx/aui/dockart.h"
+	"wx/aui/floatpane.h"
+	"wx/control.h"
+
+1276344338 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\aui\framemanager.h
+	"wx/defs.h"
+	"wx/dynarray.h"
+	"wx/gdicmn.h"
+	"wx/window.h"
+	"wx/timer.h"
+	"wx/sizer.h"
+
+1276344338 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\aui\dockart.h
+	"wx/defs.h"
+	"wx/pen.h"
+	"wx/brush.h"
+	"wx/bitmap.h"
+	"wx/colour.h"
+
+1276344338 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\aui\floatpane.h
+	"wx/defs.h"
+	"wx/weakref.h"
+	"wx/minifram.h"
+	"wx/frame.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\minifram.h
+	"wx/defs.h"
+	"wx/palmos/minifram.h"
+	"wx/msw/minifram.h"
+	"wx/motif/minifram.h"
+	"wx/gtk/minifram.h"
+	"wx/gtk1/minifram.h"
+	"wx/x11/minifram.h"
+	"wx/osx/minifram.h"
+	"wx/os2/minifram.h"
+	"wx/frame.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\minifram.h
+	"wx/frame.h"
+
+1276344489 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\frame.h
+	"wx/toplevel.h"
+	"wx/statusbr.h"
+	"wx/univ/frame.h"
+	"wx/palmos/frame.h"
+	"wx/msw/frame.h"
+	"wx/gtk/frame.h"
+	"wx/gtk1/frame.h"
+	"wx/motif/frame.h"
+	"wx/osx/frame.h"
+	"wx/cocoa/frame.h"
+	"wx/os2/frame.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\statusbr.h
+	"wx/defs.h"
+	"wx/window.h"
+	"wx/list.h"
+	"wx/dynarray.h"
+	"wx/univ/statusbr.h"
+	"wx/palmos/statusbr.h"
+	"wx/msw/statusbar.h"
+	"wx/generic/statusbr.h"
+	"wx/osx/statusbr.h"
+	"wx/generic/statusbr.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\statusbr.h
+	"wx/univ/inpcons.h"
+	"wx/arrstr.h"
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\statusbr.h
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\statusbar.h
+	"wx/vector.h"
+	"wx/tooltip.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\tooltip.h
+	"wx/defs.h"
+	"wx/msw/tooltip.h"
+	"wx/gtk/tooltip.h"
+	"wx/gtk1/tooltip.h"
+	"wx/osx/tooltip.h"
+	"wx/cocoa/tooltip.h"
+	"wx/os2/tooltip.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\tooltip.h
+	"wx/object.h"
+	"wx/gdicmn.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\tooltip.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/object.h"
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\tooltip.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/object.h"
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\tooltip.h
+	"wx/string.h"
+	"wx/event.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\tooltip.h
+	"wx/object.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\tooltip.h
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\statusbr.h
+	"wx/defs.h"
+	"wx/pen.h"
+	"wx/arrstr.h"
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\statusbr.h
+
+1276344343 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\frame.h
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\frame.h
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\frame.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\frame.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\frame.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\frame.h
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\frame.h
+	"wx/window.h"
+	"wx/toolbar.h"
+	"wx/accel.h"
+	"wx/icon.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\toolbar.h
+	"wx/defs.h"
+	"wx/tbarbase.h"
+	"wx/univ/toolbar.h"
+	"wx/palmos/toolbar.h"
+	"wx/msw/toolbar.h"
+	"wx/msw/wince/tbarwce.h"
+	"wx/motif/toolbar.h"
+	"wx/gtk/toolbar.h"
+	"wx/gtk1/toolbar.h"
+	"wx/osx/toolbar.h"
+	"wx/cocoa/toolbar.h"
+	"wx/os2/toolbar.h"
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\tbarbase.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+	"wx/list.h"
+	"wx/control.h"
+
+1276344343 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\toolbar.h
+	"wx/button.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\toolbar.h
+	"wx/dynarray.h"
+
+1276344395 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\toolbar.h
+	"wx/dynarray.h"
+	"wx/imaglist.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\imaglist.h
+	"wx/defs.h"
+	"wx/generic/imaglist.h"
+	"wx/msw/imaglist.h"
+	"wx/osx/imaglist.h"
+	"wx/palmos/imaglist.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\imaglist.h
+	"wx/list.h"
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\imaglist.h
+	"wx/bitmap.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\imaglist.h
+	"wx/defs.h"
+	"wx/list.h"
+	"wx/icon.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\imaglist.h
+	"wx/bitmap.h"
+
+1276344393 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wince\tbarwce.h
+	"wx/dynarray.h"
+	"wx/msw/toolbar.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\toolbar.h
+
+1276344449 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\toolbar.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\toolbar.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\toolbar.h
+	"wx/tbarbase.h"
+	"wx/dynarray.h"
+
+1276344475 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\toolbar.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\toolbar.h
+	"wx/timer.h"
+	"wx/tbarbase.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\frame.h
+
+1276344414 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\frame.h
+	"wx/os2/wxrsc.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\wxrsc.h
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\minifram.h
+	"wx/frame.h"
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\minifram.h
+	"wx/frame.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\minifram.h
+	"wx/bitmap.h"
+	"wx/frame.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\minifram.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/frame.h"
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\minifram.h
+	"wx/frame.h"
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\minifram.h
+	"wx/frame.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\minifram.h
+	"wx/frame.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\wxprec.h
+	"wx/defs.h"
+	"wx/chartype.h"
+	"wx/msw/wrapwin.h"
+	"wx/msw/wrapcctl.h"
+	"wx/msw/wrapcdlg.h"
+	"wx/msw/private.h"
+	"wx/msw/missing.h"
+	<PalmOS.h>
+	"wx/os2/private.h"
+	"wx/mgl/private.h"
+	"wx/wx.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wrapcctl.h
+	"wx/msw/wrapwin.h"
+	<commctrl.h>
+	"wx/msw/missing.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\missing.h
+	<windows.h>
+	"wx/msw/winundef.h"
+	"wx/msw/wince/missing.h"
+
+1276344393 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wince\missing.h
+	"wx/msw/private.h"
+	"shellapi.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wrapcdlg.h
+	"wx/defs.h"
+	"wx/msw/wrapwin.h"
+	"wx/msw/private.h"
+	"wx/msw/missing.h"
+	<commdlg.h>
+	"wx/msw/winundef.h"
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\private.h
+	"wx/ioswrap.h"
+	<mgraph.hpp>
+	"pmapi.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\wx.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/dynarray.h"
+	"wx/list.h"
+	"wx/hash.h"
+	"wx/string.h"
+	"wx/hashmap.h"
+	"wx/arrstr.h"
+	"wx/intl.h"
+	"wx/log.h"
+	"wx/event.h"
+	"wx/app.h"
+	"wx/utils.h"
+	"wx/stream.h"
+	"wx/memory.h"
+	"wx/math.h"
+	"wx/stopwatch.h"
+	"wx/timer.h"
+	"wx/module.h"
+	"wx/wxcrt.h"
+	"wx/wxcrtvararg.h"
+	"wx/window.h"
+	"wx/containr.h"
+	"wx/panel.h"
+	"wx/toplevel.h"
+	"wx/frame.h"
+	"wx/gdicmn.h"
+	"wx/gdiobj.h"
+	"wx/region.h"
+	"wx/bitmap.h"
+	"wx/image.h"
+	"wx/colour.h"
+	"wx/font.h"
+	"wx/dc.h"
+	"wx/dcclient.h"
+	"wx/dcmemory.h"
+	"wx/dcprint.h"
+	"wx/dcscreen.h"
+	"wx/button.h"
+	"wx/menuitem.h"
+	"wx/menu.h"
+	"wx/pen.h"
+	"wx/brush.h"
+	"wx/palette.h"
+	"wx/icon.h"
+	"wx/cursor.h"
+	"wx/dialog.h"
+	"wx/settings.h"
+	"wx/msgdlg.h"
+	"wx/cmndata.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/ctrlsub.h"
+	"wx/bmpbuttn.h"
+	"wx/checkbox.h"
+	"wx/checklst.h"
+	"wx/choice.h"
+	"wx/scrolbar.h"
+	"wx/stattext.h"
+	"wx/statbmp.h"
+	"wx/statbox.h"
+	"wx/listbox.h"
+	"wx/radiobox.h"
+	"wx/radiobut.h"
+	"wx/textctrl.h"
+	"wx/slider.h"
+	"wx/gauge.h"
+	"wx/scrolwin.h"
+	"wx/dirdlg.h"
+	"wx/toolbar.h"
+	"wx/combobox.h"
+	"wx/layout.h"
+	"wx/sizer.h"
+	"wx/statusbr.h"
+	"wx/choicdlg.h"
+	"wx/textdlg.h"
+	"wx/filedlg.h"
+	"wx/mdi.h"
+	"wx/validate.h"
+	"wx/valtext.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\app.h
+	"wx/event.h"
+	"wx/build.h"
+	"wx/cmdargs.h"
+	"wx/init.h"
+	"wx/intl.h"
+	"wx/log.h"
+	"wx/unix/app.h"
+	"wx/palmos/app.h"
+	"wx/msw/app.h"
+	"wx/motif/app.h"
+	"wx/mgl/app.h"
+	"wx/dfb/app.h"
+	"wx/gtk/app.h"
+	"wx/gtk1/app.h"
+	"wx/x11/app.h"
+	"wx/osx/app.h"
+	"wx/cocoa/app.h"
+	"wx/os2/app.h"
+	"wx/univ/theme.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\build.h
+	"wx/version.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cmdargs.h
+	"wx/arrstr.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\init.h
+	"wx/defs.h"
+	"wx/chartype.h"
+
+1276344349 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\unix\app.h
+	<signal.h>
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\app.h
+	"wx/event.h"
+	"wx/icon.h"
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\app.h
+	"wx/event.h"
+	"wx/icon.h"
+	"wx/msw/wrapwin.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\app.h
+	"wx/event.h"
+	"wx/hashmap.h"
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\app.h
+	"wx/frame.h"
+	"wx/icon.h"
+	"wx/vidmode.h"
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\vidmode.h
+
+1276344382 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dfb\app.h
+	"wx/dfb/dfbptr.h"
+	"wx/vidmode.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\app.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\app.h
+	"wx/frame.h"
+	"wx/icon.h"
+	"wx/strconv.h"
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\app.h
+	"wx/gdicmn.h"
+	"wx/event.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\app.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/gdicmn.h"
+	"wx/event.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\app.h
+	"wx/osx/core/cfref.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\app.h
+	<types.h>
+	<sys/ioctl.h>
+	<sys/select.h>
+	<sys/time.h>
+	<sys/types.h>
+	<unistd.h>
+	<utils.h>
+	<types.h>
+	"wx/event.h"
+	"wx/icon.h"
+
+1276344343 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\theme.h
+	"wx/string.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\module.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/arrstr.h"
+	"wx/dynarray.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dcprint.h
+	"wx/defs.h"
+	"wx/dc.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dcscreen.h
+	"wx/defs.h"
+	"wx/dc.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\menuitem.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/univ/menuitem.h"
+	"wx/palmos/menuitem.h"
+	"wx/msw/menuitem.h"
+	"wx/motif/menuitem.h"
+	"wx/gtk/menuitem.h"
+	"wx/gtk1/menuitem.h"
+	"wx/osx/menuitem.h"
+	"wx/cocoa/menuitem.h"
+	"wx/os2/menuitem.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\menuitem.h
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\menuitem.h
+	"wx/ownerdrw.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\ownerdrw.h
+	"wx/defs.h"
+	"wx/font.h"
+	"wx/colour.h"
+	"wx/msw/ownerdrw.h"
+	"wx/os2/ownerdrw.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\ownerdrw.h
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\ownerdrw.h
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\menuitem.h
+	"wx/ownerdrw.h"
+	"wx/bitmap.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\menuitem.h
+	"wx/bitmap.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\menuitem.h
+	"wx/bitmap.h"
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\menuitem.h
+	"wx/bitmap.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\menuitem.h
+	"wx/defs.h"
+	"wx/bitmap.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\menuitem.h
+	"wx/hashmap.h"
+	"wx/bitmap.h"
+	"wx/cocoa/ObjcRef.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\menuitem.h
+	"wx/defs.h"
+	"wx/os2/private.h"
+	"wx/ownerdrw.h"
+	"wx/bitmap.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\menu.h
+	"wx/defs.h"
+	"wx/list.h"
+	"wx/window.h"
+	"wx/menuitem.h"
+	"wx/univ/menu.h"
+	"wx/palmos/menu.h"
+	"wx/msw/menu.h"
+	"wx/motif/menu.h"
+	"wx/gtk/menu.h"
+	"wx/gtk1/menu.h"
+	"wx/osx/menu.h"
+	"wx/cocoa/menu.h"
+	"wx/os2/menu.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\menu.h
+	"wx/accel.h"
+	"wx/dynarray.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\menu.h
+	"wx/accel.h"
+	"wx/dynarray.h"
+	"wx/arrstr.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\menu.h
+	"wx/accel.h"
+	"wx/dynarray.h"
+	"wx/arrstr.h"
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\menu.h
+	"wx/colour.h"
+	"wx/font.h"
+	"wx/arrstr.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\menu.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\menu.h
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\menu.h
+	"wx/arrstr.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\menu.h
+	"wx/cocoa/NSMenu.h"
+	"wx/accel.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\menu.h
+	"wx/accel.h"
+	"wx/list.h"
+	"wx/dynarray.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dataobj.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/bitmap.h"
+	"wx/list.h"
+	"wx/arrstr.h"
+	"wx/msw/ole/dataform.h"
+	"wx/motif/dataform.h"
+	"wx/gtk/dataform.h"
+	"wx/gtk1/dataform.h"
+	"wx/x11/dataform.h"
+	"wx/osx/dataform.h"
+	"wx/cocoa/dataform.h"
+	"wx/os2/dataform.h"
+	"wx/msw/ole/dataobj.h"
+	"wx/motif/dataobj.h"
+	"wx/x11/dataobj.h"
+	"wx/gtk/dataobj.h"
+	"wx/gtk1/dataobj.h"
+	"wx/osx/dataobj.h"
+	"wx/cocoa/dataobj.h"
+	"wx/os2/dataobj.h"
+	"wx/msw/ole/dataobj2.h"
+	"wx/gtk/dataobj2.h"
+	"wx/gtk1/dataobj2.h"
+	"wx/x11/dataobj2.h"
+	"wx/motif/dataobj2.h"
+	"wx/osx/dataobj2.h"
+	"wx/cocoa/dataobj2.h"
+	"wx/os2/dataobj2.h"
+
+1276344388 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\ole\dataform.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\dataform.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\dataform.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\dataform.h
+
+1276344402 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\dataform.h
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\dataform.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\dataform.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\dataform.h
+
+1276344388 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\ole\dataobj.h
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\dataobj.h
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\dataobj.h
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\dataobj.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\dataobj.h
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\dataobj.h
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\dataobj.h
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\dataobj.h
+
+1276344388 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\ole\dataobj2.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\dataobj2.h
+
+1276344363 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\dataobj2.h
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\dataobj2.h
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\dataobj2.h
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\dataobj2.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\dataobj2.h
+
+1276344414 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\dataobj2.h
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\checkbox.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/checkbox.h"
+	"wx/msw/checkbox.h"
+	"wx/motif/checkbox.h"
+	"wx/gtk/checkbox.h"
+	"wx/gtk1/checkbox.h"
+	"wx/osx/checkbox.h"
+	"wx/cocoa/checkbox.h"
+	"wx/os2/checkbox.h"
+	"wx/palmos/checkbox.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\checkbox.h
+	"wx/button.h"
+
+1276344396 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\checkbox.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\checkbox.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\checkbox.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\checkbox.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\checkbox.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\checkbox.h
+	"wx/cocoa/NSButton.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\checkbox.h
+	"wx/control.h"
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\checkbox.h
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\checklst.h
+	"wx/listbox.h"
+	"wx/univ/checklst.h"
+	"wx/msw/wince/checklst.h"
+	"wx/msw/checklst.h"
+	"wx/motif/checklst.h"
+	"wx/gtk/checklst.h"
+	"wx/gtk1/checklst.h"
+	"wx/osx/checklst.h"
+	"wx/cocoa/checklst.h"
+	"wx/os2/checklst.h"
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\listbox.h
+	"wx/defs.h"
+	"wx/ctrlsub.h"
+	"wx/univ/listbox.h"
+	"wx/msw/listbox.h"
+	"wx/motif/listbox.h"
+	"wx/gtk/listbox.h"
+	"wx/gtk1/listbox.h"
+	"wx/osx/listbox.h"
+	"wx/os2/listbox.h"
+	"wx/cocoa/listbox.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\listbox.h
+	"wx/scrolwin.h"
+	"wx/dynarray.h"
+	"wx/arrstr.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\listbox.h
+	"wx/dynarray.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\listbox.h
+	"wx/ctrlsub.h"
+	"wx/clntdata.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\listbox.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\listbox.h
+	"wx/list.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\listbox.h
+	"wx/dynarray.h"
+	"wx/arrstr.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\listbox.h
+	"wx/dynarray.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\listbox.h
+	"wx/cocoa/NSTableView.h"
+	"wx/dynarray.h"
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nstableview.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\checklst.h
+
+1276344393 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\wince\checklst.h
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\checklst.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\checklst.h
+	"wx/listbox.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\checklst.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\checklst.h
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\checklst.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\checklst.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\checklst.h
+	<stddef.h>
+	"wx/defs.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\statbmp.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/univ/statbmp.h"
+	"wx/msw/statbmp.h"
+	"wx/motif/statbmp.h"
+	"wx/gtk/statbmp.h"
+	"wx/gtk1/statbmp.h"
+	"wx/osx/statbmp.h"
+	"wx/cocoa/statbmp.h"
+	"wx/os2/statbmp.h"
+
+1276344345 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\statbmp.h
+	"wx/bitmap.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\statbmp.h
+	"wx/control.h"
+	"wx/icon.h"
+	"wx/bitmap.h"
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\statbmp.h
+	"wx/motif/bmpmotif.h"
+	"wx/icon.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\statbmp.h
+	"wx/icon.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\statbmp.h
+	"wx/icon.h"
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\statbmp.h
+	"wx/osx/carbon/statbmp.h"
+	"wx/generic/statbmpg.h"
+
+1276344435 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\carbon\statbmp.h
+	"wx/icon.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\statbmpg.h
+	"wx/statbmp.h"
+
+1276344478 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\statbmp.h
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\statbmp.h
+	"wx/control.h"
+	"wx/icon.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\statbox.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/statbox.h"
+	"wx/msw/statbox.h"
+	"wx/motif/statbox.h"
+	"wx/gtk/statbox.h"
+	"wx/gtk1/statbox.h"
+	"wx/osx/statbox.h"
+	"wx/cocoa/statbox.h"
+	"wx/os2/statbox.h"
+
+1276344346 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\statbox.h
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\statbox.h
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\statbox.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\statbox.h
+
+1276344363 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\statbox.h
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\statbox.h
+	"wx/control.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\statbox.h
+	"wx/cocoa/NSBox.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nsbox.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+
+1276344414 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\statbox.h
+	"wx/control.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\radiobox.h
+	"wx/ctrlsub.h"
+	"wx/dynarray.h"
+	"wx/univ/radiobox.h"
+	"wx/msw/radiobox.h"
+	"wx/motif/radiobox.h"
+	"wx/gtk/radiobox.h"
+	"wx/gtk1/radiobox.h"
+	"wx/osx/radiobox.h"
+	"wx/cocoa/radiobox.h"
+	"wx/os2/radiobox.h"
+	"wx/palmos/radiobox.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\radiobox.h
+	"wx/statbox.h"
+	"wx/dynarray.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\radiobox.h
+	"wx/statbox.h"
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\radiobox.h
+	"wx/dynarray.h"
+	"wx/arrstr.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\radiobox.h
+	"wx/bitmap.h"
+	"wx/list.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\radiobox.h
+	"wx/bitmap.h"
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\radiobox.h
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\radiobox.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\radiobox.h
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\radiobox.h
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\radiobut.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/radiobut.h"
+	"wx/msw/radiobut.h"
+	"wx/motif/radiobut.h"
+	"wx/gtk/radiobut.h"
+	"wx/gtk1/radiobut.h"
+	"wx/osx/radiobut.h"
+	"wx/cocoa/radiobut.h"
+	"wx/os2/radiobut.h"
+	"wx/palmos/radiobut.h"
+
+1276344345 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\radiobut.h
+	"wx/checkbox.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\radiobut.h
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\radiobut.h
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\radiobut.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\radiobut.h
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\radiobut.h
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\radiobut.h
+	"wx/cocoa/NSButton.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\radiobut.h
+	"wx/control.h"
+
+1276344376 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\radiobut.h
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\slider.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/slider.h"
+	"wx/msw/slider.h"
+	"wx/motif/slider.h"
+	"wx/gtk/slider.h"
+	"wx/gtk1/slider.h"
+	"wx/osx/slider.h"
+	"wx/cocoa/slider.h"
+	"wx/os2/slider.h"
+	"wx/palmos/slider.h"
+
+1276344345 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\slider.h
+	"wx/univ/scrthumb.h"
+
+1276344346 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\scrthumb.h
+	"wx/timer.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\slider.h
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\slider.h
+	"wx/control.h"
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\slider.h
+
+1276344363 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\slider.h
+
+1276344442 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\slider.h
+	"wx/control.h"
+	"wx/slider.h"
+	"wx/stattext.h"
+
+1276344478 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\slider.h
+	"wx/cocoa/NSSlider.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\nsslider.h
+	"wx/hashmap.h"
+	"wx/cocoa/ObjcAssociate.h"
+	"wx/cocoa/ObjcRef.h"
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\slider.h
+	"wx/control.h"
+
+1276344377 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\slider.h
+
+1276344488 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gauge.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/gauge.h"
+	"wx/msw/gauge.h"
+	"wx/motif/gauge.h"
+	"wx/gtk/gauge.h"
+	"wx/gtk1/gauge.h"
+	"wx/osx/gauge.h"
+	"wx/cocoa/gauge.h"
+	"wx/os2/gauge.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\gauge.h
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\gauge.h
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\gauge.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\gauge.h
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\gauge.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\gauge.h
+	"wx/control.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\gauge.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\gauge.h
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dirdlg.h
+	"wx/dialog.h"
+	"wx/generic/dirdlgg.h"
+	"wx/generic/dirdlgg.h"
+	"wx/generic/dirdlgg.h"
+	"wx/msw/dirdlg.h"
+	"wx/gtk/dirdlg.h"
+	"wx/generic/dirdlgg.h"
+	"wx/osx/dirdlg.h"
+	"wx/cocoa/dirdlg.h"
+	"wx/generic/dirdlgg.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\dirdlgg.h
+	"wx/dialog.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\dirdlg.h
+
+1276344449 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\dirdlg.h
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\dirdlg.h
+
+1276344475 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\dirdlg.h
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\layout.h
+	"wx/object.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\choicdlg.h
+	"wx/generic/choicdgg.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\choicdgg.h
+	"wx/dynarray.h"
+	"wx/dialog.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\textdlg.h
+	"wx/generic/textdlgg.h"
+
+1276344469 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\textdlgg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/valtext.h"
+	"wx/textctrl.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\filedlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/arrstr.h"
+	"wx/generic/filedlgg.h"
+	"wx/msw/filedlg.h"
+	"wx/motif/filedlg.h"
+	"wx/gtk/filedlg.h"
+	"wx/gtk1/filedlg.h"
+	"wx/osx/filedlg.h"
+	"wx/cocoa/filedlg.h"
+	"wx/os2/filedlg.h"
+	"wx/generic/filedlgg.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\filedlgg.h
+	"wx/listctrl.h"
+	"wx/datetime.h"
+	"wx/filefn.h"
+	"wx/artprov.h"
+	"wx/filedlg.h"
+	"wx/generic/filectrlg.h"
+
+1276344493 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\listctrl.h
+	"wx/defs.h"
+	"wx/listbase.h"
+	"wx/msw/listctrl.h"
+	"wx/osx/listctrl.h"
+	"wx/generic/listctrl.h"
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\listbase.h
+	"wx/colour.h"
+	"wx/font.h"
+	"wx/gdicmn.h"
+	"wx/event.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\listctrl.h
+	"wx/textctrl.h"
+	"wx/dynarray.h"
+	"wx/vector.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\listctrl.h
+	"wx/defs.h"
+	"wx/generic/listctrl.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\listctrl.h
+	"wx/scrolwin.h"
+	"wx/textctrl.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\artprov.h
+	"wx/string.h"
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/iconbndl.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\filectrlg.h
+	"wx/panel.h"
+	"wx/listctrl.h"
+	"wx/filectrl.h"
+	"wx/filename.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\filectrl.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/event.h"
+	"wx/gtk/filectrl.h"
+	"wx/generic/filectrlg.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\filectrl.h
+	"wx/control.h"
+	"wx/filectrl.h"
+
+1276344490 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\filename.h
+	"wx/arrstr.h"
+	"wx/filefn.h"
+	"wx/datetime.h"
+	"wx/intl.h"
+	"wx/longlong.h"
+	"wx/file.h"
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\file.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/filefn.h"
+	"wx/strconv.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\filedlg.h
+
+1276344355 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\filedlg.h
+
+1276344451 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\filedlg.h
+	"wx/gtk/filectrl.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\filedlg.h
+	"wx/generic/filedlgg.h"
+
+1276344441 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\filedlg.h
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\filedlg.h
+
+1276344415 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\filedlg.h
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mdi.h
+	"wx/defs.h"
+	"wx/frame.h"
+	"wx/menu.h"
+	"wx/generic/mdig.h"
+	"wx/msw/mdi.h"
+	"wx/gtk/mdi.h"
+	"wx/gtk1/mdi.h"
+	"wx/osx/mdi.h"
+	"wx/cocoa/mdi.h"
+
+1276344469 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\mdig.h
+	"wx/panel.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\mdi.h
+	"wx/frame.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\mdi.h
+	"wx/frame.h"
+
+1276344361 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\mdi.h
+	"wx/frame.h"
+
+1276344440 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\mdi.h
+
+1276344477 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\mdi.h
+	"wx/frame.h"
+
+1276344483 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\clipbrd.h
+	"wx/defs.h"
+	"wx/event.h"
+	"wx/chartype.h"
+	"wx/dataobj.h"
+	"wx/vector.h"
+	"wx/msw/clipbrd.h"
+	"wx/motif/clipbrd.h"
+	"wx/gtk/clipbrd.h"
+	"wx/gtk1/clipbrd.h"
+	"wx/x11/clipbrd.h"
+	"wx/mgl/clipbrd.h"
+	"wx/osx/clipbrd.h"
+	"wx/cocoa/clipbrd.h"
+	"wx/os2/clipbrd.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\clipbrd.h
+
+1276344356 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\clipbrd.h
+	"wx/list.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\clipbrd.h
+	"wx/weakref.h"
+
+1276344363 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\clipbrd.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/module.h"
+
+1276344403 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\x11\clipbrd.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/module.h"
+
+1276344422 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\mgl\clipbrd.h
+	"wx/object.h"
+	"wx/list.h"
+	"wx/dataobj.h"
+	"wx/control.h"
+	"wx/module.h"
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\clipbrd.h
+	"wx/osx/core/cfref.h"
+
+1276344476 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\cocoa\clipbrd.h
+	"wx/dataobj.h"
+
+1276344414 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\clipbrd.h
+	"wx/list.h"
+	"wx/module.h"
+	"wx/dataobj.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\rawbmp.h
+	"wx/defs.h"
+	"wx/image.h"
+	"wx/bitmap.h"
+
+1276344495 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\graphics.h
+	"wx/defs.h"
+	"wx/geometry.h"
+	"wx/dynarray.h"
+	"wx/dc.h"
+	"wx/vector.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\geometry.h
+	"wx/defs.h"
+	"wx/utils.h"
+	"wx/gdicmn.h"
+	"wx/math.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\dragimag.h
+	"wx/generic/dragimgg.h"
+	"wx/msw/dragimag.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+	"wx/generic/dragimgg.h"
+
+1276344469 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\dragimgg.h
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/cursor.h"
+	"wx/treectrl.h"
+	"wx/listctrl.h"
+	"wx/log.h"
+	"wx/overlay.h"
+
+1276344496 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\treectrl.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/treebase.h"
+	"wx/textctrl.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+	"wx/msw/treectrl.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+	"wx/generic/treectlg.h"
+
+1276344486 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\treebase.h
+	"wx/defs.h"
+	"wx/window.h"
+	"wx/event.h"
+	"wx/dynarray.h"
+
+1276344470 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\treectlg.h
+	"wx/scrolwin.h"
+	"wx/pen.h"
+
+1276344400 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\treectrl.h
+	"wx/textctrl.h"
+	"wx/dynarray.h"
+	"wx/treebase.h"
+	"wx/hashmap.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\overlay.h
+	"wx/defs.h"
+
+1276344398 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\dragimag.h
+	"wx/bitmap.h"
+	"wx/icon.h"
+	"wx/cursor.h"
+	"wx/treectrl.h"
+	"wx/listctrl.h"
+
+1276344494 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\fontdlg.h
+	"wx/defs.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+	"wx/generic/fontdlgg.h"
+	"wx/msw/fontdlg.h"
+	"wx/gtk/fontdlg.h"
+	"wx/gtk1/fontdlg.h"
+	"wx/os2/fontdlg.h"
+	"wx/osx/fontdlg.h"
+
+1276344468 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\generic\fontdlgg.h
+	"wx/defs.h"
+	"wx/gdicmn.h"
+	"wx/font.h"
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1276344399 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\fontdlg.h
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\fontdlg.h
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\fontdlg.h
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\fontdlg.h
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1276344439 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\fontdlg.h
+	"wx/dialog.h"
+	"wx/cmndata.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\textfile.h
+	"wx/defs.h"
+	"wx/textbuf.h"
+	"wx/file.h"
+
+1276344487 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\textbuf.h
+	"wx/defs.h"
+	"wx/arrstr.h"
+	"wx/convauto.h"
+	"wx/string.h"
+	"wx/dynarray.h"
+
+1276344492 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\convauto.h
+	"wx/strconv.h"
+	"wx/fontenc.h"
+
+1276344491 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\tglbtn.h
+	"wx/defs.h"
+	"wx/event.h"
+	"wx/control.h"
+	"wx/univ/tglbtn.h"
+	"wx/msw/tglbtn.h"
+	"wx/gtk/tglbtn.h"
+	"wx/gtk1/tglbtn.h"
+	"wx/motif/tglbtn.h"
+	"wx/osx/tglbtn.h"
+	"wx/palmos/tglbtn.h"
+	"wx/os2/tglbtn.h"
+
+1276344344 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\univ\tglbtn.h
+	"wx/button.h"
+
+1276344397 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\msw\tglbtn.h
+	"wx/bitmap.h"
+
+1276344450 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk\tglbtn.h
+	"wx/bitmap.h"
+
+1276344362 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\gtk1\tglbtn.h
+	"wx/bitmap.h"
+
+1276344354 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\motif\tglbtn.h
+	"wx/checkbox.h"
+
+1276344438 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\osx\tglbtn.h
+
+1276344375 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\palmos\tglbtn.h
+	"wx/checkbox.h"
+
+1276344413 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\os2\tglbtn.h
+
+1276344338 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\aui\aui.h
+	"wx/aui/framemanager.h"
+	"wx/aui/dockart.h"
+	"wx/aui/floatpane.h"
+	"wx/aui/auibar.h"
+	"wx/aui/auibook.h"
+	"wx/aui/tabmdi.h"
+
+1276344338 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\aui\auibar.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/sizer.h"
+	"wx/pen.h"
+
+1276344338 c:\users\seb\documents\00_sdk\include\wx\gcc_svn\include\wx\aui\tabmdi.h
+	"wx/frame.h"
+	"wx/panel.h"
+	"wx/notebook.h"
+	"wx/icon.h"
+	"wx/aui/auibook.h"
 

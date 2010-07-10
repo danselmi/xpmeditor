@@ -5,33 +5,17 @@ IMPROVEMENTS / NEW FEATURES:
       Undo / Redo buffer
       Color palette (how many colors, and which one).
 
-2 - Use wrapsizer for tools. (copy wrapsizer.cpp / h from wxWidgets 2.9.0)
-
 3 - resize all cursors to fit in a 16 x 16 square
 
-4 - Image property dialog box: jpg quality
-                               png compression
-                               image resolution
+4 - Image property dialog box: jpg quality (advanced options)
+                               png compression  (advanced options)
+                               image resolution (advanced options)
                                image size
-                               colour depth
+                               colour depth (advanced options)
 
 5 - Quick Help display (tooltip)
 
 6 - Copy To / Paste from file
-
-7 - hideable panels with flat wxButtons (wxAUI ?)
-
-        INTERFACE: Zoom, Rotate, Show Grid, hide/show other panels
-
-        COLOUR PANEL: ColourPicker
-
-        MAIN Panel: Draw Canvas + Status Text
-
-        TOOLBOX Panel: (like quick properties panel in wxSmith)
-            SubPanel TOOLS  : the drawing Tools
-            SubPanel IMAGE  : Size, JPEG Quality, Resolution
-            SubPanel EFFECTS: Rotate, Flip, Stretch, Blur, RotateHue, Convert colours (Greyscale, Mono, ...)
-            SubPanel HELP   : quick help
 
 8 - Draw Opaque option
 
@@ -55,7 +39,6 @@ BUGS:
 
 4 - Redraw background: the bottom right corner is not covered when zooming out
 
-5 - Save As: does not update the file status in the Project Manager
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
 
@@ -69,7 +52,7 @@ BUGS:
 
 3 - Save As: does not update the file status in the Project Manager
 
----- SOLVED ----------------------------------------------
+---- SOLVED & DONE ----------------------------------------------
 
 15 - bug with resize selection with big zooms
 
@@ -77,4 +60,26 @@ BUGS:
 
 6 - Rotate Hue: from colour to colour
 
+5 - Save As: does not update the file status in the Project Manager
+     solved by adding these lines in the XPMEditorBase::SaveAs() method, before the line "SetProjectFile(0);":
+
+        if (m_pProjectFile) m_pProjectFile->SetFileState(fvsNormal); //so the original project file will be shown as unmodified.
+        UpdateModified();
+        SetProjectFile(0);
+
 18 - Undo : mask colour not saved, and resetted to black after Undo.
+
+7 - hideable panels with flat wxButtons (wxAUI ?)
+
+        INTERFACE: Zoom, Rotate, Show Grid, hide/show other panels
+
+        COLOUR PANEL: ColourPicker
+
+        MAIN Panel: Draw Canvas + Status Text
+
+        TOOLBOX Panel: (like quick properties panel in wxSmith)
+            SubPanel TOOLS  : the drawing Tools
+            SubPanel IMAGE  : Size, JPEG Quality, Resolution
+            SubPanel EFFECTS: Rotate, Flip, Stretch, Blur, RotateHue, Convert colours (Greyscale, Mono, ...)
+            SubPanel HELP   : quick help
+
