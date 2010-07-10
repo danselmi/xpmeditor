@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxPanel" name="XPMFoldPanel">
+		<id_arg>0</id_arg>
+		<object class="wxBoxSizer" variable="MainSizer" member="yes">
+			<object class="sizeritem">
+				<object class="Custom" name="ID_FOLDPANELBAR1" subclass="wxFoldPanelEx" variable="FoldPanelBar1" member="yes">
+					<creating_code>$(THIS) = new $(CLASS)($(PARENT));</creating_code>
+					<include_file>wx/foldpanelex/foldpanelex.h</include_file>
+					<local_include>1</local_include>
+					<style></style>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
+				<option>1</option>
+			</object>
+		</object>
+	</object>
+</wxsmith>

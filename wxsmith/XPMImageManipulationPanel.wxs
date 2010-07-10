@@ -4,12 +4,13 @@
 		<pos_arg>1</pos_arg>
 		<size_arg>1</size_arg>
 		<object class="wxBoxSizer" variable="BoxSizer13" member="no">
+			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
 				<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
 					<label>STRETCH</label>
 					<handler function="OnButtonStretchClick" entry="EVT_BUTTON" />
 				</object>
-				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 				<border>5</border>
 			</object>
 			<object class="sizeritem">
@@ -17,7 +18,7 @@
 					<label>MIRROR</label>
 					<handler function="OnButtonMirrorClick" entry="EVT_BUTTON" />
 				</object>
-				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 				<border>5</border>
 			</object>
 			<object class="sizeritem">
@@ -25,7 +26,7 @@
 					<label>BLUR</label>
 					<handler function="OnButtonBlurClick" entry="EVT_BUTTON" />
 				</object>
-				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
 			</object>
 			<object class="sizeritem">
@@ -33,7 +34,7 @@
 					<label>ROTATE</label>
 					<handler function="OnButtonRotateClick" entry="EVT_BUTTON" />
 				</object>
-				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
 			</object>
 			<object class="sizeritem">
@@ -41,7 +42,7 @@
 					<label>HUE</label>
 					<handler function="OnButtonHueClick" entry="EVT_BUTTON" />
 				</object>
-				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
 			</object>
 			<object class="sizeritem">
@@ -49,7 +50,7 @@
 					<label>COLOUR DEPTH</label>
 					<handler function="OnButtonColourDepthClick" entry="EVT_BUTTON" />
 				</object>
-				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
 				<border>5</border>
 			</object>
 			<object class="sizeritem">
@@ -57,11 +58,11 @@
 					<label>INVERT</label>
 					<handler function="OnButtonInvertClick" entry="EVT_BUTTON" />
 				</object>
-				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
 				<border>5</border>
 			</object>
 			<object class="spacer">
-				<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 				<border>5</border>
 				<option>1</option>
 			</object>
