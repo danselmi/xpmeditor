@@ -35,7 +35,7 @@ QuickHelpPanel::QuickHelpPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 {
 	//(*Initialize(QuickHelpPanel)
 	wxBoxSizer* BoxSizer1;
-
+	
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer1 = new wxBoxSizer(wxVERTICAL);
 	Notebook1 = new wxNotebook(this, ID_NOTEBOOK1, wxDefaultPosition, wxSize(364,242), 0, _T("ID_NOTEBOOK1"));
@@ -53,7 +53,7 @@ QuickHelpPanel::QuickHelpPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	Notebook1->AddPage(Panel4, _("Tools"), false);
 	Notebook1->AddPage(Panel5, _("Effects"), false);
 	Notebook1->AddPage(Panel6, _("Colour"), false);
-	BoxSizer1->Add(Notebook1, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer1->Add(Notebook1, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
