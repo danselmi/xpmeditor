@@ -80,7 +80,6 @@ class XPMToolPanel: public wxPanel
 		wxCustomButton* LassoButton;
 		wxCustomButton* RectangleButton;
 		wxCustomButton* CircleBrushButton;
-		wxPanel* Panel2;
 		wxRadioButton* BottomRight;
 		wxRadioButton* CenterRight;
 		wxCustomButton* RRectButton;
@@ -138,7 +137,6 @@ class XPMToolPanel: public wxPanel
 		static const long ID_SPINCTRL5;
 		static const long ID_STATICTEXT6;
 		static const long ID_SPINCTRL4;
-		static const long ID_PANEL3;
 		static const long ID_PANEL1;
 		//*)
 

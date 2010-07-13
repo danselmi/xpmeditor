@@ -69,10 +69,15 @@ You have to #include "wx/tglbtn.h" for EVT_TOGGLEBUTTON
 #define _WX_CUSTOMBUTTON_H_
 
 #include "wx/things/thingdef.h"
-//#define wxCUSTOM_BUTTON_SUNKEN_BORDER_PATCH 1
+#ifdef __WXMSW__
+    #define wxCUSTOM_BUTTON_SUNKEN_BORDER_PATCH 1
+#endif
 
-class WXDLLEXPORT wxTimer;
-class WXDLLEXPORT wxTimerEvent;
+//class WXDLLEXPORT wxTimer;
+//class WXDLLEXPORT wxTimerEvent;
+
+class wxTimer;
+class wxTimerEvent;
 
 //-----------------------------------------------------------------------------
 // wxCustomButton styles

@@ -2,8 +2,8 @@
 static const char *right_hair_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "8 8 2 1",
-"  c #FFFFFF",
-". c #2F3699",
+". c #29349C",
+"  c None",
 /* pixels */
 "        ",
 "      . ",

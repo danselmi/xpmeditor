@@ -26,6 +26,7 @@
 #define XPM_MAX_UNDO        100
 
 #include <wx/msgdlg.h>
+#include <wx/list.h>
 
 #include "XPMEditorPanel.h"
 #include "XPMEditorBase.h"
@@ -119,6 +120,9 @@ class XPMEditor : public cbMimePlugin
           */
         bool DeleteEditor(XPMEditorBase *editor);
 
+        //save and load images
+        bool LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt); ///< \brief This method will load an image from a file
+
         //for setting & getting standard configuration
         void SetMaxUndoRedo(int iMax);  ///< \brief set the size of the UNDO / REDO buffer
         int GetMaxUndoRedo(void);       ///< \brief get the size of the UNDO / REDO buffer
@@ -135,6 +139,14 @@ class XPMEditor : public cbMimePlugin
         bool ReadConfiguration(bool bDefault); ///< \brief Read the configuration file.
         bool WriteConfiguration(void); ///< \brief write the configuration file
         void UpdateConfiguration(void); ///< \brief ask all the image editors to update their configuration
+
+        //image format supported
+        bool IsFormatValidForReading(wxBitmapType btFormat); ///< \brief Indicates if a format is supported or not for reading
+        bool IsFormatValidForWriting(wxBitmapType btFormat); ///< \brief Indicates if a format is supported or not for writing
+        bool GetImageFormatFromFileName(wxString sFileName, wxBitmapType *bt) const;  ///< \brief Autodetect the file format for the image, based on the file extension
+        void AddFileMasksToProjectManager(void);                                ///< \brief This method adds Filemasks, such as "*.bmp" to the project manager
+        bool IsGroupNameExisting(wxString sName, const FilesGroupsAndMasks *fm);///< \brief Test if a group name is already existing in the Project Manager
+
 
     protected:
         /** Any descendent plugin should override this virtual method and

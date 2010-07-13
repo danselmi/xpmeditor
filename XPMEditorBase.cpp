@@ -32,7 +32,7 @@ XPMEditorBase::EditorsSet XPMEditorBase::m_AllEditors;
   * \param bitmap    a pointer to the Bitmap to display. Can be NULL
   * \param sFileName the filename associated to the editor. Can be empty
   */
-XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *img, wxString sFileName)
+XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *img, wxString sFileName, wxBitmapType bt)
     :EditorBase(parent,title)
 {
     //constructor
@@ -65,6 +65,7 @@ XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *im
     if (m_DrawArea)
     {
         m_DrawArea->SetImage(img);
+        m_DrawArea->SetImageFormat(bt);
     }
 
 }
@@ -318,55 +319,49 @@ bool XPMEditorBase::Save(void)
 
     if (!m_bIsFileNameOK) return(SaveAs());
 
-
-    //get fileformat requested, based on file extension
-    wxString fn;
+    //get the file format to use for saving (bmp, jpeg, png, ...)
     wxBitmapType bt;
     bool bRecognized;
+    if (!m_DrawArea) return(false);
+    bt = m_DrawArea->GetImageFormat();
 
     bRecognized = false;
-    fn = m_Filename;
-    fn.MakeUpper();
-    if (fn.Right(4) == _(".XPM")) {bt = wxBITMAP_TYPE_XPM; bRecognized = true; }
-    if (fn.Right(4) == _(".ICO")) {bt = wxBITMAP_TYPE_ICO; bRecognized = true; }
-    if (fn.Right(4) == _(".CUR")) {bt = wxBITMAP_TYPE_CUR; bRecognized = true; }
-    if (fn.Right(4) == _(".XBM")) {bt = wxBITMAP_TYPE_XBM; bRecognized = true; }
-    if (fn.Right(4) == _(".BMP")) {bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
-    if (fn.Right(4) == _(".TIF")) {bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
-    if (fn.Right(4) == _(".JPG")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
-    if (fn.Right(4) == _(".JPE")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
-    if (fn.Right(4) == _(".DIB")) {bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
-    if (fn.Right(4) == _(".PNG")) {bt = wxBITMAP_TYPE_PNG; bRecognized = true; }
-    if (fn.Right(4) == _(".PNM")) {bt = wxBITMAP_TYPE_PNM; bRecognized = true; }
-    if (fn.Right(4) == _(".PCX")) {bt = wxBITMAP_TYPE_PCX; bRecognized = true; }
-    //if (fn.Right(4) == _(".GIF")) bt = wxBITMAP_TYPE_GIF;
-    //if (fn.Right(5) == _(".ANI")) bt = wxBITMAP_TYPE_ANI;
-    //if (fn.Right(5) == _(".IFF")) bt = wxBITMAP_TYPE_IFF;
-    //if (fn.Right(5) == _(".TGA")) bt = wxBITMAP_TYPE_TGA;
-    if (fn.Right(5) == _(".PICT")) {bt = wxBITMAP_TYPE_PICT; bRecognized = true; }
-    if (fn.Right(5) == _(".ICON")) {bt = wxBITMAP_TYPE_ICON; bRecognized = true; }
-    if (fn.Right(5) == _(".TIFF")) {bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
-    if (fn.Right(5) == _(".JPEG")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
-    if (fn.Right(5) == _(".JFIF")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+    if (bt == wxBITMAP_TYPE_ANY)
+    {
+        //get fileformat requested, based on file extension
+        if (XPM_Plugin())
+        {
+            XPM_Plugin()->GetImageFormatFromFileName(m_Filename, &bt);
+            if (XPM_Plugin()->IsFormatValidForWriting(bt)) bRecognized = true;
+        }
+    }
+    else
+    {
+        //the fileformat is requested by the user specifically
+        if (XPM_Plugin())
+        {
+            if (XPM_Plugin()->IsFormatValidForWriting(bt)) bRecognized = true;
+        }
+    }
 
     if (!bRecognized)
     {
         wxString sMsg;
-        sMsg = _("The file format is not recognized. Try one of this one:");
-        sMsg += _("*.bmp - bitmap format\n");
-        sMsg += _("*.dib - bitmap format\n");
-        sMsg += _("*.xpm - pixmap XPM format\n");
-        sMsg += _("*.xbm - bitmap XBM format\n");
-        sMsg += _("*.png - bitmap PNG format\n");
-        sMsg += _("*.jpg, *.jpeg, *.jfif - bitmap JPEG format\n");
-        sMsg += _("*.tif, *.tiff - bitmap TIFF format\n");
-        sMsg += _("*.pnm - bitmap PNM format\n");
-        sMsg += _("*.pcx - PCX format\n");
-        sMsg += _("*.pict - PICT format\n");
-        sMsg += _("*.icon - icon format\n");
-        sMsg += _("*.ico - icon format - Windows only\n");
-        sMsg += _("*.cur - cursor format - Windows only\n");
-        sMsg += _("*.ani - animated cursor format - Windows only\n");
+        sMsg = _("The file format is not supported on this platform, or is not recognized. Try one of this one:");
+        sMsg += _("    *.bmp - bitmap format\n");
+        sMsg += _("    *.dib - bitmap format\n");
+        sMsg += _("    *.xpm - pixmap XPM format\n");
+        sMsg += _("    *.xbm - bitmap XBM format\n");
+        sMsg += _("    *.png - bitmap PNG format\n");
+        sMsg += _("    *.jpg, *.jpeg, *.jfif - bitmap JPEG format\n");
+        sMsg += _("    *.tif, *.tiff - bitmap TIFF format\n");
+        sMsg += _("    *.pnm - bitmap PNM format\n");
+        sMsg += _("    *.pcx - PCX format\n");
+        sMsg += _("    *.pict - PICT format\n");
+        sMsg += _("    *.icon - icon format\n");
+        sMsg += _("    *.ico - icon format - Windows only\n");
+        sMsg += _("    *.cur - cursor format - Windows only\n");
+        sMsg += _("    *.ani - animated cursor format - Windows only\n");
         ::wxMessageBox(sMsg, _("File saving error"), wxOK | wxICON_ERROR);
         return(false);
     }

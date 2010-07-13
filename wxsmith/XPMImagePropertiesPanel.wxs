@@ -71,18 +71,6 @@
 					</object>
 					<object class="sizeritem">
 						<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes">
-							<content>
-								<item>Automatic</item>
-								<item>bitmap (*.bmp)</item>
-								<item>cursor (*.cur)</item>
-								<item>icon (*.icon)</item>
-								<item>jpeg (*.jpg)</item>
-								<item>pcx (*.pcx)</item>
-								<item>png (*.png)</item>
-								<item>pnm (*.pnm)</item>
-								<item>tiff (*tif, *.tiff)</item>
-								<item>xpm (*.xpm)</item>
-							</content>
 							<handler function="OnImageTypeChanged" entry="EVT_CHOICE" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>

@@ -17,6 +17,9 @@
 #include "wxConversion.h"
 #include "wxInvertDialog.h"
 
+
+#include <wx/generic/dragimgg.h>
+
 #include <wx/dcclient.h>
 #include <wx/dcbuffer.h>
 #include <wx/brush.h>
@@ -28,7 +31,6 @@
 #include <wx/region.h>
 #include <wx/graphics.h>
 #include <wx/bitmap.h>
-#include <wx/dragimag.h>
 #include <wx/fontdlg.h>
 #include <wx/textfile.h>
 #include <wx/stattext.h>
@@ -87,6 +89,7 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 
 	m_Bitmap = NULL;
 	m_Image = NULL;
+	m_ImageFormat = wxBITMAP_TYPE_ANY;
 	bCanResizeX = false;
 	bCanResizeY = false;
 	bSizingX = false;
@@ -254,6 +257,60 @@ void XPMEditorPanel::LogToFile(wxString sLogText, wxString sFilePath)
     #endif
 }
 
+/** Set the new image format to use when saving.
+  * If the format is not supported, nothing is done.
+  * When the image format is set to wxBITMAP_TYPE_ANY, then the saving file format
+  * will be decided based on file extension (*.bmp for bitmap, *.jpg for JPEG, ...)
+  * If another value is used, then this format will be forced used when saving,
+  * regardless of the filename
+  * \param btFormat : one of the saving format supported:
+  *
+  * see wxImage / wxBitmapType in wxWidgets doc for more information
+  */
+void XPMEditorPanel::SetImageFormat(wxBitmapType btFormat)
+{
+    if (IsValidFormat(btFormat)) m_ImageFormat = btFormat;
+}
+
+/** Indicates if a format is supported or not
+  * \param btFormat : the format to test
+  *                  see wxImage / wxBitmapType in wxWidgets doc for more information
+  * \return true if supported for saving, false otherwise
+  *         Note that some format are supported only for reading (GIFF for example)
+  *         In this case, the method will return false
+  */
+bool XPMEditorPanel::IsValidFormat(wxBitmapType btFormat)
+{
+    if (XPM_Plugin()) return(XPM_Plugin()->IsFormatValidForWriting(btFormat));
+    return(false);
+}
+
+/**  Autodetect the file format for the image, based on the file extension
+  * \param sFilename: the full or relative path of the file to test
+  * \return true on success, false on failure
+  *         on failure, m_ImageFormat will have the value wxBITMAP_TYPE_ANY
+  */
+bool XPMEditorPanel::SetImageFormatFromFilename(wxString sFilename)
+{
+     if (XPM_Plugin())
+     {
+          return(XPM_Plugin()->GetImageFormatFromFileName(sFilename, &m_ImageFormat));
+     }
+     else
+     {
+         m_ImageFormat = wxBITMAP_TYPE_ANY;
+     }
+
+     return(false);
+}
+
+/** Gets the format used to save the image.
+  * \return the image format. @see SetImageFormat for more information
+  */
+wxBitmapType XPMEditorPanel::GetImageFormat(void)
+{
+    return(m_ImageFormat);
+}
 
 /** Set minimal sizes for the AUI Panes
   * Minimal sizes will be set for :
@@ -287,7 +344,7 @@ void XPMEditorPanel::UpdateMinimalSizes(void)
             }
 
             auiColPickerInfo = auiColPickerInfo.BestSize(sBestSize)
-                                               //.FloatingSize(sBestSize)
+                                               .FloatingSize(sBestSize)
                                                .MinSize(sMinSize);
 
 
@@ -693,7 +750,6 @@ void XPMEditorPanel::SetImage(wxImage *img)
         if (!m_Image) return;
 
         //check for HotSpot coordinates
-
         if ((m_Image->HasOption(wxIMAGE_OPTION_CUR_HOTSPOT_X)) && (m_Image->HasOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y)))
         {
             iHotSpotX = m_Image->GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_X);
@@ -1915,7 +1971,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         img.Rescale(img.GetWidth() * dScale, img.GetHeight() * dScale);
         wxBitmap bmp(img);
         if (m_DragImage) delete(m_DragImage);
-        m_DragImage = new wxDragImage(bmp, wxCursor(wxCURSOR_HAND));
+        m_DragImage = new wxGenericDragImage(bmp, wxCursor(wxCURSOR_HAND));
         if (!m_DragImage) return;
         if (!m_Bitmap) return;
 

@@ -12,7 +12,7 @@
 #define XPM_EDITOR_PANEL_H
 
 
-class wxDragImage;
+class wxGenericDragImage;
 //class wxBitmap;
 
 #include <wx/image.h>
@@ -69,9 +69,15 @@ struct ToolData
 class XPMEditorPanel: public wxPanel
 {
 	public:
-
+        //constructors, destructor and initialisation
 		XPMEditorPanel(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~XPMEditorPanel();
+
+		//image format methods
+		bool IsValidFormat(wxBitmapType btFormat);           ///< \brief Return true if the format is supported as a saving format.
+		wxBitmapType GetImageFormat(void);                   ///< \brief Gets the format used to save the image.
+		void SetImageFormat(wxBitmapType btFormat);          ///< \brief Sets the format used to save the image. If the format is not supported, nothing is done
+		bool SetImageFormatFromFilename(wxString sFilename); ///< \brief Autodetect the file format for the image, based on the file extension
 
         //Bitmap & draw canvas access
 		wxImage GetImage(void);        ///< \brief return a copy the associated image (unscaled)
@@ -306,13 +312,14 @@ class XPMEditorPanel: public wxPanel
         wxColour cMaskColour;           ///< \brief the current mask colour
         wxBitmap *m_Bitmap;             ///< \brief the temporary bitmap, used for drawing
         wxImage *m_Image;               ///< \brief the temporary image, used for misc functions
+        wxBitmapType m_ImageFormat;     ///< \brief the format of the image file (JPEG, BMP, XPM, ...)
         void UpdateBitmap(void);        ///< \brief recreate the m_Bitmap member from the m_Image member
         void UpdateImage(void);         ///< \brief Ensure the Image is up-to-date (buffered user actions are flushed)
         wxBitmap* GetBitmap(void);      ///< \brief return the associated scaled bitmap
 		void SetBitmap(wxBitmap *bm);   ///< \brief set the current unscaled bitmap
 
         //drag related methods & members
-		wxDragImage *m_DragImage;        ///< \brief for dragging the current selection
+		wxGenericDragImage *m_DragImage; ///< \brief for dragging the current selection
 		bool m_bDragging;                ///< \brief true if the user is currently dragging a shape, false otherwise
 		wxImage m_SelectionImage;        ///< \brief for dragging selection: save the image to drag
 		wxBitmap m_SelectionBitmap;      ///< \brief for drawing the selection

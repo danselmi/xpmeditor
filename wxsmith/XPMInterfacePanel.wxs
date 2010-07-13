@@ -32,7 +32,7 @@
 					<style>wxCB_DROPDOWN</style>
 					<handler function="OnZoomChanged" entry="EVT_COMBOBOX" />
 				</object>
-				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
 			</object>
 			<object class="sizeritem">

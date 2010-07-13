@@ -9,6 +9,7 @@
  **************************************************************/
 
 #include <sdk.h> // Code::Blocks SDK
+#include <filegroupsandmasks.h>
 #include <configurationpanel.h>
 
 #include <wx/aui/auibook.h>
@@ -65,8 +66,10 @@ bool XPMEditor::CanHandleFile(const wxString& filename) const
    fn = filename;
    fn.MakeUpper();
 
+   //special handling for XPM image
    if (fn.Right(4) == _(".XPM"))
    {
+       //iOpenXPM==1 : 1: open the XPM in text editor. 2: ask the user. Other values: open the XPM in Image Editor.
        if (iOpenXPM == 1) return(false);
        if (iOpenXPM == 2)
        {
@@ -80,26 +83,10 @@ bool XPMEditor::CanHandleFile(const wxString& filename) const
        return(true);
    }
 
-   if (fn.Right(4) == _(".ICO")) return(true);
-   if (fn.Right(4) == _(".CUR")) return(true);
-   if (fn.Right(4) == _(".XBM")) return(true);
-   if (fn.Right(4) == _(".BMP")) return(true);
-   if (fn.Right(4) == _(".TIF")) return(true);
-   if (fn.Right(4) == _(".JPG")) return(true);
-   if (fn.Right(4) == _(".JPE")) return(true);
-   if (fn.Right(4) == _(".DIB")) return(true);
-   if (fn.Right(4) == _(".PNG")) return(true);
-   if (fn.Right(4) == _(".PNM")) return(true);
-   if (fn.Right(4) == _(".PCX")) return(true);
-   if (fn.Right(4) == _(".GIF")) return(true);
-   if (fn.Right(5) == _(".ANI")) return(true);
-   if (fn.Right(5) == _(".IFF")) return(true);
-   if (fn.Right(5) == _(".TGA")) return(true);
-   if (fn.Right(5) == _(".PICT")) return(true);
-   if (fn.Right(5) == _(".ICON")) return(true);
-   if (fn.Right(5) == _(".TIFF")) return(true);
-   if (fn.Right(5) == _(".JPEG")) return(true);
-   if (fn.Right(5) == _(".JFIF")) return(true);
+   //see if an handler is available
+   wxBitmapType bt;
+
+   if (GetImageFormatFromFileName(filename, &bt)) return(true);
 
    return(false);
 }
@@ -147,6 +134,8 @@ void XPMEditor::OnAttach()
     if (m_Singleton == NULL)
     {
         wxInitAllImageHandlers();
+        wxBitmap::InitStandardHandlers();
+        AddFileMasksToProjectManager();
         m_Singleton = this;
     }
 }
@@ -164,6 +153,194 @@ void XPMEditor::OnRelease(bool appShutDown)
     {
         CloseMyEditors();
     }
+}
+
+/** This method adds Filemasks, such as "*.bmp" to the project manager
+  * This allows the display of all images into 1 virtual folder "Images"
+  */
+void XPMEditor::AddFileMasksToProjectManager(void)
+{
+    ProjectManager *pm;
+    pm = Manager::Get()->GetProjectManager();
+
+    wxArrayString sFileMasks;
+/*
+    sFileMasks.Add(_("*.bmp"));
+    sFileMasks.Add(_("*.xpm"));
+    sFileMasks.Add(_("*.ico"));
+    sFileMasks.Add(_("*.cur"));
+    sFileMasks.Add(_("*.xbm")); //
+    sFileMasks.Add(_("*.tif"));
+    sFileMasks.Add(_("*.jpg"));
+    sFileMasks.Add(_("*.jpe"));
+    sFileMasks.Add(_("*.dib")); //
+    sFileMasks.Add(_("*.png"));
+    sFileMasks.Add(_("*.pnm"));
+    sFileMasks.Add(_("*.pcx"));
+    sFileMasks.Add(_("*.gif"));
+    sFileMasks.Add(_("*.ani"));
+    sFileMasks.Add(_("*.iff")); //
+    sFileMasks.Add(_("*.tga"));
+    sFileMasks.Add(_("*.pict")); //
+    sFileMasks.Add(_("*.icon"));
+    sFileMasks.Add(_("*.tiff"));
+    sFileMasks.Add(_("*.jpeg"));
+    sFileMasks.Add(_("*.jfif"));
+*/
+
+    //get the list of file extension supported by wxImage
+    wxList list = wxImage::GetHandlers();
+    sFileMasks.Clear();
+
+    for(wxList::compatibility_iterator node = list.GetFirst(); node; node = node->GetNext())
+    {
+        wxImageHandler *handler=(wxImageHandler*) node->GetData();
+        wxString sExtension = _("*.") + handler->GetExtension();
+        sExtension.MakeLower();
+        if ((sFileMasks.Index(sExtension, false) == wxNOT_FOUND) && (handler->GetExtension().Len() > 0)) sFileMasks.Add(sExtension);
+    }
+
+    //get the list of file extension supported by wxBitmap
+    wxBitmapHandler *handler;
+    wxString sExtension;
+    wxBitmapType bt[32];
+    int i;
+
+    bt[0] = wxBITMAP_TYPE_BMP;
+    bt[1] = wxBITMAP_TYPE_BMP_RESOURCE;
+    bt[2] = wxBITMAP_TYPE_RESOURCE;
+    bt[3] = wxBITMAP_TYPE_ICO;
+    bt[4] = wxBITMAP_TYPE_ICO_RESOURCE;
+    bt[5] = wxBITMAP_TYPE_CUR;
+    bt[6] = wxBITMAP_TYPE_CUR_RESOURCE;
+    bt[7] = wxBITMAP_TYPE_XBM;
+    bt[8] = wxBITMAP_TYPE_XBM_DATA;
+    bt[9] = wxBITMAP_TYPE_XPM;
+    bt[10] = wxBITMAP_TYPE_XPM_DATA;
+    bt[11] = wxBITMAP_TYPE_TIF;
+    bt[12] = wxBITMAP_TYPE_TIF_RESOURCE;
+    bt[13] = wxBITMAP_TYPE_GIF;
+    bt[14] = wxBITMAP_TYPE_GIF_RESOURCE;
+    bt[15] = wxBITMAP_TYPE_PNG;
+    bt[16] = wxBITMAP_TYPE_PNG_RESOURCE;
+    bt[17] = wxBITMAP_TYPE_JPEG;
+    bt[18] = wxBITMAP_TYPE_JPEG_RESOURCE;
+    bt[19] = wxBITMAP_TYPE_PNM;
+    bt[20] = wxBITMAP_TYPE_PNM_RESOURCE;
+    bt[21] = wxBITMAP_TYPE_PCX;
+    bt[22] = wxBITMAP_TYPE_PCX_RESOURCE;
+    bt[23] = wxBITMAP_TYPE_PICT;
+    bt[24] = wxBITMAP_TYPE_PICT_RESOURCE;
+    bt[25] = wxBITMAP_TYPE_ICON;
+    bt[26] = wxBITMAP_TYPE_ICON_RESOURCE;
+    bt[27] = wxBITMAP_TYPE_ANI;
+    bt[28] = wxBITMAP_TYPE_IFF;
+    bt[29] = wxBITMAP_TYPE_TGA;
+    bt[30] = wxBITMAP_TYPE_MACCURSOR;
+    bt[31] = wxBITMAP_TYPE_MACCURSOR_RESOURCE;
+
+
+    for(i=0;i<32;i++)
+    {
+        handler = (wxBitmapHandler*) wxBitmap::FindHandler(bt[i]);
+        if (handler)
+        {
+            sExtension = _("*.") + handler->GetExtension();
+            if ((sFileMasks.Index(sExtension, false) == wxNOT_FOUND) && (handler->GetExtension().Len() > 0)) sFileMasks.Add(sExtension);
+        }
+    }
+
+
+
+    //add additionnal exensions
+    if (sFileMasks.Index(_("*.dib"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.dib"));
+    if (sFileMasks.Index(_("*.xbm"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.xbm"));
+    if (sFileMasks.Index(_("*.iff"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.iff"));
+    if (sFileMasks.Index(_("*.pic"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.pic"));
+    if (sFileMasks.Index(_("*.pict"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.pict"));
+    if (sFileMasks.Index(_("*.jpe"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.jpe"));
+    if (sFileMasks.Index(_("*.icon"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.icon"));
+    if (sFileMasks.Index(_("*.tiff"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.tiff"));
+    if (sFileMasks.Index(_("*.jpeg"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.jpeg"));
+    if (sFileMasks.Index(_("*.jfif"), false) == wxNOT_FOUND) sFileMasks.Add(_("*.jfif"));
+
+    //add these file masks to the project manager
+    if (pm)
+    {
+        FilesGroupsAndMasks *fm;
+        fm = (FilesGroupsAndMasks *) pm->GetFilesGroupsAndMasks();
+        if (fm)
+        {
+            //test if the filemasks are already associated
+            unsigned int i, iMax, iMatch;
+            size_t j, jMax;
+            bool bMatch;
+            wxString sMask;
+
+            bMatch = false;
+            jMax = sFileMasks.GetCount();
+            iMax = fm->GetGroupsCount();
+            for(j=0;j<jMax;j++) //loop over all the possible image files extensions
+            {
+                sMask = sFileMasks.Item(j);
+                for(i=0;i<iMax;i++) //loop over the groups managed by the project manager
+                {
+                    if (fm->MatchesMask(sMask, i))
+                    {
+                        bMatch= true;
+                        iMatch = i;
+                    }
+                }
+            }
+
+            if (!bMatch)
+            {
+                //create a new group
+                wxString sName;
+                sName = _("Images");
+                while (IsGroupNameExisting(sName, fm)) sName = sName + _("_");
+                fm->AddGroup(sName);
+                iMatch = fm->GetGroupsCount() - 1;
+            }
+
+            //add all the filemasks to the group
+            sMask = fm->GetFileMasks(iMatch);
+            for(j=0;j<jMax;j++) //loop over all the possible image files extensions
+            {
+                if (!(fm->MatchesMask(sFileMasks.Item(j), i))) //to avoid having twice the same mask
+                {
+                    if (sMask.Len() > 0) sMask = sMask  + _(";");
+                    sMask = sMask  + sFileMasks.Item(j);
+                }
+            }
+            fm->SetFileMasks(iMatch, sMask);
+
+            fm->Save();
+            pm->RebuildTree();
+        }
+    }
+}
+
+/** Test if a group name is already existing in the Project Manager
+  * \param sName : the group name to test. Example: _("Images")
+  * \param fm : the FilesGroupAndMasks to search
+  * \return true if the Name already exist, false otherwise
+  */
+bool XPMEditor::IsGroupNameExisting(wxString sName, const FilesGroupsAndMasks *fm)
+{
+    if (!fm) return(false);
+    unsigned int i, iMax;
+
+    wxString sName2;
+
+    iMax = fm->GetGroupsCount();
+    for(i=0;i<iMax;i++) //loop over the groups managed by the project manager
+    {
+        sName2 = fm->GetGroupName(i);
+        if (sName == sName2) return(true);
+    }
+
+    return(false);
 }
 
 /** Load an image from a file and open it in a new Image Editor
@@ -189,44 +366,16 @@ bool XPMEditor::OpenInEditor(wxString FileName)
         wxString title = wxFileName(FileName).GetFullName();
 
         //get the bitmap type and load it
-        wxString fn;
         wxBitmapType bt;
-        bool bRecognized;
-
-        fn = FileName;
-        fn.MakeUpper();
-        bRecognized = false;
-
-        if (fn.Right(4) == _(".XPM")) {bt = wxBITMAP_TYPE_XPM; bRecognized = true; }
-        if (fn.Right(4) == _(".ICO")) {bt = wxBITMAP_TYPE_ICO; bRecognized = true; }
-        if (fn.Right(4) == _(".CUR")) {bt = wxBITMAP_TYPE_CUR; bRecognized = true; }
-        if (fn.Right(4) == _(".XBM")) {bt = wxBITMAP_TYPE_XBM; bRecognized = true; }
-        if (fn.Right(4) == _(".BMP")) {bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
-        if (fn.Right(4) == _(".TIF")) {bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
-        if (fn.Right(4) == _(".JPG")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
-        if (fn.Right(4) == _(".JPE")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
-        if (fn.Right(4) == _(".DIB")) {bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
-        if (fn.Right(4) == _(".PNG")) {bt = wxBITMAP_TYPE_PNG; bRecognized = true; }
-        if (fn.Right(4) == _(".PNM")) {bt = wxBITMAP_TYPE_PNM; bRecognized = true; }
-        if (fn.Right(4) == _(".PCX")) {bt = wxBITMAP_TYPE_PCX; bRecognized = true; }
-        if (fn.Right(4) == _(".GIF")) {bt = wxBITMAP_TYPE_GIF; bRecognized = true; }
-        if (fn.Right(5) == _(".ANI")) {bt = wxBITMAP_TYPE_ANI; bRecognized = true; }
-        if (fn.Right(5) == _(".IFF")) {bt = wxBITMAP_TYPE_IFF; bRecognized = true; }
-        if (fn.Right(5) == _(".TGA")) {bt = wxBITMAP_TYPE_TGA; bRecognized = true; }
-        if (fn.Right(5) == _(".PICT")) {bt = wxBITMAP_TYPE_PICT; bRecognized = true; }
-        if (fn.Right(5) == _(".ICON")) {bt = wxBITMAP_TYPE_ICON; bRecognized = true; }
-        if (fn.Right(5) == _(".TIFF")) {bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
-        if (fn.Right(5) == _(".JPEG")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
-        if (fn.Right(5) == _(".JFIF")) {bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
-        if (!bRecognized) bt = wxBITMAP_TYPE_ANY; //try to recognize automatically
-
         wxImage img;
-        if (!(img.LoadFile(FileName, bt))) return(false);
+
+        if (!(LoadImage(&img, FileName, &bt))) return(false);
 
         NewEditor = new XPMEditorBase(Manager::Get()->GetEditorManager()->GetNotebook(),
                                         title,
                                         &img,
-                                        FileName
+                                        FileName,
+                                        bt
                                        );
         if (NewEditor)
         {
@@ -243,6 +392,338 @@ bool XPMEditor::OpenInEditor(wxString FileName)
     }
 
   return(false);
+}
+
+/** This method will load an image from a file
+  * It will use wxImage or wxBitmap, depending on the format
+  * \param img [out] : a pointer to the wxImage loaded
+  * \param sFileName [in] : the full path to the image to load
+  * \param bt [out] : a pointer to the file format detected
+  * \return : true on success, false on failure
+  *           on failure, img is not modified, and bt = wxBITMAP_TYPE_INVALID
+  */
+bool XPMEditor::LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt)
+{
+    //load an image
+    bool bRecognized;
+    wxFileName fn(sFileName);
+    wxString sExt;
+    wxBitmapType bt2;
+
+    sExt = fn.GetExt();
+
+    //get the file format
+    bRecognized = GetImageFormatFromFileName(sFileName, bt);
+
+    if (bRecognized)
+    {
+        //try the simplest case
+        if (img->LoadFile(sFileName, *bt)) return(true);
+
+        //try with auto-detection
+        bt2 = wxBITMAP_TYPE_ANY;
+        if (img->LoadFile(sFileName, bt2))
+        {
+            *bt = bt2;
+            return(true);
+        }
+    }
+    else
+    {
+        //try with auto-detection
+        bt2 = wxBITMAP_TYPE_ANY;
+        if (img->LoadFile(sFileName, bt2))
+        {
+            *bt = bt2;
+            return(true);
+        }
+    }
+
+    //try using a bitmap
+    wxBitmap bmp;
+    if (bmp.LoadFile(sFileName, *bt))
+    {
+        if (bmp.IsOk())
+        {
+            wxImage img2;
+            img2 = bmp.ConvertToImage();
+            if (img2.IsOk())
+            {
+                *img = img2;
+                return(true);
+            }
+        }
+    }
+    if (bmp.LoadFile(sFileName, wxBITMAP_TYPE_ANY))
+    {
+        if (bmp.IsOk())
+        {
+            wxImage img2;
+            img2 = bmp.ConvertToImage();
+            if (img2.IsOk())
+            {
+                *bt = wxBITMAP_TYPE_ANY;
+                *img = img2;
+                return(true);
+            }
+        }
+    }
+
+    //try using an icon
+    wxIcon ico;
+    if (ico.LoadFile(sFileName, *bt))
+    {
+        if (ico.IsOk())
+        {
+            wxImage img2;
+            wxBitmap bmp;
+            bmp.CopyFromIcon(ico);
+            if (bmp.IsOk())
+            {
+                img2 = bmp.ConvertToImage();
+                if (img2.IsOk())
+                {
+                    *img = img2;
+                    return(true);
+                }
+            }
+        }
+    }
+    if (ico.LoadFile(sFileName, wxBITMAP_TYPE_ANY))
+    {
+        if (ico.IsOk())
+        {
+            wxImage img2;
+            wxBitmap bmp;
+            bmp.CopyFromIcon(ico);
+            if (bmp.IsOk())
+            {
+                img2 = bmp.ConvertToImage();
+                if (img2.IsOk())
+                {
+                    *img = img2;
+                    return(true);
+                }
+            }
+        }
+    }
+
+    return(false);
+}
+
+/** Autodetect the file format for the image, based on the file extension
+  * \param sFileName : the full or relative path of the file to test
+  * \param bt : the resulting wxBitmapType
+  * \return true if recognized, false otherwise
+  *         if false, bt will have the value wxBITMAP_TYPE_ANY
+  */
+bool XPMEditor::GetImageFormatFromFileName(wxString sFileName, wxBitmapType *bt) const
+{
+    bool bRecognized;
+    wxFileName fn(sFileName);
+    wxString sExtension;
+
+    sExtension = fn.GetExt();
+    sExtension.MakeUpper();
+    if (!bt) return(false);
+
+    //convert extension to more common extension
+    if (sExtension == _("DIB")) sExtension = _("BMP");
+    if (sExtension == _("PICT")) sExtension = _("PIC");
+    if (sExtension == _("ICON")) sExtension = _("ICO");
+    if (sExtension == _("TIFF")) sExtension = _("TIF");
+    if (sExtension == _("JPEG")) sExtension = _("JPG");
+    if (sExtension == _("JFIF")) sExtension = _("JPG");
+
+    //initialisation
+    bRecognized = false;
+    *bt = wxBITMAP_TYPE_ANY;
+
+    //loop over all images handlers
+    wxList list = wxImage::GetHandlers();
+
+    for(wxList::compatibility_iterator node = list.GetFirst(); node; node = node->GetNext())
+    {
+        wxImageHandler *handler=(wxImageHandler*) node->GetData();
+        wxString sExtension2 = handler->GetExtension();
+        sExtension2.MakeUpper();
+        if (sExtension2 == sExtension)
+        {
+            *bt = (wxBitmapType) handler->GetType();
+            return(true);
+        }
+    }
+
+    //get the list of file extension supported by wxBitmap
+    wxBitmapHandler *handler2;
+    wxString sExtension2;
+    wxBitmapType bt2[32];
+    int i;
+
+    bt2[0] = wxBITMAP_TYPE_BMP;
+    bt2[1] = wxBITMAP_TYPE_BMP_RESOURCE;
+    bt2[2] = wxBITMAP_TYPE_RESOURCE;
+    bt2[3] = wxBITMAP_TYPE_ICO;
+    bt2[4] = wxBITMAP_TYPE_ICO_RESOURCE;
+    bt2[5] = wxBITMAP_TYPE_CUR;
+    bt2[6] = wxBITMAP_TYPE_CUR_RESOURCE;
+    bt2[7] = wxBITMAP_TYPE_XBM;
+    bt2[8] = wxBITMAP_TYPE_XBM_DATA;
+    bt2[9] = wxBITMAP_TYPE_XPM;
+    bt2[10] = wxBITMAP_TYPE_XPM_DATA;
+    bt2[11] = wxBITMAP_TYPE_TIF;
+    bt2[12] = wxBITMAP_TYPE_TIF_RESOURCE;
+    bt2[13] = wxBITMAP_TYPE_GIF;
+    bt2[14] = wxBITMAP_TYPE_GIF_RESOURCE;
+    bt2[15] = wxBITMAP_TYPE_PNG;
+    bt2[16] = wxBITMAP_TYPE_PNG_RESOURCE;
+    bt2[17] = wxBITMAP_TYPE_JPEG;
+    bt2[18] = wxBITMAP_TYPE_JPEG_RESOURCE;
+    bt2[19] = wxBITMAP_TYPE_PNM;
+    bt2[20] = wxBITMAP_TYPE_PNM_RESOURCE;
+    bt2[21] = wxBITMAP_TYPE_PCX;
+    bt2[22] = wxBITMAP_TYPE_PCX_RESOURCE;
+    bt2[23] = wxBITMAP_TYPE_PICT;
+    bt2[24] = wxBITMAP_TYPE_PICT_RESOURCE;
+    bt2[25] = wxBITMAP_TYPE_ICON;
+    bt2[26] = wxBITMAP_TYPE_ICON_RESOURCE;
+    bt2[27] = wxBITMAP_TYPE_ANI;
+    bt2[28] = wxBITMAP_TYPE_IFF;
+    bt2[29] = wxBITMAP_TYPE_TGA;
+    bt2[30] = wxBITMAP_TYPE_MACCURSOR;
+    bt2[31] = wxBITMAP_TYPE_MACCURSOR_RESOURCE;
+
+
+    for(i=0;i<32;i++)
+    {
+        handler2 = (wxBitmapHandler*) wxBitmap::FindHandler(bt2[i]);
+        if (handler2)
+        {
+            sExtension2 = handler2->GetExtension();
+            if (sExtension2 == sExtension)
+            {
+                *bt = (wxBitmapType) handler2->GetType();
+                return(true);
+            }
+
+        }
+    }
+
+    //hard coded extensions
+    if (!bRecognized)
+    {
+        if (sExtension == _("XPM")) {*bt = wxBITMAP_TYPE_XPM; bRecognized = true; }
+        if (sExtension == _("ICO")) {*bt = wxBITMAP_TYPE_ICO; bRecognized = true; }
+        if (sExtension == _("CUR")) {*bt = wxBITMAP_TYPE_CUR; bRecognized = true; }
+        if (sExtension == _("XBM")) {*bt = wxBITMAP_TYPE_XBM; bRecognized = true; }
+        if (sExtension == _("BMP")) {*bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
+        if (sExtension == _("TIF")) {*bt = wxBITMAP_TYPE_TIF; bRecognized = true; }
+        if (sExtension == _("JPG")) {*bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+        if (sExtension == _("JPE")) {*bt = wxBITMAP_TYPE_JPEG; bRecognized = true; }
+        if (sExtension == _("DIB")) {*bt = wxBITMAP_TYPE_BMP; bRecognized = true; }
+        if (sExtension == _("PNG")) {*bt = wxBITMAP_TYPE_PNG; bRecognized = true; }
+        if (sExtension == _("PNM")) {*bt = wxBITMAP_TYPE_PNM; bRecognized = true; }
+        if (sExtension == _("PCX")) {*bt = wxBITMAP_TYPE_PCX; bRecognized = true; }
+        if (sExtension == _("GIF")) {*bt = wxBITMAP_TYPE_GIF; bRecognized = true; }
+        if (sExtension == _("ANI")) {*bt = wxBITMAP_TYPE_ANI; bRecognized = true; }
+        if (sExtension == _("IFF")) {*bt = wxBITMAP_TYPE_IFF; bRecognized = true; }
+        if (sExtension == _("TGA")) {*bt = wxBITMAP_TYPE_TGA; bRecognized = true; }
+        if (sExtension == _("PIC")) {*bt = wxBITMAP_TYPE_PICT; bRecognized = true; }
+    }
+
+    return(bRecognized);
+}
+
+/** Indicates if a format is supported or not for writing
+  * \param btFormat : the format to test
+  *                   see wxImage / wxBitmapType in wxWidgets doc for more information
+  * \return true if supported for saving, false otherwise
+  *         Note that some format are supported only for reading (GIFF for example)
+  *         In this case, the method will return false
+  */
+bool XPMEditor::IsFormatValidForWriting(wxBitmapType btFormat)
+{
+    switch(btFormat)
+    {
+        case wxBITMAP_TYPE_INVALID : return(false);
+        case wxBITMAP_TYPE_ANY     : return(true);
+        default :  wxImageHandler *ih;
+                   wxBitmapHandler *bh;
+
+                   ih = wxImage::FindHandler(btFormat);
+                   if (ih)
+                   {
+                       bool bCanWrite;
+
+                       bCanWrite = true;
+
+                       if (btFormat == wxBITMAP_TYPE_GIF) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_GIF_RESOURCE) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_ANI) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_IFF) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_TGA) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_PICT_RESOURCE) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_PICT) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_MACCURSOR) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_MACCURSOR_RESOURCE) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_XBM) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_XBM_DATA) bCanWrite = false;
+
+
+                       if (bCanWrite) return(true);
+
+                   }
+
+                   bh = (wxBitmapHandler*) wxBitmap::FindHandler(btFormat);
+                   if (bh)
+                   {
+                       bool bCanWrite;
+
+                       bCanWrite = true;
+
+                       if (btFormat == wxBITMAP_TYPE_GIF) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_GIF_RESOURCE) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_ANI) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_IFF) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_TGA) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_PICT_RESOURCE) bCanWrite = false;
+                       if (btFormat == wxBITMAP_TYPE_PICT) bCanWrite = false;
+
+                       if (bCanWrite) return(true);
+                   }
+
+                   break;
+    }
+
+    return(false);
+}
+
+/** Indicates if a format is supported or not for reading
+  * \param btFormat : the format to test
+  *                   see wxImage / wxBitmapType in wxWidgets doc for more information
+  * \return true if supported for reading, false otherwise
+  *         Note that some format are supported only for reading (GIFF for example)
+  *         In this case, the method will return false
+  */
+bool XPMEditor::IsFormatValidForReading(wxBitmapType btFormat)
+{
+    switch(btFormat)
+    {
+        case wxBITMAP_TYPE_INVALID : return(false);
+        case wxBITMAP_TYPE_ANY     : return(true);
+        default :  wxImageHandler *ih;
+                   wxBitmapHandler *bh;
+
+                   ih = wxImage::FindHandler(btFormat);
+                   if (ih) return(true);
+
+                   bh = (wxBitmapHandler*) wxBitmap::FindHandler(btFormat);
+                   if (bh) return(true);
+
+                   break;
+    }
+
+    return(false);
 }
 
 /** Close all the Image Editor opened.

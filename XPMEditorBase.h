@@ -42,7 +42,7 @@ class XPMEditorBase: public EditorBase
 	public:
 		//constructors and destructors
 		XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *img,
-                        wxString sFileName);            ///< \brief Constructor
+                        wxString sFileName, wxBitmapType bt);   ///< \brief Constructor
 		~XPMEditorBase();                             ///< \brief Destructor
         static bool IsImgEditor(EditorBase* editor);    ///< \brief Check if given editor is an image editor
         static void CloseAllEditors(void);              ///< \brief Close all editors

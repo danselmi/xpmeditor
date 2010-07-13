@@ -20,6 +20,21 @@
 #include <wx/button.h>
 //*)
 
+#include <wx/dynarray.h>
+#include <wx/arrstr.h>
+
+#define XPM_FORMAT_INDEX_AUTO    0
+#define XPM_FORMAT_INDEX_BMP     1
+#define XPM_FORMAT_INDEX_CUR     2
+#define XPM_FORMAT_INDEX_ICO     3
+#define XPM_FORMAT_INDEX_JPG     4
+#define XPM_FORMAT_INDEX_PCX     5
+#define XPM_FORMAT_INDEX_PNG     6
+#define XPM_FORMAT_INDEX_PNM     7
+#define XPM_FORMAT_INDEX_TIF     8
+#define XPM_FORMAT_INDEX_XPM     9
+
+
 class XPMEditorPanel;
 
 class XPMImagePropertiesPanel: public wxPanel
@@ -30,6 +45,7 @@ class XPMImagePropertiesPanel: public wxPanel
 		virtual ~XPMImagePropertiesPanel();
 
 		void SetParentPanel(XPMEditorPanel *p); ///< \brief set the parent panel for this tool panel
+		void SetImageFormat(wxBitmapType bt);   /// \brief set the image saving file format in the wxChoice
 
 		//(*Declarations(XPMImagePropertiesPanel)
 		wxSpinCtrl* BMPHeight;
@@ -62,6 +78,10 @@ class XPMImagePropertiesPanel: public wxPanel
 		//*)
 
 		XPMEditorPanel *m_parent;
+		wxArrayString m_sFormats;
+		wxArrayInt m_iIndex;
+
+		void AppendFormatsToChoice(void); ///< \brief Populate the wxChoice with the available formats
 
 		DECLARE_EVENT_TABLE()
 };
