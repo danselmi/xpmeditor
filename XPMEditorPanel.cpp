@@ -3348,14 +3348,13 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
     event.Skip();
 }
 
-#if __WXMSW__
+
 /** Handler for mouse event: set the cursor to Arrow when leaving the drawing canvas
   */
 void XPMEditorPanel::OnDrawCanvasMouseLeave(wxMouseEvent& event)
 {
     SetCursor(wxCURSOR_ARROW);
 }
-#endif
 
 
 //------ SELECTION METHODS --------------------------------------

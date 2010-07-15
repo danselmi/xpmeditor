@@ -65,7 +65,7 @@ XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *im
     if (m_DrawArea)
     {
         m_DrawArea->SetImage(img);
-        m_DrawArea->SetImageFormat(bt);
+        m_DrawArea->SetImageFormat(bt); //default behaviour : autodetection using file extension
     }
 
 }

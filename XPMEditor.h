@@ -146,7 +146,9 @@ class XPMEditor : public cbMimePlugin
         bool GetImageFormatFromFileName(wxString sFileName, wxBitmapType *bt) const;  ///< \brief Autodetect the file format for the image, based on the file extension
         void AddFileMasksToProjectManager(void);                                ///< \brief This method adds Filemasks, such as "*.bmp" to the project manager
         bool IsGroupNameExisting(wxString sName, const FilesGroupsAndMasks *fm);///< \brief Test if a group name is already existing in the Project Manager
-
+        void GetFileSavingFormat(wxArrayString &array);                         ///< \brief Return a list of file saving format supported
+        wxBitmapType GetCompatibleSavingFormat(wxBitmapType btFormat);          ///< \brief This method checks if the given saving file format is available.
+        wxString GetFormatString(wxBitmapType bt);                             ///< \brief Return the string associated to the file format (ex: "bitmap (*.bmp)"
 
     protected:
         /** Any descendent plugin should override this virtual method and

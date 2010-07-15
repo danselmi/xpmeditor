@@ -51,6 +51,8 @@
 				</ExtraCommands>
 			</Target>
 		</Build>
+		<Unit filename="AdvancedOptions.cpp" />
+		<Unit filename="AdvancedOptions.h" />
 		<Unit filename="QuickHelpPanel.cpp" />
 		<Unit filename="QuickHelpPanel.h" />
 		<Unit filename="XPMColorPicker.cpp" />
@@ -165,6 +167,7 @@
 					<wxPanel wxs="wxsmith/XPMFoldPanel.wxs" src="XPMFoldPanel.cpp" hdr="XPMFoldPanel.h" name="XPMFoldPanel" language="CPP" />
 					<wxPanel wxs="wxsmith/XPMHelpPanel.wxs" src="XPMHelpPanel.cpp" hdr="XPMHelpPanel.h" name="XPMHelpPanel" language="CPP" />
 					<wxPanel wxs="wxsmith/XPMDrawCanvasPanel.wxs" src="XPMDrawCanvasPanel.cpp" hdr="XPMDrawCanvasPanel.h" fwddecl="1" name="XPMDrawCanvasPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/AdvancedOptions.wxs" src="AdvancedOptions.cpp" hdr="AdvancedOptions.h" fwddecl="1" name="AdvancedOptions" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

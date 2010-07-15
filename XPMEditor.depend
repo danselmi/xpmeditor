@@ -2741,25 +2741,27 @@
 	<wx/spinctrl.h>
 	<wx/panel.h>
 
-1278578813 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
+1279100288 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
 	<sdk.h>
+	<filegroupsandmasks.h>
 	<configurationpanel.h>
 	<wx/aui/auibook.h>
 	"XPMEditor.h"
 	"XPMColorPicker.h"
 
-1278578812 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
+1279099726 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 	<sdk.h>
 	<cbplugin.h>
 	<wx/msgdlg.h>
+	<wx/list.h>
 	"XPMEditorPanel.h"
 	"XPMEditorBase.h"
 	"XPMCustomZoom.h"
 	"XPMUndo.h"
 
-1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
+1278950068 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
 	<editorbase.h>
 	<projectfile.h>
 	<wx/bitmap.h>
@@ -2769,14 +2771,14 @@
 	<set>
 	"XPMEditorPanel.h"
 
-1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
+1278578566 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.h
 
 1278580430 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmcolorpicker.h
 	<wx/colour.h>
 	<wx/control.h>
 	<wx/scrolbar.h>
 
-1278578813 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+1279096098 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
 	<sdk.h>
 	<filefilters.h>
 	<wx/msgdlg.h>
@@ -2807,7 +2809,7 @@
 	<wx/bitmap.h>
 	<wx/tglbtn.h>
 
-1278578813 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
+1278578814 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
 	"XPMEditor.h"
 	<wx/gdicmn.h>
 
@@ -2831,7 +2833,7 @@
 	<wx/renderer.h>
 	<wx/settings.h>
 
-1278612407 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1279013696 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	"wxStretchImage.h"
 	"wxMirror.h"
@@ -2840,6 +2842,7 @@
 	"wxRotateHue.h"
 	"wxConversion.h"
 	"wxInvertDialog.h"
+	<wx/generic/dragimgg.h>
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>
 	<wx/brush.h>
@@ -2851,7 +2854,6 @@
 	<wx/region.h>
 	<wx/graphics.h>
 	<wx/bitmap.h>
-	<wx/dragimag.h>
 	<wx/fontdlg.h>
 	<wx/textfile.h>
 	<wx/stattext.h>
@@ -2921,13 +2923,13 @@
 
 1270409826 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\pen_cursor.xpm
 
-1270922088 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\circle.xpm
+1278920714 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\circle.xpm
 
-1270922162 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\square.xpm
+1279013388 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\square.xpm
 
-1270922112 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\left_hair.xpm
+1278920750 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\left_hair.xpm
 
-1270922140 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
+1278920774 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
 
 1271228826 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\src\toggle.cpp
 	"wx/wxprec.h"
@@ -2942,7 +2944,7 @@
 	"wx/renderer.h"
 	"wx/things/toggle.h"
 
-1271273284 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
+1279013316 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
 	"wx/things/thingdef.h"
 
 1267380210 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\thingdef.h
@@ -5811,7 +5813,7 @@
 	"wx/treectrl.h"
 	"wx/listctrl.h"
 
-1278578813 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.cpp
+1278578814 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxresizectrl.cpp
 	"wxResizeCtrl.h"
 	<wx/dcclient.h>
 	<wx/utils.h>
@@ -6045,12 +6047,12 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1277660709 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.cpp
+1277660710 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.cpp
 	"wxRotate.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1277660708 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.h
+1277660710 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotate.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/spinctrl.h>
@@ -6058,12 +6060,12 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1277660711 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.cpp
+1277660712 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.cpp
 	"wxRotateHue.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1277660710 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.h
+1277660712 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\wxrotatehue.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/radiobut.h>
@@ -17449,7 +17451,7 @@
 	<wx/control.h>
 	<wx/scrolbar.h>
 
-1278582310 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmfoldpanel.cpp
+1278582312 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmfoldpanel.cpp
 	"XPMEditorPanel.h"
 	"XPMFoldPanel.h"
 	"XPMToolPanel.h"
@@ -17459,7 +17461,7 @@
 	<wx/intl.h>
 	<wx/string.h>
 
-1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmfoldpanel.h
+1278578566 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmfoldpanel.h
 	<wx/dcclient.h>
 	<wx/sizer.h>
 	<wx/panel.h>
@@ -17476,7 +17478,7 @@
 1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldbar\include\wx\foldbar\captionbar.h
 	<wx/imaglist.h>
 
-1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmtoolpanel.h
+1278774960 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmtoolpanel.h
 	"XPMEditorPanel.h"
 	<wx/sizer.h>
 	<wx/stattext.h>
@@ -17488,43 +17490,46 @@
 	<wx/button.h>
 	<wx/clrpicker.h>
 
-1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.h
+1278578566 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.h
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/button.h>
 
-1278582247 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.h
+1279029710 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/spinctrl.h>
 	<wx/panel.h>
 	<wx/choice.h>
 	<wx/button.h>
+	<wx/dynarray.h>
+	<wx/arrstr.h>
 
-1278578564 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.h
+1278578566 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/panel.h>
 	<wx/button.h>
 
-1278578797 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.cpp
+1278578798 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.cpp
 	"XPMHelpPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1278582280 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.cpp
+1278582282 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagemanipulationpanel.cpp
 	"XPMImageManipulationPanel.h"
 	"XPMEditorPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1278608511 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.cpp
+1279099502 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.cpp
+	"XPMEditor.h"
 	"XPMImagePropertiesPanel.h"
 	"XPMEditorPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1278618547 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.cpp
+1279012740 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.cpp
 	"XPMInterfacePanel.h"
 	"XPMEditorPanel.h"
 	"XPMCustomZoom.h"
@@ -17536,7 +17541,7 @@
 	"xpm/left.xpm"
 	"xpm/right.xpm"
 
-1278618517 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.h
+1278618518 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/checkbox.h>
@@ -17545,7 +17550,7 @@
 	<wx/combobox.h>
 	<wx/clrpicker.h>
 
-1278601917 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmtoolpanel.cpp
+1278775094 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\xpmtoolpanel.cpp
 	"XPMToolPanel.h"
 	<wx/dcclient.h>
 	<wx/dcmemory.h>
@@ -17642,19 +17647,19 @@
 	"wx/icon.h"
 	"wx/aui/auibook.h"
 
-1278610443 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\foldpanelex.h
+1278610444 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\foldpanelex.h
 	"wx/foldpanelex/folditemex.h"
 	<wx/scrolwin.h>
 	<wx/imaglist.h>
 	<wx/sizer.h>
 
-1278580393 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\folditemex.h
+1278580394 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\folditemex.h
 	"wx/foldpanelex/captionbarex.h"
 	<wx/panel.h>
 	<wx/sizer.h>
 	<wx/dynarray.h>
 
-1278580373 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\captionbarex.h
+1278580374 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\captionbarex.h
 	<wx/window.h>
 	<wx/button.h>
 	<wx/imaglist.h>
@@ -17662,15 +17667,15 @@
 	<wx/event.h>
 	<wx/foldpanelex/captionbar.h>
 
-1278580638 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\captionbar.h
+1278580640 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\include\wx\foldpanelex\captionbar.h
 	<wx/imaglist.h>
 
-1278491041 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\captionbar.cpp
+1278491042 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\captionbar.cpp
 	"wx/wxprec.h"
 	"wx/wx.h"
 	"wx/foldpanelex/captionbar.h"
 
-1278342610 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\captionbarex.cpp
+1278342612 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\captionbarex.cpp
 	"wx/foldpanelex/captionbarex.h"
 	"icon_collapsed.xpm"
 	"icon_expanded.xpm"
@@ -17679,10 +17684,10 @@
 
 1236337272 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\icon_expanded.xpm
 
-1278610206 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\folditemex.cpp
+1278610208 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\folditemex.cpp
 	"wx/foldpanelex/folditemex.h"
 
-1278610563 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\foldpanelex.cpp
+1278610564 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\foldpanelex\src\foldpanelex.cpp
 	"wx/foldpanelex/foldpanelex.h"
 	"icon_collapsed.xpm"
 	"icon_expanded.xpm"
@@ -23112,7 +23117,7 @@
 	<wx/control.h>
 	<wx/scrolbar.h>
 
-1278949557 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
+1279012524 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.h
 	<wx/image.h>
 	<wx/bitmap.h>
 	<wx/clrpicker.h>
@@ -23368,7 +23373,7 @@
 	<wx/window.h>
 	<wx/colour.h>
 
-1278578814 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
+1279096097 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.cpp
 	<sdk.h>
 	<filefilters.h>
 	<wx/msgdlg.h>
@@ -23760,12 +23765,13 @@
 1272725734 d:\work\03_missions\00_sdk\include\wx\gcc_svn\include\wx\os2\minifram.h
 	"wx/frame.h"
 
-1278949117 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
+1279099725 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditor.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 	<sdk.h>
 	<cbplugin.h>
 	<wx/msgdlg.h>
+	<wx/list.h>
 	"XPMEditorPanel.h"
 	"XPMEditorBase.h"
 	"XPMCustomZoom.h"
@@ -24614,7 +24620,7 @@
 1272725802 d:\work\03_missions\00_sdk\include\wx\gcc_svn\include\wx\cocoa\mdi.h
 	"wx/frame.h"
 
-1278950067 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
+1278950068 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditorbase.h
 	<editorbase.h>
 	<projectfile.h>
 	<wx/bitmap.h>
@@ -24677,7 +24683,7 @@
 	<wx/button.h>
 	<wx/clrpicker.h>
 
-1271273286 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
+1279013316 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\toggle.h
 	"wx/things/thingdef.h"
 
 1267380210 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\wxthings\include\wx\things\thingdef.h
@@ -24724,13 +24730,15 @@
 	<wx/panel.h>
 	<wx/button.h>
 
-1278582248 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.h
+1279029710 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/spinctrl.h>
 	<wx/panel.h>
 	<wx/choice.h>
 	<wx/button.h>
+	<wx/dynarray.h>
+	<wx/arrstr.h>
 
 1278578566 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmhelppanel.h
 	<wx/sizer.h>
@@ -24749,13 +24757,14 @@
 	<wx/intl.h>
 	<wx/string.h>
 
-1278608512 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.cpp
+1279029794 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmimagepropertiespanel.cpp
+	"XPMEditor.h"
 	"XPMImagePropertiesPanel.h"
 	"XPMEditorPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 
-1278618548 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.cpp
+1279012740 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpminterfacepanel.cpp
 	"XPMInterfacePanel.h"
 	"XPMEditorPanel.h"
 	"XPMCustomZoom.h"
@@ -24853,13 +24862,13 @@
 
 1270409826 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\pen_cursor.xpm
 
-1278920712 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\circle.xpm
+1278920714 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\circle.xpm
 
-1278920791 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\square.xpm
+1279013388 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\square.xpm
 
-1278920749 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\left_hair.xpm
+1278920750 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\left_hair.xpm
 
-1278920773 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
+1278920774 d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpm\right_hair.xpm
 
 1278578814 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmundo.cpp
 	"XPMEditor.h"
@@ -27601,8 +27610,9 @@
 	"wx/module.h"
 	"wx/dataobj.h"
 
-1278949260 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
+1279054366 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditor.cpp
 	<sdk.h>
+	<filegroupsandmasks.h>
 	<configurationpanel.h>
 	<wx/aui/auibook.h>
 	"XPMEditor.h"
@@ -27614,7 +27624,7 @@
 	<wx/panel.h>
 	<wx/string.h>
 
-1278949657 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
+1279013696 source:d:\work\03_missions\00_sdk\plugins_cb\xpmeditor\xpmeditorpanel.cpp
 	"XPMEditor.h"
 	"wxStretchImage.h"
 	"wxMirror.h"
@@ -27623,6 +27633,7 @@
 	"wxRotateHue.h"
 	"wxConversion.h"
 	"wxInvertDialog.h"
+	<wx/generic/dragimgg.h>
 	<wx/dcclient.h>
 	<wx/dcbuffer.h>
 	<wx/brush.h>
@@ -27634,7 +27645,6 @@
 	<wx/region.h>
 	<wx/graphics.h>
 	<wx/bitmap.h>
-	<wx/dragimag.h>
 	<wx/fontdlg.h>
 	<wx/textfile.h>
 	<wx/stattext.h>
@@ -27752,4 +27762,20 @@
 	"wx/notebook.h"
 	"wx/icon.h"
 	"wx/aui/auibook.h"
+
+1275238656 d:\work\03_missions\00_sdk\projects\cb\src\include\filegroupsandmasks.h
+	<wx/dynarray.h>
+	<settings.h>
+
+1279111980 source:c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\advancedoptions.cpp
+	"AdvancedOptions.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1279223636 c:\users\seb\documents\00_sdk\plugins_cb\xpmeditor\advancedoptions.h
+	<wx/dialog.h>
+
+1275238655 c:\users\seb\documents\00_sdk\projects\cb\src\include\filegroupsandmasks.h
+	<wx/dynarray.h>
+	<settings.h>
 

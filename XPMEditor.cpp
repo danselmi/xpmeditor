@@ -375,7 +375,7 @@ bool XPMEditor::OpenInEditor(wxString FileName)
                                         title,
                                         &img,
                                         FileName,
-                                        bt
+                                        wxBITMAP_TYPE_ANY   //and not bt: this ensure automatic format detection using file extension. Default behaviour
                                        );
         if (NewEditor)
         {
@@ -509,6 +509,316 @@ bool XPMEditor::LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt)
     }
 
     return(false);
+}
+
+/** Return a list of file saving format supported
+  * \param array : a wxString Array containing the results
+  *                The array will be cleared : all previous contents will be lost
+  *                The results will be in the form:
+  *                 "Bitmap (*.bmp)"
+  *                 one format per array item
+  */
+void XPMEditor::GetFileSavingFormat(wxArrayString &array)
+{
+    array.Clear();
+    array.Add(GetFormatString(wxBITMAP_TYPE_ANY));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_BMP) || IsFormatValidForWriting(wxBITMAP_TYPE_BMP_RESOURCE)) array.Add(GetFormatString(wxBITMAP_TYPE_BMP));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_CUR) || IsFormatValidForWriting(wxBITMAP_TYPE_CUR_RESOURCE) ||
+        IsFormatValidForWriting(wxBITMAP_TYPE_MACCURSOR) || IsFormatValidForWriting(wxBITMAP_TYPE_MACCURSOR_RESOURCE)
+       ) array.Add(GetFormatString(wxBITMAP_TYPE_CUR));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_ICON) || IsFormatValidForWriting(wxBITMAP_TYPE_ICON_RESOURCE) ||
+        IsFormatValidForWriting(wxBITMAP_TYPE_ICO) || IsFormatValidForWriting(wxBITMAP_TYPE_ICO_RESOURCE)
+       ) array.Add(GetFormatString(wxBITMAP_TYPE_ICO));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG) || IsFormatValidForWriting(wxBITMAP_TYPE_JPEG_RESOURCE)) array.Add(GetFormatString(wxBITMAP_TYPE_JPEG));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_PICT) || IsFormatValidForWriting(wxBITMAP_TYPE_PICT_RESOURCE)) array.Add(GetFormatString(wxBITMAP_TYPE_PICT));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX) || IsFormatValidForWriting(wxBITMAP_TYPE_PCX_RESOURCE)) array.Add(GetFormatString(wxBITMAP_TYPE_PCX));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG) || IsFormatValidForWriting(wxBITMAP_TYPE_PNG_RESOURCE)) array.Add(GetFormatString(wxBITMAP_TYPE_PNG));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM) || IsFormatValidForWriting(wxBITMAP_TYPE_PNM_RESOURCE)) array.Add(GetFormatString(wxBITMAP_TYPE_PNM));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF) || IsFormatValidForWriting(wxBITMAP_TYPE_TIF_RESOURCE)) array.Add(GetFormatString(wxBITMAP_TYPE_TIF));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_XPM) || IsFormatValidForWriting(wxBITMAP_TYPE_XPM_DATA)) array.Add(GetFormatString(wxBITMAP_TYPE_XPM));
+
+    if (IsFormatValidForWriting(wxBITMAP_TYPE_XBM) || IsFormatValidForWriting(wxBITMAP_TYPE_XBM_DATA)) array.Add(GetFormatString(wxBITMAP_TYPE_XBM));
+}
+
+/** Return the string associated to the file format (ex: "bitmap (*.bmp)
+  * \param bt : the wxBitmapType to test
+  * \return : the string associated
+  */
+wxString XPMEditor::GetFormatString(wxBitmapType bt)
+{
+    wxString sResult;
+
+    sResult = _("Automatic (*.*)");
+
+    switch(bt)
+    {
+        case wxBITMAP_TYPE_XBM            :
+        case wxBITMAP_TYPE_XBM_DATA       : sResult = _("X bitmap (*.xbm)");
+                                            break;
+
+        case wxBITMAP_TYPE_BMP            :
+        case wxBITMAP_TYPE_BMP_RESOURCE   :
+        //case wxBITMAP_TYPE_RESOURCE       :
+                                            sResult = _("bitmaps (*.bmp)");
+                                            break;
+        //png format
+        case wxBITMAP_TYPE_PNG            :
+        case wxBITMAP_TYPE_PNG_RESOURCE   :
+                                            sResult = _("png (*.png)");
+                                            break;
+
+        //jpeg format
+        case wxBITMAP_TYPE_JPEG           :
+        case wxBITMAP_TYPE_JPEG_RESOURCE  :
+                                            sResult = _("jpeg (*.jpg, *.jpeg, *.jpe)");
+                                            break;
+
+        //PCX format
+        case wxBITMAP_TYPE_PCX            :
+        case wxBITMAP_TYPE_PCX_RESOURCE   :
+                                            sResult = _("pcx (*.pcx)");
+                                            break;
+
+        //PNM format
+        case wxBITMAP_TYPE_PNM            :
+        case wxBITMAP_TYPE_PNM_RESOURCE   :
+                                            sResult = _("pnm (*.pnm)");
+                                            break;
+
+        //TIFF format
+        case wxBITMAP_TYPE_TIF            :
+        case wxBITMAP_TYPE_TIF_RESOURCE   :
+                                            sResult = _("Tiff (*.tif, *.tiff)");
+                                            break;
+
+        case wxBITMAP_TYPE_ICO            :
+        case wxBITMAP_TYPE_ICO_RESOURCE   :
+                                            sResult = _("Icon (*.ico)");
+                                            break;
+        case wxBITMAP_TYPE_ICON           :
+        case wxBITMAP_TYPE_ICON_RESOURCE  :
+                                            sResult = _("Icon (*.icon)");
+                                            break;
+
+        //Cursor format
+        //Mac Cursor Revert to CUR as default
+        case wxBITMAP_TYPE_MACCURSOR      :
+        case wxBITMAP_TYPE_MACCURSOR_RESOURCE :
+        case wxBITMAP_TYPE_CUR            :
+        case wxBITMAP_TYPE_CUR_RESOURCE   :
+                                            sResult = _("Cursor (*.cur)");
+                                            break;
+
+        //XPM format - saving supported
+        case wxBITMAP_TYPE_XPM            :
+        case wxBITMAP_TYPE_XPM_DATA       :
+                                            sResult = _("XPM (*.xpm)");
+                                            break;
+
+
+        //GIFF, IFF, TGA, ANI, PICT formats - saving NOT supported - revert to PNG as default
+        case wxBITMAP_TYPE_ANI            : sResult = _("Animated cursor (*.ani)");
+                                            break;
+
+        case wxBITMAP_TYPE_IFF            : sResult = _("Iff (*.iff)");
+                                            break;
+
+        case wxBITMAP_TYPE_TGA            : sResult = _("tga (*.tga)");
+                                            break;
+
+        case wxBITMAP_TYPE_GIF            :
+        case wxBITMAP_TYPE_GIF_RESOURCE   :
+                                            sResult = _("Giff (*.gif, *.giff)");
+                                            break;
+
+        case wxBITMAP_TYPE_PICT           :
+        case wxBITMAP_TYPE_PICT_RESOURCE  :
+                                            sResult = _("Picture (*.pic, *.pict)");
+                                            break;
+
+
+
+        //use autodetection based on filename
+        case wxBITMAP_TYPE_INVALID        :
+        case wxBITMAP_TYPE_ANY            :
+        default :                           sResult = _("Automatic (*.*)");
+                                            break;
+    }
+
+    return(sResult);
+}
+
+/** This method checks if the given saving file format is available.
+  * It returns a compatible file saving format available on the platform
+  * \param btFormat : the wxBitmapType to test
+  * \return if btFormat is available on saving, then the return value is btFormat
+  *         otherwise, a format as close as possible is given
+  */
+wxBitmapType XPMEditor::GetCompatibleSavingFormat(wxBitmapType btFormat)
+{
+    //simplest case: the format is recognized
+    if (IsFormatValidForWriting(btFormat)) return(btFormat);
+
+    //find an available format
+    switch(btFormat)
+    {
+        //bitmap format - saving supported
+        case wxBITMAP_TYPE_XBM            :
+        case wxBITMAP_TYPE_XBM_DATA       :
+        case wxBITMAP_TYPE_BMP            :
+        case wxBITMAP_TYPE_BMP_RESOURCE   :
+        //case wxBITMAP_TYPE_RESOURCE       :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_XBM)) return(wxBITMAP_TYPE_XBM);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_XBM_DATA)) return(wxBITMAP_TYPE_XBM_DATA);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_BMP_RESOURCE)) return(wxBITMAP_TYPE_BMP_RESOURCE);
+                                            break;
+        //png format
+        case wxBITMAP_TYPE_PNG            :
+        case wxBITMAP_TYPE_PNG_RESOURCE   :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG)) return(wxBITMAP_TYPE_PNG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG_RESOURCE)) return(wxBITMAP_TYPE_PNG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG)) return(wxBITMAP_TYPE_JPEG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG_RESOURCE)) return(wxBITMAP_TYPE_JPEG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX)) return(wxBITMAP_TYPE_PCX);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX_RESOURCE)) return(wxBITMAP_TYPE_PCX_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM)) return(wxBITMAP_TYPE_PNM);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM_RESOURCE)) return(wxBITMAP_TYPE_PNM_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF)) return(wxBITMAP_TYPE_TIF);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF_RESOURCE)) return(wxBITMAP_TYPE_TIF_RESOURCE);
+                                            break;
+
+        //jpeg format
+        case wxBITMAP_TYPE_JPEG           :
+        case wxBITMAP_TYPE_JPEG_RESOURCE  :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG)) return(wxBITMAP_TYPE_JPEG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG_RESOURCE)) return(wxBITMAP_TYPE_JPEG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG)) return(wxBITMAP_TYPE_PNG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG_RESOURCE)) return(wxBITMAP_TYPE_PNG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX)) return(wxBITMAP_TYPE_PCX);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX_RESOURCE)) return(wxBITMAP_TYPE_PCX_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM)) return(wxBITMAP_TYPE_PNM);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM_RESOURCE)) return(wxBITMAP_TYPE_PNM_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF)) return(wxBITMAP_TYPE_TIF);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF_RESOURCE)) return(wxBITMAP_TYPE_TIF_RESOURCE);
+                                            break;
+
+        //PCX format
+        case wxBITMAP_TYPE_PCX            :
+        case wxBITMAP_TYPE_PCX_RESOURCE   :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX)) return(wxBITMAP_TYPE_PCX);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX_RESOURCE)) return(wxBITMAP_TYPE_PCX_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG)) return(wxBITMAP_TYPE_JPEG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG_RESOURCE)) return(wxBITMAP_TYPE_JPEG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG)) return(wxBITMAP_TYPE_PNG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG_RESOURCE)) return(wxBITMAP_TYPE_PNG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM)) return(wxBITMAP_TYPE_PNM);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM_RESOURCE)) return(wxBITMAP_TYPE_PNM_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF)) return(wxBITMAP_TYPE_TIF);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF_RESOURCE)) return(wxBITMAP_TYPE_TIF_RESOURCE);
+                                            break;
+
+        //PNM format
+        case wxBITMAP_TYPE_PNM            :
+        case wxBITMAP_TYPE_PNM_RESOURCE   :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM)) return(wxBITMAP_TYPE_PNM);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM_RESOURCE)) return(wxBITMAP_TYPE_PNM_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG)) return(wxBITMAP_TYPE_JPEG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG_RESOURCE)) return(wxBITMAP_TYPE_JPEG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG)) return(wxBITMAP_TYPE_PNG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG_RESOURCE)) return(wxBITMAP_TYPE_PNG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX)) return(wxBITMAP_TYPE_PCX);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX_RESOURCE)) return(wxBITMAP_TYPE_PCX_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF)) return(wxBITMAP_TYPE_TIF);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF_RESOURCE)) return(wxBITMAP_TYPE_TIF_RESOURCE);
+                                            break;
+
+        //TIFF format
+        case wxBITMAP_TYPE_TIF            :
+        case wxBITMAP_TYPE_TIF_RESOURCE   :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF)) return(wxBITMAP_TYPE_TIF);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF_RESOURCE)) return(wxBITMAP_TYPE_TIF_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG)) return(wxBITMAP_TYPE_JPEG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG_RESOURCE)) return(wxBITMAP_TYPE_JPEG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG)) return(wxBITMAP_TYPE_PNG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG_RESOURCE)) return(wxBITMAP_TYPE_PNG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM)) return(wxBITMAP_TYPE_PNM);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM_RESOURCE)) return(wxBITMAP_TYPE_PNM_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX)) return(wxBITMAP_TYPE_PCX);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX_RESOURCE)) return(wxBITMAP_TYPE_PCX_RESOURCE);
+                                            break;
+
+        case wxBITMAP_TYPE_ICO            :
+        case wxBITMAP_TYPE_ICO_RESOURCE   :
+        case wxBITMAP_TYPE_ICON           :
+        case wxBITMAP_TYPE_ICON_RESOURCE  :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_ICO)) return(wxBITMAP_TYPE_ICO);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_ICO_RESOURCE)) return(wxBITMAP_TYPE_ICO_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_ICON)) return(wxBITMAP_TYPE_ICON);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_ICON_RESOURCE)) return(wxBITMAP_TYPE_ICON_RESOURCE);
+                                            break;
+
+        //Cursor format
+        //Mac Cursor Revert to CUR as default
+        case wxBITMAP_TYPE_MACCURSOR      :
+        case wxBITMAP_TYPE_MACCURSOR_RESOURCE :
+        case wxBITMAP_TYPE_CUR            :
+        case wxBITMAP_TYPE_CUR_RESOURCE   :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_MACCURSOR)) return(wxBITMAP_TYPE_MACCURSOR);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_MACCURSOR_RESOURCE)) return(wxBITMAP_TYPE_MACCURSOR_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_CUR)) return(wxBITMAP_TYPE_CUR);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_CUR_RESOURCE)) return(wxBITMAP_TYPE_CUR_RESOURCE);
+                                            break;
+
+        //XPM format - saving supported
+        case wxBITMAP_TYPE_XPM            :
+        case wxBITMAP_TYPE_XPM_DATA       :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_XPM)) return(wxBITMAP_TYPE_XPM);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_XPM_DATA)) return(wxBITMAP_TYPE_XPM_DATA);
+                                            break;
+
+
+        //GIFF, IFF, TGA, ANI, PICT formats - saving NOT supported - revert to PNG as default
+        case wxBITMAP_TYPE_ANI            :
+        case wxBITMAP_TYPE_IFF            :
+        case wxBITMAP_TYPE_TGA            :
+        case wxBITMAP_TYPE_GIF            :
+        case wxBITMAP_TYPE_GIF_RESOURCE   :
+        case wxBITMAP_TYPE_PICT           :
+        case wxBITMAP_TYPE_PICT_RESOURCE  :
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG)) return(wxBITMAP_TYPE_JPEG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_JPEG_RESOURCE)) return(wxBITMAP_TYPE_JPEG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG)) return(wxBITMAP_TYPE_PNG);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNG_RESOURCE)) return(wxBITMAP_TYPE_PNG_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX)) return(wxBITMAP_TYPE_PCX);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PCX_RESOURCE)) return(wxBITMAP_TYPE_PCX_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM)) return(wxBITMAP_TYPE_PNM);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PNM_RESOURCE)) return(wxBITMAP_TYPE_PNM_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF)) return(wxBITMAP_TYPE_TIF);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_TIF_RESOURCE)) return(wxBITMAP_TYPE_TIF_RESOURCE);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PICT)) return(wxBITMAP_TYPE_PICT);
+                                            if (IsFormatValidForWriting(wxBITMAP_TYPE_PICT_RESOURCE)) return(wxBITMAP_TYPE_PICT_RESOURCE);
+                                            break;
+
+
+
+        //use autodetection based on filename
+        case wxBITMAP_TYPE_INVALID        :
+        case wxBITMAP_TYPE_ANY            :
+        default :
+                                            break;
+    }
+
+    return(wxBITMAP_TYPE_BMP); //available on all platforms
 }
 
 /** Autodetect the file format for the image, based on the file extension
