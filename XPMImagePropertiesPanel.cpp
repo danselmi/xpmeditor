@@ -91,17 +91,15 @@ XPMImagePropertiesPanel::~XPMImagePropertiesPanel()
   */
 void XPMImagePropertiesPanel::AppendFormatsToChoice(void)
 {
-    m_sFormats.Clear();
-    m_sFormats.Add(_("Automatic"));
-    m_sFormats.Add(_("bitmap (*.bmp)"));
-    m_sFormats.Add(_("cursor (*.cur)"));
-    m_sFormats.Add(_("icon (*.icon)"));
-    m_sFormats.Add(_("jpeg (*.jpg)"));
-    m_sFormats.Add(_("pcx (*.pcx)"));
-    m_sFormats.Add(_("png (*.png)"));
-    m_sFormats.Add(_("pnm (*.pnm)"));
-    m_sFormats.Add(_("tiff (*tif, *.tiff)"));
-    m_sFormats.Add(_("xpm (*.xpm)"));
+
+    if (XPM_Plugin())
+    {
+        XPM_Plugin()->GetFileSavingFormat(m_sFormats);
+    }
+    else
+    {
+       m_sFormats.Clear();
+    }
 
     if (Choice1)
     {
@@ -135,98 +133,21 @@ void XPMImagePropertiesPanel::SetImageFormat(wxBitmapType bt)
 {
 
     if (!XPM_Plugin()) return; //nothing done
-    if (!XPM_Plugin()->IsFormatValidForWriting(bt)) return; //file format not supported for writing. Nothing is done
-    if (!Choice1) return;
+    wxBitmapType bt2;
+    wxString sFormatString;
 
-    switch(bt)
+    XPM_Plugin()->GetFileSavingFormat(m_sFormats);
+
+    if (bt == wxBITMAP_TYPE_ANY)
     {
-        //bitmap format - saving supported
-        case wxBITMAP_TYPE_BMP            :
-        case wxBITMAP_TYPE_BMP_RESOURCE   :
-        //case wxBITMAP_TYPE_RESOURCE       :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_BMP));
-                                            break;
-        //png format - saving supported
-        case wxBITMAP_TYPE_PNG            :
-        case wxBITMAP_TYPE_PNG_RESOURCE   :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_PNG));
-                                            break;
-
-        //jpeg format - saving supported
-        case wxBITMAP_TYPE_JPEG           :
-        case wxBITMAP_TYPE_JPEG_RESOURCE  :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_JPG));
-                                            break;
-
-        //PCX format - saving supported
-        case wxBITMAP_TYPE_PCX            :
-        case wxBITMAP_TYPE_PCX_RESOURCE   :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_PCX));
-                                            break;
-
-        //PNM format - saving supported
-        case wxBITMAP_TYPE_PNM            :
-        case wxBITMAP_TYPE_PNM_RESOURCE   :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_PNM));
-                                            break;
-
-        //TIFF format - saving supported
-        case wxBITMAP_TYPE_TIF            :
-        case wxBITMAP_TYPE_TIF_RESOURCE   :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_TIF));
-                                            break;
-
-        case wxBITMAP_TYPE_ICO            :
-        case wxBITMAP_TYPE_ICO_RESOURCE   :
-        case wxBITMAP_TYPE_ICON           :
-        case wxBITMAP_TYPE_ICON_RESOURCE  :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_ICO));
-                                            break;
-
-        //Cursor format - saving supported
-        case wxBITMAP_TYPE_CUR            :
-        case wxBITMAP_TYPE_CUR_RESOURCE   :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_CUR));
-                                            break;
-
-        //XPM format - saving supported
-        case wxBITMAP_TYPE_XPM            :
-        case wxBITMAP_TYPE_XPM_DATA       :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_XPM));
-                                            break;
-
-
-        //GIFF, IFF, TGA, ANI, PICT formats - saving NOT supported - revert to PNG as default
-        case wxBITMAP_TYPE_ANI            :
-        case wxBITMAP_TYPE_IFF            :
-        case wxBITMAP_TYPE_TGA            :
-        case wxBITMAP_TYPE_GIF            :
-        case wxBITMAP_TYPE_GIF_RESOURCE   :
-        case wxBITMAP_TYPE_PICT           :
-        case wxBITMAP_TYPE_PICT_RESOURCE  :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_PNG));
-                                            break;
-
-        //Mac Cursor saving not supported. Revert to CUR as default
-        case wxBITMAP_TYPE_MACCURSOR      :
-        case wxBITMAP_TYPE_MACCURSOR_RESOURCE :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_CUR));
-                                            break;
-
-
-        //XBM saving not supported - revert to XPM as default
-        case wxBITMAP_TYPE_XBM            :
-        case wxBITMAP_TYPE_XBM_DATA       :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_XPM));
-                                            break;
-
-        //use autodetection based on filename
-        case wxBITMAP_TYPE_INVALID        :
-        case wxBITMAP_TYPE_ANY            :
-        default :
-                                            Choice1->SetSelection(m_iIndex.Item(XPM_FORMAT_INDEX_AUTO));
-                                            break;
+        Choice1->SetStringSelection(m_sFormats.Item(0));
+        return;
     }
+
+    bt2 = XPM_Plugin()->GetCompatibleSavingFormat(bt);
+    sFormatString = XPM_Plugin()->GetFormatString(bt2);
+    Choice1->SetStringSelection(sFormatString);
+
 }
 
 /** The button "ADVANCED" has been clicked.
