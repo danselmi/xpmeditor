@@ -51,19 +51,21 @@ class XPMToolPanel: public wxPanel
 		wxCustomButton* FillButton;
 		wxCustomButton* EraserButton;
 		wxRadioButton* CenterCenter;
+		wxBoxSizer* ThicknessSizer;
 		wxRadioButton* TopCenter;
+		wxBoxSizer* SizeSizer;
 		wxSpinCtrl* SpinCtrl1;
+		wxBoxSizer* FontSizer;
 		wxSpinCtrl* SpinAngle;
 		wxRadioButton* CenterLeft;
 		wxCustomButton* SquareBrushButton;
+		wxBoxSizer* RadiusSizer;
 		wxStaticText* StaticText6;
 		wxCustomButton* BrushButton;
 		wxRadioButton* BottomCenter;
 		wxCustomButton* LineButton;
 		wxCustomButton* PenButton;
 		wxStaticText* StaticText8;
-		wxPanel* AlignmentPanel;
-		wxPanel* ToolPanel;
 		wxButton* FontButton;
 		wxCustomButton* PipetteButton;
 		wxRadioButton* BottomLeft;
@@ -71,25 +73,26 @@ class XPMToolPanel: public wxPanel
 		wxSpinCtrl* SpinCtrl3;
 		wxStaticText* StaticText5;
 		wxCustomButton* SelectButton;
-		wxStaticText* StaticText7;
 		wxCustomButton* EllipseButton;
 		wxRadioButton* TopRight;
 		wxCustomButton* RHairBrushButton;
+		wxBoxSizer* ToolButtonsSizer;
 		wxSpinCtrl* SpinCtrl2;
 		wxToggleButton* BackgroundButton;
 		wxCustomButton* LassoButton;
 		wxCustomButton* RectangleButton;
+		wxBoxSizer* BrushToolSizer;
 		wxCustomButton* CircleBrushButton;
 		wxRadioButton* BottomRight;
 		wxRadioButton* CenterRight;
 		wxCustomButton* RRectButton;
-		wxBoxSizer* AngleSizer;
 		wxBoxSizer* ToolPanelSizer;
 		wxStaticText* StaticText4;
 		wxCustomButton* LHairBrushButton;
 		wxCustomButton* CurveButton;
 		wxCustomButton* TextButton;
 		wxRadioButton* TopLeft;
+		wxBoxSizer* ColourPickerSizer;
 		wxCustomButton* PolygonButton;
 		//*)
 
@@ -116,9 +119,12 @@ class XPMToolPanel: public wxPanel
 		static const long ID_LRHAIR_BRUSH;
 		static const long ID_LHAIR_BRUSH;
 		static const long ID_CUSTOM2;
-		static const long ID_FONT_BUTTON;
-		static const long ID_BKMODE_TOGGLEBUTTON;
-		static const long ID_STATICTEXT8;
+		static const long ID_STATICTEXT5;
+		static const long ID_SPINCTRL3;
+		static const long ID_STATICTEXT7;
+		static const long ID_SPINCTRL5;
+		static const long ID_STATICTEXT6;
+		static const long ID_SPINCTRL4;
 		static const long ID_RADIOBUTTON1;
 		static const long ID_RADIOBUTTON9;
 		static const long ID_RADIOBUTTON8;
@@ -128,17 +134,14 @@ class XPMToolPanel: public wxPanel
 		static const long ID_RADIOBUTTON4;
 		static const long ID_RADIOBUTTON3;
 		static const long ID_RADIOBUTTON2;
-		static const long ID_PANEL2;
+		static const long ID_BACKGROUNDBUTTON;
+		static const long ID_FONTBUTTON;
 		static const long ID_STATICTEXT9;
 		static const long ID_SPINCTRL6;
-		static const long ID_STATICTEXT5;
-		static const long ID_SPINCTRL3;
-		static const long ID_STATICTEXT7;
-		static const long ID_SPINCTRL5;
-		static const long ID_STATICTEXT6;
-		static const long ID_SPINCTRL4;
-		static const long ID_PANEL1;
 		//*)
+
+		void ComputeDimensions(void);           ///< \brief compute and set the minimal size of the wxPanel
+		virtual wxSize DoGetBestSize(void) const; ///< \brief it is needed to overload it, because some items are constantly hidden or shown
 
 	private:
 
@@ -178,6 +181,7 @@ class XPMToolPanel: public wxPanel
 		void OnSpinThicknessChanged(wxSpinEvent& event);
 		void OnSpinRadiusChanged(wxSpinEvent& event);
 		//*)
+		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event);
 
 		XPMEditorPanel *m_parent; ///< \brief the parent panel
 		int iToolUsed;           ///< \brief the index of the tool currently in use

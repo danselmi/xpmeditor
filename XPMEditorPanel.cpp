@@ -63,8 +63,8 @@
 //(*IdInit(XPMEditorPanel)
 const long XPMEditorPanel::ID_DRAWCANVASPANEL = wxNewId();
 const long XPMEditorPanel::ID_FOLDPANEL = wxNewId();
-const long XPMEditorPanel::ID_INTERFACEPANEL = wxNewId();
 const long XPMEditorPanel::ID_COLOURPICKERPANEL = wxNewId();
+const long XPMEditorPanel::ID_INTERFACEPANEL = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(XPMEditorPanel,wxPanel)
@@ -140,13 +140,13 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Create(parent, wxID_ANY, wxDefaultPosition, wxSize(199,144), wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	m_AUIXPMEditor = new wxAuiManager(this, wxAUI_MGR_ALLOW_FLOATING|wxAUI_MGR_ALLOW_ACTIVE_PANE|wxAUI_MGR_DEFAULT);
 	DrawCanvasPanel = new XPMDrawCanvasPanel(this);
-	m_AUIXPMEditor->AddPane(DrawCanvasPanel, wxAuiPaneInfo().Name(_T("Image")).CenterPane().Caption(_("Image")));
+	m_AUIXPMEditor->AddPane(DrawCanvasPanel, wxAuiPaneInfo().Name(_T("Image")).CenterPane().Caption(_("Image")).PinButton());
 	FoldPanel = new XPMFoldPanel(this);
-	m_AUIXPMEditor->AddPane(FoldPanel, wxAuiPaneInfo().Name(_T("Tools")).DefaultPane().Caption(_("Tools")).CloseButton(false).Left());
-	InterfacePanel = new XPMInterfacePanel(this);
-	m_AUIXPMEditor->AddPane(InterfacePanel, wxAuiPaneInfo().Name(_T("Interface")).DefaultPane().Caption(_("Interface")).CloseButton(false).Top());
+	m_AUIXPMEditor->AddPane(FoldPanel, wxAuiPaneInfo().Name(_T("Tools")).DefaultPane().Caption(_("Tools")).PinButton().CloseButton(false).Left());
 	ColourPicker = new XPMColourPickerPanel(this);
-	m_AUIXPMEditor->AddPane(ColourPicker, wxAuiPaneInfo().Name(_T("Colours")).DefaultPane().Caption(_("Colours")).CloseButton(false).Top());
+	m_AUIXPMEditor->AddPane(ColourPicker, wxAuiPaneInfo().Name(_T("ColourPicker")).DefaultPane().Caption(_("Colours")).PinButton().CloseButton(false).Top());
+	InterfacePanel = new XPMInterfacePanel(this);
+	m_AUIXPMEditor->AddPane(InterfacePanel, wxAuiPaneInfo().Name(_T("Interface")).DefaultPane().Caption(_("Interface")).PinButton().CloseButton(false).Top());
 	m_AUIXPMEditor->Update();
 
 	Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown);
@@ -340,7 +340,7 @@ void XPMEditorPanel::UpdateMinimalSizes(void)
             if (ColourPicker->ColourPicker)
             {
                 sMinSize  = ColourPicker->ColourPicker->DoGetMinSize();
-                sBestSize = ColourPicker->ColourPicker->GetBestSize();
+                sBestSize = ColourPicker->ColourPicker->DoGetBestSize();
             }
 
             auiColPickerInfo = auiColPickerInfo.BestSize(sBestSize)
@@ -390,8 +390,8 @@ void XPMEditorPanel::UpdateMinimalSizes(void)
                 sBestSize = FoldPanel->FoldPanelBar1->GetBestSize();
             }
 
-            auiFoldInfo = auiFoldInfo.BestSize(sBestSize)
-                                     .FloatingSize(sBestSize)
+            auiFoldInfo = auiFoldInfo.BestSize(sMinSize)
+                                     .FloatingSize(sMinSize)
                                      .MinSize(sMinSize);
 
             if (m_AUIXPMEditor->DetachPane(FoldPanel))
@@ -4244,12 +4244,12 @@ void XPMEditorPanel::OnBackgroundButtonToggle(wxCommandEvent& event)
 {
     if (event.IsChecked())
     {
-        if (ToolPanel) ToolPanel->BackgroundButton->SetLabel(_("TRANSPARENT"));
+        if (ToolPanel) ToolPanel->BackgroundButton->SetLabel(_("Transparent"));
         tdata.iStyle = wxTRANSPARENT;
     }
     else
     {
-        if (ToolPanel) ToolPanel->BackgroundButton->SetLabel(_("OPAQUE"));
+        if (ToolPanel) ToolPanel->BackgroundButton->SetLabel(_("Opaque"));
         tdata.iStyle = wxSOLID;
     }
     DrawTextBitmap();
@@ -5078,10 +5078,11 @@ void XPMEditorPanel::OnSpinAngleChange(wxSpinEvent& event)
 }
 
 /** The Hot Spot colour must be updated
+  * \param cNewColour : the new HotSpot colour
   */
-void XPMEditorPanel::OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event)
+void XPMEditorPanel::SetHotSpotColour(wxColour cNewColour)
 {
-    cHotSpotColour = event.GetColour();
+    cHotSpotColour = cNewColour;
     Repaint();
 }
 

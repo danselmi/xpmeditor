@@ -28,6 +28,7 @@ class XPMDrawCanvasPanel: public wxPanel
 		wxBoxSizer* CanvasSizer;
 		wxTextCtrl* TextEdit;
 		wxResizeCtrl* ResizeCtrl1;
+		wxTextCtrl* TextCtrl1;
 		//*)
 
 	protected:
@@ -37,6 +38,7 @@ class XPMDrawCanvasPanel: public wxPanel
 		static const long ID_RESIZECTRL1;
 		static const long ID_SCROLLEDWINDOW1;
 		static const long ID_STATICTEXT4;
+		static const long ID_TEXTCTRL2;
 		//*)
 
 		//(*Handlers(XPMDrawCanvasPanel)

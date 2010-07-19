@@ -21,7 +21,6 @@
 				<captionvisible>0</captionvisible>
 				<minimizebutton>0</minimizebutton>
 				<maximizebutton>0</maximizebutton>
-				<pinbutton>0</pinbutton>
 				<closebutton>0</closebutton>
 				<dockdirection>Center</dockdirection>
 				<dockfixed>0</dockfixed>
@@ -43,9 +42,26 @@
 				<caption>Tools</caption>
 				<minimizebutton>0</minimizebutton>
 				<maximizebutton>0</maximizebutton>
-				<pinbutton>0</pinbutton>
 				<closebutton>0</closebutton>
 				<dockdirection>Left</dockdirection>
+				<dockfixed>0</dockfixed>
+				<dockabledirection></dockabledirection>
+				<destroyonclose>0</destroyonclose>
+				<firstadd>0</firstadd>
+			</object>
+			<object class="AuiManagerItem">
+				<object class="Custom" name="ID_COLOURPICKERPANEL" subclass="XPMColourPickerPanel" variable="ColourPicker" member="yes">
+					<creating_code>$(THIS) = new $(CLASS)($(PARENT));</creating_code>
+					<include_file>XPMColourPickerPanel.h</include_file>
+					<local_include>1</local_include>
+					<style></style>
+				</object>
+				<name>ColourPicker</name>
+				<standardpanetype>Default</standardpanetype>
+				<caption>Colours</caption>
+				<minimizebutton>0</minimizebutton>
+				<maximizebutton>0</maximizebutton>
+				<closebutton>0</closebutton>
 				<dockfixed>0</dockfixed>
 				<dockabledirection></dockabledirection>
 				<destroyonclose>0</destroyonclose>
@@ -63,26 +79,6 @@
 				<caption>Interface</caption>
 				<minimizebutton>0</minimizebutton>
 				<maximizebutton>0</maximizebutton>
-				<pinbutton>0</pinbutton>
-				<closebutton>0</closebutton>
-				<dockfixed>0</dockfixed>
-				<dockabledirection></dockabledirection>
-				<destroyonclose>0</destroyonclose>
-				<firstadd>0</firstadd>
-			</object>
-			<object class="AuiManagerItem">
-				<object class="Custom" name="ID_COLOURPICKERPANEL" subclass="XPMColourPickerPanel" variable="ColourPicker" member="yes">
-					<creating_code>$(THIS) = new $(CLASS)($(PARENT));</creating_code>
-					<include_file>XPMColourPickerPanel.h</include_file>
-					<local_include>1</local_include>
-					<style></style>
-				</object>
-				<name>Colours</name>
-				<standardpanetype>Default</standardpanetype>
-				<caption>Colours</caption>
-				<minimizebutton>0</minimizebutton>
-				<maximizebutton>0</maximizebutton>
-				<pinbutton>0</pinbutton>
 				<closebutton>0</closebutton>
 				<dockfixed>0</dockfixed>
 				<dockabledirection></dockabledirection>

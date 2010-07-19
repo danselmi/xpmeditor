@@ -1,0 +1,26 @@
+/* XPM */
+static const char *opaque_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1",
+". c Black",
+"X c #FFFFFF",
+"  c None",
+"o c #000D00",
+/* pixels */
+"                ",
+" .............. ",
+" .XXXXXXXXXXXX. ",
+" .XXXXXXXXXXXX. ",
+" .XX...X...XXX. ",
+" .XXX.XXX.XXXX. ",
+" .XXXX.X.XXXXX. ",
+" .XXXX...XXXXX. ",
+" .XXXX.X.XXXXX. ",
+" .XXX.XXX.XXXX. ",
+" .XX...X...XXX. ",
+" .XXXXXXXXXXXXo ",
+" .XXXXXXXXXXXXo ",
+" .XXXXXXXXXXXXo ",
+" ............oo ",
+"                "
+};

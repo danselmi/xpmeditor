@@ -10,10 +10,9 @@ IMPROVEMENTS / NEW FEATURES:
 4 - Image property dialog box: jpg quality (advanced options)
                                png compression  (advanced options)
                                image resolution (advanced options)
-                               image size
                                colour depth (advanced options)
 
-5 - Quick Help display (tooltip)
+5 - Quick Help display (tooltip)  + help in status bar
 
 6 - Copy To / Paste from file
 
@@ -54,32 +53,14 @@ BUGS:
 
 ---- SOLVED & DONE ----------------------------------------------
 
-15 - bug with resize selection with big zooms
 
-10 - Invert colours Selection / IMAGE
-
-6 - Rotate Hue: from colour to colour
-
-5 - Save As: does not update the file status in the Project Manager
-     solved by adding these lines in the XPMEditorBase::SaveAs() method, before the line "SetProjectFile(0);":
-
-        if (m_pProjectFile) m_pProjectFile->SetFileState(fvsNormal); //so the original project file will be shown as unmodified.
-        UpdateModified();
-        SetProjectFile(0);
-
-18 - Undo : mask colour not saved, and resetted to black after Undo.
-
-7 - hideable panels with flat wxButtons (wxAUI ?)
-
-        INTERFACE: Zoom, Rotate, Show Grid, hide/show other panels
-
-        COLOUR PANEL: ColourPicker
-
-        MAIN Panel: Draw Canvas + Status Text
-
-        TOOLBOX Panel: (like quick properties panel in wxSmith)
-            SubPanel TOOLS  : the drawing Tools
-            SubPanel IMAGE  : Size, JPEG Quality, Resolution
-            SubPanel EFFECTS: Rotate, Flip, Stretch, Blur, RotateHue, Convert colours (Greyscale, Mono, ...)
-            SubPanel HELP   : quick help
+CHANGES:
+ 1 - Remove files from SVN (*.layout, *.obj, *.depends, build log)
+ 2 - Remove ColourPickerPanel.cpp and ColourPickerPanel.h (unused - replaced by XPMColourPickerPanel.cpp and XPMColourPickerPanel.h)
+     Remove XPMToggleBMPButton.cpp and .h from SVN
+ 3 - Add help support (via html display. Help remains to be written, but it is limited to writing 6 simple HTML files)
+ 4 - Minimum size needed for the tool panel has been reduced and fixed
+ 5 - Load and Save file: use dynamic handler instead of static hard-coded switch statements based on file extension
+     Moved all the code handling file format into XPMEditor.cpp
+ 
 

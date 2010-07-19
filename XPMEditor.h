@@ -122,6 +122,7 @@ class XPMEditor : public cbMimePlugin
 
         //save and load images
         bool LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt); ///< \brief This method will load an image from a file
+        bool SaveImage(wxImage *img, wxString sFileName, wxBitmapType bt, XPMEditorBase *Editor);  ///< \brief This method will save an image to a file
 
         //for setting & getting standard configuration
         void SetMaxUndoRedo(int iMax);  ///< \brief set the size of the UNDO / REDO buffer
@@ -149,6 +150,9 @@ class XPMEditor : public cbMimePlugin
         void GetFileSavingFormat(wxArrayString &array);                         ///< \brief Return a list of file saving format supported
         wxBitmapType GetCompatibleSavingFormat(wxBitmapType btFormat);          ///< \brief This method checks if the given saving file format is available.
         wxString GetFormatString(wxBitmapType bt);                             ///< \brief Return the string associated to the file format (ex: "bitmap (*.bmp)"
+
+        //help files
+        wxString GetHTMLHelp(void); ///< \brief  Find the path to the plugin resource files, containing the HTLM help files
 
     protected:
         /** Any descendent plugin should override this virtual method and

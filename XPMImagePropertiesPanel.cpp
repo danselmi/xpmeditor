@@ -8,9 +8,12 @@
  * License:   GPL 3.0
  **************************************************************/
 
+#include "AdvancedOptions.h"
 #include "XPMEditor.h"
 #include "XPMImagePropertiesPanel.h"
 #include "XPMEditorPanel.h"
+
+//#include <sdk.h>
 
 //(*InternalHeaders(XPMImagePropertiesPanel)
 #include <wx/intl.h>
@@ -18,11 +21,9 @@
 //*)
 
 //(*IdInit(XPMImagePropertiesPanel)
-const long XPMImagePropertiesPanel::ID_STATICTEXT2 = wxNewId();
 const long XPMImagePropertiesPanel::ID_SPINCTRL1 = wxNewId();
-const long XPMImagePropertiesPanel::ID_STATICTEXT3 = wxNewId();
+const long XPMImagePropertiesPanel::ID_STATICTEXT1 = wxNewId();
 const long XPMImagePropertiesPanel::ID_SPINCTRL2 = wxNewId();
-const long XPMImagePropertiesPanel::ID_STATICTEXT13 = wxNewId();
 const long XPMImagePropertiesPanel::ID_CHOICE1 = wxNewId();
 const long XPMImagePropertiesPanel::ID_BUTTON1 = wxNewId();
 //*)
@@ -36,37 +37,25 @@ XPMImagePropertiesPanel::XPMImagePropertiesPanel(wxWindow* parent,wxWindowID id,
 {
 	//(*Initialize(XPMImagePropertiesPanel)
 	wxBoxSizer* BoxSizer8;
-	wxBoxSizer* BoxSizer18;
-	wxBoxSizer* BoxSizer17;
-	wxBoxSizer* BoxSizer1;
-	wxStaticBoxSizer* StaticBoxSizer1;
 
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer8 = new wxBoxSizer(wxVERTICAL);
-	StaticBoxSizer1 = new wxStaticBoxSizer(wxVERTICAL, this, _("Size in Pixels"));
-	BoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
-	StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Width:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-	BoxSizer17->Add(StaticText2, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	BMPWidth = new wxSpinCtrl(this, ID_SPINCTRL1, _T("0"), wxDefaultPosition, wxSize(71,21), 0, 0, 10000, 0, _T("ID_SPINCTRL1"));
+	StaticBoxSizer1 = new wxStaticBoxSizer(wxVERTICAL, this, _("Width x Heigth"));
+	BMPWidth = new wxSpinCtrl(this, ID_SPINCTRL1, _T("0"), wxDefaultPosition, wxSize(60,21), 0, 0, 10000, 0, _T("ID_SPINCTRL1"));
 	BMPWidth->SetValue(_T("0"));
-	BoxSizer17->Add(BMPWidth, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
-	StaticBoxSizer1->Add(BoxSizer17, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
-	StaticText3 = new wxStaticText(this, ID_STATICTEXT3, _("Height:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
-	BoxSizer1->Add(StaticText3, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	BMPHeight = new wxSpinCtrl(this, ID_SPINCTRL2, _T("0"), wxDefaultPosition, wxSize(71,21), 0, 0, 10000, 0, _T("ID_SPINCTRL2"));
+	StaticBoxSizer1->Add(BMPWidth, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("x"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
+	StaticBoxSizer1->Add(StaticText1, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	BMPHeight = new wxSpinCtrl(this, ID_SPINCTRL2, _T("0"), wxDefaultPosition, wxSize(60,21), 0, 0, 10000, 0, _T("ID_SPINCTRL2"));
 	BMPHeight->SetValue(_T("0"));
-	BoxSizer1->Add(BMPHeight, 0, wxALL|wxALIGN_RIGHT|wxALIGN_BOTTOM, 5);
-	StaticBoxSizer1->Add(BoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer8->Add(StaticBoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BoxSizer18 = new wxBoxSizer(wxVERTICAL);
-	StaticText12 = new wxStaticText(this, ID_STATICTEXT13, _("Type"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT13"));
-	BoxSizer18->Add(StaticText12, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	StaticBoxSizer1->Add(BMPHeight, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer8->Add(StaticBoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	StaticBoxSizer2 = new wxStaticBoxSizer(wxVERTICAL, this, _("Format"));
 	Choice1 = new wxChoice(this, ID_CHOICE1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-	BoxSizer18->Add(Choice1, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	BoxSizer8->Add(BoxSizer18, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	StaticBoxSizer2->Add(Choice1, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	Button1 = new wxButton(this, ID_BUTTON1, _("Advanced"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
-	BoxSizer8->Add(Button1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	StaticBoxSizer2->Add(Button1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer8->Add(StaticBoxSizer2, 0, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 2);
 	SetSizer(BoxSizer8);
 	BoxSizer8->Fit(this);
 	BoxSizer8->SetSizeHints(this);
@@ -79,6 +68,13 @@ XPMImagePropertiesPanel::XPMImagePropertiesPanel(wxWindow* parent,wxWindowID id,
 
     AppendFormatsToChoice();
 	m_parent = NULL;
+/*
+    wxSize sSize;
+    sSize = StaticBoxSizer1->GetMinSize();
+    Manager::Get()->GetLogManager()->Log(wxString::Format(_("StaticBoxSizer sBestSize w=%d h=%d"), sSize.GetWidth(), sSize.GetHeight()));
+    sSize = StaticBoxSizer2->GetMinSize();
+    Manager::Get()->GetLogManager()->Log(wxString::Format(_("StaticBoxSizer2 sBestSize w=%d h=%d"), sSize.GetWidth(), sSize.GetHeight()));
+*/
 }
 
 XPMImagePropertiesPanel::~XPMImagePropertiesPanel()
@@ -156,6 +152,13 @@ void XPMImagePropertiesPanel::OnButtonAdvancedPropClick(wxCommandEvent& event)
 {
     if (m_parent)
     {
+        AdvancedOptions dao(this);
+        wxImage img = m_parent->GetImage();
+
+        if (dao.ShowModal() == 0)
+        {
+
+        }
 
     }
 }

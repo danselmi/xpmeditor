@@ -317,79 +317,13 @@ bool XPMEditorBase::Save(void)
     img = GetImage();
     if (!img.IsOk()) return(false); //no bitmap to save
 
-    if (!m_bIsFileNameOK) return(SaveAs());
-
-    //get the file format to use for saving (bmp, jpeg, png, ...)
     wxBitmapType bt;
-    bool bRecognized;
     if (!m_DrawArea) return(false);
     bt = m_DrawArea->GetImageFormat();
 
-    bRecognized = false;
-    if (bt == wxBITMAP_TYPE_ANY)
-    {
-        //get fileformat requested, based on file extension
-        if (XPM_Plugin())
-        {
-            XPM_Plugin()->GetImageFormatFromFileName(m_Filename, &bt);
-            if (XPM_Plugin()->IsFormatValidForWriting(bt)) bRecognized = true;
-        }
-    }
-    else
-    {
-        //the fileformat is requested by the user specifically
-        if (XPM_Plugin())
-        {
-            if (XPM_Plugin()->IsFormatValidForWriting(bt)) bRecognized = true;
-        }
-    }
+    if (!m_bIsFileNameOK) return(SaveAs());
 
-    if (!bRecognized)
-    {
-        wxString sMsg;
-        sMsg = _("The file format is not supported on this platform, or is not recognized. Try one of this one:");
-        sMsg += _("    *.bmp - bitmap format\n");
-        sMsg += _("    *.dib - bitmap format\n");
-        sMsg += _("    *.xpm - pixmap XPM format\n");
-        sMsg += _("    *.xbm - bitmap XBM format\n");
-        sMsg += _("    *.png - bitmap PNG format\n");
-        sMsg += _("    *.jpg, *.jpeg, *.jfif - bitmap JPEG format\n");
-        sMsg += _("    *.tif, *.tiff - bitmap TIFF format\n");
-        sMsg += _("    *.pnm - bitmap PNM format\n");
-        sMsg += _("    *.pcx - PCX format\n");
-        sMsg += _("    *.pict - PICT format\n");
-        sMsg += _("    *.icon - icon format\n");
-        sMsg += _("    *.ico - icon format - Windows only\n");
-        sMsg += _("    *.cur - cursor format - Windows only\n");
-        sMsg += _("    *.ani - animated cursor format - Windows only\n");
-        ::wxMessageBox(sMsg, _("File saving error"), wxOK | wxICON_ERROR);
-        return(false);
-    }
-
-    //check if hotspot is present
-    if ((img.GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_X) > 0) &&
-        (img.GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_Y) > 0) &&
-        (bt != wxBITMAP_TYPE_CUR)
-       )
-    {
-        //hot spot not supported in this format
-        wxString sMsg;
-        sMsg = _("There is a Hot Spot in this image - however, the selected format does not support ");
-        sMsg += _("Hot Spot information. The information will be lost.");
-        sMsg += _("The following formats support Hot Spot:\n");
-        sMsg += _("*.cur - cursor format - Windows only\n");
-        sMsg += _("Do you want to continue ?");
-        if (::wxMessageBox(sMsg, _("File saving error"), wxYES_NO | wxICON_QUESTION) == wxNO) return(false);
-    }
-
-    //save the file
-    NotifyPlugins(cbEVT_EDITOR_BEFORE_SAVE);
-    img.SaveFile(m_Filename, bt);
-    NotifyPlugins(cbEVT_EDITOR_SAVE);
-
-    //flags, quitting
-    SetModified(false);
-    return(true);
+    return(XPM_Plugin()->SaveImage(&img, m_Filename, bt, this));
 }
 
 /** Close the image

@@ -39,8 +39,9 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="strip -s XPMEditor.so" />
-					<Add after="zip -j9 XPMEditor.zip manifest.xml" />
+					<Add after="zip -9 XPMEditor.zip manifest.xml doc\*.htm" />
 					<Add after="zip -j9 XPMEditor.cbplugin XPMEditor.so XPMEditor.zip" />
+					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>

@@ -46,13 +46,16 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="strip -s XPMEditor.dll" />
-					<Add after="zip -j9 XPMEditor.zip manifest.xml" />
+					<Add after="zip -9 XPMEditor.zip manifest.xml doc\*.htm" />
 					<Add after="zip -j9 XPMEditor.cbplugin XPMEditor.dll XPMEditor.zip" />
+					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>
 		<Unit filename="AdvancedOptions.cpp" />
 		<Unit filename="AdvancedOptions.h" />
+		<Unit filename="QuickHelpDialog.cpp" />
+		<Unit filename="QuickHelpDialog.h" />
 		<Unit filename="QuickHelpPanel.cpp" />
 		<Unit filename="QuickHelpPanel.h" />
 		<Unit filename="XPMColorPicker.cpp" />
@@ -129,6 +132,7 @@
 		<Unit filename="xpm\left.xpm" />
 		<Unit filename="xpm\left_hair.xpm" />
 		<Unit filename="xpm\line.xpm" />
+		<Unit filename="xpm\opaque.xpm" />
 		<Unit filename="xpm\pen.xpm" />
 		<Unit filename="xpm\pen_cursor.xpm" />
 		<Unit filename="xpm\pipette.xpm" />
@@ -142,6 +146,7 @@
 		<Unit filename="xpm\square.xpm" />
 		<Unit filename="xpm\test_mask.xpm" />
 		<Unit filename="xpm\text.xpm" />
+		<Unit filename="xpm\transparent.xpm" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -168,6 +173,7 @@
 					<wxPanel wxs="wxsmith/XPMHelpPanel.wxs" src="XPMHelpPanel.cpp" hdr="XPMHelpPanel.h" name="XPMHelpPanel" language="CPP" />
 					<wxPanel wxs="wxsmith/XPMDrawCanvasPanel.wxs" src="XPMDrawCanvasPanel.cpp" hdr="XPMDrawCanvasPanel.h" fwddecl="1" name="XPMDrawCanvasPanel" language="CPP" />
 					<wxDialog wxs="wxsmith/AdvancedOptions.wxs" src="AdvancedOptions.cpp" hdr="AdvancedOptions.h" fwddecl="1" name="AdvancedOptions" language="CPP" />
+					<wxScrollingDialog wxs="wxsmith/QuickHelpDialog.wxs" src="QuickHelpDialog.cpp" hdr="QuickHelpDialog.h" fwddecl="1" name="QuickHelpDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

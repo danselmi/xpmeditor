@@ -42,6 +42,7 @@ class XPMHelpPanel: public wxPanel
 		//*)
 
 		//(*Handlers(XPMHelpPanel)
+		void OnHelpButtonClick(wxCommandEvent& event);
 		//*)
 
 	protected:

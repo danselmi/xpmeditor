@@ -144,7 +144,6 @@ class XPMEditorPanel: public wxPanel
 		void OnTransparentColorChanged(wxCommandEvent& event); ///< \brief the transparent colour in the colour picker changed
 		void OnLineColorChanged(wxCommandEvent& event);        ///< \brief the Line colour in the colour picker changed
 		void OnFillColorChanged(wxCommandEvent& event);        ///< \brief the Fill colour in the colour picker changed
-		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief The colour of the hotspot changed
 		void OnGridColourPickerColourChanged(wxColourPickerEvent& event);    ///< \brief The colour of the grid changed
 		void OnImageSizeChanged(wxSpinEvent& event);           ///< \brief The size of the image changed
 		void OnStretchImage(wxCommandEvent& event);            ///< \brief Stretch the image or the selection
@@ -167,26 +166,7 @@ class XPMEditorPanel: public wxPanel
 		void OnBottomRightSelect(wxCommandEvent& event);       ///< \brief The Text alignment changed to bottom-right
 		void OnSpinAngleChange(wxSpinEvent& event);            ///< \brief The Text orientation angle changed.
 
-		//tool panel event handler - forwarded from ToolPanel.
-		void OnEllipseButtonToggle(wxCommandEvent& event);     ///< \brief The Ellipse Tool Button has been toggled
-		void OnRRectButtonToggle(wxCommandEvent& event);       ///< \brief The Rounded Rectangle Tool Button has been toggled
-		void OnRectangleButtonToggle(wxCommandEvent& event);   ///< \brief The Rectangle Tool Button has been toggled
-		void OnPolygonButtonToggle(wxCommandEvent& event);     ///< \brief The Polygon Tool Button has been toggled
-		void OnEraserButtonToggle(wxCommandEvent& event);      ///< \brief The Eraser Tool Button has been toggled
-		void OnTextButtonToggle(wxCommandEvent& event);        ///< \brief The Text Tool Button has been toggled
-		void OnCurveButtonToggle(wxCommandEvent& event);       ///< \brief The Curve Tool Button has been toggled
-		void OnLineButtonToggle(wxCommandEvent& event);        ///< \brief The Line Tool Button has been toggled
-		void OnPipetteButtonToggle(wxCommandEvent& event);     ///< \brief The Pipette Tool Button has been toggled
-		void OnFillButtonToggle(wxCommandEvent& event);        ///< \brief The Fill Tool Button has been toggled
-		void OnPenButtonToggle(wxCommandEvent& event);         ///< \brief The Pen Tool Button has been toggled
-		void OnBrushButtonToggle(wxCommandEvent& event);       ///< \brief The Brush Tool Button has been toggled
-		void OnLassoButtonToggle(wxCommandEvent& event);       ///< \brief The Lasso Tool Button has been toggled
-		void OnSelectButtonToggle(wxCommandEvent& event);      ///< \brief The Select Tool Button has been toggled
-		void OnSquareBrushButtonToggle(wxCommandEvent& event); ///< \brief The Square Brush Sub-Tool Button has been toggled
-		void OnCircleBrushButtonToggle(wxCommandEvent& event); ///< \brief The Circle Brush Sub-Tool Button has been toggled
-		void OnLHairBrushButtonToggle(wxCommandEvent& event);  ///< \brief The Left Hair Brush Sub-Tool Button has been toggled
-		void OnRHairBrushButtonToggle(wxCommandEvent& event);  ///< \brief The Right Hair Brush Sub-Tool Button has been toggled
-		void OnHotSpotButtonToggle(wxCommandEvent& event);     ///< \brief The HotSpot Tool Button has been toggled
+		void SetHotSpotColour(wxColour cNewColour);             ///< \brief The HotSpot Tool Button has been toggled
 
 		//(*Declarations(XPMEditorPanel)
 		XPMFoldPanel* FoldPanel;
@@ -195,19 +175,14 @@ class XPMEditorPanel: public wxPanel
 		XPMColourPickerPanel* ColourPicker;
 		XPMInterfacePanel* InterfacePanel;
 		//*)
-		/*
-		XPMFoldPanel *FoldPanel;               ///< \brief The panel containing 4 foldbars, and all the drawing tools (buttons)
-		XPMInterfacePanel *InterfacePanel;     ///< \brief A panel allowing to rotate or zoom the image
-		XPMColourPickerPanel *ColourPicker;    ///< \brief A panel containing the Colour Picker
-		XPMDrawCanvasPanel *DrawCanvasPanel;   ///< \brief a panel container for the drawing canvas
-        */
+
 	protected:
 
 		//(*Identifiers(XPMEditorPanel)
 		static const long ID_DRAWCANVASPANEL;
 		static const long ID_FOLDPANEL;
-		static const long ID_INTERFACEPANEL;
 		static const long ID_COLOURPICKERPANEL;
+		static const long ID_INTERFACEPANEL;
 		//*)
 
 		//(*Handlers(XPMEditorPanel)

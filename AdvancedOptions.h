@@ -3,6 +3,14 @@
 
 //(*Headers(AdvancedOptions)
 #include <wx/dialog.h>
+class wxSpinEvent;
+class wxStaticText;
+class wxSlider;
+class wxSpinCtrl;
+class wxBoxSizer;
+class wxButton;
+class wxStaticBoxSizer;
+class wxChoice;
 //*)
 
 /*
@@ -24,14 +32,39 @@ class AdvancedOptions: public wxDialog
 		virtual ~AdvancedOptions();
 
 		//(*Declarations(AdvancedOptions)
+		wxSlider* Slider1;
+		wxButton* OKButton;
+		wxSpinCtrl* SpinCtrl1;
+		wxStaticText* StaticText2;
+		wxStaticText* StaticText1;
+		wxStaticText* StaticText3;
+		wxStaticText* StaticText5;
+		wxSpinCtrl* SpinCtrl2;
+		wxStaticText* StaticText4;
+		wxButton* CancelButton;
+		wxChoice* Choice1;
 		//*)
 
 	protected:
 
 		//(*Identifiers(AdvancedOptions)
+		static const long ID_STATICTEXT1;
+		static const long ID_SPINCTRL1;
+		static const long ID_STATICTEXT2;
+		static const long ID_SPINCTRL2;
+		static const long ID_STATICTEXT3;
+		static const long ID_CHOICE1;
+		static const long ID_STATICTEXT4;
+		static const long ID_SLIDER1;
+		static const long ID_STATICTEXT5;
+		static const long ID_BUTTONOK;
+		static const long ID_BUTTONCANCEL;
 		//*)
 
 		//(*Handlers(AdvancedOptions)
+		void OnClose(wxCloseEvent& event);
+		void OnOKButtonClick(wxCommandEvent& event);
+		void OnCancelButtonClick(wxCommandEvent& event);
 		//*)
 
 	protected:

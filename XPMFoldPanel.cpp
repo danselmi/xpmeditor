@@ -15,6 +15,8 @@
 #include "XPMImagePropertiesPanel.h"
 #include "XPMHelpPanel.h"
 
+//#include <sdk.h> // Code::Blocks SDK
+
 //(*InternalHeaders(XPMFoldPanel)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -33,6 +35,10 @@ XPMFoldPanel::XPMFoldPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 {
 	BuildContent(parent,id,pos,size);
 	CreateSubPanels();
+	//expand some panels
+    FoldPanelBar1->Expand((size_t) 0, false); //expand tools panel
+    FoldPanelBar1->Expand((size_t) 3, false); //expand help panel
+    if (MainSizer) MainSizer->Layout();
 }
 
 void XPMFoldPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
@@ -83,9 +89,31 @@ void XPMFoldPanel::CreateSubPanels(void)
     if (MainSizer)
     {
         MainSizer->Layout();
-        MainSizer->FitInside(this);
+        MainSizer->Fit(this);
     }
+/*
+    wxSize sSize; //GetFoldItem
+    wxFoldItemEx *f;
 
+    sSize = FoldPanelBar1->GetBestSize();
+    Manager::Get()->GetLogManager()->Log(wxString::Format(_("FoldPanel sBestSize w=%d h=%d"), sSize.GetWidth(), sSize.GetHeight()));
+
+    f = FoldPanelBar1->GetFoldItem(0);
+    sSize = f->GetBestSize();
+    Manager::Get()->GetLogManager()->Log(wxString::Format(_("ToolPanel sBestSize w=%d h=%d"), sSize.GetWidth(), sSize.GetHeight()));
+
+    f = FoldPanelBar1->GetFoldItem(1);
+    sSize = f->GetBestSize();
+    Manager::Get()->GetLogManager()->Log(wxString::Format(_("Image Modifications sBestSize w=%d h=%d"), sSize.GetWidth(), sSize.GetHeight()));
+
+    f = FoldPanelBar1->GetFoldItem(2);
+    sSize = f->GetBestSize();
+    Manager::Get()->GetLogManager()->Log(wxString::Format(_("Image Properties sBestSize w=%d h=%d"), sSize.GetWidth(), sSize.GetHeight()));
+
+    f = FoldPanelBar1->GetFoldItem(3);
+    sSize = f->GetBestSize();
+    Manager::Get()->GetLogManager()->Log(wxString::Format(_("Help sBestSize w=%d h=%d"), sSize.GetWidth(), sSize.GetHeight()));
+*/
 }
 
 /** Set the parent of the panels
@@ -102,7 +130,7 @@ void XPMFoldPanel::SetParentPanel(XPMEditorPanel *parent)
     if (MainSizer)
     {
         MainSizer->Layout();
-        MainSizer->FitInside(this);
+        MainSizer->Fit(this);
     }
 
 }

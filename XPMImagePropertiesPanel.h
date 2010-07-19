@@ -48,23 +48,21 @@ class XPMImagePropertiesPanel: public wxPanel
 		void SetImageFormat(wxBitmapType bt);   /// \brief set the image saving file format in the wxChoice
 
 		//(*Declarations(XPMImagePropertiesPanel)
+		wxStaticBoxSizer* StaticBoxSizer2;
 		wxSpinCtrl* BMPHeight;
 		wxSpinCtrl* BMPWidth;
-		wxStaticText* StaticText2;
 		wxButton* Button1;
-		wxStaticText* StaticText3;
-		wxStaticText* StaticText12;
+		wxStaticText* StaticText1;
+		wxStaticBoxSizer* StaticBoxSizer1;
 		wxChoice* Choice1;
 		//*)
 
 	protected:
 
 		//(*Identifiers(XPMImagePropertiesPanel)
-		static const long ID_STATICTEXT2;
 		static const long ID_SPINCTRL1;
-		static const long ID_STATICTEXT3;
+		static const long ID_STATICTEXT1;
 		static const long ID_SPINCTRL2;
-		static const long ID_STATICTEXT13;
 		static const long ID_CHOICE1;
 		static const long ID_BUTTON1;
 		//*)

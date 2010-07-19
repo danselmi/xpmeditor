@@ -1,40 +1,103 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxPanel" name="QuickHelpPanel">
-		<pos_arg>1</pos_arg>
-		<size_arg>1</size_arg>
+		<id_arg>0</id_arg>
 		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
 				<object class="wxNotebook" name="ID_NOTEBOOK1" variable="Notebook1" member="yes">
-					<size>364,242</size>
+					<size>642,410</size>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes" />
+						<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+							<size>425,298</size>
+							<object class="wxBoxSizer" variable="BoxSizer2" member="no">
+								<object class="sizeritem">
+									<object class="wxHtmlWindow" name="ID_HTMLWINDOW1" variable="HtmlWindowIntro" member="yes">
+										<size>560,406</size>
+										<style>wxHW_SCROLLBAR_AUTO|wxSUNKEN_BORDER</style>
+									</object>
+									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
 						<label>Introduction</label>
 					</object>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL7" variable="Panel7" member="yes" />
+						<object class="wxPanel" name="ID_PANEL7" variable="Panel7" member="yes">
+							<object class="wxBoxSizer" variable="BoxSizer3" member="no">
+								<object class="sizeritem">
+									<object class="wxHtmlWindow" name="ID_HTMLWINDOW6" variable="HtmlWindowInterface" member="yes">
+										<style>wxHW_SCROLLBAR_AUTO|wxSUNKEN_BORDER</style>
+									</object>
+									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
 						<label>Interface</label>
 					</object>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes" />
+						<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
+							<object class="wxBoxSizer" variable="BoxSizer4" member="no">
+								<object class="sizeritem">
+									<object class="wxHtmlWindow" name="ID_HTMLWINDOW5" variable="HtmlWindowImage" member="yes">
+										<style>wxHW_SCROLLBAR_AUTO|wxSUNKEN_BORDER</style>
+									</object>
+									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
 						<label>Image</label>
 					</object>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes" />
+						<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes">
+							<object class="wxBoxSizer" variable="BoxSizer5" member="no">
+								<object class="sizeritem">
+									<object class="wxHtmlWindow" name="ID_HTMLWINDOW4" variable="HtmlWindowColour" member="yes">
+										<style>wxHW_SCROLLBAR_AUTO|wxSUNKEN_BORDER</style>
+									</object>
+									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
 						<label>Colour</label>
 					</object>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL4" variable="Panel4" member="yes" />
+						<object class="wxPanel" name="ID_PANEL4" variable="Panel4" member="yes">
+							<object class="wxBoxSizer" variable="BoxSizer6" member="no">
+								<object class="sizeritem">
+									<object class="wxHtmlWindow" name="ID_HTMLWINDOW3" variable="HtmlWindowTools" member="yes">
+										<style>wxHW_SCROLLBAR_AUTO|wxSUNKEN_BORDER</style>
+									</object>
+									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
 						<label>Tools</label>
 					</object>
 					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL5" variable="Panel5" member="yes" />
+						<object class="wxPanel" name="ID_PANEL5" variable="Panel5" member="yes">
+							<object class="wxBoxSizer" variable="BoxSizer7" member="no">
+								<object class="sizeritem">
+									<object class="wxHtmlWindow" name="ID_HTMLWINDOW2" variable="HtmlWindowEffects" member="yes">
+										<style>wxHW_SCROLLBAR_AUTO|wxSUNKEN_BORDER</style>
+									</object>
+									<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+									<border>5</border>
+									<option>1</option>
+								</object>
+							</object>
+						</object>
 						<label>Effects</label>
-					</object>
-					<object class="notebookpage">
-						<object class="wxPanel" name="ID_PANEL6" variable="Panel6" member="yes" />
-						<label>Colour</label>
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
