@@ -155,9 +155,183 @@ void XPMImagePropertiesPanel::OnButtonAdvancedPropClick(wxCommandEvent& event)
         AdvancedOptions dao(this);
         wxImage img = m_parent->GetImage();
 
+        //initialisation of the dialog box
+        //resolution
+        bool bModified, bResolution, bJPG, bPNGFormat, bPNGBitDepth;
+        int iResolutionUnit, iResolutionX, iResolutionY, iJPGQuality;
+        int iPNGBitDepth, iPNGFormat;
+        wxString sString;
+        wxString sString2;
+        wxString sPNGFormat;
+        wxString sPNGBitDepths;
+
+        bModified = false;
+
+
+
+        if ((img.HasOption(wxIMAGE_OPTION_RESOLUTIONUNIT)) || (img.HasOption(wxIMAGE_OPTION_RESOLUTIONUNIT)) || (img.HasOption(wxIMAGE_OPTION_RESOLUTIONUNIT)))
+        {
+            bResolution = true;
+
+            iResolutionUnit = img.GetOptionInt(wxIMAGE_OPTION_RESOLUTIONUNIT);
+            switch(iResolutionUnit)
+            {
+
+                case wxIMAGE_RESOLUTION_INCHES : sString = _("Inch"); break;
+                case wxIMAGE_RESOLUTION_CM     : sString = _("Cm"); break;
+                #if wxCHECK_VERSION(2, 9, 0)
+                case wxIMAGE_RESOLUTION_NONE   :
+                #endif
+                default                        : sString = _("Not Specified"); break;
+            }
+
+            iResolutionX = img.GetOptionInt(wxIMAGE_OPTION_RESOLUTIONX);
+            iResolutionY = img.GetOptionInt(wxIMAGE_OPTION_RESOLUTIONY);
+        }
+        else
+        {
+            bResolution = false;
+
+            iResolutionUnit = 0;
+            iResolutionX = 0;
+            iResolutionY = 0;
+            sString = _("Not Specified");
+        }
+        dao.ChoiceResolutionUnit->SetStringSelection(sString);
+        dao.SpinResolutionX->SetValue(iResolutionX);
+        dao.SpinResolutionY->SetValue(iResolutionY);
+        dao.EnableResolutionOption(bResolution);
+
+        //JPG quality
+        if (img.HasOption(wxIMAGE_OPTION_QUALITY))
+        {
+            iJPGQuality = img.GetOptionInt(wxIMAGE_OPTION_QUALITY);
+            bJPG = true;
+        }
+        else
+        {
+            iJPGQuality = 0;
+            bJPG = false;
+        }
+        dao.SliderJPGCompression->SetValue(iJPGQuality);
+        dao.EnableJPGOption(bJPG);
+
+        //PNG Format
+        if (img.HasOption(wxIMAGE_OPTION_PNG_FORMAT))
+        {
+            bPNGFormat = true;
+            iPNGFormat = img.GetOptionInt(wxIMAGE_OPTION_PNG_FORMAT);
+
+            switch(iPNGFormat)
+            {
+                case wxPNG_TYPE_COLOUR   : sPNGFormat = _("0 - Colour PNG"); break;
+                case wxPNG_TYPE_GREY     : sPNGFormat = _("2 - Grey Scale PNG"); break;
+                case wxPNG_TYPE_GREY_RED : sPNGFormat = _("3 - Grey Scale using Red as Grey"); break;
+                default                  : sPNGFormat = _("0 - Colour PNG"); break;
+            }
+
+
+        }
+        else
+        {
+            bPNGFormat = false;
+            iPNGFormat = wxPNG_TYPE_COLOUR;
+            sPNGFormat = _("0 - Colour PNG");
+        }
+        dao.ChoicePNGFormat->SetStringSelection(sPNGFormat);
+        dao.EnablePNGFormat(bPNGFormat);
+
+        //PNG Bit Depths
+        if (img.HasOption(wxIMAGE_OPTION_PNG_BITDEPTH))
+        {
+            bPNGBitDepth = true;
+            iPNGBitDepth = img.GetOptionInt(wxIMAGE_OPTION_PNG_BITDEPTH);
+            //only 8 or 16 are valid values
+            if (iPNGBitDepth < 16) iPNGBitDepth = 8;
+            if (iPNGBitDepth > 16) iPNGBitDepth = 16;
+            if (iPNGBitDepth == 8)  sPNGBitDepths = _("8");
+            if (iPNGBitDepth == 16) sPNGBitDepths = _("16");
+        }
+        else
+        {
+            bPNGBitDepth = false;
+            iPNGBitDepth = 8;
+            sPNGBitDepths = _("8");
+        }
+        dao.ChoicePNGBitDepths->SetStringSelection(sPNGBitDepths);
+        dao.EnablePNGBitsDepth(bPNGBitDepth);
+
+
         if (dao.ShowModal() == 0)
         {
+            //set the resolution
+            if (dao.CheckBoxResolutionOption->IsChecked())
+            {
+                sString2 = dao.ChoiceResolutionUnit->GetStringSelection();
+                if ((sString2 == _("Inch")) && (sString != sString2)) img.SetOption(wxIMAGE_OPTION_RESOLUTIONUNIT, wxIMAGE_RESOLUTION_INCHES);
+                if ((sString2 == _("Cm")) && (sString != sString2)) img.SetOption(wxIMAGE_OPTION_RESOLUTIONUNIT, wxIMAGE_RESOLUTION_CM);
+                #if wxCHECK_VERSION(2, 9, 0)
+                if ((sString2 == _("Not Specified")) && (sString != sString2)) img.SetOption(wxIMAGE_OPTION_RESOLUTIONUNIT, wxIMAGE_RESOLUTION_NONE);
+                #else
+                if ((sString2 == _("Not Specified")) && (sString != sString2)) img.SetOption(wxIMAGE_OPTION_RESOLUTIONUNIT, wxIMAGE_RESOLUTION_INCHES);
+                #endif
 
+                if (sString2 != sString) bModified = true;
+
+                int iResolutionX2, iResolutionY2;
+                iResolutionX2 = dao.SpinResolutionX->GetValue();
+                iResolutionY2 = dao.SpinResolutionY->GetValue();
+
+                img.SetOption(wxIMAGE_OPTION_RESOLUTIONX, iResolutionX2);
+                img.SetOption(wxIMAGE_OPTION_RESOLUTIONY, iResolutionY2);
+
+                if (iResolutionX != iResolutionX2) bModified = true;
+                if (iResolutionY != iResolutionY2) bModified = true;
+            }
+            if (bResolution != dao.CheckBoxResolutionOption->IsChecked()) bModified = true;
+
+            //set the JPG quality
+            if (dao.CheckBoxJPGCompression->IsChecked())
+            {
+                int iJPGQuality2;
+                iJPGQuality2 = dao.SliderJPGCompression->GetValue();
+
+                img.SetOption(wxIMAGE_OPTION_QUALITY, iJPGQuality2);
+
+                if (iJPGQuality != iJPGQuality2) bModified = true;
+            }
+            if (bJPG != dao.CheckBoxJPGCompression->IsChecked()) bModified = true;
+
+            //set the PNG Format
+            if (dao.CheckBoxPNGFormat->IsChecked())
+            {
+                wxString sPNGFormat2;
+                sPNGFormat2 = dao.ChoicePNGFormat->GetStringSelection();
+                if ((sPNGFormat != sPNGFormat2) && (sPNGFormat2 == _("0 - Colour PNG"))) img.SetOption(wxIMAGE_OPTION_PNG_FORMAT, wxPNG_TYPE_COLOUR);
+                if ((sPNGFormat != sPNGFormat2) && (sPNGFormat2 == _("2 - Grey Scale PNG"))) img.SetOption(wxIMAGE_OPTION_PNG_FORMAT, wxPNG_TYPE_GREY);
+                if ((sPNGFormat != sPNGFormat2) && (sPNGFormat2 == _("3 - Grey Scale using Red as Grey"))) img.SetOption(wxIMAGE_OPTION_PNG_FORMAT, wxPNG_TYPE_GREY_RED);
+
+                if (sPNGFormat != sPNGFormat2) bModified = true;
+            }
+
+            //set the PNG Bit Depth
+            if (dao.CheckBoxPNGBitDepth->IsChecked())
+            {
+                wxString sPNGBitDepths2;
+                sPNGBitDepths2 = dao.ChoicePNGBitDepths->GetStringSelection();
+                if ((sPNGBitDepths != sPNGBitDepths2) && (sPNGBitDepths2 == _("8"))) img.SetOption(wxIMAGE_OPTION_PNG_BITDEPTH , 8);
+                if ((sPNGBitDepths != sPNGBitDepths2) && (sPNGBitDepths2 == _("16"))) img.SetOption(wxIMAGE_OPTION_PNG_BITDEPTH , 16);
+
+                if (sPNGBitDepths != sPNGBitDepths2) bModified = true;
+            }
+
+
+
+            if (bModified)
+            {
+                m_parent->SetModified(bModified);
+                m_parent->SetImage(&img);
+            }
         }
 
     }
@@ -167,9 +341,15 @@ void XPMImagePropertiesPanel::OnButtonAdvancedPropClick(wxCommandEvent& event)
   */
 void XPMImagePropertiesPanel::OnImageTypeChanged(wxCommandEvent& event)
 {
-    if (m_parent)
+    if ((m_parent) && (XPM_Plugin()))
     {
+        wxBitmapType bt;
+        wxString sSelection;
 
+        sSelection = event.GetString();
+        bt = XPM_Plugin()->GetFormatBitmap(sSelection);
+        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("bt=%d"), bt));
+        m_parent->SetImageFormat(bt);
     }
 }
 

@@ -1,0 +1,19 @@
+/* XPM */
+static const char *filledonly_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 11 2 1",
+". c #848284",
+"  c None",
+/* pixels */
+"                ",
+"                ",
+"                ",
+"   ..........   ",
+"   ..........   ",
+"   ..........   ",
+"   ..........   ",
+"   ..........   ",
+"                ",
+"                ",
+"                "
+};

@@ -9,6 +9,14 @@
 		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
+				<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
+					<label>These options will take effect only after saving the image and reloading it.</label>
+					<style>wxSUNKEN_BORDER</style>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
+				<border>5</border>
+			</object>
+			<object class="sizeritem">
 				<object class="wxStaticBoxSizer" variable="StaticBoxSizer1" member="no">
 					<label>General</label>
 					<orient>wxVERTICAL</orient>
@@ -20,33 +28,27 @@
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
-								<option>1</option>
 							</object>
 							<object class="sizeritem">
-								<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="SpinCtrl1" member="yes">
+								<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="SpinResolutionX" member="yes">
 									<value>0</value>
+									<max>10000</max>
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
 								<option>1</option>
 							</object>
-						</object>
-						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>2</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxBoxSizer" variable="BoxSizer4" member="no">
 							<object class="sizeritem">
 								<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
 									<label>Resolution Y:</label>
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
-								<option>1</option>
 							</object>
 							<object class="sizeritem">
-								<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="SpinCtrl2" member="yes">
+								<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="SpinResolutionY" member="yes">
 									<value>0</value>
+									<max>10000</max>
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
@@ -64,11 +66,25 @@
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceResolutionUnit" member="yes">
+									<content>
+										<item>Not Specified</item>
+										<item>Inch</item>
+										<item>Cm</item>
+									</content>
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<border>5</border>
 								<option>1</option>
 							</object>
 							<object class="sizeritem">
-								<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes" />
-								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBoxResolutionOption" member="yes">
+									<label>Has Resolution option</label>
+									<handler function="OnCheckBoxResolutionOptionClick" entry="EVT_CHECKBOX" />
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
 								<option>1</option>
 							</object>
@@ -88,20 +104,20 @@
 						<object class="wxBoxSizer" variable="BoxSizer6" member="no">
 							<object class="sizeritem">
 								<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
-									<label>Poor Quality</label>
+									<label>Poor Quality + small size </label>
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
 							</object>
 							<object class="sizeritem">
-								<object class="wxSlider" name="ID_SLIDER1" variable="Slider1" member="yes" />
+								<object class="wxSlider" name="ID_SLIDER1" variable="SliderJPGCompression" member="yes" />
 								<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
 								<option>1</option>
 							</object>
 							<object class="sizeritem">
 								<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
-									<label>Good Quality</label>
+									<label>Good Quality + large size</label>
 								</object>
 								<flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
@@ -110,6 +126,15 @@
 						<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 						<border>2</border>
 					</object>
+					<object class="sizeritem">
+						<object class="wxCheckBox" name="ID_CHECKBOX2" variable="CheckBoxJPGCompression" member="yes">
+							<label>Has JPG Compression option</label>
+							<handler function="OnCheckBoxJPGCompressionClick" entry="EVT_CHECKBOX" />
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
@@ -117,10 +142,75 @@
 			<object class="sizeritem">
 				<object class="wxStaticBoxSizer" variable="StaticBoxSizer3" member="no">
 					<label>PNG Format Options</label>
+					<orient>wxVERTICAL</orient>
+					<object class="sizeritem">
+						<object class="wxBoxSizer" variable="BoxSizer7" member="no">
+							<object class="sizeritem">
+								<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
+									<label>PNG Format:</label>
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxChoice" name="ID_CHOICE2" variable="ChoicePNGFormat" member="yes">
+									<content>
+										<item>0 - Colour PNG</item>
+										<item>2 - Grey Scale PNG</item>
+										<item>3 - Grey Scale using Red as Grey</item>
+									</content>
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+								<option>1</option>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCheckBox" name="ID_CHECKBOX3" variable="CheckBoxPNGFormat" member="yes">
+									<label>Has PNG Format</label>
+									<handler function="OnCheckBoxPNGOptionsClick" entry="EVT_CHECKBOX" />
+								</object>
+								<flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+							</object>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>2</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxBoxSizer" variable="BoxSizer8" member="no">
+							<object class="sizeritem">
+								<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
+									<label>Bit Depth for R/G/B/A:</label>
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxChoice" name="ID_CHOICE5" variable="ChoicePNGBitDepths" member="yes">
+									<content>
+										<item>8</item>
+										<item>16</item>
+									</content>
+								</object>
+								<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+								<option>1</option>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCheckBox" name="ID_CHECKBOX4" variable="CheckBoxPNGBitDepth" member="yes">
+									<label>Has Bit Depth</label>
+									<handler function="OnCheckBoxPNGBitDepthClick" entry="EVT_CHECKBOX" />
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+							</object>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<border>2</border>
+					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 				<border>5</border>
-				<option>1</option>
 			</object>
 			<object class="sizeritem">
 				<object class="wxBoxSizer" variable="BoxSizer2" member="no">

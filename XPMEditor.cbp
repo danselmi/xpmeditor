@@ -98,7 +98,12 @@
 		<Unit filename="foldpanelex\src\icon_expanded.xpm" />
 		<Unit filename="foldpanelex\src\icon_theresmore.xpm" />
 		<Unit filename="manifest.xml" />
+		<Unit filename="shape01.png" />
 		<Unit filename="test.bmp" />
+		<Unit filename="test.jpg" />
+		<Unit filename="test.xpm">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="todo.txt" />
 		<Unit filename="wxBlur.cpp" />
 		<Unit filename="wxBlur.h" />
@@ -127,12 +132,14 @@
 		<Unit filename="xpm\eraser.xpm" />
 		<Unit filename="xpm\fill.xpm" />
 		<Unit filename="xpm\fill_cursor.xpm" />
+		<Unit filename="xpm\filled.xpm" />
+		<Unit filename="xpm\filledonly.xpm" />
 		<Unit filename="xpm\hotspot.xpm" />
 		<Unit filename="xpm\lasso.xpm" />
 		<Unit filename="xpm\left.xpm" />
 		<Unit filename="xpm\left_hair.xpm" />
 		<Unit filename="xpm\line.xpm" />
-		<Unit filename="xpm\opaque.xpm" />
+		<Unit filename="xpm\outline.xpm" />
 		<Unit filename="xpm\pen.xpm" />
 		<Unit filename="xpm\pen_cursor.xpm" />
 		<Unit filename="xpm\pipette.xpm" />

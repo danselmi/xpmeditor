@@ -36,20 +36,10 @@
 class XPMEditor : public cbMimePlugin
 {
     public:
-        /** Constructor. */
-        XPMEditor();
-        /** Destructor. */
-        virtual ~XPMEditor();
+        XPMEditor();   ///< \brief constructor
+        virtual ~XPMEditor(); ///< \brief destructor
 
-
-        /** This method is called by Code::Blocks and is used by the plugin
-          * to add any menu items it needs on Code::Blocks's menu bar.\n
-          * It is a pure virtual method that needs to be implemented by all
-          * plugins. If the plugin does not need to add items on the menu,
-          * just do nothing ;)
-          * \param menuBar the wxMenuBar to create items in
-          */
-        virtual void BuildMenu(wxMenuBar* menuBar){}
+        virtual void BuildMenu(wxMenuBar* menuBar); ///< \brief build a menu in the main application menu
 
         /** This method is called by Code::Blocks core modules (EditorManager,
           * ProjectManager etc) and is used by the plugin to add any menu
@@ -146,10 +136,12 @@ class XPMEditor : public cbMimePlugin
         bool IsFormatValidForWriting(wxBitmapType btFormat); ///< \brief Indicates if a format is supported or not for writing
         bool GetImageFormatFromFileName(wxString sFileName, wxBitmapType *bt) const;  ///< \brief Autodetect the file format for the image, based on the file extension
         void AddFileMasksToProjectManager(void);                                ///< \brief This method adds Filemasks, such as "*.bmp" to the project manager
+        void AddFileMasksToFileOpenSaveDialog(wxArrayString sFileMasks);        ///< \brief This method adds Filemasks, such as "*.bmp" to the File Open or File Save dialog
         bool IsGroupNameExisting(wxString sName, const FilesGroupsAndMasks *fm);///< \brief Test if a group name is already existing in the Project Manager
         void GetFileSavingFormat(wxArrayString &array);                         ///< \brief Return a list of file saving format supported
         wxBitmapType GetCompatibleSavingFormat(wxBitmapType btFormat);          ///< \brief This method checks if the given saving file format is available.
         wxString GetFormatString(wxBitmapType bt);                             ///< \brief Return the string associated to the file format (ex: "bitmap (*.bmp)"
+        wxBitmapType GetFormatBitmap(wxString sFormat);                        ///< \brief Return the wxBitmapFormat associated to the file format (ex: "bitmap (*.bmp)"
 
         //help files
         wxString GetHTMLHelp(void); ///< \brief  Find the path to the plugin resource files, containing the HTLM help files
@@ -177,6 +169,16 @@ class XPMEditor : public cbMimePlugin
           *         behaviour is undefined...
           */
         virtual void OnRelease(bool appShutDown);
+
+        //menu handler
+        void OnNewImage(wxCommandEvent &event);        ///< \brief menu handler for "New Image"
+        void OnNewProjectImage(wxCommandEvent &event); ///< \brief menu handler for "Add Image" (wxSmith menu)
+        void OnOpenImage(wxCommandEvent &event);       ///< \brief menu handler for "Open Image"
+
+        //menu identifiers
+        static const long idFileNewImage;     ///< \brief menu identifier for "New Image"
+        static const long idOpenImage;        ///< \brief menu identifier for "Open Image" in the "File" Menu
+        static const long idwxSmithNewImage;  ///< \brief menu identifier for the "New Image" in the wxSmith menu
 
     private:
         static XPMEditor* m_Singleton;      ///< \brief Singleton object

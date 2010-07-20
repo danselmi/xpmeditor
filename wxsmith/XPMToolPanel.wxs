@@ -254,7 +254,6 @@
 						</object>
 						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 						<border>2</border>
-						<option>1</option>
 					</object>
 					<object class="sizeritem">
 						<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="SpinCtrl1" member="yes">
@@ -280,7 +279,6 @@
 						</object>
 						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 						<border>2</border>
-						<option>1</option>
 					</object>
 					<object class="sizeritem">
 						<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="SpinCtrl3" member="yes">
@@ -306,7 +304,6 @@
 						</object>
 						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 						<border>2</border>
-						<option>1</option>
 					</object>
 					<object class="sizeritem">
 						<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="SpinCtrl2" member="yes">
@@ -453,7 +450,6 @@
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
-								<option>1</option>
 							</object>
 							<object class="sizeritem">
 								<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="SpinAngle" member="yes">
@@ -472,6 +468,38 @@
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 				<border>2</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="FillModeSizer" member="yes">
+					<orient>wxVERTICAL</orient>
+					<object class="sizeritem">
+						<object class="Custom" name="ID_CUSTOM1" subclass="wxBitmapComboBox" variable="ComboFillMode" member="yes">
+							<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), __(&quot;&quot;),$(POS),$(SIZE), 0, NULL, wxCB__READONLY);</creating_code>
+							<include_file>wx/bmpcbox.h</include_file>
+							<style></style>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>2</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="FillPatternSizer" member="yes">
+					<orient>wxVERTICAL</orient>
+					<object class="sizeritem">
+						<object class="Custom" name="ID_CUSTOM3" subclass="wxBitmapComboBox" variable="ComboPattern" member="yes">
+							<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), __(&quot;&quot;),$(POS),$(SIZE), 0, NULL, wxCB__READONLY );</creating_code>
+							<include_file>wx/bmpcbox.h</include_file>
+							<style></style>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>2</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
 			</object>
 			<object class="spacer">
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>

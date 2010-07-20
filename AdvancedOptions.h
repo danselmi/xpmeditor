@@ -4,6 +4,7 @@
 //(*Headers(AdvancedOptions)
 #include <wx/dialog.h>
 class wxSpinEvent;
+class wxCheckBox;
 class wxStaticText;
 class wxSlider;
 class wxSpinCtrl;
@@ -31,32 +32,55 @@ class AdvancedOptions: public wxDialog
 		AdvancedOptions(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~AdvancedOptions();
 
+		void EnableResolutionOption(bool bEnabled); ///< \brief activate / deactivate resolution widgets
+		void EnableJPGOption(bool bEnabled);        ///< \brief activate / deactivate JPG quality widgets
+		void EnablePNGFormat(bool bEnabled);        ///< \brief activate / deactivate PNG Format widgets
+		void EnablePNGBitsDepth(bool bEnabled);     ///< \brief activate / deactivate PNG Bit Depth widgets
+
 		//(*Declarations(AdvancedOptions)
-		wxSlider* Slider1;
+		wxSlider* SliderJPGCompression;
 		wxButton* OKButton;
-		wxSpinCtrl* SpinCtrl1;
 		wxStaticText* StaticText2;
+		wxSpinCtrl* SpinResolutionX;
+		wxStaticText* StaticText6;
+		wxChoice* ChoicePNGBitDepths;
+		wxStaticText* StaticText8;
+		wxCheckBox* CheckBoxJPGCompression;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
+		wxCheckBox* CheckBoxPNGFormat;
+		wxCheckBox* CheckBoxResolutionOption;
+		wxCheckBox* CheckBoxPNGBitDepth;
+		wxSpinCtrl* SpinResolutionY;
+		wxChoice* ChoiceResolutionUnit;
 		wxStaticText* StaticText5;
-		wxSpinCtrl* SpinCtrl2;
+		wxStaticText* StaticText7;
 		wxStaticText* StaticText4;
 		wxButton* CancelButton;
-		wxChoice* Choice1;
+		wxChoice* ChoicePNGFormat;
 		//*)
 
 	protected:
 
 		//(*Identifiers(AdvancedOptions)
+		static const long ID_STATICTEXT7;
 		static const long ID_STATICTEXT1;
 		static const long ID_SPINCTRL1;
 		static const long ID_STATICTEXT2;
 		static const long ID_SPINCTRL2;
 		static const long ID_STATICTEXT3;
 		static const long ID_CHOICE1;
+		static const long ID_CHECKBOX1;
 		static const long ID_STATICTEXT4;
 		static const long ID_SLIDER1;
 		static const long ID_STATICTEXT5;
+		static const long ID_CHECKBOX2;
+		static const long ID_STATICTEXT6;
+		static const long ID_CHOICE2;
+		static const long ID_CHECKBOX3;
+		static const long ID_STATICTEXT8;
+		static const long ID_CHOICE5;
+		static const long ID_CHECKBOX4;
 		static const long ID_BUTTONOK;
 		static const long ID_BUTTONCANCEL;
 		//*)
@@ -65,6 +89,10 @@ class AdvancedOptions: public wxDialog
 		void OnClose(wxCloseEvent& event);
 		void OnOKButtonClick(wxCommandEvent& event);
 		void OnCancelButtonClick(wxCommandEvent& event);
+		void OnCheckBoxResolutionOptionClick(wxCommandEvent& event);
+		void OnCheckBoxJPGCompressionClick(wxCommandEvent& event);
+		void OnCheckBoxPNGOptionsClick(wxCommandEvent& event);
+		void OnCheckBoxPNGBitDepthClick(wxCommandEvent& event);
 		//*)
 
 	protected:

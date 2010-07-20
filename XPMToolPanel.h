@@ -22,6 +22,7 @@
 #include <wx/tglbtn.h>
 #include <wx/radiobut.h>
 #include <wx/panel.h>
+#include <wx/bmpcbox.h>
 #include <wx/button.h>
 #include <wx/clrpicker.h>
 //*)
@@ -55,6 +56,7 @@ class XPMToolPanel: public wxPanel
 		wxRadioButton* TopCenter;
 		wxBoxSizer* SizeSizer;
 		wxSpinCtrl* SpinCtrl1;
+		wxBitmapComboBox* ComboFillMode;
 		wxBoxSizer* FontSizer;
 		wxSpinCtrl* SpinAngle;
 		wxRadioButton* CenterLeft;
@@ -66,6 +68,7 @@ class XPMToolPanel: public wxPanel
 		wxCustomButton* LineButton;
 		wxCustomButton* PenButton;
 		wxStaticText* StaticText8;
+		wxBoxSizer* FillModeSizer;
 		wxButton* FontButton;
 		wxCustomButton* PipetteButton;
 		wxRadioButton* BottomLeft;
@@ -73,6 +76,7 @@ class XPMToolPanel: public wxPanel
 		wxSpinCtrl* SpinCtrl3;
 		wxStaticText* StaticText5;
 		wxCustomButton* SelectButton;
+		wxBitmapComboBox* ComboPattern;
 		wxCustomButton* EllipseButton;
 		wxRadioButton* TopRight;
 		wxCustomButton* RHairBrushButton;
@@ -83,6 +87,7 @@ class XPMToolPanel: public wxPanel
 		wxCustomButton* RectangleButton;
 		wxBoxSizer* BrushToolSizer;
 		wxCustomButton* CircleBrushButton;
+		wxBoxSizer* FillPatternSizer;
 		wxRadioButton* BottomRight;
 		wxRadioButton* CenterRight;
 		wxCustomButton* RRectButton;
@@ -138,6 +143,8 @@ class XPMToolPanel: public wxPanel
 		static const long ID_FONTBUTTON;
 		static const long ID_STATICTEXT9;
 		static const long ID_SPINCTRL6;
+		static const long ID_CUSTOM1;
+		static const long ID_CUSTOM3;
 		//*)
 
 		void ComputeDimensions(void);           ///< \brief compute and set the minimal size of the wxPanel

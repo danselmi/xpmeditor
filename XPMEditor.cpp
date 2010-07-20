@@ -11,6 +11,7 @@
 #include <sdk.h> // Code::Blocks SDK
 #include <filegroupsandmasks.h>
 #include <configurationpanel.h>
+#include <filefilters.h>
 
 #include <wx/aui/auibook.h>
 
@@ -23,6 +24,11 @@ namespace
 {
     PluginRegistrant<XPMEditor> regMain(_T("XPMEditor"));
 }
+
+
+const long XPMEditor::idFileNewImage = wxNewId();
+const long XPMEditor::idOpenImage = wxNewId();
+const long XPMEditor::idwxSmithNewImage = wxNewId();
 
 XPMEditor* XPMEditor::m_Singleton = 0;
 
@@ -166,6 +172,94 @@ void XPMEditor::OnRelease(bool appShutDown)
     if ( !appShutDown )
     {
         CloseMyEditors();
+    }
+}
+
+/** This method adds Filemasks, such as "*.bmp" to the File Open or File Save dialog
+  */
+void XPMEditor::AddFileMasksToFileOpenSaveDialog(wxArrayString sFileMasks)
+{
+    wxString sImageMasks;
+    wxString sMask;
+    size_t i;
+
+    //sImageMasks = wxImage::GetImageExtWildcard();
+    sImageMasks = _("");
+    for(i=0;i<sFileMasks.GetCount();i++)
+    {
+        sMask = sFileMasks.Item(i);
+        if (sImageMasks.Len() > 0) sImageMasks += _(",");
+        sImageMasks += sMask;
+    }
+
+    FileFilters::Add(_("Image Files"), sImageMasks);
+}
+
+
+/** This method is called by Code::Blocks and is used by the plugin
+  * to add any menu items it needs on Code::Blocks's menu bar.\n
+  * It is a pure virtual method that needs to be implemented by all
+  * plugins. If the plugin does not need to add items on the menu,
+  * just do nothing ;)
+  * \param menuBar the wxMenuBar to create items in
+  */
+void XPMEditor::BuildMenu(wxMenuBar* menuBar)
+{
+    int idFileNewProject = XRCID("idFileNewProject");
+    int idFileOpen = XRCID("idFileOpen");
+
+    wxMenu* popup;
+
+    if (!menuBar) return;
+
+    //create new item in sub menu "New"
+    menuBar->FindItem(idFileNewProject, &popup);
+    if (popup)
+    {
+        popup->Append(idFileNewImage, _("New Image"), _("Create a new blank image or icon"));
+        Connect(idFileNewImage,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&XPMEditor::OnNewImage);
+    }
+
+    //create a new item in menu "File"
+    menuBar->FindItem(idFileOpen, &popup);
+    if (popup)
+    {
+        //we need to insert a menu item, so we need to know its position.
+        //there are no other way than iterating the whole menu to find the insertion position
+        size_t pos, i;
+        int id;
+        wxMenuItemList& list = popup->GetMenuItems();
+        pos = 0;
+        for ( wxMenuItemList::iterator i = list.begin(); i != list.end(); ++i)
+        {
+            wxMenuItem* item = *i;
+            if (item)
+            {
+                id = item->GetId();
+                if (id == idFileOpen)
+                {
+                    popup->Insert( pos+1, idOpenImage, _("Open with XPMEditor"), _("Open file using the image editor") );
+                    Connect(idOpenImage,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&XPMEditor::OnOpenImage);
+                }
+            }
+            pos++;
+        }
+    }
+
+    //create a new menu in "wxSmith"
+    int idwxSmith;
+    idwxSmith = menuBar->FindMenu(_("wxSmith"));
+    if (idwxSmith != wxNOT_FOUND)
+    {
+        //append a separator and a menu item
+        wxMenu *mSmithMenu;
+        mSmithMenu = menuBar->GetMenu(idwxSmith);
+        if (mSmithMenu)
+        {
+            mSmithMenu->AppendSeparator();
+            mSmithMenu->Append(idwxSmithNewImage, _("Add Image"), _("Add a new image or icon to the project"));
+            Connect(idwxSmithNewImage,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&XPMEditor::OnNewProjectImage);
+        }
     }
 }
 
@@ -333,6 +427,8 @@ void XPMEditor::AddFileMasksToProjectManager(void)
             pm->RebuildTree();
         }
     }
+
+    AddFileMasksToFileOpenSaveDialog(sFileMasks);
 }
 
 /** Test if a group name is already existing in the Project Manager
@@ -370,7 +466,7 @@ bool XPMEditor::OpenInEditor(wxString FileName)
     {
         //file already opened - activate the editor
         if (Manager::Get()->GetEditorManager()->GetEditor(FileName))
-        Manager::Get()->GetEditorManager()->GetEditor(FileName)->Activate();
+            Manager::Get()->GetEditorManager()->GetEditor(FileName)->Activate();
         return(true);
     }
     else
@@ -390,7 +486,7 @@ bool XPMEditor::OpenInEditor(wxString FileName)
                                         &img,
                                         FileName,
                                         wxBITMAP_TYPE_ANY   //and not bt: this ensure automatic format detection using file extension. Default behaviour
-                                       );
+                                      );
         if (NewEditor)
         {
             ProjectFile *pf;
@@ -759,6 +855,33 @@ wxString XPMEditor::GetFormatString(wxBitmapType bt)
     }
 
     return(sResult);
+}
+
+/** Return the wxBitmapFormat associated to the file format (ex: "bitmap (*.bmp))"
+  * \param sFormat: the format to test. It is one of the format returned by GetFormatString()
+  * \return the wxBitmapFormat associated
+  */
+wxBitmapType XPMEditor::GetFormatBitmap(wxString sFormat)
+{
+    if (sFormat == _("Automatic (*.*)"))         return(wxBITMAP_TYPE_ANY);
+    if (sFormat == _("Picture (*.pic, *.pict)")) return(wxBITMAP_TYPE_PICT);
+    if (sFormat == _("Giff (*.gif, *.giff)"))    return(wxBITMAP_TYPE_GIF);
+    if (sFormat == _("tga (*.tga)"))             return(wxBITMAP_TYPE_TGA);
+    if (sFormat == _("Iff (*.iff)"))             return(wxBITMAP_TYPE_IFF);
+    if (sFormat == _("Animated cursor (*.ani)")) return(wxBITMAP_TYPE_ANI);
+    if (sFormat == _("XPM (*.xpm)"))             return(wxBITMAP_TYPE_XPM);
+    if (sFormat == _("Cursor (*.cur)"))          return(wxBITMAP_TYPE_CUR);
+    if (sFormat == _("Icon (*.icon)"))           return(wxBITMAP_TYPE_ICON);
+    if (sFormat == _("Icon (*.ico)"))            return(wxBITMAP_TYPE_ICO);
+    if (sFormat == _("Tiff (*.tif, *.tiff)"))    return(wxBITMAP_TYPE_TIF);
+    if (sFormat == _("pnm (*.pnm)"))             return(wxBITMAP_TYPE_PNM);
+    if (sFormat == _("pcx (*.pcx)"))             return(wxBITMAP_TYPE_PCX);
+    if (sFormat == _("jpeg (*.jpg,...)"))        return(wxBITMAP_TYPE_JPEG);
+    if (sFormat == _("png (*.png)"))             return(wxBITMAP_TYPE_PNG);
+    if (sFormat == _("bitmaps (*.bmp)"))         return(wxBITMAP_TYPE_BMP);
+    if (sFormat == _("X bitmap (*.xbm)"))        return(wxBITMAP_TYPE_XBM);
+
+    return(wxBITMAP_TYPE_ANY);
 }
 
 /** This method checks if the given saving file format is available.
@@ -1434,5 +1557,95 @@ void XPMEditor::UpdateConfiguration(void)
         ed = EditorManager::Get()->GetEditor(i);
         if (!ed) continue;
         if (XPMEditorBase::IsImgEditor(ed)) ((XPMEditorBase *)ed)->UpdateConfiguration();
+    }
+}
+
+/** menu handler for "New Image"
+  */
+void XPMEditor::OnNewImage(wxCommandEvent &event)
+{
+    //Manager::Get()->GetLogManager()->Log(_("menu new image selected"));
+    wxImage img(XPM_DEFAULT_WIDTH, XPM_DEFAULT_HEIGHT, true);
+
+    if (img.IsOk())
+    {
+        img.Replace(0,0,0,0xFF, 0xFF, 0xFF); //set the image to white
+
+        XPMEditorBase *NewEditor;
+        NewEditor = new XPMEditorBase(Manager::Get()->GetEditorManager()->GetNotebook(),
+                                        _("Untitled.xpm"),
+                                        &img,
+                                        wxEmptyString,
+                                        wxBITMAP_TYPE_ANY   //and not bt: this ensure automatic format detection using file extension. Default behaviour
+                                      );
+        if (NewEditor) NewEditor->SetModified(true);
+    }
+}
+
+/** menu handler for "Add Image" (wxSmith menu)
+  */
+void XPMEditor::OnNewProjectImage(wxCommandEvent &event)
+{
+    //Manager::Get()->GetLogManager()->Log(_("menu wxSmith new image selected"));
+    wxImage img(XPM_DEFAULT_WIDTH, XPM_DEFAULT_HEIGHT, true);
+    if (img.IsOk())
+    {
+        img.Replace(0,0,0,0xFF, 0xFF, 0xFF); //set the image to white
+
+        XPMEditorBase *NewEditor;
+        NewEditor = new XPMEditorBase(Manager::Get()->GetEditorManager()->GetNotebook(),
+                                        _("Untitled.xpm"),
+                                        &img,
+                                        wxEmptyString,
+                                        wxBITMAP_TYPE_ANY   //and not bt: this ensure automatic format detection using file extension. Default behaviour
+                                      );
+        if (NewEditor) NewEditor->SetModified(true);
+
+        //add the image to the project
+        cbProject *activeProject = ProjectManager::Get()->GetActiveProject();
+        if (activeProject)
+        {
+            if (NewEditor->Save())
+            {
+                wxString sFileName;
+                sFileName = NewEditor->GetFilename();
+                ProjectManager::Get()->AddFileToProject(sFileName, activeProject, -1);
+                Manager::Get()->GetEditorManager()->SetActiveEditor(NewEditor);
+                ProjectManager::Get()->RebuildTree();
+
+                if (wxMessageBox(_("Do you want to save the project ?"), _("New image added"), wxYES_NO, NewEditor) == wxYES)
+                {
+                    activeProject->Save();
+                }
+            }
+        }
+    }
+}
+
+/** menu handler for "Open Image"
+  */
+void XPMEditor::OnOpenImage(wxCommandEvent &event)
+{
+    //Manager::Get()->GetLogManager()->Log(_("menu open image selected"));
+    wxString sFileName;
+    wxString Filters = FileFilters::GetFilterString();
+
+    int StoredIndex = FileFilters::GetIndexForFilterAll();
+
+    FileFilters::GetFilterIndexFromName(Filters, _("Image Files"), StoredIndex);
+
+    wxFileDialog dlg(Manager::Get()->GetAppWindow(),
+                     _("Open file"),
+                    wxEmptyString,
+                    wxEmptyString,
+                    Filters,
+                    wxFD_OPEN | compatibility::wxHideReadonly);
+    dlg.SetFilterIndex(StoredIndex);
+
+    PlaceWindow(&dlg);
+    if (dlg.ShowModal() == wxID_OK)
+    {
+         sFileName = dlg.GetPath();
+         OpenFile(sFileName);
     }
 }

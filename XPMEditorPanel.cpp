@@ -269,7 +269,11 @@ void XPMEditorPanel::LogToFile(wxString sLogText, wxString sFilePath)
   */
 void XPMEditorPanel::SetImageFormat(wxBitmapType btFormat)
 {
-    if (IsValidFormat(btFormat)) m_ImageFormat = btFormat;
+    if (IsValidFormat(btFormat))
+    {
+        m_ImageFormat = btFormat;
+        if (PropertiesPanel) PropertiesPanel->SetImageFormat(btFormat);
+    }
 }
 
 /** Indicates if a format is supported or not

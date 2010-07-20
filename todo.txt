@@ -7,11 +7,6 @@ IMPROVEMENTS / NEW FEATURES:
 
 3 - resize all cursors to fit in a 16 x 16 square
 
-4 - Image property dialog box: jpg quality (advanced options)
-                               png compression  (advanced options)
-                               image resolution (advanced options)
-                               colour depth (advanced options)
-
 5 - Quick Help display (tooltip)  + help in status bar
 
 6 - Copy To / Paste from file
@@ -55,12 +50,12 @@ BUGS:
 
 
 CHANGES:
- 1 - Remove files from SVN (*.layout, *.obj, *.depends, build log)
- 2 - Remove ColourPickerPanel.cpp and ColourPickerPanel.h (unused - replaced by XPMColourPickerPanel.cpp and XPMColourPickerPanel.h)
-     Remove XPMToggleBMPButton.cpp and .h from SVN
- 3 - Add help support (via html display. Help remains to be written, but it is limited to writing 6 simple HTML files)
- 4 - Minimum size needed for the tool panel has been reduced and fixed
- 5 - Load and Save file: use dynamic handler instead of static hard-coded switch statements based on file extension
-     Moved all the code handling file format into XPMEditor.cpp
- 
+ 1 - advanced options implemented (JPG compression, PNG options).
+ 2 - added menu entries in Code::Blocks:
+         File/New/New Image
+         File/Open with XPMEditor
+         wxSmith/Add Image
+ 3 - added file filter for FileOpen and FileSave dialog box.
+ 4 - file saving format can now be choosen by the user, bypassing file extension on request.
+ 5 - start to add fill options
 
