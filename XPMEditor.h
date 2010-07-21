@@ -21,8 +21,8 @@
 #include <sdk.h>
 #include <cbplugin.h> // for "class cbPlugin"
 
-#define XPM_DEFAULT_WIDTH   100
-#define XPM_DEFAULT_HEIGHT  100
+#define XPM_DEFAULT_WIDTH   300
+#define XPM_DEFAULT_HEIGHT  200
 #define XPM_MAX_UNDO        100
 
 #include <wx/msgdlg.h>

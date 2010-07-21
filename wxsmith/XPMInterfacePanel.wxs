@@ -29,6 +29,7 @@
 						<item>1600%</item>
 						<item>Custom</item>
 					</content>
+					<tooltip>Zoom selection</tooltip>
 					<style>wxCB_DROPDOWN</style>
 					<handler function="OnZoomChanged" entry="EVT_COMBOBOX" />
 				</object>
@@ -38,6 +39,7 @@
 			<object class="sizeritem">
 				<object class="wxBitmapButton" name="ID_BITMAPBUTTON1" variable="BitmapButton1" member="yes">
 					<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+					<tooltip>Rotate the Image 90 degrees counter-clockwise.</tooltip>
 					<handler function="OnRotateCounterClockwise" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
@@ -46,6 +48,7 @@
 			<object class="sizeritem">
 				<object class="wxBitmapButton" name="ID_BITMAPBUTTON2" variable="BitmapButton2" member="yes">
 					<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+					<tooltip>Rotate the Image 90 degrees clockwise.</tooltip>
 					<handler function="OnRotateClockwise" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
@@ -55,6 +58,7 @@
 				<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox1" member="yes">
 					<label>Show Grid</label>
 					<enabled>0</enabled>
+					<tooltip>Show / Hide the grid. A minimal Zoom of 400% is needed.</tooltip>
 					<handler function="OnShowGrid" entry="EVT_CHECKBOX" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -65,6 +69,7 @@
 					<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),*wxBLACK,$(POS),$(SIZE),0,wxDefaultValidator,$(NAME));</creating_code>
 					<include_file>wx/clrpicker.h</include_file>
 					<style></style>
+					<tooltip>Change the colour of the grid.</tooltip>
 				</object>
 				<flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>

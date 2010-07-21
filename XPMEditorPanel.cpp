@@ -1342,7 +1342,7 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         int x, y;
 
         event.GetPosition(&x, &y);
-        ProcessDragAction(x, y, false, false, true, false);
+        ProcessDragAction(x, y, false, false, true, false, event.ShiftDown());
 
     }
     else if (event.Dragging() && (m_bSizing))
@@ -1351,7 +1351,7 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         int x, y;
 
         event.GetPosition(&x, &y);
-        ProcessSizeAction(x, y, false, false, true, false, m_iSizeAction);
+        ProcessSizeAction(x, y, false, false, true, false, event.ShiftDown(), m_iSizeAction);
 
     }
     else
@@ -1433,7 +1433,7 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         iTool = GetToolID();
         if (x > iWidth) x = iWidth ;
         if (y  > iHeight) y = iHeight;
-        ProcessToolAction(iTool, x, y, false, false, event.LeftIsDown(), false);
+        ProcessToolAction(iTool, x, y, false, false, event.LeftIsDown(), false, event.ShiftDown());
     }
 
     event.Skip();
@@ -1469,11 +1469,11 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
                           || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
                          )
                  {
-                     ProcessDragAction(x, y, false, false, false, true);
+                     ProcessDragAction(x, y, false, false, false, true, event.ShiftDown());
                  }
                  else
                  {
-                     ProcessToolAction(iTool, x, y, false, false, false, true);
+                     ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());
                  }
                  break;
         case 2 :
@@ -1487,15 +1487,15 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
                           || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
                          )
                  {
-                     ProcessSizeAction(x, y, false, false, false, true, iResult); break;
+                     ProcessSizeAction(x, y, false, false, false, true, event.ShiftDown(), iResult); break;
                  }
                  else
                  {
-                     ProcessToolAction(iTool, x, y, false, false, false, true);
+                     ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());
                  }
                  break;
         case 0 :
-        default: ProcessToolAction(iTool, x, y, false, false, false, true); break;
+        default: ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown()); break;
     }
 
     event.Skip();
@@ -1525,10 +1525,10 @@ void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
     if (y  > iHeight) y = iHeight;
 
     //simulate a double click
-    ProcessToolAction(iTool, x, y, true, false, false, false);
-    ProcessToolAction(iTool, x, y, false, true, false, false);
-    ProcessToolAction(iTool, x, y, false, false, true, false);
-    ProcessToolAction(iTool, x, y, false, false, false, true);
+    ProcessToolAction(iTool, x, y, true, false, false, false, event.ShiftDown());
+    ProcessToolAction(iTool, x, y, false, true, false, false, event.ShiftDown());
+    ProcessToolAction(iTool, x, y, false, false, true, false, event.ShiftDown());
+    ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());
 
     event.Skip();
 }
@@ -1542,80 +1542,81 @@ void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
-                                         bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                         bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     //draw the tool action: select box for Selection tool, rectangle for rectangle tool, ...
 
     switch(iTool)
     {
         case XPM_ID_SELECT_TOOL :
-                    ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_LASSO_TOOL  :
-                    ProcessLasso(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessLasso(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_PEN_TOOL :
-                    ProcessPen(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessPen(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_BRUSH_TOOL :
-                    ProcessBrush(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessBrush(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_PIPETTE_TOOL :
-                    ProcessPipette(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessPipette(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_FILL_TOOL :
-                    ProcessFill(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessFill(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_CURVE_TOOL :
-                    ProcessCurve(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessCurve(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_LINE_TOOL :
-                    ProcessLine(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessLine(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_ERASER_TOOL :
-                    ProcessEraser(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessEraser(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_TEXT_TOOL :
-                    ProcessText(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessText(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_RECTANGLE_TOOL :
-                    ProcessRectangle(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessRectangle(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_POLYGON_TOOL :
-                    ProcessPolygon(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessPolygon(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_ELLIPSE_TOOL :
-                    ProcessEllipse(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessEllipse(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_ROUNDEDRECT_TOOL :
-                    ProcessRoundedRectangle(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessRoundedRectangle(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_DRAG_TOOL:
-                    ProcessDragAction(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessDragAction(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         case XPM_ID_STRETCH_TOOL:
-                    ProcessSizeAction(x, y, bLeftDown, bLeftUp, bPressed, bDClick, IsPointInSelection(x,y));
+                    ProcessSizeAction(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown, IsPointInSelection(x,y));
                     break;
 
         case XPM_ID_HOTSPOT_TOOL:
-                    ProcessHotSpot(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+                    ProcessHotSpot(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
         default: break;
@@ -1630,9 +1631,10 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessPipette(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if (bLeftDown)
     {
@@ -1647,7 +1649,14 @@ void XPMEditorPanel::ProcessPipette(int x, int y,
             iGreen = m_Image->GetGreen(x / dScale, y / dScale);
             iBlue = m_Image->GetBlue(x / dScale, y / dScale);
             wxColour cColour(iRed, iGreen, iBlue);
-            iColour = ColourPicker->GetLineColourIndex();
+            if (bShiftDown)
+            {
+                iColour = ColourPicker->GetFillColourIndex();
+            }
+            else
+            {
+                iColour = ColourPicker->GetLineColourIndex();
+            }
             ColourPicker->SetPaletteColour(iColour, cColour);
             ColourPicker->Refresh(false,NULL);
             ColourPicker->Update();
@@ -1668,9 +1677,10 @@ void XPMEditorPanel::ProcessPipette(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessHotSpot(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if (bLeftDown)
     {
@@ -1697,9 +1707,10 @@ void XPMEditorPanel::ProcessHotSpot(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessFill(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if (bLeftDown)
     {
@@ -1716,7 +1727,7 @@ void XPMEditorPanel::ProcessFill(int x, int y,
             wxColour cColour;
             wxColour cSurfaceColour;
             cColour = ColourPicker->GetFillColour();
-            wxBrush brush(cColour, wxSOLID);
+            wxBrush brush(cColour, tdata.iBrushStyle);
             mem_dc.SetBrush(brush);
             mem_dc.GetPixel(x / dScale, y / dScale, &cSurfaceColour);
             mem_dc.FloodFill(x / dScale, y / dScale,cSurfaceColour, wxFLOOD_SURFACE);
@@ -1740,9 +1751,10 @@ void XPMEditorPanel::ProcessFill(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessPen(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
 
     if (bLeftDown)
@@ -1807,16 +1819,17 @@ void XPMEditorPanel::ProcessPen(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessText(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     //this is mainly like the rectangular selection tool
     //the idea is that the selection bitmap (m_SelectionBitmap) will be drawn directly on
     //with the text
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
-        if (tdata.iNbClicks < 2) ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+        if (tdata.iNbClicks < 2) ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
     }
 
     //left button UP
@@ -1824,7 +1837,7 @@ void XPMEditorPanel::ProcessText(int x, int y,
     {
         if (tdata.iNbClicks == 0)
         {
-            ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick);
+            ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
         }
         else if (tdata.iNbClicks == 1)
         {
@@ -1873,9 +1886,10 @@ void XPMEditorPanel::ProcessText(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessSelect(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
@@ -1893,8 +1907,13 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             dc.SetBrush(*wxTRANSPARENT_BRUSH);
             tdata.x2 = x;
             tdata.y2 = y;
+
             int x1,y1,x2,y2;
             SnapRectToGrid(&x1,&y1,&x2,&y2);
+            //x1 = tdata.x1; x2 = tdata.x2; y1 = tdata.y1; y2 = tdata.y2;
+            //make the area a square
+            if (bShiftDown) TransformToSquare(&x1,&y1,&x2,&y2);
+
             dc.DrawRectangle(x1, y1,
                              (x2 - x1), (y2 - y1));
             dc.SetLogicalFunction(wxCOPY);
@@ -1921,6 +1940,9 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             tdata.y2 = y;
             int x1,y1,x2,y2;
             SnapRectToGrid(&x1,&y1,&x2,&y2);
+            //x1 = tdata.x1; x2 = tdata.x2; y1 = tdata.y1; y2 = tdata.y2;
+            //make the area a square
+            if (bShiftDown) TransformToSquare(&x1,&y1,&x2,&y2);
             if (pSelection)
             {
                 pSelection[0].x = x1 / dScale;
@@ -1947,9 +1969,10 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessDragAction(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if (bLeftDown)
     {
@@ -2059,9 +2082,10 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
   *            2: top; 3 : left; 4: bottom; 5 : right;
   *            6:top left;      7: top right;
   *            8: bottom left;  9 bottom right
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessSizeAction(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, int iDirection)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown, int iDirection)
 {
     if ((bLeftDown) || (bPressed))
     {
@@ -2127,9 +2151,10 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessLasso(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
@@ -2215,9 +2240,10 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessBrush(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if (bLeftDown)
     {
@@ -2344,9 +2370,10 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessEraser(int x, int y,
-                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if (bLeftDown)
     {
@@ -2417,9 +2444,10 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessPolygon(int x, int y,
-                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
@@ -2435,8 +2463,8 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
                 cFillColour = ColourPicker->GetFillColour();
                 cLineColour = ColourPicker->GetLineColour();
                 cBackColour = ColourPicker->GetUnusedColour();
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
+                wxBrush brush(cFillColour, tdata.iBrushStyle);
                 wxBrush BackBrush(cBackColour, wxSOLID);
                 memDC.SetBackground(BackBrush);
                 memDC.SetBrush(brush);
@@ -2504,8 +2532,8 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
             cLineColour = ColourPicker->GetLineColour();
             cFillColour = ColourPicker->GetFillColour();
 
-            wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-            wxBrush brush(cFillColour, wxSOLID);
+            wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
+            wxBrush brush(cFillColour, tdata.iBrushStyle);
             mem_dc.SetPen(pen);
             mem_dc.SetBrush(brush);
             mem_dc.DrawPolygon(tdata.iNbPoints, tdata.pts);
@@ -2527,9 +2555,10 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessRectangle(int x, int y,
-                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
@@ -2549,8 +2578,8 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
                 cBackColour = ColourPicker->GetUnusedColour();
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
+                wxBrush brush(cFillColour, tdata.iBrushStyle);
                 wxBrush BackBrush(cBackColour, wxSOLID);
                 memDC.SetBackground(BackBrush);
 
@@ -2597,8 +2626,8 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
 
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
+                wxBrush brush(cFillColour, tdata.iBrushStyle);
                 mem_dc.SetPen(pen);
                 mem_dc.SetBrush(brush);
                 tdata.x2 = x;
@@ -2627,9 +2656,10 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessLine(int x, int y,
-                                bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
@@ -2652,7 +2682,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
                 wxColour cLineColour, cFillColour, cBackColour;
                 cLineColour = ColourPicker->GetLineColour();
                 cBackColour = ColourPicker->GetUnusedColour();
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
                 wxBrush BackBrush(cBackColour, wxSOLID);
                 memDC.SetBackground(BackBrush);
 
@@ -2699,7 +2729,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
                 wxColour cLineColour, cFillColour;
                 cLineColour = ColourPicker->GetLineColour();
 
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
                 mem_dc.SetPen(pen);
 
                 int x1,y1,x2,y2;
@@ -2732,9 +2762,10 @@ void XPMEditorPanel::ProcessLine(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessCurve(int x, int y,
-                                bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
@@ -2750,11 +2781,9 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
                 cFillColour = ColourPicker->GetFillColour();
                 cLineColour = ColourPicker->GetLineColour();
                 cBackColour = ColourPicker->GetUnusedColour();
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
                 wxBrush BackBrush(cBackColour, wxSOLID);
                 memDC.SetBackground(BackBrush);
-                memDC.SetBrush(brush);
                 memDC.SetPen(pen);
 
                 memDC.Clear();
@@ -2825,7 +2854,7 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
             wxColour cLineColour;
             cLineColour = ColourPicker->GetLineColour();
 
-            wxPen pen(cLineColour, tdata.iSize, wxSOLID);
+            wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
             mem_dc.SetPen(pen);
             mem_dc.DrawSpline(tdata.iNbPoints, tdata.pts);
             mem_dc.SelectObject(wxNullBitmap);
@@ -2847,9 +2876,10 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
-                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                      bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
@@ -2869,8 +2899,8 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
                 cBackColour = ColourPicker->GetUnusedColour();
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
+                wxBrush brush(cFillColour, tdata.iBrushStyle);
                 wxBrush BackBrush(cBackColour, wxSOLID);
                 memDC.SetBackground(BackBrush);
 
@@ -2917,8 +2947,8 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
 
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
+                wxBrush brush(cFillColour, tdata.iBrushStyle);
                 mem_dc.SetPen(pen);
                 mem_dc.SetBrush(brush);
                 tdata.x2 = x;
@@ -2949,9 +2979,10 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
   * \param bLeftUp: true if a mouse left button UP event has been triggered
   * \param bPressed: true if the left mouse button is currently pressed
   * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessEllipse(int x, int y,
-                                    bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick)
+                                    bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
@@ -2971,8 +3002,8 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
                 cBackColour = ColourPicker->GetUnusedColour();
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
+                wxBrush brush(cFillColour, tdata.iBrushStyle);
                 wxBrush BackBrush(cBackColour, wxSOLID);
                 memDC.SetBackground(BackBrush);
 
@@ -3019,8 +3050,8 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
 
-                wxPen pen(cLineColour, tdata.iSize, wxSOLID);
-                wxBrush brush(cFillColour, wxSOLID);
+                wxPen pen(cLineColour, tdata.iSize, tdata.iPenStyle);
+                wxBrush brush(cFillColour, tdata.iBrushStyle);
                 mem_dc.SetPen(pen);
                 mem_dc.SetBrush(brush);
                 tdata.x2 = x;
@@ -3254,11 +3285,11 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
                           || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
                          )
                      {
-                         ProcessDragAction(xx, yy, true, false, true, false);
+                         ProcessDragAction(xx, yy, true, false, true, false, event.ShiftDown());
                      }
                      else
                      {
-                         ProcessToolAction(iTool, xx, yy, true, false, true, false);
+                         ProcessToolAction(iTool, xx, yy, true, false, true, false, event.ShiftDown());
                      }
                      break;
             case 2 :
@@ -3272,15 +3303,15 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
                           || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
                          )
                      {
-                         ProcessSizeAction(xx, yy, true, false, true, false, iResult);
+                         ProcessSizeAction(xx, yy, true, false, true, false, event.ShiftDown(), iResult);
                      }
                      else
                      {
-                         ProcessToolAction(iTool, xx, yy, true, false, true, false);
+                         ProcessToolAction(iTool, xx, yy, true, false, true, false, event.ShiftDown());
                      }
                      break;
             case 0 :
-            default: ProcessToolAction(iTool, xx, yy, true, false, true, false); break;
+            default: ProcessToolAction(iTool, xx, yy, true, false, true, false, event.ShiftDown()); break;
         }
 
 
@@ -3322,7 +3353,7 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
         x = event.m_x;
         y = event.m_y;
         if (DrawCanvas) DrawCanvas->ReleaseMouse();
-        ProcessDragAction(x, y, false, true, false, false);
+        ProcessDragAction(x, y, false, true, false, false, event.ShiftDown());
     }
     else if ((!bSizingX) && (!bSizingY))
     {
@@ -3346,7 +3377,7 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
         if (yy  > iHeight) yy = iHeight;
 
         if (DrawCanvas->HasCapture()) DrawCanvas->ReleaseMouse();
-        ProcessToolAction(iTool, xx, yy, false, true, false, false);
+        ProcessToolAction(iTool, xx, yy, false, true, false, false, event.ShiftDown());
 
     }
     event.Skip();
@@ -5109,6 +5140,58 @@ void XPMEditorPanel::OnMouseCaptureLost(wxMouseCaptureLostEvent& event)
 }
 
 #endif
+
+
+/** Convert the coordinates to make sure they represent a square
+  * \param x1 : [input] the top left coordinate X
+  * \param y1 : [input] the top left coordinate Y
+  * \param x2 : [input / output] the bottom-right coordinate X
+  * \param y2 : [input / output] the bottom-right coordinate Y
+  */
+void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
+{
+    if ((x1) && (y1) && (x2) && (y2))
+    {
+        int l1, l2, l;
+
+        l1 = *x2 - *x1; //width
+        l2 = *y2 - *y1; //heigth
+
+        if ((l1 >= 0) && (l2 >= 0))
+        {
+            if (l2 > l1) l = l2; else l = l1;
+            *x2 = *x1 + l;
+            *y2 = *y1 + l;
+            return;
+        }
+        if ((l1 >= 0) && (l2 < 0))
+        {
+            l2 = -l2;
+            if (l2 > l1) l = l2; else l = l1;
+            *x2 = *x1 + l;
+            *y2 = *y1 - l;
+            return;
+        }
+        if ((l1 < 0) && (l2 < 0))
+        {
+            l2 = -l2;
+            l1 = -l1;
+            if (l2 > l1) l = l2; else l = l1;
+            *x2 = *x1 - l;
+            *y2 = *y1 - l;
+            return;
+        }
+        if ((l1 < 0) && (l2 >= 0))
+        {
+            l1 = -l1;
+            if (l2 > l1) l = l2; else l = l1;
+            *x2 = *x1 - l;
+            *y2 = *y1 + l;
+            return;
+        }
+    }
+}
+
 
 /** Convert the coordinates stored in tdata.x1, tdata.x2, tdata.y1 & tdata.y2
   * The coordinates are scaled, and converted to the real pixel coordinate

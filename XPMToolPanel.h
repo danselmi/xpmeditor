@@ -56,9 +56,9 @@ class XPMToolPanel: public wxPanel
 		wxRadioButton* TopCenter;
 		wxBoxSizer* SizeSizer;
 		wxSpinCtrl* SpinCtrl1;
-		wxBitmapComboBox* ComboFillMode;
 		wxBoxSizer* FontSizer;
 		wxSpinCtrl* SpinAngle;
+		wxStaticText* StaticText2;
 		wxRadioButton* CenterLeft;
 		wxCustomButton* SquareBrushButton;
 		wxBoxSizer* RadiusSizer;
@@ -68,7 +68,8 @@ class XPMToolPanel: public wxPanel
 		wxCustomButton* LineButton;
 		wxCustomButton* PenButton;
 		wxStaticText* StaticText8;
-		wxBoxSizer* FillModeSizer;
+		wxStaticText* StaticText1;
+		wxBitmapComboBox* ComboBrushStyle;
 		wxButton* FontButton;
 		wxCustomButton* PipetteButton;
 		wxRadioButton* BottomLeft;
@@ -76,25 +77,26 @@ class XPMToolPanel: public wxPanel
 		wxSpinCtrl* SpinCtrl3;
 		wxStaticText* StaticText5;
 		wxCustomButton* SelectButton;
-		wxBitmapComboBox* ComboPattern;
 		wxCustomButton* EllipseButton;
 		wxRadioButton* TopRight;
 		wxCustomButton* RHairBrushButton;
 		wxBoxSizer* ToolButtonsSizer;
 		wxSpinCtrl* SpinCtrl2;
+		wxBoxSizer* BrushStyleSizer;
 		wxToggleButton* BackgroundButton;
 		wxCustomButton* LassoButton;
 		wxCustomButton* RectangleButton;
 		wxBoxSizer* BrushToolSizer;
 		wxCustomButton* CircleBrushButton;
-		wxBoxSizer* FillPatternSizer;
 		wxRadioButton* BottomRight;
 		wxRadioButton* CenterRight;
 		wxCustomButton* RRectButton;
 		wxBoxSizer* ToolPanelSizer;
 		wxStaticText* StaticText4;
+		wxBoxSizer* PenStyleSizer;
 		wxCustomButton* LHairBrushButton;
 		wxCustomButton* CurveButton;
+		wxBitmapComboBox* ComboPenStyle;
 		wxCustomButton* TextButton;
 		wxRadioButton* TopLeft;
 		wxBoxSizer* ColourPickerSizer;
@@ -143,7 +145,9 @@ class XPMToolPanel: public wxPanel
 		static const long ID_FONTBUTTON;
 		static const long ID_STATICTEXT9;
 		static const long ID_SPINCTRL6;
+		static const long ID_STATICTEXT1;
 		static const long ID_CUSTOM1;
+		static const long ID_STATICTEXT2;
 		static const long ID_CUSTOM3;
 		//*)
 
@@ -188,7 +192,18 @@ class XPMToolPanel: public wxPanel
 		void OnSpinThicknessChanged(wxSpinEvent& event);
 		void OnSpinRadiusChanged(wxSpinEvent& event);
 		//*)
-		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event);
+		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief the colour for the hot spot changed
+		void OnBrushStyleChanged(wxCommandEvent& event); ///< \brief the Fill Style changed
+		void OnLineStyleChanged(wxCommandEvent& event); ///< \brief the Line Style changed
+
+
+		//Fill Style and Line Styles methods
+		void FillBrushStyleComboBox(wxBitmapComboBox *c);  ///< \brief fill the available brush styles in the combobox
+		void FillPenStyleComboBox(wxBitmapComboBox *c);    ///< \brief fill the available pen styles in the combobox
+		wxBitmap CreateBitmap(int iPenStyle, int iBrushStyle, wxColour cLineColour, wxColour cFillColour); ///< \brief create a bitmap to be used with the wxBitmapComboBox Fill Style
+		wxBitmap CreateBitmapLineStyle(int iPenStyle, wxColour cLineColour); ///< \brief create a bitmap to be used with the wxBitmapComboBox Line Style
+		int GetFillStyle(void); ///< \brief Return the currently selected fill (brush) style
+		int GetLineStyle(void); ///< \brief Return the currently selected line (pen) style
 
 		XPMEditorPanel *m_parent; ///< \brief the parent panel
 		int iToolUsed;           ///< \brief the index of the tool currently in use

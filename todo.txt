@@ -11,15 +11,10 @@ IMPROVEMENTS / NEW FEATURES:
 
 6 - Copy To / Paste from file
 
-8 - Draw Opaque option
-
 9 - Polygon / RoundedRect / Rect / Ellipse :
         - add the square / circle option
-        - add the draw opaque / draw empty option
 
 10 - Selection: better drawing to do
-
-11 - Brush style options for Polygon / Rectangle / Ellipse / RoundRect
 
 BUGS:
 
@@ -33,6 +28,10 @@ BUGS:
 
 4 - Redraw background: the bottom right corner is not covered when zooming out
 
+5 - problem when the selection is bigger than the IMAGEINFO
+
+6 - Drag image: flicker + cursor has a strange position sometimes.
+
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
 
@@ -41,8 +40,7 @@ BUGS:
                         GetQuickHelpPanel
                         SetQuickHelpPanel
 
-2 - wxSmith: Picker classes missing.
-              Style field in wxCustomClass is not saved
+2 - wxSmith: Style field in wxCustomClass is not saved
 
 3 - Save As: does not update the file status in the Project Manager
 
@@ -50,12 +48,7 @@ BUGS:
 
 
 CHANGES:
- 1 - advanced options implemented (JPG compression, PNG options).
- 2 - added menu entries in Code::Blocks:
-         File/New/New Image
-         File/Open with XPMEditor
-         wxSmith/Add Image
- 3 - added file filter for FileOpen and FileSave dialog box.
- 4 - file saving format can now be choosen by the user, bypassing file extension on request.
- 5 - start to add fill options
+ 1 - Draw Opaque / transparent implemented
+ 2 - Line Style / Fill Style implemented wherever possible
+ 3 - Fixed a bug in Expand / Collapse panels at start
 

@@ -8,7 +8,6 @@
  * License:   GPL 3.0
  **************************************************************/
 
-
 #include "wx/foldpanelex/folditemex.h"
 
 DEFINE_EVENT_TYPE(wxEVT_FOLDITEMEX)
@@ -328,12 +327,13 @@ wxSize wxFoldItemEx::DoGetBestSize(void)
 void wxFoldItemEx::Collapse(bool bSendEvent)
 {
 
+    if (m_caption) m_caption->Collapse(bSendEvent);
     if (MainSizer)
     {
         MainSizer->Hide(m_child, true);
         FitSizer();
     }
-    if (m_caption) m_caption->Collapse(bSendEvent);
+
 }
 
 /** expand the caption bar
@@ -341,12 +341,12 @@ void wxFoldItemEx::Collapse(bool bSendEvent)
   */
 void wxFoldItemEx::Expand(bool bSendEvent)
 {
+    if (m_caption) m_caption->Expand(bSendEvent);
     if (MainSizer)
     {
         MainSizer->Show(m_child, true);
         FitSizer();
     }
-    if (m_caption) m_caption->Expand(bSendEvent);
 }
 
 /** Redo the sizer layout

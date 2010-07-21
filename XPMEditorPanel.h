@@ -62,6 +62,8 @@ struct ToolData
     int iHorizAlign; ///< \brief text horizontal alignment: wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
     int iVertAlign;  ///< \brief text horizontal alignment: wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
     int angle;       ///< \brief text angle
+    int iPenStyle;   ///< \brief the line style to use (see doc wxPen for more information)
+    int iBrushStyle; ///< \brief the brush style to use (see doc wxBrush for more info)
 };
 
 
@@ -210,60 +212,78 @@ class XPMEditorPanel: public wxPanel
         void SetToolID(int iTool); ///< \brief Set the tool ID currently in use
         void ProcessToolAction(int iTool, int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief draw the tool action: select box for Selection tool, rectangle for rectangle tool, ...
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief draw the tool action: select box for Selection tool, rectangle for rectangle tool, ...
 
         //methods for processing the tools
         void ProcessPen(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Pen tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Pen tool
         void ProcessFill(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Fill tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Fill tool
         void ProcessPipette(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Pipette tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Pipette tool
         void ProcessSelect(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Selection tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Selection tool
         void ProcessLasso(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Lasso (complex selection) tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Lasso (complex selection) tool
         void ProcessRectangle(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Rectangle tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Rectangle tool
         void ProcessLine(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Line tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Line tool
         void ProcessCurve(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Curve tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Curve tool
         void ProcessRoundedRectangle(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Rounded Rectangle tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Rounded Rectangle tool
         void ProcessEllipse(int x, int y,
                               bool bLeftDown, bool bLeftUp,
-                              bool bPressed, bool bDClick); ///< \brief process the Ellipse tool
+                              bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Ellipse tool
         void ProcessPolygon(int x, int y,
                             bool bLeftDown, bool bLeftUp,
-                            bool bPressed, bool bDClick); ///< \brief process the Polygon tool
+                            bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Polygon tool
         void ProcessEraser(int x, int y,
                             bool bLeftDown, bool bLeftUp,
-                            bool bPressed, bool bDClick); ///< \brief process the Eraser tool
+                            bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Eraser tool
         void ProcessBrush(int x, int y,
                             bool bLeftDown, bool bLeftUp,
-                            bool bPressed, bool bDClick); ///< \brief process the Brush tool
+                            bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the Brush tool
         void ProcessText(int x, int y,
                          bool bLeftDown, bool bLeftUp,
-                         bool bPressed, bool bDClick); ///< \brief process the text tool
+                         bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the text tool
         void ProcessDragAction(int x, int y,
                                bool bLeftDown, bool bLeftUp,
-                               bool bPressed, bool bDClick); ///< \brief process the drag & drop image tool
+                               bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the drag & drop image tool
         void ProcessSizeAction(int x, int y,
                                bool bLeftDown, bool bLeftUp,
-                               bool bPressed, bool bDClick, int iDirection); ///< \brief process the stretch selection tool
+                               bool bPressed, bool bDClick,
+                              bool bShiftDown, int iDirection); ///< \brief process the stretch selection tool
         void ProcessHotSpot(int x, int y,
                                bool bLeftDown, bool bLeftUp,
-                               bool bPressed, bool bDClick); ///< \brief process the hot spot tool
+                               bool bPressed, bool bDClick,
+                              bool bShiftDown); ///< \brief process the hot spot tool
 
         void UpdateAUIColours(void);   ///< \brief Get the same colours as codeblocks configuration
         void UpdateMinimalSizes(void); ///< \brief set minimal sizes for the AUI Panes
@@ -356,6 +376,8 @@ class XPMEditorPanel: public wxPanel
         //Drawing tools ids, & cursors
         ToolData tdata;          ///< \brief tool specific data
         bool bUsingTool;         ///< \brief true if a tool is currently in use
+        void TransformToSquare(int *x1, int *y1,
+                               int *x2, int *y2); ///< \brief make a square from a rectangle
         void SnapRectToGrid(int *x1, int *y1,
                             int *x2, int *y2, bool bInvert = true); ///< \brief snap coordinates to grid
         void SnapToGrid(int *x, int *y, bool bUp); ///< \brief snap coordinates to grid

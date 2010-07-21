@@ -9,6 +9,7 @@
  **************************************************************/
 
 #include "XPMToolPanel.h"
+#include <wx/tooltip.h>
 
 //#include <sdk.h>
 #include <wx/dcclient.h>
@@ -44,11 +45,6 @@
 #include "xpm/square.xpm"
 #include "xpm/left_hair.xpm"
 #include "xpm/right_hair.xpm"
-
-//for bitmap combobox
-#include "xpm/filledonly.xpm"
-#include "xpm/outline.xpm"
-#include "xpm/filled.xpm"
 
 //(*InternalHeaders(XPMToolPanel)
 #include <wx/artprov.h>
@@ -98,7 +94,9 @@ const long XPMToolPanel::ID_BACKGROUNDBUTTON = wxNewId();
 const long XPMToolPanel::ID_FONTBUTTON = wxNewId();
 const long XPMToolPanel::ID_STATICTEXT9 = wxNewId();
 const long XPMToolPanel::ID_SPINCTRL6 = wxNewId();
+const long XPMToolPanel::ID_STATICTEXT1 = wxNewId();
 const long XPMToolPanel::ID_CUSTOM1 = wxNewId();
+const long XPMToolPanel::ID_STATICTEXT2 = wxNewId();
 const long XPMToolPanel::ID_CUSTOM3 = wxNewId();
 //*)
 
@@ -122,6 +120,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	wxBoxSizer* BoxSizer3;
 
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
+	wxToolTip::Enable(true);
 	ToolPanelSizer = new wxBoxSizer(wxVERTICAL);
 	ToolButtonsSizer = new wxBoxSizer(wxVERTICAL);
 	BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -221,6 +220,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	SizeSizer->Add(StaticText4, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	SpinCtrl1 = new wxSpinCtrl(this, ID_SPINCTRL3, _T("4"), wxDefaultPosition, wxSize(83,21), 0, 2, 16, 4, _T("ID_SPINCTRL3"));
 	SpinCtrl1->SetValue(_T("4"));
+	SpinCtrl1->SetToolTip(_("Size of the brush, in pixel"));
 	SizeSizer->Add(SpinCtrl1, 1, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(SizeSizer, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	RadiusSizer = new wxBoxSizer(wxVERTICAL);
@@ -228,6 +228,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	RadiusSizer->Add(StaticText6, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	SpinCtrl3 = new wxSpinCtrl(this, ID_SPINCTRL5, _T("1"), wxDefaultPosition, wxSize(20,21), 0, 1, 1000, 1, _T("ID_SPINCTRL5"));
 	SpinCtrl3->SetValue(_T("1"));
+	SpinCtrl3->SetToolTip(_("Radius of the corner"));
 	RadiusSizer->Add(SpinCtrl3, 1, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(RadiusSizer, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	ThicknessSizer = new wxBoxSizer(wxVERTICAL);
@@ -235,6 +236,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	ThicknessSizer->Add(StaticText5, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	SpinCtrl2 = new wxSpinCtrl(this, ID_SPINCTRL4, _T("1"), wxDefaultPosition, wxSize(20,21), 0, 1, 16, 1, _T("ID_SPINCTRL4"));
 	SpinCtrl2->SetValue(_T("1"));
+	SpinCtrl2->SetToolTip(_("Thickness of the line"));
 	ThicknessSizer->Add(SpinCtrl2, 1, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolPanelSizer->Add(ThicknessSizer, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	FontSizer = new wxBoxSizer(wxVERTICAL);
@@ -242,33 +244,44 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
 	TopLeft = new wxRadioButton(this, ID_RADIOBUTTON1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP, wxDefaultValidator, _T("ID_RADIOBUTTON1"));
 	TopLeft->SetValue(true);
+	TopLeft->SetToolTip(_("Top Left Alignment"));
 	BoxSizer4->Add(TopLeft, 0, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 1);
 	TopCenter = new wxRadioButton(this, ID_RADIOBUTTON9, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON9"));
+	TopCenter->SetToolTip(_("Top Center Alignment"));
 	BoxSizer4->Add(TopCenter, 0, wxTOP|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_TOP, 1);
 	TopRight = new wxRadioButton(this, ID_RADIOBUTTON8, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON8"));
+	TopRight->SetToolTip(_("Top Right Alignment"));
 	BoxSizer4->Add(TopRight, 0, wxTOP|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_TOP, 1);
 	StaticBoxSizer1->Add(BoxSizer4, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 0);
 	BoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
 	CenterLeft = new wxRadioButton(this, ID_RADIOBUTTON7, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON7"));
+	CenterLeft->SetToolTip(_("Center Left Alignment"));
 	BoxSizer9->Add(CenterLeft, 0, wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
 	CenterCenter = new wxRadioButton(this, ID_RADIOBUTTON6, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON6"));
+	CenterCenter->SetToolTip(_("Center Center Alignment"));
 	BoxSizer9->Add(CenterCenter, 0, wxLEFT|wxRIGHT|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
 	CenterRight = new wxRadioButton(this, ID_RADIOBUTTON5, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON5"));
+	CenterRight->SetToolTip(_("Center Right Alignment"));
 	BoxSizer9->Add(CenterRight, 0, wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 1);
 	StaticBoxSizer1->Add(BoxSizer9, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	BoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
 	BottomLeft = new wxRadioButton(this, ID_RADIOBUTTON4, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON4"));
+	BottomLeft->SetToolTip(_("Bottom Left Alignment"));
 	BoxSizer11->Add(BottomLeft, 0, wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
 	BottomCenter = new wxRadioButton(this, ID_RADIOBUTTON3, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON3"));
+	BottomCenter->SetToolTip(_("Bottom Center Alignment"));
 	BoxSizer11->Add(BottomCenter, 0, wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 1);
 	BottomRight = new wxRadioButton(this, ID_RADIOBUTTON2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON2"));
+	BottomRight->SetToolTip(_("Bottom Right Alignment"));
 	BoxSizer11->Add(BottomRight, 0, wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_BOTTOM, 1);
 	StaticBoxSizer1->Add(BoxSizer11, 0, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 0);
 	FontSizer->Add(StaticBoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
 	BoxSizer12 = new wxBoxSizer(wxVERTICAL);
 	BackgroundButton = new wxToggleButton(this, ID_BACKGROUNDBUTTON, _("Opaque"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BACKGROUNDBUTTON"));
+	BackgroundButton->SetToolTip(_("Toggle Opaque (draw a background) / Transparent (draw only text)"));
 	BoxSizer12->Add(BackgroundButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	FontButton = new wxButton(this, ID_FONTBUTTON, _("Font"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_FONTBUTTON"));
+	FontButton->SetToolTip(_("Select the Font"));
 	BoxSizer12->Add(FontButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
 	FontSizer->Add(BoxSizer12, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	BoxSizer3 = new wxBoxSizer(wxVERTICAL);
@@ -276,17 +289,22 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	BoxSizer3->Add(StaticText8, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	SpinAngle = new wxSpinCtrl(this, ID_SPINCTRL6, _T("0"), wxDefaultPosition, wxSize(72,21), 0, 0, 360, 0, _T("ID_SPINCTRL6"));
 	SpinAngle->SetValue(_T("0"));
+	SpinAngle->SetToolTip(_("Text orientation, in degrees."));
 	BoxSizer3->Add(SpinAngle, 1, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	FontSizer->Add(BoxSizer3, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ToolPanelSizer->Add(FontSizer, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 2);
-	FillModeSizer = new wxBoxSizer(wxVERTICAL);
-	ComboFillMode = new wxBitmapComboBox(this,ID_CUSTOM1, _(""),wxDefaultPosition,wxDefaultSize, 0, NULL, wxCB_READONLY);
-	FillModeSizer->Add(ComboFillMode, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	ToolPanelSizer->Add(FillModeSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	FillPatternSizer = new wxBoxSizer(wxVERTICAL);
-	ComboPattern = new wxBitmapComboBox(this,ID_CUSTOM3, _(""),wxDefaultPosition,wxDefaultSize, 0, NULL, wxCB_READONLY );
-	FillPatternSizer->Add(ComboPattern, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	ToolPanelSizer->Add(FillPatternSizer, 0, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 0);
+	PenStyleSizer = new wxBoxSizer(wxVERTICAL);
+	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Line Style:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
+	PenStyleSizer->Add(StaticText1, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	ComboPenStyle = new wxBitmapComboBox(this,ID_CUSTOM1, _(""),wxDefaultPosition,wxDefaultSize, 0, NULL, wxCB_READONLY);
+	PenStyleSizer->Add(ComboPenStyle, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	ToolPanelSizer->Add(PenStyleSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 0);
+	BrushStyleSizer = new wxBoxSizer(wxVERTICAL);
+	StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Fill Style:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
+	BrushStyleSizer->Add(StaticText2, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	ComboBrushStyle = new wxBitmapComboBox(this,ID_CUSTOM3, _(""),wxDefaultPosition,wxDefaultSize, 0, NULL, wxCB_READONLY );
+	BrushStyleSizer->Add(ComboBrushStyle, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	ToolPanelSizer->Add(BrushStyleSizer, 0, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 0);
 	ToolPanelSizer->Add(-1,-1,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
 	SetSizer(ToolPanelSizer);
 	ToolPanelSizer->Fit(this);
@@ -381,17 +399,9 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     LHairBrushButton->SetLabel(left_hair_xpm);
     RHairBrushButton->SetLabel(right_hair_xpm);
 
-    //Set the bitmap for Combobox
-    wxBitmap bOutline(outline_xpm);
-    wxBitmap bFilled(filled_xpm);
-    wxBitmap bFilledOnly(filledonly_xpm);
-    if (ComboFillMode)
-    {
-        ComboFillMode->Append(_("Outlined"), bOutline, (void *) NULL);
-        ComboFillMode->Append(_("Filled"), bFilledOnly, (void *) NULL);
-        ComboFillMode->Append(_("Both"), bFilled, (void *) NULL);
-    }
-
+    //Set the bitmaps for Brush / Pen style Combobox
+    FillBrushStyleComboBox(ComboBrushStyle);
+    FillPenStyleComboBox(ComboPenStyle);
 
     //for sizer mechanism : set min size
     //this has to be done before hidding the controls, otherwise wxSizer::GetMinSize() will return (0,0)
@@ -404,8 +414,8 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     ToolPanelSizer->Hide(RadiusSizer);
     ToolPanelSizer->Hide(ThicknessSizer);
     ToolPanelSizer->Hide(FontSizer);
-    ToolPanelSizer->Hide(FillPatternSizer);
-    ToolPanelSizer->Hide(FillModeSizer);
+    ToolPanelSizer->Hide(BrushStyleSizer);
+    ToolPanelSizer->Hide(PenStyleSizer);
 
     //tools IDs
 	tools[XPM_ID_SELECT_TOOL] = SelectButton;
@@ -458,7 +468,10 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     iToolUsed = -1;
 
     //colour picker control event
-	HotSpotColourPicker->Connect(wxEVT_COMMAND_COLOURPICKER_CHANGED,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotColourPickerColourChanged,0,this);
+	if (HotSpotColourPicker) HotSpotColourPicker->Connect(wxEVT_COMMAND_COLOURPICKER_CHANGED,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotColourPickerColourChanged,0,this);
+	//bitmap combobox events
+	if (ComboBrushStyle) ComboBrushStyle->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, (wxObjectEventFunction)&XPMToolPanel::OnBrushStyleChanged,0,this);
+	if (ComboPenStyle) ComboPenStyle->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, (wxObjectEventFunction)&XPMToolPanel::OnLineStyleChanged,0,this);
 }
 
 XPMToolPanel::~XPMToolPanel()
@@ -511,6 +524,8 @@ void XPMToolPanel::InitToolData(void)
         tdata.iNbPoints = 0;
         //tdata.font = GetFont();
         tdata.sText = _("");
+        tdata.iPenStyle = GetLineStyle();
+        tdata.iBrushStyle = GetFillStyle();
 
         int i;
         for(i=0;i < XPM_MAXPOINTS; i++)
@@ -822,8 +837,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Hide(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Hide(FillModeSizer);
-        ToolPanelSizer->Show(FillPatternSizer);
+        ToolPanelSizer->Hide(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -843,8 +858,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Hide(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Hide(FillModeSizer);
-        ToolPanelSizer->Hide(FillPatternSizer);
+        ToolPanelSizer->Hide(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -860,12 +875,12 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         //show tool specific control
         ToolPanelSizer->Hide(BrushToolSizer);
         ToolPanelSizer->Hide(ColourPickerSizer);
-        ToolPanelSizer->Show(SizeSizer);
+        ToolPanelSizer->Hide(SizeSizer);
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Hide(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Hide(FillModeSizer);
-        ToolPanelSizer->Show(FillPatternSizer);
+        ToolPanelSizer->Hide(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -887,8 +902,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Show(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Hide(FillModeSizer);
-        ToolPanelSizer->Hide(FillPatternSizer);
+        ToolPanelSizer->Show(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -911,8 +926,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Show(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Show(FillModeSizer);
-        ToolPanelSizer->Show(FillPatternSizer);
+        ToolPanelSizer->Show(PenStyleSizer);
+        ToolPanelSizer->Show(BrushStyleSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -934,8 +949,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Show(RadiusSizer);
         ToolPanelSizer->Show(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Show(FillModeSizer);
-        ToolPanelSizer->Show(FillPatternSizer);
+        ToolPanelSizer->Show(PenStyleSizer);
+        ToolPanelSizer->Show(BrushStyleSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
     }
     else if ((iIndex == XPM_ID_TEXT_TOOL) && (bChecked))
@@ -946,8 +961,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Hide(ThicknessSizer);
         ToolPanelSizer->Show(FontSizer);
-        ToolPanelSizer->Hide(FillModeSizer);
-        ToolPanelSizer->Hide(FillPatternSizer);
+        ToolPanelSizer->Hide(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
         //hide for now - will show them later
         if (m_parent) m_parent->ShowCanvasWidgets(false);
     }
@@ -959,8 +974,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Hide(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Hide(FillModeSizer);
-        ToolPanelSizer->Hide(FillPatternSizer);
+        ToolPanelSizer->Hide(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
     }
     else
@@ -972,8 +987,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Hide(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Hide(FillModeSizer);
-        ToolPanelSizer->Hide(FillPatternSizer);
+        ToolPanelSizer->Hide(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
     }
 }
@@ -1044,21 +1059,21 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
 
        //get the height of all child sizers, and keep the maximal one
 
-       if ( (BrushToolSizer) && (SizeSizer) && (FillPatternSizer))
+       if ( (BrushToolSizer) && (SizeSizer) && (BrushStyleSizer))
        {
            //get minimal sizes - note : when sizer is hidden, only borders size are returned. Therefore we need to show the sizer first
            bHidden1 = ToolPanelSizer->IsShown(BrushToolSizer);
            bHidden2 = ToolPanelSizer->IsShown(SizeSizer);
-           bHidden3 = ToolPanelSizer->IsShown(FillPatternSizer);
+           bHidden3 = ToolPanelSizer->IsShown(BrushStyleSizer);
            if (!bHidden1) ToolPanelSizer->Show(BrushToolSizer);
            if (!bHidden2) ToolPanelSizer->Show(SizeSizer);
-           if (!bHidden2) ToolPanelSizer->Show(FillPatternSizer);
+           if (!bHidden2) ToolPanelSizer->Show(BrushStyleSizer);
            sMinSize = BrushToolSizer->GetMinSize();
            sMinSize2 = SizeSizer->GetMinSize();
-           sMinSize3 = FillPatternSizer->GetMinSize();
+           sMinSize3 = BrushStyleSizer->GetMinSize();
            if (!bHidden1) ToolPanelSizer->Hide(BrushToolSizer);
            if (!bHidden2) ToolPanelSizer->Hide(SizeSizer);
-           if (!bHidden3) ToolPanelSizer->Hide(FillPatternSizer);
+           if (!bHidden3) ToolPanelSizer->Hide(BrushStyleSizer);
 
            //add sizer borders
            si = ToolPanelSizer->GetItem(BrushToolSizer);
@@ -1083,7 +1098,7 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
                if (iFlags & wxLEFT) sMinSize2.SetWidth(sMinSize2.GetWidth() + iBorder);
                if (iFlags & wxBOTTOM) sMinSize2.SetWidth(sMinSize2.GetWidth() + iBorder);
            }
-           si = ToolPanelSizer->GetItem(FillPatternSizer);
+           si = ToolPanelSizer->GetItem(BrushStyleSizer);
            if (si)
            {
                iBorder = si->GetBorder();
@@ -1134,25 +1149,25 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            //Manager::Get()->GetLogManager()->Log(wxString::Format(_("ColourPickerSizer w=%d h=%d"), sMinSize.GetWidth(), sMinSize.GetHeight()));
        }
 
-       if ((RadiusSizer) && (ThicknessSizer) && (FillPatternSizer) && (FillModeSizer))
+       if ((RadiusSizer) && (ThicknessSizer) && (BrushStyleSizer) && (PenStyleSizer))
        {
            //get minimal sizes - note : when sizer is hidden, only borders size are returned. Therefore we need to show the sizer first
            bHidden1 = ToolPanelSizer->IsShown(RadiusSizer);
            bHidden2 = ToolPanelSizer->IsShown(ThicknessSizer);
-           bHidden3 = ToolPanelSizer->IsShown(FillPatternSizer);
-           bHidden4 = ToolPanelSizer->IsShown(FillModeSizer);
+           bHidden3 = ToolPanelSizer->IsShown(BrushStyleSizer);
+           bHidden4 = ToolPanelSizer->IsShown(PenStyleSizer);
            if (!bHidden1) ToolPanelSizer->Show(RadiusSizer);
            if (!bHidden2) ToolPanelSizer->Show(ThicknessSizer);
-           if (!bHidden3) ToolPanelSizer->Show(FillPatternSizer);
-           if (!bHidden4) ToolPanelSizer->Show(FillModeSizer);
+           if (!bHidden3) ToolPanelSizer->Show(BrushStyleSizer);
+           if (!bHidden4) ToolPanelSizer->Show(PenStyleSizer);
            sMinSize = RadiusSizer->GetMinSize();
            sMinSize2 = ThicknessSizer->GetMinSize();
-           sMinSize3 = FillPatternSizer->GetMinSize();
-           sMinSize4 = FillModeSizer->GetMinSize();
+           sMinSize3 = BrushStyleSizer->GetMinSize();
+           sMinSize4 = PenStyleSizer->GetMinSize();
            if (!bHidden1) ToolPanelSizer->Hide(RadiusSizer);
            if (!bHidden2) ToolPanelSizer->Hide(ThicknessSizer);
-           if (!bHidden3) ToolPanelSizer->Hide(FillPatternSizer);
-           if (!bHidden4) ToolPanelSizer->Hide(FillModeSizer);
+           if (!bHidden3) ToolPanelSizer->Hide(BrushStyleSizer);
+           if (!bHidden4) ToolPanelSizer->Hide(PenStyleSizer);
 
            //add sizer borders
            si = ToolPanelSizer->GetItem(RadiusSizer);
@@ -1177,7 +1192,7 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
                if (iFlags & wxLEFT) sMinSize2.SetWidth(sMinSize2.GetWidth() + iBorder);
                if (iFlags & wxBOTTOM) sMinSize2.SetWidth(sMinSize2.GetWidth() + iBorder);
            }
-           si = ToolPanelSizer->GetItem(FillPatternSizer);
+           si = ToolPanelSizer->GetItem(BrushStyleSizer);
            if (si)
            {
                iBorder = si->GetBorder();
@@ -1188,7 +1203,7 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
                if (iFlags & wxLEFT) sMinSize3.SetWidth(sMinSize3.GetWidth() + iBorder);
                if (iFlags & wxBOTTOM) sMinSize3.SetWidth(sMinSize3.GetWidth() + iBorder);
            }
-           si = ToolPanelSizer->GetItem(FillModeSizer);
+           si = ToolPanelSizer->GetItem(PenStyleSizer);
            if (si)
            {
                iBorder = si->GetBorder();
@@ -1249,6 +1264,258 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
     }
     return(sResult);
 }
+
+/** fill the available brush styles in the combobox
+  * \param c : the wxBitmapComboBox to fill
+  */
+void XPMToolPanel::FillBrushStyleComboBox(wxBitmapComboBox *c)
+{
+    if (c)
+    {
+        wxColour cLineColour;
+        wxColour cFillColour;
+
+        cFillColour = *wxRED;
+        cLineColour = c->GetForegroundColour();
+
+        if (cFillColour == c->GetBackgroundColour()) cFillColour = *wxWHITE;
+        if (cLineColour == c->GetBackgroundColour()) cLineColour = *wxBLACK;
+
+        wxBitmap bmpSolid = CreateBitmap(wxSOLID, wxSOLID, cLineColour, cFillColour);
+        wxBitmap bmpTransparent = CreateBitmap(wxSOLID, wxTRANSPARENT, cLineColour, cFillColour);
+        wxBitmap bmpBackSlash = CreateBitmap(wxSOLID, wxBDIAGONAL_HATCH, cLineColour, cFillColour);
+        wxBitmap bmpForwardSlash = CreateBitmap(wxSOLID, wxFDIAGONAL_HATCH, cLineColour, cFillColour);
+        wxBitmap bmpCrossed = CreateBitmap(wxSOLID, wxCROSS_HATCH, cLineColour, cFillColour);
+        wxBitmap bmpCrossDiagonal = CreateBitmap(wxSOLID, wxCROSSDIAG_HATCH, cLineColour, cFillColour);
+        wxBitmap bmpVertical = CreateBitmap(wxSOLID, wxVERTICAL_HATCH, cLineColour, cFillColour);
+        wxBitmap bmpHorizontal = CreateBitmap(wxSOLID, wxHORIZONTAL_HATCH, cLineColour, cFillColour);
+
+        c->Append(_("Solid"), bmpSolid, (void *) NULL);
+        c->Append(_("Transparent"), bmpTransparent, (void *) NULL);
+        c->Append(_("Back Slash"), bmpBackSlash, (void *) NULL);
+        c->Append(_("Forward Slash"), bmpForwardSlash, (void *) NULL);
+        c->Append(_("Crossed"), bmpCrossed, (void *) NULL);
+        c->Append(_("Cross Diagonal"), bmpCrossDiagonal, (void *) NULL);
+        c->Append(_("Vertical"), bmpVertical, (void *) NULL);
+        c->Append(_("Horizontal"), bmpHorizontal, (void *) NULL);
+
+        c->SetSelection(0);
+    }
+}
+
+/** fill the available pen styles in the combobox
+  * \param c : the wxBitmapComboBox to fill
+  */
+void XPMToolPanel::FillPenStyleComboBox(wxBitmapComboBox *c)
+{
+    if (c)
+    {
+        wxColour cLineColour;
+        wxColour cBackColour;
+
+        cBackColour = c->GetBackgroundColour();
+        if ((cBackColour == *wxWHITE) || (cBackColour == *wxBLACK) || (cBackColour == *wxLIGHT_GREY))
+        {
+            cLineColour = *wxRED;
+        }
+        else
+        {
+            cLineColour = c->GetForegroundColour();
+        }
+
+        wxBitmap bmpSolid = CreateBitmapLineStyle(wxSOLID, cLineColour);
+        wxBitmap bmpTransparent = CreateBitmapLineStyle(wxTRANSPARENT, cLineColour);
+        wxBitmap bmpDot = CreateBitmapLineStyle(wxDOT, cLineColour);
+        wxBitmap bmpLongDash = CreateBitmapLineStyle(wxLONG_DASH, cLineColour);
+        wxBitmap bmpShortDash = CreateBitmapLineStyle(wxSHORT_DASH , cLineColour);
+        wxBitmap bmpDotDash = CreateBitmapLineStyle(wxDOT_DASH , cLineColour);
+        wxBitmap bmpBackSlash = CreateBitmapLineStyle(wxBDIAGONAL_HATCH, cLineColour);
+        wxBitmap bmpForwardSlash = CreateBitmapLineStyle(wxFDIAGONAL_HATCH, cLineColour);
+        wxBitmap bmpCrossed = CreateBitmapLineStyle(wxCROSS_HATCH, cLineColour);
+        wxBitmap bmpCrossDiagonal = CreateBitmapLineStyle(wxCROSSDIAG_HATCH, cLineColour);
+        wxBitmap bmpVertical = CreateBitmapLineStyle(wxVERTICAL_HATCH, cLineColour);
+        wxBitmap bmpHorizontal = CreateBitmapLineStyle(wxHORIZONTAL_HATCH, cLineColour);
+
+        c->Append(_("Solid"), bmpSolid, (void *) NULL);
+        c->Append(_("Transparent"), bmpTransparent, (void *) NULL);
+        c->Append(_("Dot"), bmpDot, (void *) NULL);
+        c->Append(_("Long Dash"), bmpLongDash, (void *) NULL);
+        c->Append(_("Short Dash"), bmpShortDash, (void *) NULL);
+        c->Append(_("Dot Dash"), bmpDotDash, (void *) NULL);
+        c->Append(_("Back Slash"), bmpBackSlash, (void *) NULL);
+        c->Append(_("Forward Slash"), bmpForwardSlash, (void *) NULL);
+        c->Append(_("Crossed"), bmpCrossed, (void *) NULL);
+        c->Append(_("Cross Diagonal"), bmpCrossDiagonal, (void *) NULL);
+        c->Append(_("Vertical"), bmpVertical, (void *) NULL);
+        c->Append(_("Horizontal"), bmpHorizontal, (void *) NULL);
+
+        c->SetSelection(0);
+    }
+}
+
+/** Return the currently selected line (pen) style
+  * \return : a wxPen style. See wxPen doc for more information
+  */
+int XPMToolPanel::GetLineStyle(void)
+{
+    if (ComboPenStyle)
+    {
+        int iSelection;
+
+        iSelection = ComboPenStyle->GetSelection();
+        switch(iSelection)
+        {
+            case 0  : return(wxSOLID);
+            case 1  : return(wxTRANSPARENT);
+            case 2  : return(wxDOT);
+            case 3  : return(wxLONG_DASH);
+            case 4  : return(wxSHORT_DASH);
+            case 5  : return(wxDOT_DASH);
+            case 6  : return(wxBDIAGONAL_HATCH);
+            case 7  : return(wxFDIAGONAL_HATCH);
+            case 8  : return(wxCROSS_HATCH);
+            case 9  : return(wxCROSSDIAG_HATCH);
+            case 10 : return(wxVERTICAL_HATCH);
+            case 11 : return(wxHORIZONTAL_HATCH);
+            default : return(wxSOLID);
+        }
+    }
+    return(wxSOLID);
+}
+
+/** Return the currently selected fill (brush) style
+  * \return : a wxBrush style. See wxBrush doc for more information
+  */
+int XPMToolPanel::GetFillStyle(void)
+{
+    if (ComboBrushStyle)
+    {
+        int iSelection;
+
+        iSelection = ComboBrushStyle->GetSelection();
+        switch(iSelection)
+        {
+            case 0  : return(wxSOLID);
+            case 1  : return(wxTRANSPARENT);
+            case 2  : return(wxBDIAGONAL_HATCH);
+            case 3  : return(wxFDIAGONAL_HATCH);
+            case 4  : return(wxCROSS_HATCH);
+            case 5  : return(wxCROSSDIAG_HATCH);
+            case 6  : return(wxVERTICAL_HATCH);
+            case 7  : return(wxHORIZONTAL_HATCH);
+            default : return(wxSOLID);
+        }
+    }
+    return(wxSOLID);
+}
+
+/** create a bitmap to be use with the wxBitmapComboBox Fill Style
+  * The ize of the bitmap is 16 x 16 pixels (width x height)
+  * The bitmap represents a filled rectangle
+  * Colours are given in parameters. It can be anything - black and white are recommended
+  * \param iPenStyle   : the pen style to use for the rectangle outline. See wxPen doc for more information
+  * \param iBrushStyle : the brush style to use for filling the rectangle. See the wxBrush doc for more information
+  * \param cLineColour : the line colour to use for the rectangle outline
+  * \param cFillColour : the fill colour to use for the rectangle filling
+  * \return : the new wxBitmap
+  */
+wxBitmap XPMToolPanel::CreateBitmap(int iPenStyle, int iBrushStyle, wxColour cLineColour, wxColour cFillColour)
+{
+    wxPen pPen(cLineColour, 1, iPenStyle);
+    wxBrush bBrush(cFillColour, iBrushStyle);
+    wxBitmap bmp(16, 16, -1);
+
+    //find a suitable colour for the mask: blue, black or white
+    wxColour cMaskColour;
+    cMaskColour = *wxBLUE;
+    if ((cLineColour == cMaskColour) || (cFillColour == cMaskColour))
+    {
+        cMaskColour = *wxBLACK;
+        if ((cLineColour == cMaskColour) || (cFillColour == cMaskColour))
+        {
+            cMaskColour = *wxWHITE;
+        }
+    }
+    wxBrush bBackBrush(cMaskColour, wxSOLID);
+
+
+    if ((bmp.IsOk()) && (pPen.IsOk()) && (bBrush.IsOk()))
+    {
+        wxMemoryDC dc(bmp);
+        if (dc.IsOk())
+        {
+            //fill the background
+            dc.SetBackground(bBackBrush);
+            dc.Clear();
+
+            //draw the rectangle
+            dc.SetPen(pPen);
+            dc.SetBrush(bBrush);
+            dc.DrawRectangle(1,1,14,14);
+
+            //release the bitmap
+            dc.SelectObject(wxNullBitmap);
+
+            //set the bitmap mask
+            wxMask *mask;
+            mask = new wxMask(bmp, cMaskColour);
+            if (mask) bmp.SetMask(mask);
+        }
+    }
+
+    return(bmp);
+}
+
+/** create a bitmap to be use with the wxBitmapComboBox Line Style
+  * The ize of the bitmap is 16 x 16 pixels (width x height)
+  * The bitmap represents a filled rectangle
+  * Colours are given in parameters. It can be anything - black and white are recommended
+  * \param iPenStyle   : the pen style to use for the rectangle outline. See wxPen doc for more information
+  * \param cLineColour : the line colour to use for the rectangle outline
+  * \return : the new wxBitmap
+  */
+wxBitmap XPMToolPanel::CreateBitmapLineStyle(int iPenStyle, wxColour cLineColour)
+{
+    wxPen pPen(cLineColour, 2, iPenStyle);
+    wxBitmap bmp(16, 16, -1);
+
+    //find a suitable colour for the mask: blue, black or white
+    wxColour cMaskColour;
+    cMaskColour = *wxBLUE;
+    if (cLineColour == cMaskColour)
+    {
+        cMaskColour = *wxBLACK;
+    }
+    wxBrush bBackBrush(cMaskColour, wxSOLID);
+
+
+    if ((bmp.IsOk()) && (pPen.IsOk()))
+    {
+        wxMemoryDC dc(bmp);
+        if (dc.IsOk())
+        {
+            //fill the background
+            dc.SetBackground(bBackBrush);
+            dc.Clear();
+
+            //draw the rectangle
+            dc.SetPen(pPen);
+            dc.DrawLine(1,8,15,8);
+
+            //release the bitmap
+            dc.SelectObject(wxNullBitmap);
+
+            //set the bitmap mask
+            wxMask *mask;
+            mask = new wxMask(bmp, cMaskColour);
+            if (mask) bmp.SetMask(mask);
+        }
+    }
+
+    return(bmp);
+}
+
+
 
 
 void XPMToolPanel::OnSelectButtonToggle(wxCommandEvent& event)
@@ -1510,7 +1777,20 @@ void XPMToolPanel::OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event
     {
         m_parent->SetHotSpotColour(event.GetColour());
     }
+}
 
+/** the Fill Style changed
+  */
+void XPMToolPanel::OnBrushStyleChanged(wxCommandEvent& event)
+{
+    InitToolData();
+}
+
+/** the Line Style changed
+  */
+void XPMToolPanel::OnLineStyleChanged(wxCommandEvent& event)
+{
+    InitToolData();
 }
 
 
@@ -1610,3 +1890,4 @@ void XPMToolPanel::OnSpinAngleChange(wxSpinEvent& event)
 {
      if (m_parent) m_parent->OnSpinAngleChange(event);
 }
+

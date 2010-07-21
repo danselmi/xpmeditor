@@ -60,14 +60,18 @@ XPMInterfacePanel::XPMInterfacePanel(wxWindow* parent,wxWindowID id,const wxPoin
 	ZoomFactor->Append(_("800%"));
 	ZoomFactor->Append(_("1600%"));
 	ZoomFactor->Append(_("Custom"));
+	ZoomFactor->SetToolTip(_("Zoom selection"));
 	BoxSizer2->Add(ZoomFactor, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	BitmapButton1 = new wxBitmapButton(this, ID_BITMAPBUTTON1, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON1"));
+	BitmapButton1->SetToolTip(_("Rotate the Image 90 degrees counter-clockwise."));
 	BoxSizer2->Add(BitmapButton1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	BitmapButton2 = new wxBitmapButton(this, ID_BITMAPBUTTON2, wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator, _T("ID_BITMAPBUTTON2"));
+	BitmapButton2->SetToolTip(_("Rotate the Image 90 degrees clockwise."));
 	BoxSizer2->Add(BitmapButton2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
 	CheckBox1 = new wxCheckBox(this, ID_CHECKBOX1, _("Show Grid"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
 	CheckBox1->SetValue(false);
 	CheckBox1->Disable();
+	CheckBox1->SetToolTip(_("Show / Hide the grid. A minimal Zoom of 400% is needed."));
 	BoxSizer2->Add(CheckBox1, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	GridColour = new wxColourPickerCtrl(this,ID_CUSTOM3,*wxBLACK,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM3"));
 	BoxSizer2->Add(GridColour, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);

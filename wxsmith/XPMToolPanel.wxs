@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxPanel" name="XPMToolPanel">
+		<extra_code>wxToolTip::Enable(true);</extra_code>
 		<id_arg>0</id_arg>
 		<object class="wxBoxSizer" variable="ToolPanelSizer" member="yes">
 			<orient>wxVERTICAL</orient>
@@ -14,6 +15,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Rectangle selection area</tooltip>
+									<help>Left click on the image to set the top-left corner of the area. Move the mouse to set the size of the area. Left click define the area. Holding SHIFT key down will force the area to be a square.</help>
 									<handler function="OnSelectButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
@@ -24,6 +27,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Complex area selection</tooltip>
+									<help>Left-click on the image to select the 1st point of the Polygon. Each additionnal left-click will define a corner of the polygon. Double-Click or Right-Click ends the polygon definition.</help>
 									<handler function="OnLassoButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -34,6 +39,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Cursor Hot Spot</tooltip>
+									<help>This define the location of the Hot Spot, for cursors. There can be only one hot spot. To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. Currently, only Windows support HotSpot information in *cur files.</help>
 									<handler function="OnHotSpotButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -49,6 +56,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Pen</tooltip>
+									<help>Draw a single pixel, in the given colour. Select a Line Colour. Keep the left button pressed to draw several pixels at once.</help>
 									<handler function="OnPenButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
@@ -59,6 +68,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Brush</tooltip>
+									<help>Draw a pattern, like a circle or a square. Select a Line Colour. Select the pattern to draw, and the size in pixel of the pattern (square length, circle radius, ...). Left click on the image to draw the 1st pattern. Keeping the left button pressed will draw more patterns.</help>
 									<handler function="OnBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -69,6 +80,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Pipette</tooltip>
+									<help>Copy the colour of a pixel. Simply left click on the colour you want to copy. The colour will be copied in the currently selected Line Colour. To copy the colour in Fill Colour instead, hold the SHIFT key down.</help>
 									<handler function="OnPipetteButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
@@ -79,6 +92,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Flood Fill</tooltip>
+									<help>Select a FILL colour (right click) in the Colour Picker. Then left click on the image: the fill colour will be used to replace all the area where the click occured. The fill stops whenever a pixel of another colour than the original colour  is found.</help>
 									<handler function="OnFillButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -94,6 +109,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Line</tooltip>
+									<help>Select a Line Colour. Choose a Line Style and a Line Thickness.&#x0A;Left Click to indicate the start point. Move the mouse, and left click again to indicate the end point.</help>
 									<handler function="OnLineButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
@@ -104,6 +121,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Curve</tooltip>
+									<help>Select a Line Colour. Choose a Line Style and a Line Thickness.&#x0A;Left Click to indicate the start point. Move the mouse, and left click again to indicate another point. Continue to click to indicater further points. Terminate by Right Click or Double Click.</help>
 									<handler function="OnCurveButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -114,6 +133,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Eraser</tooltip>
+									<help>Select the size of the eraser. Left click on the image will replace the selected area by the MASK (transparent) colour. When saving, this area will be considered as transparent. Moving the mouse while keeping the left button pressed will erase further area.</help>
 									<handler function="OnEraserButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
@@ -124,6 +145,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Text</tooltip>
+									<help>Select a Line Colour (it will be the Text Colour). Select a Fill Colour. Select the Font by Clicking on &quot;FONT&quot;. Toggle Opaque / Transparent to draw the text with a background or not, respectively. Select the text orientation, in degrees (0 means horizontal).&#x0A;Select the draw area by left clicking (see the &quot;Select Rectangle Area&quot; tool). Type your text in the box which appears. The colours, font, orientation, and alignment can still be changed. The text can be moved or resized using the mouse.&#x0A;When finished, click outside the text area.</help>
 									<handler function="OnTextButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -139,6 +162,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Rectangle</tooltip>
+									<help>Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. Left click on the image to define the first corner. Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Square.</help>
 									<handler function="OnRectangleButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
@@ -149,6 +174,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Polygon</tooltip>
+									<help>Left-click on the image to select the 1st point of the Polygon. Each additionnal left-click will define a corner of the polygon. Double-Click or Right-Click ends the polygon definition.</help>
 									<handler function="OnPolygonButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -159,6 +186,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Ellipse / Circle</tooltip>
+									<help>Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. The Ellipse or Circle is defined by a rectangular bounding box. Left click on the image to define the first corner of the bounding box. Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Circle.</help>
 									<handler function="OnEllipseButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
@@ -169,6 +198,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Rounded Rectangle</tooltip>
+									<help>Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. Select the radius to be used at the corners.  Left click on the image to define the first corner. Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Square with rounded corners.</help>
 									<handler function="OnRRectButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -191,6 +222,7 @@
 							<type>wxCUSTBUT_TOGGLE</type>
 							<bitmap stock_id="wxART_CDROM" stock_client="wxART_BUTTON" />
 							<bitmap_margin>5,5</bitmap_margin>
+							<tooltip>Square brush</tooltip>
 							<extra_code>$(THIS)-&gt;SetValue(true);</extra_code>
 							<handler function="OnSquareBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
 						</object>
@@ -202,6 +234,7 @@
 							<type>wxCUSTBUT_TOGGLE</type>
 							<bitmap stock_id="wxART_CDROM" stock_client="wxART_BUTTON" />
 							<bitmap_margin>5,5</bitmap_margin>
+							<tooltip>Circle Brush</tooltip>
 							<handler function="OnCircleBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -212,6 +245,7 @@
 							<type>wxCUSTBUT_TOGGLE</type>
 							<bitmap stock_id="wxART_CDROM" stock_client="wxART_BUTTON" />
 							<bitmap_margin>5,5</bitmap_margin>
+							<tooltip>Back Slash Brush</tooltip>
 							<handler function="OnRHairBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -222,6 +256,7 @@
 							<type>wxCUSTBUT_TOGGLE</type>
 							<bitmap stock_id="wxART_CDROM" stock_client="wxART_BUTTON" />
 							<bitmap_margin>5,5</bitmap_margin>
+							<tooltip>Forward Slash Brush</tooltip>
 							<handler function="OnLHairBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -261,6 +296,7 @@
 							<min>2</min>
 							<max>16</max>
 							<size>83,21</size>
+							<tooltip>Size of the brush, in pixel</tooltip>
 							<handler function="OnSpinSizeChanged" entry="EVT_SPINCTRL" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -286,6 +322,7 @@
 							<min>1</min>
 							<max>1000</max>
 							<size>20,21</size>
+							<tooltip>Radius of the corner</tooltip>
 							<handler function="OnSpinRadiusChanged" entry="EVT_SPINCTRL" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -311,6 +348,7 @@
 							<min>1</min>
 							<max>16</max>
 							<size>20,21</size>
+							<tooltip>Thickness of the line</tooltip>
 							<handler function="OnSpinThicknessChanged" entry="EVT_SPINCTRL" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -333,6 +371,7 @@
 										<object class="wxRadioButton" name="ID_RADIOBUTTON1" variable="TopLeft" member="yes">
 											<label></label>
 											<selected>1</selected>
+											<tooltip>Top Left Alignment</tooltip>
 											<style>wxRB_GROUP</style>
 											<handler function="OnTopLeftSelect" entry="EVT_RADIOBUTTON" />
 										</object>
@@ -342,6 +381,7 @@
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON9" variable="TopCenter" member="yes">
 											<label></label>
+											<tooltip>Top Center Alignment</tooltip>
 											<handler function="OnTopCenterSelect" entry="EVT_RADIOBUTTON" />
 										</object>
 										<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_TOP</flag>
@@ -350,6 +390,7 @@
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON8" variable="TopRight" member="yes">
 											<label></label>
+											<tooltip>Top Right Alignment</tooltip>
 											<handler function="OnTopRightSelect" entry="EVT_RADIOBUTTON" />
 										</object>
 										<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_TOP</flag>
@@ -363,6 +404,7 @@
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON7" variable="CenterLeft" member="yes">
 											<label></label>
+											<tooltip>Center Left Alignment</tooltip>
 											<handler function="OnCenterLeftSelect" entry="EVT_RADIOBUTTON" />
 										</object>
 										<flag>wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
@@ -371,6 +413,7 @@
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON6" variable="CenterCenter" member="yes">
 											<label></label>
+											<tooltip>Center Center Alignment</tooltip>
 											<handler function="OnCenterCenterSelect" entry="EVT_RADIOBUTTON" />
 										</object>
 										<flag>wxLEFT|wxRIGHT|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
@@ -379,6 +422,7 @@
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON5" variable="CenterRight" member="yes">
 											<label></label>
+											<tooltip>Center Right Alignment</tooltip>
 											<handler function="OnCenterRightSelect" entry="EVT_RADIOBUTTON" />
 										</object>
 										<flag>wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -392,6 +436,7 @@
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON4" variable="BottomLeft" member="yes">
 											<label></label>
+											<tooltip>Bottom Left Alignment</tooltip>
 											<handler function="OnBottomLeftSelect" entry="EVT_RADIOBUTTON" />
 										</object>
 										<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -400,6 +445,7 @@
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON3" variable="BottomCenter" member="yes">
 											<label></label>
+											<tooltip>Bottom Center Alignment</tooltip>
 											<handler function="OnBottomCenterSelect" entry="EVT_RADIOBUTTON" />
 										</object>
 										<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
@@ -408,6 +454,7 @@
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON2" variable="BottomRight" member="yes">
 											<label></label>
+											<tooltip>Bottom Right Alignment</tooltip>
 											<handler function="OnBottomRightSelect" entry="EVT_RADIOBUTTON" />
 										</object>
 										<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_BOTTOM</flag>
@@ -425,6 +472,7 @@
 							<object class="sizeritem">
 								<object class="wxToggleButton" name="ID_BACKGROUNDBUTTON" variable="BackgroundButton" member="yes">
 									<label>Opaque</label>
+									<tooltip>Toggle Opaque (draw a background) / Transparent (draw only text)</tooltip>
 									<handler function="OnBackgroundButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -433,6 +481,7 @@
 							<object class="sizeritem">
 								<object class="wxButton" name="ID_FONTBUTTON" variable="FontButton" member="yes">
 									<label>Font</label>
+									<tooltip>Select the Font</tooltip>
 									<handler function="OnFontButtonClick" entry="EVT_BUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -456,6 +505,7 @@
 									<value>0</value>
 									<max>360</max>
 									<size>72,21</size>
+									<tooltip>Text orientation, in degrees.</tooltip>
 									<handler function="OnSpinAngleChange" entry="EVT_SPINCTRL" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
@@ -470,29 +520,45 @@
 				<border>2</border>
 			</object>
 			<object class="sizeritem">
-				<object class="wxBoxSizer" variable="FillModeSizer" member="yes">
+				<object class="wxBoxSizer" variable="PenStyleSizer" member="yes">
 					<orient>wxVERTICAL</orient>
 					<object class="sizeritem">
-						<object class="Custom" name="ID_CUSTOM1" subclass="wxBitmapComboBox" variable="ComboFillMode" member="yes">
+						<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+							<label>Line Style:</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>2</border>
+					</object>
+					<object class="sizeritem">
+						<object class="Custom" name="ID_CUSTOM1" subclass="wxBitmapComboBox" variable="ComboPenStyle" member="yes">
 							<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), __(&quot;&quot;),$(POS),$(SIZE), 0, NULL, wxCB__READONLY);</creating_code>
 							<include_file>wx/bmpcbox.h</include_file>
 							<style></style>
+							<tooltip>The line style</tooltip>
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 						<border>2</border>
 						<option>1</option>
 					</object>
 				</object>
-				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 			</object>
 			<object class="sizeritem">
-				<object class="wxBoxSizer" variable="FillPatternSizer" member="yes">
+				<object class="wxBoxSizer" variable="BrushStyleSizer" member="yes">
 					<orient>wxVERTICAL</orient>
 					<object class="sizeritem">
-						<object class="Custom" name="ID_CUSTOM3" subclass="wxBitmapComboBox" variable="ComboPattern" member="yes">
+						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+							<label>Fill Style:</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>2</border>
+					</object>
+					<object class="sizeritem">
+						<object class="Custom" name="ID_CUSTOM3" subclass="wxBitmapComboBox" variable="ComboBrushStyle" member="yes">
 							<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), __(&quot;&quot;),$(POS),$(SIZE), 0, NULL, wxCB__READONLY );</creating_code>
 							<include_file>wx/bmpcbox.h</include_file>
 							<style></style>
+							<tooltip>The Fill Style</tooltip>
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 						<border>2</border>

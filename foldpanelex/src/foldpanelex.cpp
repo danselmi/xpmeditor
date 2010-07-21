@@ -8,7 +8,6 @@
  * License:   GPL 3.0
  **************************************************************/
 
-
 #ifdef WXMAKINGDLL_FOLDPANELEX
     #define WXDLLIMPEXP_FOLDPANELEX WXEXPORT
 #elif defined(WXUSINGDLL)
