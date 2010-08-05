@@ -70,10 +70,7 @@ const long XPMToolPanel::ID_RECTANGLE_BTN = wxNewId();
 const long XPMToolPanel::ID_POLYGON_BTN = wxNewId();
 const long XPMToolPanel::ID_ELLIPSE_BTN = wxNewId();
 const long XPMToolPanel::ID_ROUNDEDRECT_BTN = wxNewId();
-const long XPMToolPanel::ID_SQUARE_BRUSH = wxNewId();
-const long XPMToolPanel::ID_CIRCLE_BRUSH = wxNewId();
-const long XPMToolPanel::ID_LRHAIR_BRUSH = wxNewId();
-const long XPMToolPanel::ID_LHAIR_BRUSH = wxNewId();
+const long XPMToolPanel::ID_CUSTOM4 = wxNewId();
 const long XPMToolPanel::ID_CUSTOM2 = wxNewId();
 const long XPMToolPanel::ID_STATICTEXT5 = wxNewId();
 const long XPMToolPanel::ID_SPINCTRL3 = wxNewId();
@@ -118,7 +115,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	wxBoxSizer* BoxSizer9;
 	wxStaticBoxSizer* StaticBoxSizer1;
 	wxBoxSizer* BoxSizer3;
-
+	
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
 	wxToolTip::Enable(true);
 	ToolPanelSizer = new wxBoxSizer(wxVERTICAL);
@@ -193,23 +190,9 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	ToolButtonsSizer->Add(BoxSizer10, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ToolPanelSizer->Add(ToolButtonsSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ToolPanelSizer->Add(-1,-1,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
-	BrushToolSizer = new wxBoxSizer(wxHORIZONTAL);
-	SquareBrushButton = new wxCustomButton(this,ID_SQUARE_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_SQUARE_BRUSH"));
-	SquareBrushButton->SetBitmapDisabled(SquareBrushButton->CreateBitmapDisabled(SquareBrushButton->GetBitmapLabel()));
-	SquareBrushButton->SetBitmapMargin(wxSize(5,5));
-	BrushToolSizer->Add(SquareBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	CircleBrushButton = new wxCustomButton(this,ID_CIRCLE_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CIRCLE_BRUSH"));
-	CircleBrushButton->SetBitmapDisabled(CircleBrushButton->CreateBitmapDisabled(CircleBrushButton->GetBitmapLabel()));
-	CircleBrushButton->SetBitmapMargin(wxSize(5,5));
-	BrushToolSizer->Add(CircleBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	RHairBrushButton = new wxCustomButton(this,ID_LRHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LRHAIR_BRUSH"));
-	RHairBrushButton->SetBitmapDisabled(RHairBrushButton->CreateBitmapDisabled(RHairBrushButton->GetBitmapLabel()));
-	RHairBrushButton->SetBitmapMargin(wxSize(5,5));
-	BrushToolSizer->Add(RHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
-	LHairBrushButton = new wxCustomButton(this,ID_LHAIR_BRUSH,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_CDROM")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LHAIR_BRUSH"));
-	LHairBrushButton->SetBitmapDisabled(LHairBrushButton->CreateBitmapDisabled(LHairBrushButton->GetBitmapLabel()));
-	LHairBrushButton->SetBitmapMargin(wxSize(5,5));
-	BrushToolSizer->Add(LHairBrushButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	BrushToolSizer = new wxBoxSizer(wxVERTICAL);
+	ComboBrushTool = new wxBitmapComboBox(this,ID_CUSTOM4, _(""),wxDefaultPosition,wxDefaultSize, 0, NULL, wxCB_READONLY);
+	BrushToolSizer->Add(ComboBrushTool, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	ToolPanelSizer->Add(BrushToolSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ColourPickerSizer = new wxBoxSizer(wxVERTICAL);
 	HotSpotColourPicker = new wxColourPickerCtrl(this,ID_CUSTOM2,cHotSpotColour,wxDefaultPosition,wxDefaultSize,wxCLRP_SHOW_LABEL,wxDefaultValidator,_T("ID_CUSTOM2"));
@@ -309,7 +292,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	SetSizer(ToolPanelSizer);
 	ToolPanelSizer->Fit(this);
 	ToolPanelSizer->SetSizeHints(this);
-
+	
 	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSelectButtonToggle);
 	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLassoButtonToggle);
 	Connect(ID_HOTSPOT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotButtonToggle);
@@ -325,10 +308,6 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	Connect(ID_POLYGON_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPolygonButtonToggle);
 	Connect(ID_ELLIPSE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnEllipseButtonToggle);
 	Connect(ID_ROUNDEDRECT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnRRectButtonToggle);
-	Connect(ID_SQUARE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSquareBrushButtonToggle);
-	Connect(ID_CIRCLE_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnCircleBrushButtonToggle);
-	Connect(ID_LRHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnRHairBrushButtonToggle);
-	Connect(ID_LHAIR_BRUSH,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLHairBrushButtonToggle);
 	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinSizeChanged);
 	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinRadiusChanged);
 	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinThicknessChanged);
@@ -394,14 +373,10 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     wxBitmap bHotSpot(hotspot_xpm);
     HotSpotButton->SetLabel(bHotSpot);
 
-    SquareBrushButton->SetLabel(square_xpm);
-    CircleBrushButton->SetLabel(circle_xpm);
-    LHairBrushButton->SetLabel(left_hair_xpm);
-    RHairBrushButton->SetLabel(right_hair_xpm);
-
     //Set the bitmaps for Brush / Pen style Combobox
     FillBrushStyleComboBox(ComboBrushStyle);
     FillPenStyleComboBox(ComboPenStyle);
+    FillBrushComboBox(ComboBrushTool);
 
     //for sizer mechanism : set min size
     //this has to be done before hidding the controls, otherwise wxSizer::GetMinSize() will return (0,0)
@@ -472,6 +447,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	//bitmap combobox events
 	if (ComboBrushStyle) ComboBrushStyle->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, (wxObjectEventFunction)&XPMToolPanel::OnBrushStyleChanged,0,this);
 	if (ComboPenStyle) ComboPenStyle->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, (wxObjectEventFunction)&XPMToolPanel::OnLineStyleChanged,0,this);
+	if (ComboBrushTool) ComboBrushTool->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, (wxObjectEventFunction)&XPMToolPanel::OnBrushToolChanged,0,this);
 }
 
 XPMToolPanel::~XPMToolPanel()
@@ -526,6 +502,7 @@ void XPMToolPanel::InitToolData(void)
         tdata.sText = _("");
         tdata.iPenStyle = GetLineStyle();
         tdata.iBrushStyle = GetFillStyle();
+        tdata.iStyle  = ComboBrushTool->GetSelection();
 
         int i;
         for(i=0;i < XPM_MAXPOINTS; i++)
@@ -539,18 +516,6 @@ void XPMToolPanel::InitToolData(void)
             case XPM_ID_ERASER_TOOL:
             case XPM_ID_BRUSH_TOOL : tdata.iSize2 = SpinCtrl1->GetValue();
                                      if (tdata.iSize2 < 2) tdata.iSize2 = 2;
-                                     //init one kind of brush
-                                     if (!(   (SquareBrushButton->GetValue()) || (CircleBrushButton->GetValue())
-                                           || (LHairBrushButton->GetValue()) || (RHairBrushButton->GetValue())
-                                          )
-                                         )
-                                     {
-                                        CircleBrushButton->SetValue(false);
-                                        LHairBrushButton->SetValue(false);
-                                        RHairBrushButton->SetValue(false);
-                                        tdata.iStyle = XPM_BRUSH_STYLE_SQUARE;
-                                        SquareBrushButton->SetValue(true);
-                                     }
                                      break;
 
             case XPM_ID_LINE_TOOL:
@@ -1303,6 +1268,36 @@ void XPMToolPanel::FillBrushStyleComboBox(wxBitmapComboBox *c)
     }
 }
 
+/** fill the available brush tool in the combobox
+  * \param c : the wxBitmapComboBox to fill
+  */
+void XPMToolPanel::FillBrushComboBox(wxBitmapComboBox *c)
+{
+    if (!c) return;
+
+    wxColour cLineColour;
+    wxArrayString sText;
+    int i;
+
+    cLineColour = c->GetForegroundColour();
+    if (cLineColour == c->GetBackgroundColour()) cLineColour = *wxBLACK;
+
+    sText.Add(_("Circle"));
+    sText.Add(_("Square"));
+    sText.Add(_("Slash"));
+    sText.Add(_("Back Slash"));
+
+    for(i=0; i<4; i++)
+    {
+        wxBitmap bmp;
+        bmp = CreateBrushBitmap(i, cLineColour, 16);
+        c->Append(sText[i], bmp, (void *) NULL);
+
+    }
+
+    c->SetSelection(0);
+}
+
 /** fill the available pen styles in the combobox
   * \param c : the wxBitmapComboBox to fill
   */
@@ -1515,7 +1510,70 @@ wxBitmap XPMToolPanel::CreateBitmapLineStyle(int iPenStyle, wxColour cLineColour
     return(bmp);
 }
 
+/** create the bitmap to use with the brush tool
+  * \param iIndex : the index of the pattern to use
+  * \param cColour: the colour to use
+  * \param iSize: the size of the (square) bitmap
+  * \return the new bitmap
+  */
+wxBitmap XPMToolPanel::CreateBrushBitmap(int iIndex, wxColour cColour, int iSize)
+{
+    int iSize2;
 
+    iSize2 = iSize;
+    if (iSize2 < 2) iSize2 = 2;
+    wxBitmap bmp(iSize2, iSize2, -1);
+
+    wxPen pPen(cColour, 1, wxSOLID);
+    wxBrush bBrush(cColour, wxSOLID);
+
+    //find a suitable colour for the mask: blue, black or white
+    wxColour cMaskColour;
+    cMaskColour = *wxBLUE;
+    if (cColour == cMaskColour)
+    {
+        cMaskColour = *wxBLACK;
+    }
+    wxBrush bBackBrush(cMaskColour, wxSOLID);
+
+
+    if ((bmp.IsOk()) && (pPen.IsOk()) && (bBrush.IsOk()))
+    {
+        wxMemoryDC dc(bmp);
+        if (dc.IsOk())
+        {
+            //fill the background
+            dc.SetBackground(bBackBrush);
+            dc.Clear();
+
+            dc.SetPen(pPen);
+            dc.SetBrush(bBrush);
+
+            //draw the pattern
+            switch(iIndex)
+            {
+                case -1 : dc.DrawRectangle(0,0, iSize2, iSize2); break; //for eraser
+                case 0 : dc.DrawEllipse(0,0,iSize2, iSize2); break;
+                case 1 : dc.DrawRectangle(0,0, iSize2, iSize2); break;
+                case 2 : dc.DrawLine(0,0, iSize2, iSize2); break;
+                case 3 : dc.DrawLine(0, iSize2-1, iSize2, 0); break;
+                default: dc.DrawEllipse(0,0,iSize2, iSize2); break;
+            }
+
+            //release the bitmap
+            dc.SelectObject(wxNullBitmap);
+
+            //set the bitmap mask
+            wxMask *mask;
+            mask = new wxMask(bmp, cMaskColour);
+            if (mask) bmp.SetMask(mask);
+        }
+    }
+
+
+
+    return(bmp);
+}
 
 
 void XPMToolPanel::OnSelectButtonToggle(wxCommandEvent& event)
@@ -1679,95 +1737,6 @@ void XPMToolPanel::OnSpinThicknessChanged(wxSpinEvent& event)
     }
 }
 
-
-/** A brush shape button has been toggled: Square Brush
-  * \param event: the wxCommandEvent associated with the event
-  */
-void XPMToolPanel::OnSquareBrushButtonToggle(wxCommandEvent& event)
-{
-    if ((event.IsChecked()) && (m_parent))
-    {
-        ToolData tdata;
-        m_parent->GetToolData(&tdata);
-        tdata.iStyle = XPM_BRUSH_STYLE_SQUARE;
-        m_parent->SetToolData(&tdata);
-        CircleBrushButton->SetValue(false);
-        LHairBrushButton->SetValue(false);
-        RHairBrushButton->SetValue(false);
-    }
-    else if (m_parent)
-    {
-        //to make sure that at least one button stays pushed
-        SquareBrushButton->SetValue(true);
-    }
-}
-
-/** A brush shape button has been toggled: Circle Brush
-  * \param event: the wxCommandEvent associated with the event
-  */
-void XPMToolPanel::OnCircleBrushButtonToggle(wxCommandEvent& event)
-{
-    if ((event.IsChecked()) && (m_parent))
-    {
-        ToolData tdata;
-        m_parent->GetToolData(&tdata);
-        tdata.iStyle = XPM_BRUSH_STYLE_CIRCLE;
-        m_parent->SetToolData(&tdata);
-        SquareBrushButton->SetValue(false);
-        LHairBrushButton->SetValue(false);
-        RHairBrushButton->SetValue(false);
-    }
-    else if (m_parent)
-    {
-        //to make sure that at least one button stays pushed
-        CircleBrushButton->SetValue(true);
-    }
-}
-
-/** A brush shape button has been toggled: Right Hair Brush (a segment)
-  * \param event: the wxCommandEvent associated with the event
-  */
-void XPMToolPanel::OnRHairBrushButtonToggle(wxCommandEvent& event)
-{
-    if ((event.IsChecked()) && (m_parent))
-    {
-        ToolData tdata;
-        m_parent->GetToolData(&tdata);
-        tdata.iStyle = XPM_BRUSH_STYLE_RIGHTHAIR;
-        m_parent->SetToolData(&tdata);
-        CircleBrushButton->SetValue(false);
-        LHairBrushButton->SetValue(false);
-        SquareBrushButton->SetValue(false);
-    }
-    else if (m_parent)
-    {
-        //to make sure that at least one button stays pushed
-        RHairBrushButton->SetValue(true);
-    }
-}
-
-/** A brush shape button has been toggled: Left Hair Brush (a segment)
-  * \param event: the wxCommandEvent associated with the event
-  */
-void XPMToolPanel::OnLHairBrushButtonToggle(wxCommandEvent& event)
-{
-    if ((event.IsChecked()) && (m_parent))
-    {
-        ToolData tdata;
-        m_parent->GetToolData(&tdata);
-        tdata.iStyle = XPM_BRUSH_STYLE_LEFTHAIR;
-        m_parent->SetToolData(&tdata);
-        CircleBrushButton->SetValue(false);
-        SquareBrushButton->SetValue(false);
-        RHairBrushButton->SetValue(false);
-    }
-    else if (m_parent)
-    {
-        //to make sure that at least one button stays pushed
-        LHairBrushButton->SetValue(true);
-    }
-}
-
 //--- HANDLER FOR HOT SPOT COLOUR CHANGED --
 /** The Hot Spot colour must be updated
   */
@@ -1793,6 +1762,12 @@ void XPMToolPanel::OnLineStyleChanged(wxCommandEvent& event)
     InitToolData();
 }
 
+/** The Brush Tool style changed
+  */
+void XPMToolPanel::OnBrushToolChanged(wxCommandEvent& event)
+{
+    InitToolData();
+}
 
 //--- HANDLERS FOR TEXT EDITION RELATED SUB-TOOLS EVENTS ----///
 /** The font for the text edition has been changed

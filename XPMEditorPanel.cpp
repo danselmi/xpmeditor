@@ -1638,6 +1638,13 @@ void XPMEditorPanel::ProcessPipette(int x, int y,
 {
     if (bLeftDown)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //get the pixel color
         if (m_Image)
         {
@@ -1665,6 +1672,13 @@ void XPMEditorPanel::ProcessPipette(int x, int y,
 
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //finish
         InitToolData();
     }
@@ -1684,6 +1698,13 @@ void XPMEditorPanel::ProcessHotSpot(int x, int y,
 {
     if (bLeftDown)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //get the pixel color
         iHotSpotX = x / dScale;
         iHotSpotY = y / dScale;
@@ -1695,6 +1716,13 @@ void XPMEditorPanel::ProcessHotSpot(int x, int y,
 
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //finish
         InitToolData();
     }
@@ -1714,6 +1742,13 @@ void XPMEditorPanel::ProcessFill(int x, int y,
 {
     if (bLeftDown)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //Undo & modification flag
         AddUndo();
         SetModified(true);
@@ -1739,6 +1774,13 @@ void XPMEditorPanel::ProcessFill(int x, int y,
 
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //finish
         InitToolData();
     }
@@ -1759,6 +1801,13 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 
     if (bLeftDown)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //Undo & modification flag
         if (!m_Bitmap) return;
         AddUndo();
@@ -1777,6 +1826,8 @@ void XPMEditorPanel::ProcessPen(int x, int y,
             xx = x / dScale; yy = y / dScale;
             mem_dc.DrawPoint(xx, yy);
             mem_dc.SelectObject(wxNullBitmap);
+            tdata.x1 = xx;
+            tdata.y1 = yy;
         }
         UpdateImage();
         Repaint();
@@ -1785,6 +1836,13 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 
     if (bPressed)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //draw the pixel
         if (!m_Bitmap) return;
         wxMemoryDC mem_dc(*m_Bitmap);
@@ -1797,8 +1855,11 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 
             int xx, yy;
             xx = x / dScale; yy = y / dScale;
+            mem_dc.DrawLine(tdata.x1, tdata.y1, xx, yy);
             mem_dc.DrawPoint(xx, yy);
             mem_dc.SelectObject(wxNullBitmap);
+            tdata.x1 = xx;
+            tdata.y1 = yy;
         }
         UpdateImage();
         Repaint();
@@ -1806,6 +1867,13 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //finish
         InitToolData();
     }
@@ -1829,12 +1897,26 @@ void XPMEditorPanel::ProcessText(int x, int y,
     //with the text
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks < 2) ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
     }
 
     //left button UP
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks == 0)
         {
             ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
@@ -1909,10 +1991,11 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             tdata.y2 = y;
 
             int x1,y1,x2,y2;
+            if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
             SnapRectToGrid(&x1,&y1,&x2,&y2);
             //x1 = tdata.x1; x2 = tdata.x2; y1 = tdata.y1; y2 = tdata.y2;
             //make the area a square
-            if (bShiftDown) TransformToSquare(&x1,&y1,&x2,&y2);
+            //if (bShiftDown) TransformToSquare(&x1,&y1,&x2,&y2);
 
             dc.DrawRectangle(x1, y1,
                              (x2 - x1), (y2 - y1));
@@ -1939,10 +2022,11 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             tdata.x2 = x;
             tdata.y2 = y;
             int x1,y1,x2,y2;
+            if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
             SnapRectToGrid(&x1,&y1,&x2,&y2);
             //x1 = tdata.x1; x2 = tdata.x2; y1 = tdata.y1; y2 = tdata.y2;
             //make the area a square
-            if (bShiftDown) TransformToSquare(&x1,&y1,&x2,&y2);
+            //if (bShiftDown) TransformToSquare(&x1,&y1,&x2,&y2);
             if (pSelection)
             {
                 pSelection[0].x = x1 / dScale;
@@ -1976,6 +2060,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
 {
     if (bLeftDown)
     {
+
         //Release the mouse capture to prevent weird behaviour (cursor seems blocked)
         //this is due to the fact that the mouse is captured again during the drag action
         if (DrawCanvas)
@@ -2245,8 +2330,16 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
 void XPMEditorPanel::ProcessBrush(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
+
     if (bLeftDown)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //Undo & modification flag
         if (!m_Bitmap) return;
         AddUndo();
@@ -2267,37 +2360,14 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             xx = x / dScale; yy = y / dScale;
             iSize = tdata.iSize2;
 
-            switch (tdata.iStyle)
-            {
-                case XPM_BRUSH_STYLE_CIRCLE   :
-                        mem_dc.DrawCircle(xx, yy, iSize/2);
-                        break;
+            wxBitmap bmp;
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize);
+            if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
 
-                case XPM_BRUSH_STYLE_LEFTHAIR :
-                        for(i=0; i < iSize; i++)
-                        {
-                            mem_dc.DrawPoint(xx - iSize / 2 + i, yy + iSize / 2 - i);
-                        }
-                        //mem_dc.DrawLine(xx - tdata.iSize2 /2.828 ,yy + tdata.iSize2 / 2.828, xx + tdata.iSize2 / 2.828, yy - tdata.iSize2 / 2.828);
-                        break;
-
-                case XPM_BRUSH_STYLE_RIGHTHAIR:
-                        for(i=0; i < iSize; i++)
-                        {
-                            mem_dc.DrawPoint(xx - iSize / 2 + i, yy - iSize / 2 + i);
-                        }
-                        //mem_dc.DrawLine(xx - tdata.iSize2 / 2.828, yy - tdata.iSize2 /2.828, xx + tdata.iSize2 /2.828, yy + tdata.iSize2 / 2.828);
-                        break;
-
-                case XPM_BRUSH_STYLE_SQUARE   :
-                default:
-                        mem_dc.DrawRectangle(xx - iSize / 2,
-                                             yy - iSize / 2,
-                                             iSize,
-                                             iSize);
-                        break;
-            }
             mem_dc.SelectObject(wxNullBitmap);
+
+            tdata.x1 = xx;
+            tdata.y1 = yy;
         }
         UpdateImage();
         Repaint();
@@ -2305,6 +2375,13 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 
     if (bPressed)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (!m_Bitmap) return;
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
@@ -2320,37 +2397,19 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             xx = x / dScale; yy = y / dScale;
             iSize = tdata.iSize2;
 
-            switch (tdata.iStyle)
+            wxBitmap bmp;
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize);
+            if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
+
+            Interpolate(tdata.x1, tdata.y1, xx, yy);
+            for(i=0; i < m_pt_x.Count(); i++)
             {
-                case XPM_BRUSH_STYLE_CIRCLE   :
-                    mem_dc.DrawCircle(xx, yy, iSize/2);
-                    break;
-
-                case XPM_BRUSH_STYLE_LEFTHAIR :
-                    for(i=0; i < iSize; i++)
-                    {
-                            mem_dc.DrawPoint(xx - iSize / 2 + i, yy + iSize / 2 - i);
-                    }
-                    //mem_dc.DrawLine(xx - tdata.iSize2 /2.828,yy + tdata.iSize2 / 2.828, xx + tdata.iSize2 / 2.828, yy - tdata.iSize2 / 2.828);
-                    break;
-
-                case XPM_BRUSH_STYLE_RIGHTHAIR:
-                    for(i=0; i < iSize; i++)
-                    {
-                            mem_dc.DrawPoint(xx - iSize / 2 + i, yy - iSize / 2 + i);
-                    }
-                    //mem_dc.DrawLine(xx - tdata.iSize2 / 2.828, yy - tdata.iSize2 / 2.828, xx + tdata.iSize2 / 2.828, yy + tdata.iSize2 / 2.828);
-                    break;
-
-                case XPM_BRUSH_STYLE_SQUARE   :
-                default:
-                    mem_dc.DrawRectangle(xx - iSize / 2,
-                                         yy - iSize / 2,
-                                         iSize,
-                                         iSize);
-                    break;
+                mem_dc.DrawBitmap(bmp, m_pt_x[i] - iSize / 2, m_pt_y[i] - iSize / 2, true);
             }
+
             mem_dc.SelectObject(wxNullBitmap);
+            tdata.x1 = xx;
+            tdata.y1 = yy;
         }
         UpdateImage();
         Repaint();
@@ -2359,6 +2418,13 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
     if (bLeftUp)
     {
         //finish
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         InitToolData();
     }
 }
@@ -2375,8 +2441,16 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 void XPMEditorPanel::ProcessEraser(int x, int y,
                                       bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
+
     if (bLeftDown)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         //Undo & modification flag
         if (!m_Bitmap) return;
         AddUndo();
@@ -2393,13 +2467,18 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             mem_dc.SetBrush(brush);
             mem_dc.SetPen(pen);
 
-            int xx, yy;
+            int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
-            mem_dc.DrawRectangle(xx - tdata.iSize2 / 2,
-                                 yy - tdata.iSize2 / 2,
-                                 tdata.iSize2,
-                                 tdata.iSize2);
+            iSize = tdata.iSize2;
+
+            wxBitmap bmp;
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(-1, cColour, iSize);
+            if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
+
             mem_dc.SelectObject(wxNullBitmap);
+
+            tdata.x1 = xx;
+            tdata.y1 = yy;
         }
         UpdateImage();
         Repaint();
@@ -2407,6 +2486,13 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
 
     if (bPressed)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (!m_Bitmap) return;
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
@@ -2418,23 +2504,41 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             mem_dc.SetBrush(brush);
             mem_dc.SetPen(pen);
 
-            int xx, yy;
+            int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
+            iSize = tdata.iSize2;
 
-            mem_dc.DrawRectangle(xx - tdata.iSize2 / 2,
-                                 yy - tdata.iSize2 / 2,
-                                 tdata.iSize2,
-                                 tdata.iSize2);
+            wxBitmap bmp;
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(-1, cColour, iSize);
+            if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
+
+            Interpolate(tdata.x1, tdata.y1, xx, yy);
+            for(i=0; i < m_pt_x.Count(); i++)
+            {
+                mem_dc.DrawBitmap(bmp, m_pt_x[i] - iSize / 2, m_pt_y[i] - iSize / 2, true);
+            }
+
             mem_dc.SelectObject(wxNullBitmap);
+            tdata.x1 = xx;
+            tdata.y1 = yy;
         }
         UpdateImage();
         Repaint();
     }
+
     if (bLeftUp)
     {
         //finish
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         InitToolData();
     }
+
 }
 
 /** Process the Polygon tool in action
@@ -2451,6 +2555,13 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks > 0)
         {
             //Draw the polygon
@@ -2498,6 +2609,13 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
     // left button UP
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks == 0)
         {
             Repaint();
@@ -2521,6 +2639,13 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
 
     if (bDClick)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         AddUndo();
         SetModified(true);
 
@@ -2562,6 +2687,13 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks > 0)
         {
             tdata.x2 = x;
@@ -2606,6 +2738,13 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
     //left button UP
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks == 0)
         {
             tdata.iNbClicks = 1;
@@ -2663,6 +2802,13 @@ void XPMEditorPanel::ProcessLine(int x, int y,
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks > 0)
         {
             tdata.x2 = x;
@@ -2710,6 +2856,13 @@ void XPMEditorPanel::ProcessLine(int x, int y,
     //left button UP
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks == 0)
         {
             tdata.iNbClicks = 1;
@@ -2769,6 +2922,13 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks > 0)
         {
             //Draw the polygon
@@ -2813,6 +2973,13 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
     // left button UP
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks == 0)
         {
             Repaint();
@@ -2844,6 +3011,13 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
 
     if (bDClick)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         AddUndo();
         SetModified(true);
 
@@ -2883,6 +3057,13 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks > 0)
         {
             tdata.x2 = x;
@@ -2927,6 +3108,13 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
     //left button UP
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks == 0)
         {
             tdata.iNbClicks = 1;
@@ -2986,6 +3174,13 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks > 0)
         {
             tdata.x2 = x;
@@ -3030,6 +3225,13 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
     //left button UP
     if (bLeftUp)
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks == 0)
         {
             tdata.iNbClicks = 1;
@@ -5157,11 +5359,14 @@ void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
         l1 = *x2 - *x1; //width
         l2 = *y2 - *y1; //heigth
 
+        Manager::Get()->GetLogManager()->Log(wxString::Format(_("PRE  x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
+
         if ((l1 >= 0) && (l2 >= 0))
         {
             if (l2 > l1) l = l2; else l = l1;
             *x2 = *x1 + l;
             *y2 = *y1 + l;
+            Manager::Get()->GetLogManager()->Log(wxString::Format(_("POST 1 x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
             return;
         }
         if ((l1 >= 0) && (l2 < 0))
@@ -5170,6 +5375,7 @@ void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
             if (l2 > l1) l = l2; else l = l1;
             *x2 = *x1 + l;
             *y2 = *y1 - l;
+            Manager::Get()->GetLogManager()->Log(wxString::Format(_("POST 2 x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
             return;
         }
         if ((l1 < 0) && (l2 < 0))
@@ -5179,6 +5385,7 @@ void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
             if (l2 > l1) l = l2; else l = l1;
             *x2 = *x1 - l;
             *y2 = *y1 - l;
+            Manager::Get()->GetLogManager()->Log(wxString::Format(_("POST 3 x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
             return;
         }
         if ((l1 < 0) && (l2 >= 0))
@@ -5187,6 +5394,7 @@ void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
             if (l2 > l1) l = l2; else l = l1;
             *x2 = *x1 - l;
             *y2 = *y1 + l;
+            Manager::Get()->GetLogManager()->Log(wxString::Format(_("POST 4 x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
             return;
         }
     }
@@ -5324,7 +5532,7 @@ void XPMEditorPanel::SnapRectToGrid(int *x1, int *y1, int *x2, int *y2, bool bIn
         *y2 = tdata.y2 / dScale;
         *y2 = *y2 * dScale;
 
-        //we round (x2, y2) off - up . X will be moved to B
+        //we round (x1, y1) off - up . X will be moved to B
         //  B-----+-----+
         //  |     |     |
         //  |     |     |
@@ -5464,6 +5672,126 @@ void XPMEditorPanel::SnapToGrid(int *x, int *y, bool bUp)
         *y = *y / dScale;
         *y = *y + 1;
         *y = *y * dScale;
+    }
+}
+
+/** Compute the intermediate coordinates between 2 points
+  * The interpolated coordinates are stored in m_pt_x and m_pt_y
+  * \param xStart : the X coordinate of the starting point
+  * \param yStart : the Y coordinate of the starting point
+  * \param xEnd   : the X coordinate of the ending point
+  * \param yEnd   : the Y coordinate of the ending point
+  */
+void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
+{
+    int i, iMax, jMax;
+    double a, b; //y = ax + b
+
+    m_pt_x.Clear();
+    m_pt_y.Clear();
+
+    //invalid cases
+    if (xStart < 0) return;
+    if (yStart < 0) return;
+    if (xEnd < 0) return;
+    if (yEnd < 0) return;
+
+    //specific cases
+    if (xStart == xEnd)
+    {
+        if (yStart == yEnd) return; //same start and end points
+
+        //vertical line
+        if (yStart < yEnd)
+        {
+            for(i=yStart + 1; i < yEnd; i++)
+            {
+                m_pt_x.Add(xStart);
+                m_pt_y.Add(i);
+            }
+        }
+        else
+        {
+            for(i=yEnd + 1; i < yStart; i++)
+            {
+                m_pt_x.Add(xStart);
+                m_pt_y.Add(i);
+            }
+        }
+        return;
+    }
+    if (yStart == yEnd)
+    {
+        //horizontal line
+        if (xStart < xEnd)
+        {
+            for(i=xStart + 1; i < xEnd; i++)
+            {
+                m_pt_x.Add(i);
+                m_pt_y.Add(yStart);
+            }
+        }
+        else
+        {
+            for(i=xEnd + 1; i < xStart; i++)
+            {
+                m_pt_x.Add(i);
+                m_pt_y.Add(yStart);
+            }
+        }
+        return;
+    }
+
+    //general case
+    iMax = xEnd - xStart; if (iMax < 0) iMax = -iMax;
+    jMax = yEnd - yStart; if (jMax < 0) jMax = -jMax;
+    a = (yEnd - yStart) / (xEnd - xStart);
+    b = yStart - a * xStart;
+    if (iMax > jMax)
+    {
+        //longest length is in the horizontal direction
+        if (xStart < xEnd)
+        {
+            for(i=xStart + 1; i < xEnd; i++)
+            {
+                m_pt_x.Add(i);
+                iMax = a * i + b;
+                m_pt_y.Add(iMax);
+            }
+        }
+        else
+        {
+            for(i=xEnd + 1; i < xStart; i++)
+            {
+                m_pt_x.Add(i);
+                iMax = a * i + b;
+                m_pt_y.Add(iMax);
+            }
+        }
+
+    }
+    else
+    {
+        //longest length is in the vertical direction
+        if (yStart < yEnd)
+        {
+            for(i=yStart; i < yEnd; i++)
+            {
+                m_pt_y.Add(i);
+                iMax = (i - b) / a;
+                m_pt_x.Add(iMax);
+            }
+        }
+        else
+        {
+            for(i=yEnd; i < yStart; i++)
+            {
+                m_pt_y.Add(i);
+                iMax = (i - b) / a;
+                m_pt_x.Add(iMax);
+            }
+        }
+
     }
 }
 

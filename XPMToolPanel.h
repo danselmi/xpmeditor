@@ -43,6 +43,7 @@ class XPMToolPanel: public wxPanel
 		void InitToolData(void);     ///< \brief init tool data for a first use
         int GetToolID(void);  ///< \brief Get the tool ID currently in use
         void SetToolID(int iTool); ///< \brief Set the tool ID currently in use
+        wxBitmap CreateBrushBitmap(int iIndex, wxColour cColour, int iSize); ///< \brief create the bitmap to use with the brush tool
 
         void HideControls(int iIndex, bool bChecked); ///< \brief Hide or Show specific tool controls - like style listbox for Brush tool...
         void HideControlsAndDoLayout(int iIndex, bool bChecked); ///< \brief Hide or Show specific tool controls - like style listbox for Brush tool... + update the layout
@@ -60,7 +61,6 @@ class XPMToolPanel: public wxPanel
 		wxSpinCtrl* SpinAngle;
 		wxStaticText* StaticText2;
 		wxRadioButton* CenterLeft;
-		wxCustomButton* SquareBrushButton;
 		wxBoxSizer* RadiusSizer;
 		wxStaticText* StaticText6;
 		wxCustomButton* BrushButton;
@@ -79,22 +79,20 @@ class XPMToolPanel: public wxPanel
 		wxCustomButton* SelectButton;
 		wxCustomButton* EllipseButton;
 		wxRadioButton* TopRight;
-		wxCustomButton* RHairBrushButton;
 		wxBoxSizer* ToolButtonsSizer;
 		wxSpinCtrl* SpinCtrl2;
+		wxBitmapComboBox* ComboBrushTool;
 		wxBoxSizer* BrushStyleSizer;
 		wxToggleButton* BackgroundButton;
 		wxCustomButton* LassoButton;
 		wxCustomButton* RectangleButton;
 		wxBoxSizer* BrushToolSizer;
-		wxCustomButton* CircleBrushButton;
 		wxRadioButton* BottomRight;
 		wxRadioButton* CenterRight;
 		wxCustomButton* RRectButton;
 		wxBoxSizer* ToolPanelSizer;
 		wxStaticText* StaticText4;
 		wxBoxSizer* PenStyleSizer;
-		wxCustomButton* LHairBrushButton;
 		wxCustomButton* CurveButton;
 		wxBitmapComboBox* ComboPenStyle;
 		wxCustomButton* TextButton;
@@ -121,10 +119,7 @@ class XPMToolPanel: public wxPanel
 		static const long ID_POLYGON_BTN;
 		static const long ID_ELLIPSE_BTN;
 		static const long ID_ROUNDEDRECT_BTN;
-		static const long ID_SQUARE_BRUSH;
-		static const long ID_CIRCLE_BRUSH;
-		static const long ID_LRHAIR_BRUSH;
-		static const long ID_LHAIR_BRUSH;
+		static const long ID_CUSTOM4;
 		static const long ID_CUSTOM2;
 		static const long ID_STATICTEXT5;
 		static const long ID_SPINCTRL3;
@@ -172,10 +167,6 @@ class XPMToolPanel: public wxPanel
 		void OnPolygonButtonToggle(wxCommandEvent& event);
 		void OnEllipseButtonToggle(wxCommandEvent& event);
 		void OnRRectButtonToggle(wxCommandEvent& event);
-		void OnSquareBrushButtonToggle(wxCommandEvent& event);
-		void OnCircleBrushButtonToggle(wxCommandEvent& event);
-		void OnRHairBrushButtonToggle(wxCommandEvent& event);
-		void OnLHairBrushButtonToggle(wxCommandEvent& event);
 		void OnFontButtonClick(wxCommandEvent& event);
 		void OnBackgroundButtonToggle(wxCommandEvent& event);
 		void OnTopLeftSelect(wxCommandEvent& event);
@@ -194,11 +185,12 @@ class XPMToolPanel: public wxPanel
 		//*)
 		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief the colour for the hot spot changed
 		void OnBrushStyleChanged(wxCommandEvent& event); ///< \brief the Fill Style changed
-		void OnLineStyleChanged(wxCommandEvent& event); ///< \brief the Line Style changed
-
+		void OnLineStyleChanged(wxCommandEvent& event);  ///< \brief the Line Style changed
+		void OnBrushToolChanged(wxCommandEvent& event);   ///< \brief the Brush Tool style changed
 
 		//Fill Style and Line Styles methods
 		void FillBrushStyleComboBox(wxBitmapComboBox *c);  ///< \brief fill the available brush styles in the combobox
+		void FillBrushComboBox(wxBitmapComboBox *c);  ///< \brief fill the available brush tool in the combobox
 		void FillPenStyleComboBox(wxBitmapComboBox *c);    ///< \brief fill the available pen styles in the combobox
 		wxBitmap CreateBitmap(int iPenStyle, int iBrushStyle, wxColour cLineColour, wxColour cFillColour); ///< \brief create a bitmap to be used with the wxBitmapComboBox Fill Style
 		wxBitmap CreateBitmapLineStyle(int iPenStyle, wxColour cLineColour); ///< \brief create a bitmap to be used with the wxBitmapComboBox Line Style

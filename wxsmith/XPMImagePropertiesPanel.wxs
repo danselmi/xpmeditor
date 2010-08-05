@@ -13,7 +13,7 @@
 						<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="BMPWidth" member="yes">
 							<value>0</value>
 							<max>10000</max>
-							<size>60,21</size>
+							<size>82,21</size>
 							<tooltip>Width of the image, in pixels.</tooltip>
 							<handler function="OnImageSizeChanged" entry="EVT_SPINCTRL" />
 						</object>
@@ -32,7 +32,7 @@
 						<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="BMPHeight" member="yes">
 							<value>0</value>
 							<max>10000</max>
-							<size>60,21</size>
+							<size>65,21</size>
 							<tooltip>Height of the image, in pixels.</tooltip>
 							<handler function="OnImageSizeChanged" entry="EVT_SPINCTRL" />
 						</object>
@@ -49,7 +49,8 @@
 					<orient>wxVERTICAL</orient>
 					<object class="sizeritem">
 						<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes">
-							<tooltip>Select a format for saving the image. &quot;Automatic&quot; means that the format will be decided based on the file extension (*.jpg is a JPEG, *.png is a PNG, ...). Another format will force the editor to use this format, whatever the file extension is.</tooltip>
+							<size>69,21</size>
+							<tooltip>Select a format for saving the image. &#x0A;&quot;Automatic&quot; means that the format will be decided based on the file extension (*.jpg is a JPEG, *.png is a PNG, ...). &#x0A;Another format will force the editor to use this format, whatever the file extension is.</tooltip>
 							<handler function="OnImageTypeChanged" entry="EVT_CHOICE" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>

@@ -1570,6 +1570,7 @@ void XPMEditor::OnNewImage(wxCommandEvent &event)
     if (img.IsOk())
     {
         img.Replace(0,0,0,0xFF, 0xFF, 0xFF); //set the image to white
+        img.SetMaskColour(0xFF, 0xFF, 0xFF); //mask colour is white
 
         XPMEditorBase *NewEditor;
         NewEditor = new XPMEditorBase(Manager::Get()->GetEditorManager()->GetNotebook(),

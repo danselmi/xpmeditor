@@ -217,47 +217,13 @@
 			</object>
 			<object class="sizeritem">
 				<object class="wxBoxSizer" variable="BrushToolSizer" member="yes">
+					<orient>wxVERTICAL</orient>
 					<object class="sizeritem">
-						<object class="wxCustomButton" name="ID_SQUARE_BRUSH" variable="SquareBrushButton" member="yes">
-							<type>wxCUSTBUT_TOGGLE</type>
-							<bitmap stock_id="wxART_CDROM" stock_client="wxART_BUTTON" />
-							<bitmap_margin>5,5</bitmap_margin>
-							<tooltip>Square brush</tooltip>
-							<extra_code>$(THIS)-&gt;SetValue(true);</extra_code>
-							<handler function="OnSquareBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
-						</object>
-						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>2</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxCustomButton" name="ID_CIRCLE_BRUSH" variable="CircleBrushButton" member="yes">
-							<type>wxCUSTBUT_TOGGLE</type>
-							<bitmap stock_id="wxART_CDROM" stock_client="wxART_BUTTON" />
-							<bitmap_margin>5,5</bitmap_margin>
-							<tooltip>Circle Brush</tooltip>
-							<handler function="OnCircleBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
-						</object>
-						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>2</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxCustomButton" name="ID_LRHAIR_BRUSH" variable="RHairBrushButton" member="yes">
-							<type>wxCUSTBUT_TOGGLE</type>
-							<bitmap stock_id="wxART_CDROM" stock_client="wxART_BUTTON" />
-							<bitmap_margin>5,5</bitmap_margin>
-							<tooltip>Back Slash Brush</tooltip>
-							<handler function="OnRHairBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
-						</object>
-						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>2</border>
-					</object>
-					<object class="sizeritem">
-						<object class="wxCustomButton" name="ID_LHAIR_BRUSH" variable="LHairBrushButton" member="yes">
-							<type>wxCUSTBUT_TOGGLE</type>
-							<bitmap stock_id="wxART_CDROM" stock_client="wxART_BUTTON" />
-							<bitmap_margin>5,5</bitmap_margin>
-							<tooltip>Forward Slash Brush</tooltip>
-							<handler function="OnLHairBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
+						<object class="Custom" name="ID_CUSTOM4" subclass="wxBitmapComboBox" variable="ComboBrushTool" member="yes">
+							<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID), __(&quot;&quot;),$(POS),$(SIZE), 0, NULL, wxCB__READONLY);</creating_code>
+							<include_file>wx/bmpcbox.h</include_file>
+							<style></style>
+							<tooltip>The line style</tooltip>
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 						<border>2</border>

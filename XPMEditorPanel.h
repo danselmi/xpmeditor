@@ -394,6 +394,10 @@ class XPMEditorPanel: public wxPanel
         int iXPMDefaultHeight; ///< \brief the default height of a new XPM
         wxColour cBackgroundColour; ///< \brief Background colour for the canvas
 
+        //interpolation of coordinates
+        wxArrayInt m_pt_x;   ///< \brief array of interpolated points - X coordinates
+        wxArrayInt m_pt_y;   ///< \brief array of interpolated points - X coordinates
+        void Interpolate(int xStart, int yStart, int xEnd, int yEnd); ///< \brief interpolate
 
         DECLARE_EVENT_TABLE()
 };
