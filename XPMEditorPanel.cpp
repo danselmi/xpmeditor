@@ -1824,10 +1824,13 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 
             int xx, yy;
             xx = x / dScale; yy = y / dScale;
+
             mem_dc.DrawPoint(xx, yy);
             mem_dc.SelectObject(wxNullBitmap);
             tdata.x1 = xx;
             tdata.y1 = yy;
+            tdata.x2 = xx;
+            tdata.y2 = yy;
         }
         UpdateImage();
         Repaint();
@@ -1855,6 +1858,8 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 
             int xx, yy;
             xx = x / dScale; yy = y / dScale;
+            if ((bShiftDown) && (tdata.x2 >= 0) && (tdata.y2 >=0)) MakeStandardOrientation(&tdata.x2, &tdata.y2, &xx, &yy);
+
             mem_dc.DrawLine(tdata.x1, tdata.y1, xx, yy);
             mem_dc.DrawPoint(xx, yy);
             mem_dc.SelectObject(wxNullBitmap);
@@ -1993,9 +1998,6 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             int x1,y1,x2,y2;
             if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
             SnapRectToGrid(&x1,&y1,&x2,&y2);
-            //x1 = tdata.x1; x2 = tdata.x2; y1 = tdata.y1; y2 = tdata.y2;
-            //make the area a square
-            //if (bShiftDown) TransformToSquare(&x1,&y1,&x2,&y2);
 
             dc.DrawRectangle(x1, y1,
                              (x2 - x1), (y2 - y1));
@@ -2008,6 +2010,13 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
     {
         if (tdata.iNbClicks == 0)
         {
+            if (HasSelection())
+            {
+                ClearSelection();
+                Repaint();
+                return;
+            }
+
             ClearSelection();
             Repaint();
             tdata.iNbClicks = 1;
@@ -2024,9 +2033,7 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
             int x1,y1,x2,y2;
             if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
             SnapRectToGrid(&x1,&y1,&x2,&y2);
-            //x1 = tdata.x1; x2 = tdata.x2; y1 = tdata.y1; y2 = tdata.y2;
-            //make the area a square
-            //if (bShiftDown) TransformToSquare(&x1,&y1,&x2,&y2);
+
             if (pSelection)
             {
                 pSelection[0].x = x1 / dScale;
@@ -2395,6 +2402,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 
             int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
+            if ((bShiftDown) && (tdata.x1 >= 0) && (tdata.y1 >=0)) MakeStandardOrientation(&tdata.x1, &tdata.y1, &xx, &yy);
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
@@ -2506,6 +2514,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
 
             int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
+            if ((bShiftDown) && (tdata.x1 >= 0) && (tdata.y1 >=0)) MakeStandardOrientation(&tdata.x1, &tdata.y1, &xx, &yy);
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
@@ -2566,10 +2575,9 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
         {
             //Draw the polygon
             wxMemoryDC memDC;
+            memDC.SelectObject(m_bmDrawBitmap);
             if ((memDC.IsOk()) && (dScale > 0))
             {
-                memDC.SelectObject(m_bmDrawBitmap);
-
                 wxColour cLineColour, cFillColour, cBackColour;
                 cFillColour = ColourPicker->GetFillColour();
                 cLineColour = ColourPicker->GetLineColour();
@@ -2699,13 +2707,13 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
             tdata.x2 = x;
             tdata.y2 = y;
             int x1,y1,x2,y2;
+            if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
             SnapRectToGrid(&x1,&y1,&x2,&y2);
 
             wxMemoryDC memDC;
+            memDC.SelectObject(m_bmDrawBitmap);
             if ((memDC.IsOk()) && (dScale > 0))
             {
-                memDC.SelectObject(m_bmDrawBitmap);
-
                 wxColour cLineColour, cFillColour, cBackColour;
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
@@ -2772,6 +2780,7 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
                 tdata.x2 = x;
                 tdata.y2 = y;
                 int x1,y1,x2,y2;
+                if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
                 SnapRectToGrid(&x1,&y1,&x2,&y2);
                 x1 = x1 / dScale; y1 = y1 / dScale;
                 x2 = x2 / dScale; y2 = y2 / dScale;
@@ -2821,10 +2830,9 @@ void XPMEditorPanel::ProcessLine(int x, int y,
             y2 = y;
 
             wxMemoryDC memDC;
+            memDC.SelectObject(m_bmDrawBitmap);
             if ((memDC.IsOk()) && (dScale > 0))
             {
-                memDC.SelectObject(m_bmDrawBitmap);
-
                 wxColour cLineColour, cFillColour, cBackColour;
                 cLineColour = ColourPicker->GetLineColour();
                 cBackColour = ColourPicker->GetUnusedColour();
@@ -2837,6 +2845,8 @@ void XPMEditorPanel::ProcessLine(int x, int y,
                 y1 = y1 / dScale;
                 x2 = x2 / dScale;
                 y2 = y2 / dScale;
+
+                if (bShiftDown) MakeStandardOrientation(&x1, &y1, &x2, &y2);
 
                 memDC.Clear();
                 memDC.DrawLine(x1 , y1, x2, y2);
@@ -2895,6 +2905,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
                 y1 = y1 / dScale;
                 x2 = x2 / dScale;
                 y2 = y2 / dScale;
+                if (bShiftDown) MakeStandardOrientation(&x1, &y1, &x2, &y2);
                 mem_dc.DrawLine(x1, y1, x2, y2);
                 mem_dc.DrawPoint(x2, y2);
 
@@ -2933,10 +2944,9 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
         {
             //Draw the polygon
             wxMemoryDC memDC;
+            memDC.SelectObject(m_bmDrawBitmap);
             if ((memDC.IsOk()) && (dScale > 0))
             {
-                memDC.SelectObject(m_bmDrawBitmap);
-
                 wxColour cLineColour, cFillColour, cBackColour;
                 cFillColour = ColourPicker->GetFillColour();
                 cLineColour = ColourPicker->GetLineColour();
@@ -3069,13 +3079,13 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
             tdata.x2 = x;
             tdata.y2 = y;
             int x1,y1,x2,y2;
+            if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
             SnapRectToGrid(&x1,&y1,&x2,&y2);
 
             wxMemoryDC memDC;
+            memDC.SelectObject(m_bmDrawBitmap);
             if ((memDC.IsOk()) && (dScale > 0))
             {
-                memDC.SelectObject(m_bmDrawBitmap);
-
                 wxColour cLineColour, cFillColour, cBackColour;
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
@@ -3142,6 +3152,7 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
                 tdata.x2 = x;
                 tdata.y2 = y;
                 int x1,y1,x2,y2;
+                if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
                 SnapRectToGrid(&x1,&y1,&x2,&y2);
                 x1 = x1 / dScale; y1 = y1 / dScale;
                 x2 = x2 / dScale; y2 = y2 / dScale;
@@ -3186,13 +3197,13 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
             tdata.x2 = x;
             tdata.y2 = y;
             int x1,y1,x2,y2;
+            if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
             SnapRectToGrid(&x1,&y1,&x2,&y2);
 
             wxMemoryDC memDC;
+            memDC.SelectObject(m_bmDrawBitmap);
             if ((memDC.IsOk()) && (dScale > 0))
             {
-                memDC.SelectObject(m_bmDrawBitmap);
-
                 wxColour cLineColour, cFillColour, cBackColour;
                 cLineColour = ColourPicker->GetLineColour();
                 cFillColour = ColourPicker->GetFillColour();
@@ -3259,6 +3270,7 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
                 tdata.x2 = x;
                 tdata.y2 = y;
                 int x1,y1,x2,y2;
+                if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
                 SnapRectToGrid(&x1,&y1,&x2,&y2);
                 x1 = x1 / dScale;
                 y1 = y1 / dScale;
@@ -3380,7 +3392,7 @@ void XPMEditorPanel::SetToolCursor(const wxCursor &cursor)
 int XPMEditorPanel::IsPointInSelection(int x, int y)
 {
     if (!HasSelection()) return(0);
-
+    if (NbPoints < 3) return(0); //otherwise provokes a crash in wxGTK
 
     //get the region containing the selection
     int i;
@@ -3392,7 +3404,7 @@ int XPMEditorPanel::IsPointInSelection(int x, int y)
         tmp[i].x = pSelection[i].x * dScale;
         tmp[i].y = pSelection[i].y * dScale;
     }
-    wxRegion region(NbPoints, tmp);
+    wxRegion region(NbPoints, tmp); //this line make wxGTK crash when NbPoints < 3
     delete[] tmp;
     int xx, yy;
 
@@ -3719,8 +3731,8 @@ void XPMEditorPanel::PasteImage(const wxImage &newImage, int x, int y)
 
     //draw the image on the buffer bitmap
     wxMemoryDC mem_dc;
-    if (!mem_dc.IsOk()) return;
     mem_dc.SelectObject(*m_Bitmap);
+    if (!mem_dc.IsOk()) return;
     wxBitmap bmp(img);
     mem_dc.DrawBitmap(bmp, x, y, true);
 
@@ -4192,6 +4204,7 @@ void XPMEditorPanel::DrawTextBitmap(void)
         wxColour cMaskColour2;
 
         wxMemoryDC memdc;
+        memdc.SelectObject(m_SelectionBitmap);
         if (memdc.IsOk())
         {
             if (ColourPicker)
@@ -4221,7 +4234,6 @@ void XPMEditorPanel::DrawTextBitmap(void)
             }
 
             wxBrush brush(cMaskColour2, wxSOLID);
-            memdc.SelectObject(m_SelectionBitmap);
             memdc.SetBackground(brush);
             memdc.Clear();
             //memdc.SetBackgroundMode(tdata.iStyle);
@@ -5359,47 +5371,110 @@ void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
         l1 = *x2 - *x1; //width
         l2 = *y2 - *y1; //heigth
 
-        Manager::Get()->GetLogManager()->Log(wxString::Format(_("PRE  x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
-
         if ((l1 >= 0) && (l2 >= 0))
         {
             if (l2 > l1) l = l2; else l = l1;
             *x2 = *x1 + l;
             *y2 = *y1 + l;
-            Manager::Get()->GetLogManager()->Log(wxString::Format(_("POST 1 x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
-            return;
         }
-        if ((l1 >= 0) && (l2 < 0))
+        else if ((l1 >= 0) && (l2 < 0))
         {
             l2 = -l2;
             if (l2 > l1) l = l2; else l = l1;
             *x2 = *x1 + l;
             *y2 = *y1 - l;
-            Manager::Get()->GetLogManager()->Log(wxString::Format(_("POST 2 x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
-            return;
         }
-        if ((l1 < 0) && (l2 < 0))
+        else if ((l1 < 0) && (l2 < 0))
         {
             l2 = -l2;
             l1 = -l1;
             if (l2 > l1) l = l2; else l = l1;
             *x2 = *x1 - l;
             *y2 = *y1 - l;
-            Manager::Get()->GetLogManager()->Log(wxString::Format(_("POST 3 x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
-            return;
         }
-        if ((l1 < 0) && (l2 >= 0))
+        else if ((l1 < 0) && (l2 >= 0))
         {
             l1 = -l1;
             if (l2 > l1) l = l2; else l = l1;
             *x2 = *x1 - l;
             *y2 = *y1 + l;
-            Manager::Get()->GetLogManager()->Log(wxString::Format(_("POST 4 x1=%d y1=%d x2=%d y2=%d"), *x1, *y1, *x2, *y2));
-            return;
+        }
+
+        //clip to image boundaries
+        if (*x1 < 0) *x1 = 0;
+        if (*x2 < 0) *x2 = 0;
+        if (*y1 < 0) *y1 = 0;
+        if (*y2 < 0) *y2 = 0;
+        if (m_Image)
+        {
+            if (*x1 >= m_Image->GetWidth() * dScale) *x1 = m_Image->GetWidth() * dScale -1;
+            if (*x2 >= m_Image->GetWidth() * dScale) *x2 = m_Image->GetWidth() * dScale -1;
+            if (*y1 >= m_Image->GetHeight() * dScale) *y1 = m_Image->GetHeight() * dScale -1;
+            if (*y2 >= m_Image->GetHeight() * dScale) *y2 = m_Image->GetHeight() * dScale -1;
+        }
+
+    }
+}
+
+/** Convert the coordinates to make sure they represent an horizontal or a vertical line, or has a 45 Grad multiple orientation
+  * \param x1 : [input] the top left coordinate X
+  * \param y1 : [input] the top left coordinate Y
+  * \param x2 : [input / output] the bottom-right coordinate X
+  * \param y2 : [input / output] the bottom-right coordinate Y
+  */
+void XPMEditorPanel::MakeStandardOrientation(int *x1, int *y1, int *x2, int *y2)
+{
+    if ((x1) && (y1) && (x2) && (y2))
+    {
+        //get the orientation of the line
+        double dAngle;
+        int dx, dy;
+        dx = *x2 - *x1;
+        dy = *y2 - *y1;
+        //dAngle = GetAngle(dx, dy);
+        dAngle = atan2(dy, dx);
+
+        //compute the correct angle
+        double dMultiple;
+        dMultiple = PI / 4.0;
+        dAngle = Round(dAngle / dMultiple) * dMultiple;
+
+        //compute the new coordinates
+        double dDistance;
+        dDistance = sqrt(dx * dx + dy * dy);
+        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Angle = %f dDistance=%f"), dAngle, dDistance));
+        *x2 = dDistance * cos(dAngle) + (*x1);
+        *y2 = dDistance * sin(dAngle) + (*y1);
+
+        //clip to image boundaries
+        if (*x1 < 0) *x1 = 0;
+        if (*x2 < 0) *x2 = 0;
+        if (*y1 < 0) *y1 = 0;
+        if (*y2 < 0) *y2 = 0;
+        if (m_Image)
+        {
+            if (*x1 >= m_Image->GetWidth() ) *x1 = m_Image->GetWidth()  -1;
+            if (*x2 >= m_Image->GetWidth() ) *x2 = m_Image->GetWidth()  -1;
+            if (*y1 >= m_Image->GetHeight() ) *y1 = m_Image->GetHeight()  -1;
+            if (*y2 >= m_Image->GetHeight() ) *y2 = m_Image->GetHeight() -1;
         }
     }
 }
 
+/** Round off a decimal value to an integer value
+  * \param d : the double to round off
+  * \return the rounded value
+  *         if decimal part is < 0.5, then the value is rounded DOWN
+  *         if decimal part is >= 0.5, then the value is rounded UP
+  */
+double XPMEditorPanel::Round(double d)
+{
+    double decimal;
+
+    decimal = d - floor(d);
+    if (decimal < 0.5) return(floor(d));
+    return(ceil(d));
+}
 
 /** Convert the coordinates stored in tdata.x1, tdata.x2, tdata.y1 & tdata.y2
   * The coordinates are scaled, and converted to the real pixel coordinate

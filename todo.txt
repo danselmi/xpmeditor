@@ -36,6 +36,10 @@ BUGS:
 
 7 - LINUX: Line not displayed dynamically
 
+8 - LINUX: crash with "Lasso" tool
+
+9 - Text tool is not working anymore
+
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
 
@@ -52,7 +56,15 @@ BUGS:
 
 
 CHANGES:
- 1 - ClearSelection called when a click is done
- 2 - improved Pen, Brush & Eraser, when mouse is moved fast
- 3 - Corrected a bug with the SHIFT key + Select tool.
-     Now extend this functionality to all tools
+ 1 - Shift Key extended to other tools.
+     Pen, Brush & Eraser to improve in this respect
+ 2 - Add a ClearSelection that I missed
+ 3 - LINUX: corrected a nasty bug: crash when using a complex selection
+     The crash did not come from ProcessLassoTool as expected, but from IsPointInSelection.
+     GTK was trying to create a polygon with less than 3 points => it raised an unhandled exception
+     Bug fixed by adding a test
+ 4 - LINUX: corrected a widespread bug when using the wxMemoryDC.
+     wxMemoryDC was created blank (without Bitmap selected). Once created, a wxMemoryDC::IsOk was called.
+     On Windows it returns OK when no BMP are selected, but on GTK it returns FALSE
+     Hence the drawing never took place, leading to strange results
+     Fixed by moving all the call to wxMemoryDC::IsOk after selecting the bitmap
