@@ -46,6 +46,18 @@
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 								<border>2</border>
 							</object>
+							<object class="sizeritem">
+								<object class="wxCustomButton" name="ID_PIPETTE_BTN" variable="PipetteButton" member="yes">
+									<type>wxCUSTBUT_TOGGLE</type>
+									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Pipette</tooltip>
+									<help>Copy the colour of a pixel. Simply left click on the colour you want to copy. The colour will be copied in the currently selected Line Colour. To copy the colour in Fill Colour instead, hold the SHIFT key down.</help>
+									<handler function="OnPipetteButtonToggle" entry="EVT_TOGGLEBUTTON" />
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>2</border>
+							</object>
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 					</object>
@@ -76,18 +88,6 @@
 								<border>2</border>
 							</object>
 							<object class="sizeritem">
-								<object class="wxCustomButton" name="ID_PIPETTE_BTN" variable="PipetteButton" member="yes">
-									<type>wxCUSTBUT_TOGGLE</type>
-									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-									<bitmap_margin>2,2</bitmap_margin>
-									<tooltip>Pipette</tooltip>
-									<help>Copy the colour of a pixel. Simply left click on the colour you want to copy. The colour will be copied in the currently selected Line Colour. To copy the colour in Fill Colour instead, hold the SHIFT key down.</help>
-									<handler function="OnPipetteButtonToggle" entry="EVT_TOGGLEBUTTON" />
-								</object>
-								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-								<border>2</border>
-							</object>
-							<object class="sizeritem">
 								<object class="wxCustomButton" name="ID_FILL_BTN" variable="FillButton" member="yes">
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
@@ -97,6 +97,30 @@
 									<handler function="OnFillButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>2</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCustomButton" name="ID_BUTTONSPRAYCAN" variable="SprayCanButton" member="yes">
+									<type>wxCUSTBUT_TOGGLE</type>
+									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Cursor Hot Spot</tooltip>
+									<help>This define the location of the Hot Spot, for cursors. There can be only one hot spot. To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. Currently, only Windows support HotSpot information in *cur files.</help>
+									<handler function="OnSprayCanButtonToggle" entry="EVT_TOGGLEBUTTON" />
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<border>2</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCustomButton" name="ID_GRADIENTBUTTON" variable="GradientButton" member="yes">
+									<type>wxCUSTBUT_TOGGLE</type>
+									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Cursor Hot Spot</tooltip>
+									<help>This define the location of the Hot Spot, for cursors. There can be only one hot spot. To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. Currently, only Windows support HotSpot information in *cur files.</help>
+									<handler function="OnGradientButtonToggle" entry="EVT_TOGGLEBUTTON" />
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 								<border>2</border>
 							</object>
 						</object>
@@ -532,6 +556,43 @@
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="GradientSizer" member="yes">
+					<orient>wxVERTICAL</orient>
+					<object class="sizeritem">
+						<object class="wxChoice" name="ID_CHOICE1" variable="ChoiceGradient" member="yes">
+							<content>
+								<item>1- Linear</item>
+								<item>2- Concentric</item>
+							</content>
+							<handler function="OnChoiceGradientSelect" entry="EVT_CHOICE" />
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>2</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+							<label>Direction</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>2</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxChoice" name="ID_CHOICE2" variable="ChoiceGradientDirection" member="yes">
+							<content>
+								<item>To the Top</item>
+								<item>To the Bottom</item>
+								<item>To the Left</item>
+								<item>To the Right</item>
+							</content>
+							<handler function="OnChoiceGradientDirectionSelect" entry="EVT_CHOICE" />
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+						<border>2</border>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 			</object>
 			<object class="spacer">
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>

@@ -22,6 +22,7 @@
 #include <wx/tglbtn.h>
 #include <wx/radiobut.h>
 #include <wx/panel.h>
+#include <wx/choice.h>
 #include <wx/bmpcbox.h>
 #include <wx/button.h>
 #include <wx/clrpicker.h>
@@ -43,7 +44,9 @@ class XPMToolPanel: public wxPanel
 		void InitToolData(void);     ///< \brief init tool data for a first use
         int GetToolID(void);  ///< \brief Get the tool ID currently in use
         void SetToolID(int iTool); ///< \brief Set the tool ID currently in use
-        wxBitmap CreateBrushBitmap(int iIndex, wxColour cColour, int iSize); ///< \brief create the bitmap to use with the brush tool
+        wxBitmap CreateBrushBitmap(int iIndex, wxColour cColour, int iSize,
+                                   int iBrushStyle, int iPenStyle);     ///< \brief create the bitmap to use with the brush tool
+        wxBitmap CreateSprayCanBitmap(wxColour cColour, int iSize, int iAngle);  ///< \brief create the bitmap to use with the spray can
 
         void HideControls(int iIndex, bool bChecked); ///< \brief Hide or Show specific tool controls - like style listbox for Brush tool...
         void HideControlsAndDoLayout(int iIndex, bool bChecked); ///< \brief Hide or Show specific tool controls - like style listbox for Brush tool... + update the layout
@@ -69,7 +72,11 @@ class XPMToolPanel: public wxPanel
 		wxCustomButton* PenButton;
 		wxStaticText* StaticText8;
 		wxStaticText* StaticText1;
+		wxStaticText* StaticText3;
 		wxBitmapComboBox* ComboBrushStyle;
+		wxBoxSizer* GradientSizer;
+		wxCustomButton* GradientButton;
+		wxChoice* ChoiceGradient;
 		wxButton* FontButton;
 		wxCustomButton* PipetteButton;
 		wxRadioButton* BottomLeft;
@@ -82,9 +89,11 @@ class XPMToolPanel: public wxPanel
 		wxBoxSizer* ToolButtonsSizer;
 		wxSpinCtrl* SpinCtrl2;
 		wxBitmapComboBox* ComboBrushTool;
+		wxCustomButton* SprayCanButton;
 		wxBoxSizer* BrushStyleSizer;
 		wxToggleButton* BackgroundButton;
 		wxCustomButton* LassoButton;
+		wxChoice* ChoiceGradientDirection;
 		wxCustomButton* RectangleButton;
 		wxBoxSizer* BrushToolSizer;
 		wxRadioButton* BottomRight;
@@ -107,10 +116,12 @@ class XPMToolPanel: public wxPanel
 		static const long ID_SELECT_BUTN;
 		static const long ID_LASSO_BTN;
 		static const long ID_HOTSPOT_BTN;
+		static const long ID_PIPETTE_BTN;
 		static const long ID_PEN_BTN;
 		static const long ID_BRUSH_BTN;
-		static const long ID_PIPETTE_BTN;
 		static const long ID_FILL_BTN;
+		static const long ID_BUTTONSPRAYCAN;
+		static const long ID_GRADIENTBUTTON;
 		static const long ID_LINE_BTN;
 		static const long ID_CURVE_BTN;
 		static const long ID_ERASER_BTN;
@@ -144,6 +155,9 @@ class XPMToolPanel: public wxPanel
 		static const long ID_CUSTOM1;
 		static const long ID_STATICTEXT2;
 		static const long ID_CUSTOM3;
+		static const long ID_CHOICE1;
+		static const long ID_STATICTEXT3;
+		static const long ID_CHOICE2;
 		//*)
 
 		void ComputeDimensions(void);           ///< \brief compute and set the minimal size of the wxPanel
@@ -182,6 +196,10 @@ class XPMToolPanel: public wxPanel
 		void OnSpinSizeChanged(wxSpinEvent& event);
 		void OnSpinThicknessChanged(wxSpinEvent& event);
 		void OnSpinRadiusChanged(wxSpinEvent& event);
+		void OnSprayCanButtonToggle(wxCommandEvent& event);
+		void OnGradientButtonToggle(wxCommandEvent& event);
+		void OnChoiceGradientSelect(wxCommandEvent& event);
+		void OnChoiceGradientDirectionSelect(wxCommandEvent& event);
 		//*)
 		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief the colour for the hot spot changed
 		void OnBrushStyleChanged(wxCommandEvent& event); ///< \brief the Fill Style changed

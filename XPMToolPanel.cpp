@@ -11,7 +11,7 @@
 #include "XPMToolPanel.h"
 #include <wx/tooltip.h>
 
-//#include <sdk.h>
+#include <sdk.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
 #include <wx/textctrl.h>
@@ -33,6 +33,8 @@
 #include "xpm/selection.xpm"
 #include "xpm/text.xpm"
 #include "xpm/hotspot.xpm"
+#include "xpm/spraycan.xpm"
+#include "xpm/gradient.xpm"
 
 //cursors
 #include "xpm/cross_cursor.xpm"
@@ -58,10 +60,12 @@
 const long XPMToolPanel::ID_SELECT_BUTN = wxNewId();
 const long XPMToolPanel::ID_LASSO_BTN = wxNewId();
 const long XPMToolPanel::ID_HOTSPOT_BTN = wxNewId();
+const long XPMToolPanel::ID_PIPETTE_BTN = wxNewId();
 const long XPMToolPanel::ID_PEN_BTN = wxNewId();
 const long XPMToolPanel::ID_BRUSH_BTN = wxNewId();
-const long XPMToolPanel::ID_PIPETTE_BTN = wxNewId();
 const long XPMToolPanel::ID_FILL_BTN = wxNewId();
+const long XPMToolPanel::ID_BUTTONSPRAYCAN = wxNewId();
+const long XPMToolPanel::ID_GRADIENTBUTTON = wxNewId();
 const long XPMToolPanel::ID_LINE_BTN = wxNewId();
 const long XPMToolPanel::ID_CURVE_BTN = wxNewId();
 const long XPMToolPanel::ID_ERASER_BTN = wxNewId();
@@ -95,6 +99,9 @@ const long XPMToolPanel::ID_STATICTEXT1 = wxNewId();
 const long XPMToolPanel::ID_CUSTOM1 = wxNewId();
 const long XPMToolPanel::ID_STATICTEXT2 = wxNewId();
 const long XPMToolPanel::ID_CUSTOM3 = wxNewId();
+const long XPMToolPanel::ID_CHOICE1 = wxNewId();
+const long XPMToolPanel::ID_STATICTEXT3 = wxNewId();
+const long XPMToolPanel::ID_CHOICE2 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(XPMToolPanel,wxPanel)
@@ -115,7 +122,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	wxBoxSizer* BoxSizer9;
 	wxStaticBoxSizer* StaticBoxSizer1;
 	wxBoxSizer* BoxSizer3;
-	
+
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
 	wxToolTip::Enable(true);
 	ToolPanelSizer = new wxBoxSizer(wxVERTICAL);
@@ -133,6 +140,10 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	HotSpotButton->SetBitmapDisabled(HotSpotButton->CreateBitmapDisabled(HotSpotButton->GetBitmapLabel()));
 	HotSpotButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer2->Add(HotSpotButton, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	PipetteButton = new wxCustomButton(this,ID_PIPETTE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PIPETTE_BTN"));
+	PipetteButton->SetBitmapDisabled(PipetteButton->CreateBitmapDisabled(PipetteButton->GetBitmapLabel()));
+	PipetteButton->SetBitmapMargin(wxSize(2,2));
+	BoxSizer2->Add(PipetteButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolButtonsSizer->Add(BoxSizer2, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
 	PenButton = new wxCustomButton(this,ID_PEN_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PEN_BTN"));
@@ -143,14 +154,18 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	BrushButton->SetBitmapDisabled(BrushButton->CreateBitmapDisabled(BrushButton->GetBitmapLabel()));
 	BrushButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer5->Add(BrushButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	PipetteButton = new wxCustomButton(this,ID_PIPETTE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PIPETTE_BTN"));
-	PipetteButton->SetBitmapDisabled(PipetteButton->CreateBitmapDisabled(PipetteButton->GetBitmapLabel()));
-	PipetteButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer5->Add(PipetteButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	FillButton = new wxCustomButton(this,ID_FILL_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_FILL_BTN"));
 	FillButton->SetBitmapDisabled(FillButton->CreateBitmapDisabled(FillButton->GetBitmapLabel()));
 	FillButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer5->Add(FillButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
+	SprayCanButton = new wxCustomButton(this,ID_BUTTONSPRAYCAN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_BUTTONSPRAYCAN"));
+	SprayCanButton->SetBitmapDisabled(SprayCanButton->CreateBitmapDisabled(SprayCanButton->GetBitmapLabel()));
+	SprayCanButton->SetBitmapMargin(wxSize(2,2));
+	BoxSizer5->Add(SprayCanButton, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	GradientButton = new wxCustomButton(this,ID_GRADIENTBUTTON,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_GRADIENTBUTTON"));
+	GradientButton->SetBitmapDisabled(GradientButton->CreateBitmapDisabled(GradientButton->GetBitmapLabel()));
+	GradientButton->SetBitmapMargin(wxSize(2,2));
+	BoxSizer5->Add(GradientButton, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	ToolButtonsSizer->Add(BoxSizer5, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
 	LineButton = new wxCustomButton(this,ID_LINE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LINE_BTN"));
@@ -288,18 +303,34 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	ComboBrushStyle = new wxBitmapComboBox(this,ID_CUSTOM3, _(""),wxDefaultPosition,wxDefaultSize, 0, NULL, wxCB_READONLY );
 	BrushStyleSizer->Add(ComboBrushStyle, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	ToolPanelSizer->Add(BrushStyleSizer, 0, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 0);
+	GradientSizer = new wxBoxSizer(wxVERTICAL);
+	ChoiceGradient = new wxChoice(this, ID_CHOICE1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+	ChoiceGradient->Append(_("1- Linear"));
+	ChoiceGradient->Append(_("2- Concentric"));
+	GradientSizer->Add(ChoiceGradient, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	StaticText3 = new wxStaticText(this, ID_STATICTEXT3, _("Direction"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
+	GradientSizer->Add(StaticText3, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	ChoiceGradientDirection = new wxChoice(this, ID_CHOICE2, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE2"));
+	ChoiceGradientDirection->Append(_("To the Top"));
+	ChoiceGradientDirection->Append(_("To the Bottom"));
+	ChoiceGradientDirection->Append(_("To the Left"));
+	ChoiceGradientDirection->Append(_("To the Right"));
+	GradientSizer->Add(ChoiceGradientDirection, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
+	ToolPanelSizer->Add(GradientSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ToolPanelSizer->Add(-1,-1,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
 	SetSizer(ToolPanelSizer);
 	ToolPanelSizer->Fit(this);
 	ToolPanelSizer->SetSizeHints(this);
-	
+
 	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSelectButtonToggle);
 	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLassoButtonToggle);
 	Connect(ID_HOTSPOT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotButtonToggle);
+	Connect(ID_PIPETTE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPipetteButtonToggle);
 	Connect(ID_PEN_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPenButtonToggle);
 	Connect(ID_BRUSH_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnBrushButtonToggle);
-	Connect(ID_PIPETTE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPipetteButtonToggle);
 	Connect(ID_FILL_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnFillButtonToggle);
+	Connect(ID_BUTTONSPRAYCAN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSprayCanButtonToggle);
+	Connect(ID_GRADIENTBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnGradientButtonToggle);
 	Connect(ID_LINE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLineButtonToggle);
 	Connect(ID_CURVE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnCurveButtonToggle);
 	Connect(ID_ERASER_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnEraserButtonToggle);
@@ -323,6 +354,8 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	Connect(ID_BACKGROUNDBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnBackgroundButtonToggle);
 	Connect(ID_FONTBUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnFontButtonClick);
 	Connect(ID_SPINCTRL6,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinAngleChange);
+	Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&XPMToolPanel::OnChoiceGradientSelect);
+	Connect(ID_CHOICE2,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&XPMToolPanel::OnChoiceGradientDirectionSelect);
 	//*)
 
 	m_parent = NULL;
@@ -373,10 +406,18 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     wxBitmap bHotSpot(hotspot_xpm);
     HotSpotButton->SetLabel(bHotSpot);
 
+    wxBitmap bGradient(gradient_xpm);
+    GradientButton->SetLabel(bGradient);
+
+    wxBitmap bSprayCan(spraycan_xpm);
+    SprayCanButton->SetLabel(bSprayCan);
+
     //Set the bitmaps for Brush / Pen style Combobox
     FillBrushStyleComboBox(ComboBrushStyle);
     FillPenStyleComboBox(ComboPenStyle);
     FillBrushComboBox(ComboBrushTool);
+    ChoiceGradient->SetSelection(0);
+    ChoiceGradientDirection->SetSelection(0);
 
     //for sizer mechanism : set min size
     //this has to be done before hidding the controls, otherwise wxSizer::GetMinSize() will return (0,0)
@@ -391,6 +432,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     ToolPanelSizer->Hide(FontSizer);
     ToolPanelSizer->Hide(BrushStyleSizer);
     ToolPanelSizer->Hide(PenStyleSizer);
+    ToolPanelSizer->Hide(GradientSizer);
 
     //tools IDs
 	tools[XPM_ID_SELECT_TOOL] = SelectButton;
@@ -408,6 +450,8 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     tools[XPM_ID_ELLIPSE_TOOL]= EllipseButton;
     tools[XPM_ID_ROUNDEDRECT_TOOL] = RRectButton;
     tools[XPM_ID_HOTSPOT_TOOL] = HotSpotButton;
+    tools[XPM_ID_SPRAYCAN_TOOL] = SprayCanButton;
+    tools[XPM_ID_GRADIENT_TOOL] = GradientButton;
 
     //tools cursors
     wxImage ImgCrossCursor(cross_cursor_xpm);
@@ -422,7 +466,6 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     wxImage ImgFillCursor(fill_cursor_xpm);
     ImgFillCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 8);
     ImgFillCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 22);
-
 
     ToolCursor[XPM_ID_SELECT_TOOL] = wxCursor(ImgCrossCursor);
     ToolCursor[XPM_ID_LASSO_TOOL] = wxCursor(ImgCrossCursor);
@@ -439,8 +482,11 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     ToolCursor[XPM_ID_ELLIPSE_TOOL]= wxCursor(ImgCrossCursor);
     ToolCursor[XPM_ID_ROUNDEDRECT_TOOL] = wxCursor(ImgCrossCursor);
     ToolCursor[XPM_ID_HOTSPOT_TOOL] = wxCursor(ImgCrossCursor);
+    ToolCursor[XPM_ID_SPRAYCAN_TOOL] = wxCursor(wxCURSOR_SPRAYCAN);
+    ToolCursor[XPM_ID_GRADIENT_TOOL] = wxCursor(ImgCrossCursor);
 
     iToolUsed = -1;
+
 
     //colour picker control event
 	if (HotSpotColourPicker) HotSpotColourPicker->Connect(wxEVT_COMMAND_COLOURPICKER_CHANGED,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotColourPickerColourChanged,0,this);
@@ -448,6 +494,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	if (ComboBrushStyle) ComboBrushStyle->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, (wxObjectEventFunction)&XPMToolPanel::OnBrushStyleChanged,0,this);
 	if (ComboPenStyle) ComboPenStyle->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, (wxObjectEventFunction)&XPMToolPanel::OnLineStyleChanged,0,this);
 	if (ComboBrushTool) ComboBrushTool->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, (wxObjectEventFunction)&XPMToolPanel::OnBrushToolChanged,0,this);
+
 }
 
 XPMToolPanel::~XPMToolPanel()
@@ -513,6 +560,7 @@ void XPMToolPanel::InitToolData(void)
 
         switch(GetToolID())
         {
+            case XPM_ID_SPRAYCAN_TOOL:
             case XPM_ID_ERASER_TOOL:
             case XPM_ID_BRUSH_TOOL : tdata.iSize2 = SpinCtrl1->GetValue();
                                      if (tdata.iSize2 < 2) tdata.iSize2 = 2;
@@ -532,6 +580,9 @@ void XPMToolPanel::InitToolData(void)
                                           tdata.iRadius = SpinCtrl3->GetValue();
                                           if (tdata.iRadius < 0) tdata.iRadius = 0;
                                           break;
+
+            case XPM_ID_GRADIENT_TOOL: tdata.iGradient = ChoiceGradient->GetSelection();
+                                       break;
 
             case XPM_ID_TEXT_TOOL: if (BackgroundButton->GetValue())
                                    {
@@ -802,8 +853,9 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(RadiusSizer);
         ToolPanelSizer->Hide(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
-        ToolPanelSizer->Hide(PenStyleSizer);
-        ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Show(PenStyleSizer);
+        ToolPanelSizer->Show(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -825,6 +877,29 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(FontSizer);
         ToolPanelSizer->Hide(PenStyleSizer);
         ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
+        if (m_parent) m_parent->ShowCanvasWidgets(false);
+
+    }
+    else if ((iIndex == XPM_ID_SPRAYCAN_TOOL) && (bChecked))
+    {
+        //show eraser tools
+        ToolData tdata;
+        if (m_parent) m_parent->GetToolData(&tdata);
+        tdata.iSize2 = 2;
+        SpinCtrl1->SetValue(2);
+        if (m_parent) m_parent->SetToolData(&tdata);
+
+        //show tool specific control
+        ToolPanelSizer->Hide(BrushToolSizer);
+        ToolPanelSizer->Hide(ColourPickerSizer);
+        ToolPanelSizer->Show(SizeSizer);
+        ToolPanelSizer->Hide(RadiusSizer);
+        ToolPanelSizer->Hide(ThicknessSizer);
+        ToolPanelSizer->Hide(FontSizer);
+        ToolPanelSizer->Hide(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -845,7 +920,8 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(ThicknessSizer);
         ToolPanelSizer->Hide(FontSizer);
         ToolPanelSizer->Hide(PenStyleSizer);
-        ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Show(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -869,6 +945,7 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(FontSizer);
         ToolPanelSizer->Show(PenStyleSizer);
         ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -893,6 +970,7 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(FontSizer);
         ToolPanelSizer->Show(PenStyleSizer);
         ToolPanelSizer->Show(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
 
     }
@@ -916,6 +994,7 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(FontSizer);
         ToolPanelSizer->Show(PenStyleSizer);
         ToolPanelSizer->Show(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
     }
     else if ((iIndex == XPM_ID_TEXT_TOOL) && (bChecked))
@@ -928,6 +1007,7 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Show(FontSizer);
         ToolPanelSizer->Hide(PenStyleSizer);
         ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
         //hide for now - will show them later
         if (m_parent) m_parent->ShowCanvasWidgets(false);
     }
@@ -941,6 +1021,20 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(FontSizer);
         ToolPanelSizer->Hide(PenStyleSizer);
         ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
+        if (m_parent) m_parent->ShowCanvasWidgets(false);
+    }
+    else if ((iIndex == XPM_ID_GRADIENT_TOOL) && (bChecked))
+    {
+        ToolPanelSizer->Hide(BrushToolSizer);
+        ToolPanelSizer->Hide(ColourPickerSizer);
+        ToolPanelSizer->Hide(SizeSizer);
+        ToolPanelSizer->Hide(RadiusSizer);
+        ToolPanelSizer->Hide(ThicknessSizer);
+        ToolPanelSizer->Hide(FontSizer);
+        ToolPanelSizer->Hide(PenStyleSizer);
+        ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Show(GradientSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
     }
     else
@@ -954,6 +1048,7 @@ void XPMToolPanel::HideControls(int iIndex, bool bChecked)
         ToolPanelSizer->Hide(FontSizer);
         ToolPanelSizer->Hide(PenStyleSizer);
         ToolPanelSizer->Hide(BrushStyleSizer);
+        ToolPanelSizer->Hide(GradientSizer);
         if (m_parent) m_parent->ShowCanvasWidgets(false);
     }
 }
@@ -1078,11 +1173,35 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            sMinSize.SetHeight(sMinSize.GetHeight() + sMinSize2.GetHeight() + sMinSize3.GetHeight());
 
            if (sMinSize.GetHeight() > sChildSize.GetHeight()) sChildSize.SetHeight(sMinSize.GetHeight());
-           if (sMinSize.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize.GetWidth());
+           //if (sMinSize.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize.GetWidth());
            if (sMinSize2.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize2.GetWidth());
            //if (sMinSize3.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize3.GetWidth());
            //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
            //Manager::Get()->GetLogManager()->Log(wxString::Format(_("BrushToolSizer w=%d h=%d"), sMinSize.GetWidth(), sMinSize.GetHeight()));
+       }
+
+       if (GradientSizer)
+       {
+           bHidden1 = ToolPanelSizer->IsShown(GradientSizer);
+           if (!bHidden1) ToolPanelSizer->Show(GradientSizer);
+           sMinSize = GradientSizer->GetMinSize();
+           if (!bHidden1) ToolPanelSizer->Hide(GradientSizer);
+
+           //add sizer borders
+           si = ToolPanelSizer->GetItem(GradientSizer);
+           if (si)
+           {
+               iBorder = si->GetBorder();
+               iFlags = si->GetFlag();
+
+               if (iFlags & wxTOP) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
+               if (iFlags & wxBOTTOM) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
+               if (iFlags & wxLEFT) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
+               if (iFlags & wxBOTTOM) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
+           }
+
+           if (sMinSize.GetHeight() > sChildSize.GetHeight()) sChildSize.SetHeight(sMinSize.GetHeight());
+           if (sMinSize.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize.GetWidth());
        }
 
        if (ColourPickerSizer)
@@ -1290,7 +1409,7 @@ void XPMToolPanel::FillBrushComboBox(wxBitmapComboBox *c)
     for(i=0; i<4; i++)
     {
         wxBitmap bmp;
-        bmp = CreateBrushBitmap(i, cLineColour, 16);
+        bmp = CreateBrushBitmap(i, cLineColour, 16, wxSOLID, wxSOLID);
         c->Append(sText[i], bmp, (void *) NULL);
 
     }
@@ -1514,9 +1633,11 @@ wxBitmap XPMToolPanel::CreateBitmapLineStyle(int iPenStyle, wxColour cLineColour
   * \param iIndex : the index of the pattern to use
   * \param cColour: the colour to use
   * \param iSize: the size of the (square) bitmap
+  * \param iBrushStyle: the type of brush pattern (see wxBrush doc)
+  * \param iPenStyle: the type of pen pattern (see wxPen doc)
   * \return the new bitmap
   */
-wxBitmap XPMToolPanel::CreateBrushBitmap(int iIndex, wxColour cColour, int iSize)
+wxBitmap XPMToolPanel::CreateBrushBitmap(int iIndex, wxColour cColour, int iSize, int iBrushStyle, int iPenStyle)
 {
     int iSize2;
 
@@ -1524,8 +1645,8 @@ wxBitmap XPMToolPanel::CreateBrushBitmap(int iIndex, wxColour cColour, int iSize
     if (iSize2 < 2) iSize2 = 2;
     wxBitmap bmp(iSize2, iSize2, -1);
 
-    wxPen pPen(cColour, 1, wxSOLID);
-    wxBrush bBrush(cColour, wxSOLID);
+    wxPen pPen(cColour, 1, iPenStyle);
+    wxBrush bBrush(cColour, iBrushStyle);
 
     //find a suitable colour for the mask: blue, black or white
     wxColour cMaskColour;
@@ -1575,6 +1696,60 @@ wxBitmap XPMToolPanel::CreateBrushBitmap(int iIndex, wxColour cColour, int iSize
     return(bmp);
 }
 
+/** create the bitmap to use with the spray can
+  * \param cColour: the colour to use
+  * \param iSize : the diameter of the circle / number of points
+  * \param iAngle: the start angle of the outermost pixel
+  * \return the new bitmap
+  */
+wxBitmap XPMToolPanel::CreateSprayCanBitmap(wxColour cColour, int iSize, int iAngle)
+{
+    int iSize2, i;
+
+    iSize2 = iSize;
+    if (iSize2 < 2) iSize2 = 2;
+    wxBitmap bmp(iSize2, iSize2, -1);
+
+    wxPen pPen(cColour, 1, wxSOLID);
+
+    //find a suitable colour for the mask: blue, black or white
+    wxColour cMaskColour;
+    cMaskColour = *wxBLUE;
+    if (cColour == cMaskColour)
+    {
+        cMaskColour = *wxBLACK;
+    }
+    wxBrush bBackBrush(cMaskColour, wxSOLID);
+
+    if ((bmp.IsOk()) && (pPen.IsOk()))
+    {
+        wxMemoryDC dc(bmp);
+        if (dc.IsOk())
+        {
+            //fill the background
+            dc.SetBackground(bBackBrush);
+            dc.Clear();
+
+            dc.SetPen(pPen);
+
+            //draw the pattern
+            for(i=1; i<=iSize2; i++)
+            {
+                dc.DrawPoint(i * cos(iAngle), i * sin(iAngle));
+            }
+
+            //release the bitmap
+            dc.SelectObject(wxNullBitmap);
+
+            //set the bitmap mask
+            wxMask *mask;
+            mask = new wxMask(bmp, cMaskColour);
+            if (mask) bmp.SetMask(mask);
+        }
+    }
+    return(bmp);
+}
+
 
 void XPMToolPanel::OnSelectButtonToggle(wxCommandEvent& event)
 {
@@ -1611,17 +1786,8 @@ void XPMToolPanel::OnPenButtonToggle(wxCommandEvent& event)
 void XPMToolPanel::OnBrushButtonToggle(wxCommandEvent& event)
 {
     //toggle all the other buttons
-    if (event.IsChecked())
-    {
-        ToggleButtons(XPM_ID_BRUSH_TOOL);
-        HideControlsAndDoLayout(XPM_ID_BRUSH_TOOL, true);
-    }
-    else
-    {
-        ToggleButtons(-1);
-        //hide other controls potentially shown
-        HideControlsAndDoLayout(XPM_ID_BRUSH_TOOL, false);
-    }
+    if (event.IsChecked()) ToggleButtons(XPM_ID_BRUSH_TOOL); else ToggleButtons(-1);
+    HideControlsAndDoLayout(XPM_ID_BRUSH_TOOL, event.IsChecked());
 }
 
 void XPMToolPanel::OnPipetteButtonToggle(wxCommandEvent& event)
@@ -1693,6 +1859,25 @@ void XPMToolPanel::OnRRectButtonToggle(wxCommandEvent& event)
     if (event.IsChecked()) ToggleButtons(XPM_ID_ROUNDEDRECT_TOOL); else ToggleButtons(-1);
     HideControlsAndDoLayout(XPM_ID_ROUNDEDRECT_TOOL, event.IsChecked());
 }
+
+/** The SprayCan button has been toggled
+  * \param event: the wxCommandEvent associated with the event
+  */
+void XPMToolPanel::OnSprayCanButtonToggle(wxCommandEvent& event)
+{
+    if (event.IsChecked()) ToggleButtons(XPM_ID_SPRAYCAN_TOOL); else ToggleButtons(-1);
+    HideControlsAndDoLayout(XPM_ID_SPRAYCAN_TOOL, event.IsChecked());
+}
+
+/** The Gradient button has been toggled
+  * \param event: the wxCommandEvent associated with the event
+  */
+void XPMToolPanel::OnGradientButtonToggle(wxCommandEvent& event)
+{
+    if (event.IsChecked()) ToggleButtons(XPM_ID_GRADIENT_TOOL); else ToggleButtons(-1);
+    HideControlsAndDoLayout(XPM_ID_GRADIENT_TOOL, event.IsChecked());
+}
+
 
 //--- EVENT HANDLERS FOR SUB-TOOLS OPTION -----------//
 
@@ -1866,3 +2051,33 @@ void XPMToolPanel::OnSpinAngleChange(wxSpinEvent& event)
      if (m_parent) m_parent->OnSpinAngleChange(event);
 }
 
+void XPMToolPanel::OnChoiceGradientSelect(wxCommandEvent& event)
+{
+    if (m_parent)
+    {
+        ToolData tdata;
+        m_parent->GetToolData(&tdata);
+        tdata.iGradient = event.GetSelection();
+        if (tdata.iGradient != 0)
+        {
+            ChoiceGradientDirection->Enable(false);
+        }
+        else
+        {
+            ChoiceGradientDirection->Enable(true);
+        }
+        m_parent->SetToolData(&tdata);
+        SetToolCursor();
+    }
+}
+
+void XPMToolPanel::OnChoiceGradientDirectionSelect(wxCommandEvent& event)
+{
+    if (m_parent)
+    {
+        ToolData tdata;
+        m_parent->GetToolData(&tdata);
+        tdata.iGradientDirection = event.GetSelection();
+        m_parent->SetToolData(&tdata);
+    }
+}

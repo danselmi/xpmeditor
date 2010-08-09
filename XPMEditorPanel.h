@@ -12,8 +12,7 @@
 #define XPM_EDITOR_PANEL_H
 
 
-class wxGenericDragImage;
-//class wxBitmap;
+class wxDragImage;
 
 #include <wx/image.h>
 #include <wx/bitmap.h>
@@ -40,30 +39,32 @@ class XPMUndo;
 class wxResizeCtrl;
 class wxStaticText;
 
-#define XPM_NUMBER_TOOLS 15
+#define XPM_NUMBER_TOOLS 17
 #define XPM_MAXPOINTS 200
 
 /// \brief Structure used to store Tool specific data
 struct ToolData
 {
-    int x1;          ///< \brief the 1st click X position
-    int y1;          ///< \brief the 1st click Y position
-    int x2;          ///< \brief the 2nd click X position
-    int y2;          ///< \brief the 2nd click Y position
-    int iNbClicks;   ///< \brief the number of times the left mouse button has been clicked with the tool
-    int iStyle;      ///< \brief represent a style for the tool (like the brush style: square, circle, ...)
-    int iSize;       ///< \brief represent the thickness to be applied to the tool (line thickness for example)
-    int iSize2;      ///< \brief represent the size to be applied to the tool (brush size for example)
+    int x1;                 ///< \brief the 1st click X position
+    int y1;                 ///< \brief the 1st click Y position
+    int x2;                 ///< \brief the 2nd click X position
+    int y2;                 ///< \brief the 2nd click Y position
+    int iNbClicks;          ///< \brief the number of times the left mouse button has been clicked with the tool
+    int iStyle;             ///< \brief represent a style for the tool (like the brush style: square, circle, ...)
+    int iSize;              ///< \brief represent the thickness to be applied to the tool (line thickness for example)
+    int iSize2;             ///< \brief represent the size to be applied to the tool (brush size for example)
     wxPoint pts[XPM_MAXPOINTS+1]; ///< \brief an array of points. Statically limited to 25, to simplify the plugin
-    int iNbPoints;   ///< \brief how many points are in the array
-    int iRadius;     ///< \brief the radius for rounded rectangle
-    wxString sText;  ///< \brief the text string to be used for the tool (Text tool)
-    wxFont font;     ///< \brief the font to be used for the tool (Text tool)
-    int iHorizAlign; ///< \brief text horizontal alignment: wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
-    int iVertAlign;  ///< \brief text horizontal alignment: wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
-    int angle;       ///< \brief text angle
-    int iPenStyle;   ///< \brief the line style to use (see doc wxPen for more information)
-    int iBrushStyle; ///< \brief the brush style to use (see doc wxBrush for more info)
+    int iNbPoints;          ///< \brief how many points are in the array
+    int iRadius;            ///< \brief the radius for rounded rectangle
+    wxString sText;         ///< \brief the text string to be used for the tool (Text tool)
+    wxFont font;            ///< \brief the font to be used for the tool (Text tool)
+    int iHorizAlign;        ///< \brief text horizontal alignment: wxALIGN_RIGHT, wxALIGN_LEFT, wxALIGN_CENTER
+    int iVertAlign;         ///< \brief text horizontal alignment: wxALIGN_BOTTOM, wxALIGN_LEFT, wxALIGN_TOP
+    int angle;              ///< \brief text angle
+    int iPenStyle;          ///< \brief the line style to use (see doc wxPen for more information)
+    int iBrushStyle;        ///< \brief the brush style to use (see doc wxBrush for more info)
+    int iGradient;          ///< \brief 0: Linear gradient. Other: Concentric gradient
+    int iGradientDirection; ///< \brief 0: To the top; 1: to the bottom; 2: to the left; 3: to the right
 };
 
 
@@ -284,6 +285,14 @@ class XPMEditorPanel: public wxPanel
                                bool bLeftDown, bool bLeftUp,
                                bool bPressed, bool bDClick,
                               bool bShiftDown); ///< \brief process the hot spot tool
+        void ProcessGradient(int x, int y,
+                             bool bLeftDown, bool bLeftUp,
+                             bool bPressed, bool bDClick,
+                             bool bShiftDown); ///< \brief process the hot spot tool
+        void ProcessSprayCan(int x, int y,
+                             bool bLeftDown, bool bLeftUp,
+                             bool bPressed, bool bDClick,
+                             bool bShiftDown); ///< \brief process the hot spot tool
 
         void UpdateAUIColours(void);   ///< \brief Get the same colours as codeblocks configuration
         void UpdateMinimalSizes(void); ///< \brief set minimal sizes for the AUI Panes
@@ -314,7 +323,7 @@ class XPMEditorPanel: public wxPanel
 		void SetBitmap(wxBitmap *bm);   ///< \brief set the current unscaled bitmap
 
         //drag related methods & members
-		wxGenericDragImage *m_DragImage; ///< \brief for dragging the current selection
+		wxDragImage *m_DragImage;        ///< \brief for dragging the current selection
 		bool m_bDragging;                ///< \brief true if the user is currently dragging a shape, false otherwise
 		wxImage m_SelectionImage;        ///< \brief for dragging selection: save the image to drag
 		wxBitmap m_SelectionBitmap;      ///< \brief for drawing the selection
@@ -447,6 +456,8 @@ enum
     XPM_ID_ELLIPSE_TOOL,
     XPM_ID_ROUNDEDRECT_TOOL,
     XPM_ID_HOTSPOT_TOOL,
+    XPM_ID_SPRAYCAN_TOOL,
+    XPM_ID_GRADIENT_TOOL,
     XPM_ID_DRAG_TOOL,
     XPM_ID_STRETCH_TOOL
 };

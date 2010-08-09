@@ -17,8 +17,12 @@
 #include "wxConversion.h"
 #include "wxInvertDialog.h"
 
-
-#include <wx/generic/dragimgg.h>
+#if defined(__WXMSW__)
+    #include <wx/dragimag.h>
+#else
+    #include <wx/generic/dragimgg.h>
+    #define wxDragImage wxGenericDragImage
+#endif
 
 #include <wx/dcclient.h>
 #include <wx/dcbuffer.h>
@@ -152,6 +156,8 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown);
 	//*)
 
+	//wxMessageBox(_("XPMEditorPanel 1"));
+
 	//to do : register an event handler when AUI colours are updated
 	//EVT_MENU(idSettingsEnvironment, MainFrame::OnSettingsEnvironment)
     UpdateMinimalSizes();
@@ -162,6 +168,8 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	sFilePath = sFilePath + _("\\XPMEditor_log.txt");
 
 	LogToFile(_("Step 1"), sFilePath);
+
+	//wxMessageBox(_("XPMEditorPanel 2"));
 
 	if (DrawCanvasPanel)
 	{
@@ -189,6 +197,8 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 		ResizeCtrl1 = NULL;
 		sCursorPos  = NULL;
 	}
+
+	//wxMessageBox(_("XPMEditorPanel 3"));
 
 	//init pointers to panels
 	if (FoldPanel)
@@ -219,6 +229,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 
     //ResizeCtrl
     ResizeCtrl1->SetChild(TextEdit);
+
     ToggleButtons(-1, false); //Toggle All buttons off.
 
 	dScale = 1;
@@ -1555,6 +1566,14 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                     ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
+        case XPM_ID_GRADIENT_TOOL :
+                    ProcessGradient(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
+                    break;
+
+        case XPM_ID_SPRAYCAN_TOOL :
+                    ProcessSprayCan(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
+                    break;
+
         case XPM_ID_LASSO_TOOL  :
                     ProcessLasso(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
@@ -1619,7 +1638,12 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                     ProcessHotSpot(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
                     break;
 
-        default: break;
+        default:    if ((HasSelection()) && (bLeftUp))
+                    {
+                        ClearSelection();
+                        Repaint();
+                    }
+                    break;
     }
 
 }
@@ -1915,13 +1939,6 @@ void XPMEditorPanel::ProcessText(int x, int y,
     //left button UP
     if (bLeftUp)
     {
-        if (HasSelection())
-        {
-            ClearSelection();
-            Repaint();
-            return;
-        }
-
         if (tdata.iNbClicks == 0)
         {
             ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
@@ -1962,6 +1979,111 @@ void XPMEditorPanel::ProcessText(int x, int y,
             ToggleButtons(-1, false);
             if (ToolPanel)  ToolPanel->HideControlsAndDoLayout(-1, false);
             Repaint();
+        }
+    }
+}
+
+/** Process the Gradient tool in action
+  * a text control will be shown - this text control can be resized
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
+  */
+void XPMEditorPanel::ProcessGradient(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
+{
+    if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
+    {
+        if (tdata.iNbClicks > 0)
+        {
+            Repaint();
+
+            wxClientDC dc(DrawCanvas);
+            DrawCanvas->DoPrepareDC(dc);
+
+            tdata.x2 = x;
+            tdata.y2 = y;
+
+            int x1,y1,x2,y2;
+            if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
+            SnapRectToGrid(&x1,&y1,&x2,&y2);
+
+            wxColour cLineColour;
+            wxColour cBackColour;
+            cLineColour = ColourPicker->GetLineColour();
+            cBackColour = ColourPicker->GetFillColour();
+
+            wxDirection nDirection;
+
+            switch(tdata.iGradientDirection)
+            {
+                case 0: nDirection = wxSOUTH; break;
+                case 1: nDirection = wxNORTH; break;
+                case 2: nDirection = wxEAST; break;
+                case 3:
+                default: nDirection = wxWEST; break;
+            }
+
+            if (tdata.iGradient == 0)
+            {
+                dc.GradientFillLinear(wxRect(x1, y1, (x2 - x1), (y2 - y1)), cLineColour, cBackColour, nDirection);
+            }
+            else
+            {
+                dc.GradientFillConcentric(wxRect(x1, y1, (x2 - x1), (y2 - y1)), cLineColour, cBackColour);
+            }
+
+        }
+    }
+
+    //left button UP
+    if (bLeftUp)
+    {
+        if (tdata.iNbClicks == 0)
+        {
+            if (HasSelection())
+            {
+                ClearSelection();
+                Repaint();
+                return;
+            }
+
+            ClearSelection();
+            Repaint();
+            tdata.iNbClicks = 1;
+            tdata.x1 = x;
+            tdata.y1 = y;
+            bUsingTool = true;
+        }
+        else
+        {
+            NbPoints = 4;
+            pSelection = CheckMemorySelection(4);
+            tdata.x2 = x;
+            tdata.y2 = y;
+            int x1,y1,x2,y2;
+            if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
+            SnapRectToGrid(&x1,&y1,&x2,&y2);
+
+            if (pSelection)
+            {
+                pSelection[0].x = x1 / dScale;
+                pSelection[0].y = y1 / dScale;
+                pSelection[1].x = x2 / dScale;
+                pSelection[1].y = y1 / dScale;
+                pSelection[2].x = x2 / dScale;
+                pSelection[2].y = y2 / dScale;
+                pSelection[3].x = x1 / dScale;
+                pSelection[3].y = y2 / dScale;
+            }
+            m_SelectionImage = GetImageFromSelection();
+            Repaint();
+            InitToolData();
+            m_bEraseSelection = true;
         }
     }
 }
@@ -2090,7 +2212,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         img.Rescale(img.GetWidth() * dScale, img.GetHeight() * dScale);
         wxBitmap bmp(img);
         if (m_DragImage) delete(m_DragImage);
-        m_DragImage = new wxGenericDragImage(bmp, wxCursor(wxCURSOR_HAND));
+        m_DragImage = new wxDragImage(bmp, wxCursor(wxCURSOR_HAND));
         if (!m_DragImage) return;
         if (!m_Bitmap) return;
 
@@ -2104,7 +2226,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         //begin the drag
         //wxPoint ptHotSpot(rSelection.GetWidth() * dScale / 2, rSelection.GetHeight() * dScale / 2);
 
-        wxPoint ptHotSpot(x - rSelection.GetLeft() * dScale, y - rSelection.GetTop() * dScale);
+        wxPoint ptHotSpot(x - rSelection.GetLeft() * dScale + 1, y - rSelection.GetTop() * dScale + 1);
 
         pStartDragging.x = x / dScale - rSelection.GetLeft();
         pStartDragging.y = y / dScale - rSelection.GetTop() ;
@@ -2113,7 +2235,9 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
 
         //Update Image
         Repaint();
-        m_DragImage->Move(wxPoint(x, y));
+        int xx, yy;
+        DrawCanvas->CalcScrolledPosition (x, y, &xx, &yy);
+        m_DragImage->Move(wxPoint(xx, yy));
         m_DragImage->Show();
 
 
@@ -2368,7 +2492,7 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
-            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize);
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize, tdata.iBrushStyle, tdata.iPenStyle);
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
 
             mem_dc.SelectObject(wxNullBitmap);
@@ -2406,7 +2530,119 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
-            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize);
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize, tdata.iBrushStyle, tdata.iPenStyle);
+            if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
+
+            Interpolate(tdata.x1, tdata.y1, xx, yy);
+            for(i=0; i < m_pt_x.Count(); i++)
+            {
+                mem_dc.DrawBitmap(bmp, m_pt_x[i] - iSize / 2, m_pt_y[i] - iSize / 2, true);
+            }
+
+            mem_dc.SelectObject(wxNullBitmap);
+            tdata.x1 = xx;
+            tdata.y1 = yy;
+        }
+        UpdateImage();
+        Repaint();
+    }
+
+    if (bLeftUp)
+    {
+        //finish
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
+        InitToolData();
+    }
+}
+
+/** Process the Spray Can tool in action
+  * \param x: the new mouse X position - Scaled coordinates - clipped to bitmap
+  * \param y: the new mouse Y position - Scaled coordinates - clipped to bitmap
+  * \param bLeftDown: true if a mouse left button DOWN event has been triggered
+  * \param bLeftUp: true if a mouse left button UP event has been triggered
+  * \param bPressed: true if the left mouse button is currently pressed
+  * \param bDClick: true if the a double-click event occured
+  * \param bShiftDown: true if the shift key is pressed, false otherwise
+  */
+void XPMEditorPanel::ProcessSprayCan(int x, int y,
+                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
+{
+
+    if (bLeftDown)
+    {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
+        //Undo & modification flag
+        if (!m_Bitmap) return;
+        AddUndo();
+        SetModified(true);
+        bUsingTool = true;
+
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            cColour = ColourPicker->GetLineColour();
+            wxBrush brush(cColour, wxSOLID);
+            wxPen pen(cColour, 1, wxSOLID);
+            mem_dc.SetBrush(brush);
+            mem_dc.SetPen(pen);
+
+            int xx, yy, i, iSize;
+            xx = x / dScale; yy = y / dScale;
+            iSize = tdata.iSize2;
+
+            wxBitmap bmp;
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize, tdata.iBrushStyle, tdata.iPenStyle);
+            if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
+
+            mem_dc.SelectObject(wxNullBitmap);
+
+            tdata.x1 = xx;
+            tdata.y1 = yy;
+        }
+        UpdateImage();
+        Repaint();
+    }
+
+    if (bPressed)
+    {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
+        if (!m_Bitmap) return;
+        wxMemoryDC mem_dc(*m_Bitmap);
+        if (mem_dc.IsOk())
+        {
+            wxColour cColour;
+            cColour = ColourPicker->GetLineColour();
+            wxBrush brush(cColour, wxSOLID);
+            wxPen pen(cColour, 1, wxSOLID);
+            mem_dc.SetBrush(brush);
+            mem_dc.SetPen(pen);
+
+            int xx, yy, i, iSize;
+            xx = x / dScale; yy = y / dScale;
+            if ((bShiftDown) && (tdata.x1 >= 0) && (tdata.y1 >=0)) MakeStandardOrientation(&tdata.x1, &tdata.y1, &xx, &yy);
+            iSize = tdata.iSize2;
+
+            wxBitmap bmp;
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize, tdata.iBrushStyle, tdata.iPenStyle);
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
 
             Interpolate(tdata.x1, tdata.y1, xx, yy);
@@ -2480,7 +2716,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
-            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(-1, cColour, iSize);
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(-1, cColour, iSize, wxSOLID, wxSOLID);
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
 
             mem_dc.SelectObject(wxNullBitmap);
@@ -2518,7 +2754,7 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
-            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(-1, cColour, iSize);
+            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(-1, cColour, iSize, wxSOLID, wxSOLID);
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
 
             Interpolate(tdata.x1, tdata.y1, xx, yy);
@@ -3820,6 +4056,7 @@ void XPMEditorPanel::Copy(void)
     if ((wxTheClipboard->Open()) && (m_SelectionBitmap.IsOk()))
     {
         //copy to the clipboard
+        //if (m_SelectionBitmap.GetMask()) wxMessageBox(_("mask")); else wxMessageBox(_("no mask"));
         wxTheClipboard->SetData(new wxBitmapDataObject(m_SelectionBitmap));
         wxTheClipboard->Close();
     }
@@ -3898,7 +4135,6 @@ void XPMEditorPanel::Paste(void)
             //paste the Bitmap at 0,0
             m_SelectionBitmap = bm;
             m_SelectionImage = bm.ConvertToImage();
-            //if (bm.GetMask()) wxMessageBox(_("mask")); else wxMessageBox(_("no mask"));
             SetModified(true);
             Repaint();
             m_bEraseSelection = false;
@@ -5761,6 +5997,7 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
 {
     int i, iMax, jMax;
     double a, b; //y = ax + b
+    double dXStart, dXEnd, dYStart, dYEnd, dresult;
 
     m_pt_x.Clear();
     m_pt_y.Clear();
@@ -5818,10 +6055,17 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
     }
 
     //general case
+
+    //to avoid too big round off errors, we do all the calculations in double precision
+    dXStart = xStart;
+    dYStart = yStart;
+    dXEnd = xEnd;
+    dYEnd = yEnd;
+
     iMax = xEnd - xStart; if (iMax < 0) iMax = -iMax;
     jMax = yEnd - yStart; if (jMax < 0) jMax = -jMax;
-    a = (yEnd - yStart) / (xEnd - xStart);
-    b = yStart - a * xStart;
+    a = (dYEnd - dYStart) / (dXEnd - dXStart);
+    b = dYStart - a * dXStart;
     if (iMax > jMax)
     {
         //longest length is in the horizontal direction
@@ -5830,8 +6074,8 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
             for(i=xStart + 1; i < xEnd; i++)
             {
                 m_pt_x.Add(i);
-                iMax = a * i + b;
-                m_pt_y.Add(iMax);
+                dresult = Round(a * i + b);
+                m_pt_y.Add(dresult);
             }
         }
         else
@@ -5839,8 +6083,8 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
             for(i=xEnd + 1; i < xStart; i++)
             {
                 m_pt_x.Add(i);
-                iMax = a * i + b;
-                m_pt_y.Add(iMax);
+                dresult = Round(a * i + b);
+                m_pt_y.Add(dresult);
             }
         }
 
@@ -5853,8 +6097,8 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
             for(i=yStart; i < yEnd; i++)
             {
                 m_pt_y.Add(i);
-                iMax = (i - b) / a;
-                m_pt_x.Add(iMax);
+                dresult = Round((i - b) / a);
+                m_pt_x.Add(dresult);
             }
         }
         else
@@ -5862,8 +6106,8 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
             for(i=yEnd; i < yStart; i++)
             {
                 m_pt_y.Add(i);
-                iMax = (i - b) / a;
-                m_pt_x.Add(iMax);
+                dresult = Round((i - b) / a);
+                m_pt_x.Add(dresult);
             }
         }
 

@@ -11,12 +11,11 @@ IMPROVEMENTS / NEW FEATURES:
 
 4 - Copy To / Paste from file
 
-5 - Polygon / RoundedRect / Rect / Ellipse :
-        - add the square / circle option
+5 - Add a spray can tool
 
-6 - Add a spray can tool
+6 - Pen + Brush + Eraser: SHIFT key behaviour to improve
 
-7 - Interpolation can be improved
+8 - Add Gradient Tool
 
 BUGS:
 
@@ -24,21 +23,13 @@ BUGS:
     before copy : bitmap put in clipboard has a Mask
     after paste : bitmap does not have mask
 
-2 - Zoom + Pen does not work good after moving selection
+2 - Text tool is not working anymore
 
-3 - Selection is not drawn when it is overlapping bitmap edges + zoom
+3 - SetCursor to review
 
-4 - Redraw background: the bottom right corner is not covered when zooming out
+4 - PasteImage gives a black image when the image is truncated
 
-5 - problem when the selection is bigger than the IMAGEINFO
-
-6 - Drag image: flicker + cursor has a strange position sometimes.
-
-7 - LINUX: Line not displayed dynamically
-
-8 - LINUX: crash with "Lasso" tool
-
-9 - Text tool is not working anymore
+5 - ClearSelection: when the image to paste is bigger than the destination image, nothing is done sometimes
 
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
@@ -56,15 +47,23 @@ BUGS:
 
 
 CHANGES:
- 1 - Shift Key extended to other tools.
-     Pen, Brush & Eraser to improve in this respect
- 2 - Add a ClearSelection that I missed
- 3 - LINUX: corrected a nasty bug: crash when using a complex selection
-     The crash did not come from ProcessLassoTool as expected, but from IsPointInSelection.
-     GTK was trying to create a polygon with less than 3 points => it raised an unhandled exception
-     Bug fixed by adding a test
- 4 - LINUX: corrected a widespread bug when using the wxMemoryDC.
-     wxMemoryDC was created blank (without Bitmap selected). Once created, a wxMemoryDC::IsOk was called.
-     On Windows it returns OK when no BMP are selected, but on GTK it returns FALSE
-     Hence the drawing never took place, leading to strange results
-     Fixed by moving all the call to wxMemoryDC::IsOk after selecting the bitmap
+1 - Interpolation improved
+2 - Some bugs solved
+      a - Selection is not drawn when it is overlapping bitmap edges + zoom
+      b - Pen problem after Move Selection + Zoom
+      c - Redraw background: the bottom right corner is not covered when zooming out
+      d - problem when the selection is bigger than the Image
+      e - Drag image: flicker on Win32 + cursor has a strange position sometimes.
+3 - Reduced size (width) of the tool palette
+4 - added options for Brush & Fill tools
+5 - Added stubs & interface for Spray Can tool
+    (need to implement 2 methods correctly:
+    XPMEditorPanel::ProcessSprayCan() and XPMToolPanel::CreateSprayCanBitmap())
+6 - Added stubs & interface for Gradient tool
+    (need to implement only XPMEditorPanel::ProcessGradient())
+
+
+
+TO DO UNIX:
+ 1 - add 2 icons (spray can + gradient) to Project
+ 2 - test that the DragImage is not broken

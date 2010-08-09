@@ -100,7 +100,6 @@
 		<Unit filename="manifest.xml" />
 		<Unit filename="shape01.png" />
 		<Unit filename="test.bmp" />
-		<Unit filename="test.jpg" />
 		<Unit filename="test.xpm">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
@@ -134,6 +133,7 @@
 		<Unit filename="xpm\fill_cursor.xpm" />
 		<Unit filename="xpm\filled.xpm" />
 		<Unit filename="xpm\filledonly.xpm" />
+		<Unit filename="xpm\gradient.xpm" />
 		<Unit filename="xpm\hotspot.xpm" />
 		<Unit filename="xpm\lasso.xpm" />
 		<Unit filename="xpm\left.xpm" />
@@ -150,6 +150,7 @@
 		<Unit filename="xpm\right_hair.xpm" />
 		<Unit filename="xpm\roundedrect.xpm" />
 		<Unit filename="xpm\selection.xpm" />
+		<Unit filename="xpm\spraycan.xpm" />
 		<Unit filename="xpm\square.xpm" />
 		<Unit filename="xpm\test_mask.xpm" />
 		<Unit filename="xpm\text.xpm" />
