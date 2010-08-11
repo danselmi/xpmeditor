@@ -42,6 +42,7 @@ class XPMDrawCanvasPanel: public wxPanel
 		//*)
 
 		//(*Handlers(XPMDrawCanvasPanel)
+		void OnTextEditText(wxCommandEvent& event);
 		//*)
 
 	protected:

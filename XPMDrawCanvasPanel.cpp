@@ -1,4 +1,5 @@
 #include "XPMDrawCanvasPanel.h"
+#include "XPMEditorPanel.h"
 
 //(*InternalHeaders(XPMDrawCanvasPanel)
 #include <wx/scrolwin.h>
@@ -33,7 +34,7 @@ void XPMDrawCanvasPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoi
 {
 	//(*Initialize(XPMDrawCanvasPanel)
 	wxBoxSizer* BoxSizer1;
-	
+
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	CanvasSizer = new wxBoxSizer(wxVERTICAL);
 	DrawCanvas = new wxScrolledWindow(this, ID_SCROLLEDWINDOW1, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL|wxSUNKEN_BORDER, _T("ID_SCROLLEDWINDOW1"));
@@ -51,6 +52,8 @@ void XPMDrawCanvasPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoi
 	SetSizer(CanvasSizer);
 	CanvasSizer->Fit(this);
 	CanvasSizer->SetSizeHints(this);
+
+	Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&XPMDrawCanvasPanel::OnTextEditText);
 	//*)
 }
 
@@ -60,3 +63,10 @@ XPMDrawCanvasPanel::~XPMDrawCanvasPanel()
 	//*)
 }
 
+
+void XPMDrawCanvasPanel::OnTextEditText(wxCommandEvent& event)
+{
+    XPMEditorPanel *parent;
+    parent = (XPMEditorPanel *) GetParent();
+    if (parent) parent->OnTextEditText(event.GetString());
+}

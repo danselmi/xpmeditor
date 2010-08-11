@@ -13,6 +13,7 @@
 						<value>Text</value>
 						<pos>57,126</pos>
 						<style>wxTE_MULTILINE|wxTE_LEFT|wxTE_CHARWRAP</style>
+						<handler function="OnTextEditText" entry="EVT_TEXT" />
 					</object>
 					<object class="Custom" name="ID_RESIZECTRL1" subclass="wxResizeCtrl" variable="ResizeCtrl1" member="yes">
 						<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),0,$(NAME));</creating_code>

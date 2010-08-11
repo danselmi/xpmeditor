@@ -178,7 +178,6 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 		ResizeCtrl1 = DrawCanvasPanel->ResizeCtrl1;
 		sCursorPos  = DrawCanvasPanel->sCursorPos;
 
-		DrawCanvasPanel->TextEdit->Connect(wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&XPMEditorPanel::OnTextEditText);
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_PAINT,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasPaint,0,this);
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_ERASE_BACKGROUND,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasEraseBackground,0,this);
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown,0,this);
@@ -736,6 +735,16 @@ void XPMEditorPanel::SetImage(wxImage *img)
         {
             //create a copy of the bitmap
             m_Image = new wxImage(*img);
+
+            if (!m_Image) return;
+            //if (m_Image->HasAlpha()) Manager::Get()->GetLogManager()->Log(_("Image has alpha channel")); else Manager::Get()->GetLogManager()->Log(_("Image has no alpha channel"));
+            //if (m_Image->HasMask()) Manager::Get()->GetLogManager()->Log(_("Image has a mask")); else Manager::Get()->GetLogManager()->Log(_("Image has no mask"));
+            if ((m_Image->HasAlpha()) && (!m_Image->HasMask()))
+            {
+                //convert Alpha channel to mask data
+                //Manager::Get()->GetLogManager()->Log(_("Image has alpha channel and no mask"));
+                m_Image->ConvertAlphaToMask(128);
+            }
 
             unsigned char r, g, b;
             m_Image->GetOrFindMaskColour(&r, &g, &b);
@@ -1926,13 +1935,6 @@ void XPMEditorPanel::ProcessText(int x, int y,
     //with the text
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
-        if (HasSelection())
-        {
-            ClearSelection();
-            Repaint();
-            return;
-        }
-
         if (tdata.iNbClicks < 2) ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
     }
 
@@ -1941,6 +1943,12 @@ void XPMEditorPanel::ProcessText(int x, int y,
     {
         if (tdata.iNbClicks == 0)
         {
+            if (HasSelection())
+            {
+                ClearSelection();
+                Repaint();
+                return;
+            }
             ProcessSelect(x, y, bLeftDown, bLeftUp, bPressed, bDClick, bShiftDown);
         }
         else if (tdata.iNbClicks == 1)
@@ -1968,6 +1976,8 @@ void XPMEditorPanel::ProcessText(int x, int y,
             //InitToolData();
             m_bEraseSelection = false;
             tdata.iNbClicks = 2;
+
+            //wxMessageBox(wxString::Format(_("Tool ID = %d"), this));
 
             TextEdit->Show(true);
             ResizeCtrl1->Show(true);
@@ -1998,45 +2008,125 @@ void XPMEditorPanel::ProcessGradient(int x, int y,
 {
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
+        if (HasSelection())
+        {
+            ClearSelection();
+            Repaint();
+            return;
+        }
+
         if (tdata.iNbClicks > 0)
         {
-            Repaint();
 
-            wxClientDC dc(DrawCanvas);
-            DrawCanvas->DoPrepareDC(dc);
+            if (tdata.iNbClicks > 1)
+            {
+                tdata.pts[0].x = x;
+                tdata.pts[0].y = y;
+            }
+            else
+            {
+                tdata.x2 = x;
+                tdata.y2 = y;
+                tdata.pts[0].x = 0;
+                tdata.pts[0].y = 0;
+            }
 
-            tdata.x2 = x;
-            tdata.y2 = y;
 
             int x1,y1,x2,y2;
             if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
             SnapRectToGrid(&x1,&y1,&x2,&y2);
 
-            wxColour cLineColour;
-            wxColour cBackColour;
-            cLineColour = ColourPicker->GetLineColour();
-            cBackColour = ColourPicker->GetFillColour();
-
-            wxDirection nDirection;
-
-            switch(tdata.iGradientDirection)
+            wxMemoryDC memDC;
+            memDC.SelectObject(m_bmDrawBitmap);
+            if ((memDC.IsOk()) && (dScale > 0))
             {
-                case 0: nDirection = wxSOUTH; break;
-                case 1: nDirection = wxNORTH; break;
-                case 2: nDirection = wxEAST; break;
-                case 3:
-                default: nDirection = wxWEST; break;
-            }
+                wxColour cLineColour, cBackColour, cFillColour;
+                cLineColour = ColourPicker->GetLineColour();
+                cFillColour = ColourPicker->GetFillColour();
+                cBackColour = ColourPicker->GetUnusedColour();
 
-            if (tdata.iGradient == 0)
-            {
-                dc.GradientFillLinear(wxRect(x1, y1, (x2 - x1), (y2 - y1)), cLineColour, cBackColour, nDirection);
-            }
-            else
-            {
-                dc.GradientFillConcentric(wxRect(x1, y1, (x2 - x1), (y2 - y1)), cLineColour, cBackColour);
-            }
+                wxDirection nDirection;
 
+                switch(tdata.iGradientDirection)
+                {
+                    case 0: nDirection = wxSOUTH; break;
+                    case 1: nDirection = wxNORTH; break;
+                    case 2: nDirection = wxEAST; break;
+                    case 3:
+                    default: nDirection = wxWEST; break;
+                }
+
+                wxBrush BackBrush(cBackColour, wxSOLID);
+                memDC.SetBackground(BackBrush);
+                memDC.Clear();
+                if (tdata.iGradient == 0)
+                {
+                    memDC.GradientFillLinear(wxRect(x1, y1, (x2 - x1), (y2 - y1)), cLineColour, cFillColour, nDirection);
+                }
+                else
+                {
+                    if (tdata.iNbClicks < 3)
+                    {
+                        //to avoid a division by 0 (and then a crash), we ensure that the wxRect is correctly oriented, and that it is at least 2 pixels x 2 pixels large
+                        int xLeft, xRight, yTop, yBottom;
+
+                        if (x1 < x2)
+                        {
+                            xLeft = x1;
+                            xRight = x2;
+                        }
+                        else
+
+                        {
+                            xLeft = x2;
+                            xRight = x1;
+                        }
+                        if (y1 < y2)
+                        {
+                            yTop = y1;
+                            yBottom = y2;
+                        }
+                        else
+                        {
+                            yTop = y2;
+                            yBottom = y1;
+                        }
+
+                        if (xRight - xLeft < 2) xRight = xLeft + 2;
+                        if (yBottom - yTop < 2) yBottom = yTop + 2;
+
+                        wxPoint ptCenter;
+                        if (tdata.iNbClicks < 2)
+                        {
+                            //in the center
+                            wxRect r(xLeft, yTop, (xRight - xLeft), (yBottom - yTop));
+                            memDC.GradientFillConcentric(r, cLineColour, cFillColour);
+                        }
+                        else
+                        {
+                            ptCenter.x = tdata.pts[0].x;
+                            ptCenter.y = tdata.pts[0].y;
+                            if (ptCenter.x < xLeft) ptCenter.x = xLeft;
+                            if (ptCenter.x > xRight) ptCenter.x = xRight;
+                            if (ptCenter.y < yTop) ptCenter.y = yTop;
+                            if (ptCenter.y > yBottom) ptCenter.y = yBottom;
+                            ptCenter.x = ptCenter.x - xLeft;
+                            ptCenter.y = ptCenter.y - yTop;
+                            wxRect r(xLeft, yTop, (xRight - xLeft), (yBottom - yTop));
+                            memDC.GradientFillConcentric(r, cLineColour, cFillColour, ptCenter);
+                        }
+                    }
+                }
+
+                memDC.SelectObject(wxNullBitmap);
+                wxMask *mask;
+                mask = new wxMask(m_bmDrawBitmap, cBackColour);
+                if (mask) m_bmDrawBitmap.SetMask(mask);
+
+                m_bDrawToolDynamic = true;
+
+                Repaint();
+            }
         }
     }
 
@@ -2052,38 +2142,104 @@ void XPMEditorPanel::ProcessGradient(int x, int y,
                 return;
             }
 
-            ClearSelection();
             Repaint();
             tdata.iNbClicks = 1;
             tdata.x1 = x;
             tdata.y1 = y;
             bUsingTool = true;
+            m_bDrawToolDynamic = true;
+        }
+        else if ((tdata.iGradient != 0) && (tdata.iNbClicks == 1))
+        {
+            tdata.iNbClicks = 2;
+            tdata.x2 = x;
+            tdata.y2 = y;
+            bUsingTool = true;
+            m_bDrawToolDynamic = true;
+            Repaint();
         }
         else
         {
-            NbPoints = 4;
-            pSelection = CheckMemorySelection(4);
-            tdata.x2 = x;
-            tdata.y2 = y;
-            int x1,y1,x2,y2;
-            if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
-            SnapRectToGrid(&x1,&y1,&x2,&y2);
-
-            if (pSelection)
+            if (!m_Bitmap) return;
+            AddUndo();
+            SetModified(true);
+            wxMemoryDC memDC(*m_Bitmap);
+            if (memDC.IsOk())
             {
-                pSelection[0].x = x1 / dScale;
-                pSelection[0].y = y1 / dScale;
-                pSelection[1].x = x2 / dScale;
-                pSelection[1].y = y1 / dScale;
-                pSelection[2].x = x2 / dScale;
-                pSelection[2].y = y2 / dScale;
-                pSelection[3].x = x1 / dScale;
-                pSelection[3].y = y2 / dScale;
+                int x1,y1,x2,y2;
+                if (bShiftDown) TransformToSquare(&tdata.x1,&tdata.y1,&tdata.x2,&tdata.y2);
+                SnapRectToGrid(&x1,&y1,&x2,&y2);
+
+                wxColour cLineColour, cFillColour;
+                cLineColour = ColourPicker->GetLineColour();
+                cFillColour = ColourPicker->GetFillColour();
+
+                wxDirection nDirection;
+
+                switch(tdata.iGradientDirection)
+                {
+                    case 0: nDirection = wxSOUTH; break;
+                    case 1: nDirection = wxNORTH; break;
+                    case 2: nDirection = wxEAST; break;
+                    case 3:
+                    default: nDirection = wxWEST; break;
+                }
+
+                if (tdata.iGradient == 0)
+                {
+                    memDC.GradientFillLinear(wxRect(x1, y1, (x2 - x1), (y2 - y1)), cLineColour, cFillColour, nDirection);
+                }
+                else
+                {
+                    int xLeft, xRight, yTop, yBottom;
+
+                    //to avoid a division by 0 (and then a crash), we ensure that the wxRect is correctly oriented, and that it is at least 2 pixels x 2 pixels large
+                    if (x1 < x2)
+                    {
+                        xLeft = x1;
+                        xRight = x2;
+                    }
+                    else
+
+                    {
+                        xLeft = x2;
+                        xRight = x1;
+                    }
+                    if (y1 < y2)
+                    {
+                        yTop = y1;
+                        yBottom = y2;
+                    }
+                    else
+                    {
+                        yTop = y2;
+                        yBottom = y1;
+                    }
+
+                    if (xRight - xLeft < 2) xRight = xLeft + 2;
+                    if (yBottom - yTop < 2) yBottom = yTop + 2;
+
+                    wxPoint ptCenter;
+                    ptCenter.x = tdata.pts[0].x;
+                    ptCenter.y = tdata.pts[0].y;
+                    if (ptCenter.x < xLeft) ptCenter.x = xLeft;
+                    if (ptCenter.x > xRight) ptCenter.x = xRight;
+                    if (ptCenter.y < yTop) ptCenter.y = yTop;
+                    if (ptCenter.y > yBottom) ptCenter.y = yBottom;
+                    ptCenter.x = ptCenter.x - xLeft;
+                    ptCenter.y = ptCenter.y - yTop;
+
+                    wxRect r(xLeft, yTop, (xRight - xLeft), (yBottom - yTop));
+                    memDC.GradientFillConcentric(r, cLineColour, cFillColour, ptCenter);
+
+                }
+
+                memDC.SelectObject(wxNullBitmap);
             }
-            m_SelectionImage = GetImageFromSelection();
+            UpdateImage();
+            m_bDrawToolDynamic = false;
             Repaint();
             InitToolData();
-            m_bEraseSelection = true;
         }
     }
 }
@@ -2588,6 +2744,7 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
         AddUndo();
         SetModified(true);
         bUsingTool = true;
+        //tdata.angle = 0;
 
         wxMemoryDC mem_dc(*m_Bitmap);
         if (mem_dc.IsOk())
@@ -2604,7 +2761,7 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
-            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize, tdata.iBrushStyle, tdata.iPenStyle);
+            if (ToolPanel) bmp = ToolPanel->CreateSprayCanBitmap(cColour, iSize, tdata.angle);
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
 
             mem_dc.SelectObject(wxNullBitmap);
@@ -2642,11 +2799,14 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
-            if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize, tdata.iBrushStyle, tdata.iPenStyle);
+            if (ToolPanel) bmp = ToolPanel->CreateSprayCanBitmap(cColour, iSize, tdata.angle);
+            tdata.angle = tdata.angle + 24;
+            if (tdata.angle >= 360) tdata.angle = 0;
+            if (tdata.angle < 0) tdata.angle = 0;
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
 
             Interpolate(tdata.x1, tdata.y1, xx, yy);
-            for(i=0; i < m_pt_x.Count(); i++)
+            for(i=0; i < m_pt_x.Count(); i=i+2)
             {
                 mem_dc.DrawBitmap(bmp, m_pt_x[i] - iSize / 2, m_pt_y[i] - iSize / 2, true);
             }
@@ -2657,6 +2817,31 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
         }
         UpdateImage();
         Repaint();
+
+        //continue to draw until mouse has moved
+        wxMouseState  pre, post;
+        pre = ::wxGetMouseState();
+        wxColour cColour;
+        cColour = ColourPicker->GetLineColour();
+        wxBitmap bmp;
+        do
+        {
+            wxMemoryDC mem_dc(*m_Bitmap);
+            if (mem_dc.IsOk())
+            {
+                if (ToolPanel) bmp = ToolPanel->CreateSprayCanBitmap(cColour, tdata.iSize2, tdata.angle);
+                tdata.angle = tdata.angle + 24;
+                if (tdata.angle >= 360) tdata.angle = 0;
+                if (tdata.angle < 0) tdata.angle = 0;
+                if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, tdata.x1 - tdata.iSize2 / 2, tdata.y1 - tdata.iSize2 / 2, true);
+            }
+            post = ::wxGetMouseState();
+            mem_dc.SelectObject(wxNullBitmap);
+            UpdateImage();
+            Repaint();
+
+        } while ((pre.GetX() == post.GetX()) && (pre.GetY() == post.GetY()) && (post.LeftDown()));
+
     }
 
     if (bLeftUp)
@@ -3567,10 +3752,12 @@ void XPMEditorPanel::SetToolData(ToolData *t)
   */
 int XPMEditorPanel::GetToolID(void)
 {
+
     if (ToolPanel)
     {
         return(ToolPanel->GetToolID());
     }
+    //Manager::Get()->GetLogManager()->Log(_("GetToolID Failed"));
     return(-1);
 }
 
@@ -4783,15 +4970,16 @@ void XPMEditorPanel::OnFillColorChanged(wxCommandEvent& event)
 }
 
 /** Process char events in the text editor for the Text Tool
-  * \param event: the wxCommandEvent class instance associated with the event.
+  * \param sText: the new text in the control
   */
-void XPMEditorPanel::OnTextEditText(wxCommandEvent& event)
+void XPMEditorPanel::OnTextEditText(wxString sText)
 {
     if (bUsingTool)
     {
+        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Text id = %d Current Tool id = %d"), XPM_ID_TEXT_TOOL, GetToolID()));
         switch(GetToolID())
         {
-            case XPM_ID_TEXT_TOOL: tdata.sText = wxString(TextEdit->GetValue());
+            case XPM_ID_TEXT_TOOL: tdata.sText = sText;
                                    DrawTextBitmap();
                                    Repaint();
                                    break;

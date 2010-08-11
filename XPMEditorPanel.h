@@ -170,14 +170,26 @@ class XPMEditorPanel: public wxPanel
 		void OnSpinAngleChange(wxSpinEvent& event);            ///< \brief The Text orientation angle changed.
 
 		void SetHotSpotColour(wxColour cNewColour);             ///< \brief The HotSpot Tool Button has been toggled
+		void OnTextEditText(wxString sText);                    ///< \brief The text in the text control has changed
 
-		//(*Declarations(XPMEditorPanel)
-		XPMFoldPanel* FoldPanel;
-		wxAuiManager* m_AUIXPMEditor;
-		XPMDrawCanvasPanel* DrawCanvasPanel;
-		XPMColourPickerPanel* ColourPicker;
-		XPMInterfacePanel* InterfacePanel;
-		//*)
+		void OnDrawCanvasPaint(wxPaintEvent& event);            ///< \brief DrawCanvas paint event handler
+		void OnDrawCanvasResize(wxSizeEvent& event);            ///< \brief DrawCanvas Size event handler
+		void OnDrawCanvasMouseMove(wxMouseEvent& event);        ///< \brief DrawCanvas mouse motion event handler
+		void OnDrawCanvasLeftDown(wxMouseEvent& event);         ///< \brief DrawCanvas mouse left button down event handler
+		void OnDrawCanvasLeftUp(wxMouseEvent& event);           ///< \brief DrawCanvas mouse left button up event handler
+		void OnDrawCanvasMouseLeave(wxMouseEvent& event);       ///< \brief DrawCanvas mouse leave window event handler
+		void OnDrawCanvasLeftDClick(wxMouseEvent& event);       ///< \brief DrawCanvas mouse left button double click event handler
+		void OnDrawCanvasEraseBackground(wxEraseEvent& event);  ///< \brief DrawCanvas erase background event handler
+		void OnDrawCanvasRightUp(wxMouseEvent& event);          ///< \brief DrawCanvas mouse right button up event handler
+		void OnDrawCanvasKeyDown(wxKeyEvent& event);            ///< \brief DrawCanvas key down char event handler
+
+ 		//(*Declarations(XPMEditorPanel)
+ 		XPMFoldPanel* FoldPanel;
+ 		wxAuiManager* m_AUIXPMEditor;
+ 		XPMDrawCanvasPanel* DrawCanvasPanel;
+ 		XPMColourPickerPanel* ColourPicker;
+ 		XPMInterfacePanel* InterfacePanel;
+ 		//*)
 
 	protected:
 
@@ -186,20 +198,6 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_FOLDPANEL;
 		static const long ID_COLOURPICKERPANEL;
 		static const long ID_INTERFACEPANEL;
-		//*)
-
-		//(*Handlers(XPMEditorPanel)
-		void OnDrawCanvasPaint(wxPaintEvent& event);
-		void OnDrawCanvasResize(wxSizeEvent& event);
-		void OnDrawCanvasMouseMove(wxMouseEvent& event);
-		void OnDrawCanvasLeftDown(wxMouseEvent& event);
-		void OnDrawCanvasLeftUp(wxMouseEvent& event);
-		void OnDrawCanvasMouseLeave(wxMouseEvent& event);
-		void OnDrawCanvasLeftDClick(wxMouseEvent& event);
-		void OnDrawCanvasEraseBackground(wxEraseEvent& event);
-		void OnDrawCanvasRightUp(wxMouseEvent& event);
-		void OnTextEditText(wxCommandEvent& event);
-		void OnDrawCanvasKeyDown(wxKeyEvent& event);
 		//*)
 
 #if __WXMSW__

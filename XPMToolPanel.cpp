@@ -48,6 +48,8 @@
 #include "xpm/left_hair.xpm"
 #include "xpm/right_hair.xpm"
 
+#define PI 3.14159265358979
+
 //(*InternalHeaders(XPMToolPanel)
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
@@ -466,6 +468,9 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     wxImage ImgFillCursor(fill_cursor_xpm);
     ImgFillCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 8);
     ImgFillCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 22);
+    wxImage ImgSprayCanCursor(spraycan_xpm);
+    ImgSprayCanCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 8);
+    ImgSprayCanCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 22);
 
     ToolCursor[XPM_ID_SELECT_TOOL] = wxCursor(ImgCrossCursor);
     ToolCursor[XPM_ID_LASSO_TOOL] = wxCursor(ImgCrossCursor);
@@ -482,7 +487,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     ToolCursor[XPM_ID_ELLIPSE_TOOL]= wxCursor(ImgCrossCursor);
     ToolCursor[XPM_ID_ROUNDEDRECT_TOOL] = wxCursor(ImgCrossCursor);
     ToolCursor[XPM_ID_HOTSPOT_TOOL] = wxCursor(ImgCrossCursor);
-    ToolCursor[XPM_ID_SPRAYCAN_TOOL] = wxCursor(wxCURSOR_SPRAYCAN);
+    ToolCursor[XPM_ID_SPRAYCAN_TOOL] = wxCursor(ImgSprayCanCursor);
     ToolCursor[XPM_ID_GRADIENT_TOOL] = wxCursor(ImgCrossCursor);
 
     iToolUsed = -1;
@@ -528,6 +533,8 @@ int XPMToolPanel::GetToolID(void)
 void XPMToolPanel::SetToolID(int iTool)
 {
     iToolUsed = iTool;
+    //wxMessageBox(wxString::Format(_("Tool id = %d"), iTool));
+    //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Tool id = %d"), iTool));
 }
 
 /** init tool data for a first use
@@ -545,7 +552,7 @@ void XPMToolPanel::InitToolData(void)
         tdata.y2 = -1;
         tdata.iNbClicks = 0;
         tdata.iNbPoints = 0;
-        //tdata.font = GetFont();
+        tdata.font = GetFont();
         tdata.sText = _("");
         tdata.iPenStyle = GetLineStyle();
         tdata.iBrushStyle = GetFillStyle();
@@ -1706,9 +1713,9 @@ wxBitmap XPMToolPanel::CreateSprayCanBitmap(wxColour cColour, int iSize, int iAn
 {
     int iSize2, i;
 
-    iSize2 = iSize;
+    iSize2 = iSize * 2;
     if (iSize2 < 2) iSize2 = 2;
-    wxBitmap bmp(iSize2, iSize2, -1);
+    wxBitmap bmp(iSize2 + 1, iSize2 + 1, -1);
 
     wxPen pPen(cColour, 1, wxSOLID);
 
@@ -1733,9 +1740,19 @@ wxBitmap XPMToolPanel::CreateSprayCanBitmap(wxColour cColour, int iSize, int iAn
             dc.SetPen(pPen);
 
             //draw the pattern
+
+            double dAngle, dIncrement, dRadius, x , y;
+            iSize2 = iSize2 / 2;
+            dRadius = iSize2;
+            dIncrement = 360.0 * 3 / dRadius;
             for(i=1; i<=iSize2; i++)
             {
-                dc.DrawPoint(i * cos(iAngle), i * sin(iAngle));
+                dAngle = iAngle;
+                dAngle = (dAngle + i * dIncrement) * PI / 180.0;
+                x = i * cos(dAngle) + dRadius;
+                y = i * sin(dAngle) + dRadius;
+                Manager::Get()->GetLogManager()->Log(wxString::Format(_("i=%d dAngle=%f x=%f y=%f"), i, dAngle, x, y));
+                dc.DrawPoint(x, y);
             }
 
             //release the bitmap

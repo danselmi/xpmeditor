@@ -11,25 +11,30 @@ IMPROVEMENTS / NEW FEATURES:
 
 4 - Copy To / Paste from file
 
-5 - Add a spray can tool
+5 - Pen + Brush + Eraser: SHIFT key behaviour to improve
 
-6 - Pen + Brush + Eraser: SHIFT key behaviour to improve
+6 - CTRL + A to implement
 
-8 - Add Gradient Tool
 
 BUGS:
 
 1 - Copy / Paste:
     before copy : bitmap put in clipboard has a Mask
     after paste : bitmap does not have mask
+    It seems to be normal on Windows.
+    Solution: create a custom format for the clipboard, and place multiple format in the clipboard
 
-2 - Text tool is not working anymore
+2 - Text tool : add angular rotation & alignment
 
 3 - SetCursor to review
 
 4 - PasteImage gives a black image when the image is truncated
 
 5 - ClearSelection: when the image to paste is bigger than the destination image, nothing is done sometimes
+
+6 - When dropping a file on Code::Blocks, the file is displayed correctly - however, the Zoom function does not work.
+    Editing & Saving are working.
+    Loading the SAME file using the Project Manager or the File/Load menu gives normal results (no bug)
 
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
@@ -47,23 +52,12 @@ BUGS:
 
 
 CHANGES:
-1 - Interpolation improved
-2 - Some bugs solved
-      a - Selection is not drawn when it is overlapping bitmap edges + zoom
-      b - Pen problem after Move Selection + Zoom
-      c - Redraw background: the bottom right corner is not covered when zooming out
-      d - problem when the selection is bigger than the Image
-      e - Drag image: flicker on Win32 + cursor has a strange position sometimes.
-3 - Reduced size (width) of the tool palette
-4 - added options for Brush & Fill tools
-5 - Added stubs & interface for Spray Can tool
-    (need to implement 2 methods correctly:
-    XPMEditorPanel::ProcessSprayCan() and XPMToolPanel::CreateSprayCanBitmap())
-6 - Added stubs & interface for Gradient tool
-    (need to implement only XPMEditorPanel::ProcessGradient())
-
+1 - Gradient tool implemented
+2 - SprayCan Tool implemented
+3 - Text Tool fixed
 
 
 TO DO UNIX:
  1 - add 2 icons (spray can + gradient) to Project
  2 - test that the DragImage is not broken
+

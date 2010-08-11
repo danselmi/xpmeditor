@@ -481,6 +481,8 @@ bool XPMEditor::OpenInEditor(wxString FileName)
 
         if (!(LoadImage(&img, FileName, &bt))) return(false);
 
+        //Manager::Get()->GetLogManager()->Log(_("Image loaded"));
+
         NewEditor = new XPMEditorBase(Manager::Get()->GetEditorManager()->GetNotebook(),
                                         title,
                                         &img,
@@ -520,6 +522,12 @@ bool XPMEditor::LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt)
     wxString sExt;
     wxBitmapType bt2;
 
+    if (img->LoadFile(sFileName, wxBITMAP_TYPE_PNG))
+    {
+        Manager::Get()->GetLogManager()->Log(_("Image loaded as PNG"));
+        return(true);
+    }
+
     sExt = fn.GetExt();
 
     //get the file format
@@ -528,6 +536,7 @@ bool XPMEditor::LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt)
     if (bRecognized)
     {
         //try the simplest case
+        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Image format %d"), *bt));
         if (img->LoadFile(sFileName, *bt)) return(true);
 
         //try with auto-detection
