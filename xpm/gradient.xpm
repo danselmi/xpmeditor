@@ -1,0 +1,30 @@
+/* XPM */
+static const char *gradient_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 8 1",
+". c Black",
+"X c #FFFFFF",
+"O c #73DBDE",
+"o c #ADEBEF",
+"+ c #4A4DFF",
+"  c None",
+"# c #102494",
+"@ c #0000FF",
+/* pixels */
+"                ",
+" .............. ",
+" .XXXXXXXXXXXX. ",
+" .XXXXXXXXXXXX. ",
+" .oooooooooooo. ",
+" .oooooooooooo. ",
+" .OOOOOOOOOOOO. ",
+" .OOOOOOOOOOOO. ",
+" .++++++++++++. ",
+" .++++++++++++. ",
+" .@@@@@@@@@@@@. ",
+" .@@@@@@@@@@@@. ",
+" .############. ",
+" .############. ",
+" .............. ",
+"                "
+};

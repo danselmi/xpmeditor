@@ -1,0 +1,27 @@
+/* XPM */
+static const char *spraycan_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 5 1",
+"X c Black",
+"o c #FFFFFF",
+". c #0000BD",
+"  c None",
+"O c #0000FF",
+/* pixels */
+"                ",
+"  . .  .        ",
+" . . ...XXX     ",
+". . . XXooXX    ",
+" . .  XooXXOO   ",
+". .   XoXXOOOX  ",
+" . .  XXXOXOOOX ",
+". .    XXXOXOOOX",
+" .      XXXOXOOX",
+". .      XXXOXX ",
+" .        XXXX  ",
+".          XX   ",
+" .              ",
+".               ",
+"                ",
+"                "
+};

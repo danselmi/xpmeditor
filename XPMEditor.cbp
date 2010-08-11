@@ -151,6 +151,7 @@
 		<Unit filename="xpm\roundedrect.xpm" />
 		<Unit filename="xpm\selection.xpm" />
 		<Unit filename="xpm\spraycan.xpm" />
+		<Unit filename="xpm\spraycan2.xpm" />
 		<Unit filename="xpm\square.xpm" />
 		<Unit filename="xpm\test_mask.xpm" />
 		<Unit filename="xpm\text.xpm" />
