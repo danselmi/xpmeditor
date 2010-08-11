@@ -11,13 +11,18 @@
 #ifndef XPM_EDITOR_PANEL_H
 #define XPM_EDITOR_PANEL_H
 
-
-class wxDragImage;
-
 #include <wx/image.h>
 #include <wx/bitmap.h>
 #include <wx/clrpicker.h>
 #include <wx/spinctrl.h>
+#include <wx/dcmemory.h>
+
+#if defined(__WXMSW__)
+    class wxDragImage;
+#else
+    #include <wx/generic/dragimgg.h>
+    #define wxDragImage wxGenericDragImage
+#endif
 
 //(*Headers(XPMEditorPanel)
 #include <wx/panel.h>

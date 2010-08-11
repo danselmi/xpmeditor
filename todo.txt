@@ -52,12 +52,7 @@ BUGS:
 
 
 CHANGES:
-1 - Gradient tool implemented
-2 - SprayCan Tool implemented
-3 - Text Tool fixed
-
-
-TO DO UNIX:
- 1 - add 2 icons (spray can + gradient) to Project
- 2 - test that the DragImage is not broken
-
+1 - added the missing files in LINUX Project
+2 - fixed DragImage on LINUX (tested successfully on LINUX and Windows without too much flicker)
+3 - spray can & Gradient Linear works on LINUX
+4 - Gradient concentric broken on LINUX (wxWidgets bug)

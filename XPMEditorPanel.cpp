@@ -17,13 +17,6 @@
 #include "wxConversion.h"
 #include "wxInvertDialog.h"
 
-#if defined(__WXMSW__)
-    #include <wx/dragimag.h>
-#else
-    #include <wx/generic/dragimgg.h>
-    #define wxDragImage wxGenericDragImage
-#endif
-
 #include <wx/dcclient.h>
 #include <wx/dcbuffer.h>
 #include <wx/brush.h>
@@ -40,6 +33,10 @@
 #include <wx/stattext.h>
 #include <wx/textfile.h>
 #include <math.h>
+
+#if defined(__WXMSW__)
+    #include <wx/dragimag.h>
+#endif
 
 #define PI 3.14159265358979
 

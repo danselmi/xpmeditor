@@ -128,6 +128,7 @@
 		<Unit filename="xpm/eraser.xpm" />
 		<Unit filename="xpm/fill.xpm" />
 		<Unit filename="xpm/fill_cursor.xpm" />
+		<Unit filename="xpm/gradient.xpm" />
 		<Unit filename="xpm/hotspot.xpm" />
 		<Unit filename="xpm/lasso.xpm" />
 		<Unit filename="xpm/left.xpm" />
@@ -143,6 +144,8 @@
 		<Unit filename="xpm/right_hair.xpm" />
 		<Unit filename="xpm/roundedrect.xpm" />
 		<Unit filename="xpm/selection.xpm" />
+		<Unit filename="xpm/spraycan.xpm" />
+		<Unit filename="xpm/spraycan2.xpm" />
 		<Unit filename="xpm/square.xpm" />
 		<Unit filename="xpm/test_mask.xpm" />
 		<Unit filename="xpm/text.xpm" />
