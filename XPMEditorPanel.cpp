@@ -2097,7 +2097,9 @@ void XPMEditorPanel::ProcessGradient(int x, int y,
                         {
                             //in the center
                             wxRect r(xLeft, yTop, (xRight - xLeft), (yBottom - yTop));
-                            memDC.GradientFillConcentric(r, cLineColour, cFillColour);
+                            GradientFillConcentric(memDC, r, cLineColour, cFillColour,
+                                                   wxPoint(r.GetWidth() / 2, r.GetHeight() / 2)
+                                                  );
                         }
                         else
                         {
@@ -2110,7 +2112,7 @@ void XPMEditorPanel::ProcessGradient(int x, int y,
                             ptCenter.x = ptCenter.x - xLeft;
                             ptCenter.y = ptCenter.y - yTop;
                             wxRect r(xLeft, yTop, (xRight - xLeft), (yBottom - yTop));
-                            memDC.GradientFillConcentric(r, cLineColour, cFillColour, ptCenter);
+                            GradientFillConcentric(memDC, r, cLineColour, cFillColour, ptCenter);
                         }
                     }
                 }
@@ -2227,7 +2229,7 @@ void XPMEditorPanel::ProcessGradient(int x, int y,
                     ptCenter.y = ptCenter.y - yTop;
 
                     wxRect r(xLeft, yTop, (xRight - xLeft), (yBottom - yTop));
-                    memDC.GradientFillConcentric(r, cLineColour, cFillColour, ptCenter);
+                    GradientFillConcentric(memDC, r, cLineColour, cFillColour, ptCenter);
 
                 }
 
@@ -6297,6 +6299,90 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
         }
 
     }
+}
+
+/** fill a gradient rectangle, from a given center
+  * Fill the area specified by rect with a radial gradient, starting from initialColour at the centre of the circle and fading to destColour on the circle outside
+  * \param dc : the wxDC on which to draw
+  * \param rect : the bounding rectangle of the gradient
+  * \param initialColour: the start colour of the gradient
+  * \param destColour: the end colour of the gradient
+  * \param circleCenter: the coordinates of the gradient start center.
+  *                      circleCenter are the relative coordinates of centre of the circle in the specified rect
+  *                      (0,0) is therefore the upper-left corner of the bounding rect
+  */
+void XPMEditorPanel::GradientFillConcentric(wxDC& dc,
+                                            const wxRect& rect,
+                                            const wxColour& initialColour,
+                                            const wxColour& destColour,
+                                            const wxPoint& circleCenter)
+{
+    if (!dc.IsOk()) return;
+    // save the old pen and ensure it is restored on exit
+    wxPen penOrig;
+    penOrig = dc.GetPen();
+
+    wxUint8 nR1 = destColour.Red();
+    wxUint8 nG1 = destColour.Green();
+    wxUint8 nB1 = destColour.Blue();
+    wxUint8 nR2 = initialColour.Red();
+    wxUint8 nG2 = initialColour.Green();
+    wxUint8 nB2 = initialColour.Blue();
+    wxUint8 nR, nG, nB;
+
+
+    //Radius
+    double cx = rect.GetWidth() / 2;
+    double cy = rect.GetHeight() / 2;
+    double dRadius;
+    if (cx < cy)
+        dRadius = cx;
+    else
+        dRadius = cy;
+
+    //Offset of circle
+    double ptX, ptY;
+    ptX = circleCenter.x;
+    ptY = circleCenter.y;
+    double nCircleOffX = ptX - cx;
+    double nCircleOffY = ptY - cy;
+
+    wxInt32 nGradient;
+    double dGradient;
+    double dx, dy;
+
+    for ( wxInt32 x = 0; x < rect.GetWidth(); x++ )
+    {
+        for ( wxInt32 y = 0; y < rect.GetHeight(); y++ )
+        {
+            //get color difference
+            dx = x;
+            dy = y;
+
+            dGradient = ((dRadius - sqrt(  (dx - cx - nCircleOffX) * (dx - cx - nCircleOffX)
+                                          +(dy - cy - nCircleOffY) * (dy - cy - nCircleOffY)
+                                         )
+                         ) * 100
+                        ) / dRadius;
+
+            //normalize Gradient
+            if (dGradient < 0) dGradient = 0.0;
+            nGradient = dGradient;
+
+            //get dest colors
+            nR = (wxUint8)(nR1 + ((nR2 - nR1) * nGradient / 100));
+            nG = (wxUint8)(nG1 + ((nG2 - nG1) * nGradient / 100));
+            nB = (wxUint8)(nB1 + ((nB2 - nB1) * nGradient / 100));
+
+            //set the pixel
+            wxPen pen(wxColour(nR,nG,nB), 1, wxSOLID);
+            dc.SetPen(pen);
+            dc.DrawPoint(x + rect.GetLeft(), y + rect.GetTop());
+        }
+    }
+
+    //restore old pen
+    dc.SetPen(penOrig);
 }
 
 

@@ -414,6 +414,13 @@ class XPMEditorPanel: public wxPanel
         wxArrayInt m_pt_y;   ///< \brief array of interpolated points - X coordinates
         void Interpolate(int xStart, int yStart, int xEnd, int yEnd); ///< \brief interpolate
 
+        //Gradient concentric, to avoid GTK problem
+        void GradientFillConcentric(wxDC& dc,
+                                    const wxRect& rect,
+                                    const wxColour& initialColour,
+                                    const wxColour& destColour,
+                                    const wxPoint& circleCenter); ///< \brief fill a gradient rectangle, from a given center
+
         DECLARE_EVENT_TABLE()
 };
 
