@@ -61,21 +61,21 @@
 //(*IdInit(XPMToolPanel)
 const long XPMToolPanel::ID_SELECT_BUTN = wxNewId();
 const long XPMToolPanel::ID_LASSO_BTN = wxNewId();
-const long XPMToolPanel::ID_HOTSPOT_BTN = wxNewId();
 const long XPMToolPanel::ID_PIPETTE_BTN = wxNewId();
+const long XPMToolPanel::ID_LINE_BTN = wxNewId();
+const long XPMToolPanel::ID_CURVE_BTN = wxNewId();
 const long XPMToolPanel::ID_PEN_BTN = wxNewId();
 const long XPMToolPanel::ID_BRUSH_BTN = wxNewId();
 const long XPMToolPanel::ID_FILL_BTN = wxNewId();
 const long XPMToolPanel::ID_BUTTONSPRAYCAN = wxNewId();
 const long XPMToolPanel::ID_GRADIENTBUTTON = wxNewId();
-const long XPMToolPanel::ID_LINE_BTN = wxNewId();
-const long XPMToolPanel::ID_CURVE_BTN = wxNewId();
-const long XPMToolPanel::ID_ERASER_BTN = wxNewId();
 const long XPMToolPanel::ID_TEXT_BTN = wxNewId();
 const long XPMToolPanel::ID_RECTANGLE_BTN = wxNewId();
 const long XPMToolPanel::ID_POLYGON_BTN = wxNewId();
 const long XPMToolPanel::ID_ELLIPSE_BTN = wxNewId();
 const long XPMToolPanel::ID_ROUNDEDRECT_BTN = wxNewId();
+const long XPMToolPanel::ID_ERASER_BTN = wxNewId();
+const long XPMToolPanel::ID_HOTSPOT_BTN = wxNewId();
 const long XPMToolPanel::ID_CUSTOM4 = wxNewId();
 const long XPMToolPanel::ID_CUSTOM2 = wxNewId();
 const long XPMToolPanel::ID_STATICTEXT5 = wxNewId();
@@ -138,14 +138,18 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	LassoButton->SetBitmapDisabled(LassoButton->CreateBitmapDisabled(LassoButton->GetBitmapLabel()));
 	LassoButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer2->Add(LassoButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	HotSpotButton = new wxCustomButton(this,ID_HOTSPOT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_HOTSPOT_BTN"));
-	HotSpotButton->SetBitmapDisabled(HotSpotButton->CreateBitmapDisabled(HotSpotButton->GetBitmapLabel()));
-	HotSpotButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer2->Add(HotSpotButton, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	PipetteButton = new wxCustomButton(this,ID_PIPETTE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PIPETTE_BTN"));
 	PipetteButton->SetBitmapDisabled(PipetteButton->CreateBitmapDisabled(PipetteButton->GetBitmapLabel()));
 	PipetteButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer2->Add(PipetteButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	LineButton = new wxCustomButton(this,ID_LINE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LINE_BTN"));
+	LineButton->SetBitmapDisabled(LineButton->CreateBitmapDisabled(LineButton->GetBitmapLabel()));
+	LineButton->SetBitmapMargin(wxSize(2,2));
+	BoxSizer2->Add(LineButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	CurveButton = new wxCustomButton(this,ID_CURVE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CURVE_BTN"));
+	CurveButton->SetBitmapDisabled(CurveButton->CreateBitmapDisabled(CurveButton->GetBitmapLabel()));
+	CurveButton->SetBitmapMargin(wxSize(2,2));
+	BoxSizer2->Add(CurveButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	ToolButtonsSizer->Add(BoxSizer2, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
 	PenButton = new wxCustomButton(this,ID_PEN_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_PEN_BTN"));
@@ -170,43 +174,39 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	BoxSizer5->Add(GradientButton, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	ToolButtonsSizer->Add(BoxSizer5, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	BoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
-	LineButton = new wxCustomButton(this,ID_LINE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_LINE_BTN"));
-	LineButton->SetBitmapDisabled(LineButton->CreateBitmapDisabled(LineButton->GetBitmapLabel()));
-	LineButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer7->Add(LineButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	CurveButton = new wxCustomButton(this,ID_CURVE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_CURVE_BTN"));
-	CurveButton->SetBitmapDisabled(CurveButton->CreateBitmapDisabled(CurveButton->GetBitmapLabel()));
-	CurveButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer7->Add(CurveButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	EraserButton = new wxCustomButton(this,ID_ERASER_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ERASER_BTN"));
-	EraserButton->SetBitmapDisabled(EraserButton->CreateBitmapDisabled(EraserButton->GetBitmapLabel()));
-	EraserButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer7->Add(EraserButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	TextButton = new wxCustomButton(this,ID_TEXT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_TEXT_BTN"));
 	TextButton->SetBitmapDisabled(TextButton->CreateBitmapDisabled(TextButton->GetBitmapLabel()));
 	TextButton->SetBitmapMargin(wxSize(2,2));
 	BoxSizer7->Add(TextButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
-	ToolButtonsSizer->Add(BoxSizer7, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	BoxSizer10 = new wxBoxSizer(wxHORIZONTAL);
 	RectangleButton = new wxCustomButton(this,ID_RECTANGLE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_RECTANGLE_BTN"));
 	RectangleButton->SetBitmapDisabled(RectangleButton->CreateBitmapDisabled(RectangleButton->GetBitmapLabel()));
 	RectangleButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer10->Add(RectangleButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	BoxSizer7->Add(RectangleButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	PolygonButton = new wxCustomButton(this,ID_POLYGON_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_POLYGON_BTN"));
 	PolygonButton->SetBitmapDisabled(PolygonButton->CreateBitmapDisabled(PolygonButton->GetBitmapLabel()));
 	PolygonButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer10->Add(PolygonButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
+	BoxSizer7->Add(PolygonButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	EllipseButton = new wxCustomButton(this,ID_ELLIPSE_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ELLIPSE_BTN"));
 	EllipseButton->SetBitmapDisabled(EllipseButton->CreateBitmapDisabled(EllipseButton->GetBitmapLabel()));
 	EllipseButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer10->Add(EllipseButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	BoxSizer7->Add(EllipseButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
 	RRectButton = new wxCustomButton(this,ID_ROUNDEDRECT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ROUNDEDRECT_BTN"));
 	RRectButton->SetBitmapDisabled(RRectButton->CreateBitmapDisabled(RRectButton->GetBitmapLabel()));
 	RRectButton->SetBitmapMargin(wxSize(2,2));
-	BoxSizer10->Add(RRectButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
+	BoxSizer7->Add(RRectButton, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
+	ToolButtonsSizer->Add(BoxSizer7, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer10 = new wxBoxSizer(wxHORIZONTAL);
+	EraserButton = new wxCustomButton(this,ID_ERASER_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_ERASER_BTN"));
+	EraserButton->SetBitmapDisabled(EraserButton->CreateBitmapDisabled(EraserButton->GetBitmapLabel()));
+	EraserButton->SetBitmapMargin(wxSize(2,2));
+	BoxSizer10->Add(EraserButton, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
+	HotSpotButton = new wxCustomButton(this,ID_HOTSPOT_BTN,wxEmptyString,wxArtProvider::GetBitmap(wxART_MAKE_ART_ID_FROM_STR(_T("wxART_ADD_BOOKMARK")),wxART_BUTTON),wxDefaultPosition,wxDefaultSize,wxCUSTBUT_TOGGLE|wxCUSTBUT_BOTTOM,wxDefaultValidator,_T("ID_HOTSPOT_BTN"));
+	HotSpotButton->SetBitmapDisabled(HotSpotButton->CreateBitmapDisabled(HotSpotButton->GetBitmapLabel()));
+	HotSpotButton->SetBitmapMargin(wxSize(2,2));
+	BoxSizer10->Add(HotSpotButton, 0, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	ToolButtonsSizer->Add(BoxSizer10, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ToolPanelSizer->Add(ToolButtonsSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	ToolPanelSizer->Add(-1,-1,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
+	ToolPanelSizer->Add(118,5,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
 	BrushToolSizer = new wxBoxSizer(wxVERTICAL);
 	ComboBrushTool = new wxBitmapComboBox(this,ID_CUSTOM4, _(""),wxDefaultPosition,wxDefaultSize, 0, NULL, wxCB_READONLY);
 	BrushToolSizer->Add(ComboBrushTool, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
@@ -242,18 +242,21 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	FontSizer = new wxBoxSizer(wxVERTICAL);
 	StaticBoxSizer1 = new wxStaticBoxSizer(wxVERTICAL, this, _("Alignment"));
 	BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+	BoxSizer4->Add(1,1,1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	TopLeft = new wxRadioButton(this, ID_RADIOBUTTON1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP, wxDefaultValidator, _T("ID_RADIOBUTTON1"));
 	TopLeft->SetValue(true);
 	TopLeft->SetToolTip(_("Top Left Alignment"));
 	BoxSizer4->Add(TopLeft, 0, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 1);
 	TopCenter = new wxRadioButton(this, ID_RADIOBUTTON9, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON9"));
 	TopCenter->SetToolTip(_("Top Center Alignment"));
-	BoxSizer4->Add(TopCenter, 0, wxTOP|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_TOP, 1);
+	BoxSizer4->Add(TopCenter, 0, wxTOP|wxLEFT|wxRIGHT|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 1);
 	TopRight = new wxRadioButton(this, ID_RADIOBUTTON8, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON8"));
 	TopRight->SetToolTip(_("Top Right Alignment"));
 	BoxSizer4->Add(TopRight, 0, wxTOP|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_TOP, 1);
+	BoxSizer4->Add(1,1,1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	StaticBoxSizer1->Add(BoxSizer4, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 0);
 	BoxSizer9 = new wxBoxSizer(wxHORIZONTAL);
+	BoxSizer9->Add(1,1,1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	CenterLeft = new wxRadioButton(this, ID_RADIOBUTTON7, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON7"));
 	CenterLeft->SetToolTip(_("Center Left Alignment"));
 	BoxSizer9->Add(CenterLeft, 0, wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 1);
@@ -263,8 +266,10 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	CenterRight = new wxRadioButton(this, ID_RADIOBUTTON5, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON5"));
 	CenterRight->SetToolTip(_("Center Right Alignment"));
 	BoxSizer9->Add(CenterRight, 0, wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 1);
+	BoxSizer9->Add(1,1,1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	StaticBoxSizer1->Add(BoxSizer9, 0, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	BoxSizer11 = new wxBoxSizer(wxHORIZONTAL);
+	BoxSizer11->Add(1,1,1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	BottomLeft = new wxRadioButton(this, ID_RADIOBUTTON4, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON4"));
 	BottomLeft->SetToolTip(_("Bottom Left Alignment"));
 	BoxSizer11->Add(BottomLeft, 0, wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
@@ -274,6 +279,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	BottomRight = new wxRadioButton(this, ID_RADIOBUTTON2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_RADIOBUTTON2"));
 	BottomRight->SetToolTip(_("Bottom Right Alignment"));
 	BoxSizer11->Add(BottomRight, 0, wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_BOTTOM, 1);
+	BoxSizer11->Add(1,1,1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	StaticBoxSizer1->Add(BoxSizer11, 0, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 0);
 	FontSizer->Add(StaticBoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
 	BoxSizer12 = new wxBoxSizer(wxVERTICAL);
@@ -319,28 +325,28 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	ChoiceGradientDirection->Append(_("To the Right"));
 	GradientSizer->Add(ChoiceGradientDirection, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 2);
 	ToolPanelSizer->Add(GradientSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
-	ToolPanelSizer->Add(-1,-1,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
+	ToolPanelSizer->Add(118,5,0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 1);
 	SetSizer(ToolPanelSizer);
 	ToolPanelSizer->Fit(this);
 	ToolPanelSizer->SetSizeHints(this);
 
 	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSelectButtonToggle);
 	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLassoButtonToggle);
-	Connect(ID_HOTSPOT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotButtonToggle);
 	Connect(ID_PIPETTE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPipetteButtonToggle);
+	Connect(ID_LINE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLineButtonToggle);
+	Connect(ID_CURVE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnCurveButtonToggle);
 	Connect(ID_PEN_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPenButtonToggle);
 	Connect(ID_BRUSH_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnBrushButtonToggle);
 	Connect(ID_FILL_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnFillButtonToggle);
 	Connect(ID_BUTTONSPRAYCAN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSprayCanButtonToggle);
 	Connect(ID_GRADIENTBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnGradientButtonToggle);
-	Connect(ID_LINE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLineButtonToggle);
-	Connect(ID_CURVE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnCurveButtonToggle);
-	Connect(ID_ERASER_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnEraserButtonToggle);
 	Connect(ID_TEXT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnTextButtonToggle);
 	Connect(ID_RECTANGLE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnRectangleButtonToggle);
 	Connect(ID_POLYGON_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPolygonButtonToggle);
 	Connect(ID_ELLIPSE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnEllipseButtonToggle);
 	Connect(ID_ROUNDEDRECT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnRRectButtonToggle);
+	Connect(ID_ERASER_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnEraserButtonToggle);
+	Connect(ID_HOTSPOT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotButtonToggle);
 	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinSizeChanged);
 	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinRadiusChanged);
 	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinThicknessChanged);
@@ -469,8 +475,8 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
     ImgFillCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 8);
     ImgFillCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 22);
     wxImage ImgSprayCanCursor(spraycan_xpm);
-    ImgSprayCanCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 8);
-    ImgSprayCanCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 22);
+    ImgSprayCanCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 0);
+    ImgSprayCanCursor.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 14);
 
     ToolCursor[XPM_ID_SELECT_TOOL] = wxCursor(ImgCrossCursor);
     ToolCursor[XPM_ID_LASSO_TOOL] = wxCursor(ImgCrossCursor);
@@ -552,11 +558,12 @@ void XPMToolPanel::InitToolData(void)
         tdata.y2 = -1;
         tdata.iNbClicks = 0;
         tdata.iNbPoints = 0;
-        tdata.font = GetFont();
         tdata.sText = _("");
         tdata.iPenStyle = GetLineStyle();
         tdata.iBrushStyle = GetFillStyle();
         tdata.iStyle  = ComboBrushTool->GetSelection();
+        tdata.bComplexSelection = false;
+        tdata.font = GetFont();
 
         int i;
         for(i=0;i < XPM_MAXPOINTS; i++)
@@ -1104,23 +1111,11 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
        wxSize sMinSize3(0,0);
        wxSize sMinSize4(0,0);
        wxSize sChildSize(0,0);
-       wxSizerItem *si;
        int iBorder, iFlags;
        bool bHidden1, bHidden2, bHidden3, bHidden4;
 
        sResult = ToolButtonsSizer->GetMinSize();
-       //add sizer borders
-        si = ToolPanelSizer->GetItem(ToolButtonsSizer);
-        if (si)
-        {
-            iBorder = si->GetBorder();
-            iFlags = si->GetFlag();
 
-            if (iFlags & wxTOP) sResult.SetHeight(sResult.GetHeight() + iBorder);
-            if (iFlags & wxBOTTOM) sResult.SetHeight(sResult.GetHeight() + iBorder);
-            if (iFlags & wxLEFT) sResult.SetWidth(sResult.GetWidth() + iBorder);
-            if (iFlags & wxBOTTOM) sResult.SetWidth(sResult.GetWidth() + iBorder);
-        }
         //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
         //Manager::Get()->GetLogManager()->Log(wxString::Format(_("ToolButtonSizer w=%d h=%d"), sResult.GetWidth(), sResult.GetHeight()));
 
@@ -1142,41 +1137,6 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            if (!bHidden2) ToolPanelSizer->Hide(SizeSizer);
            if (!bHidden3) ToolPanelSizer->Hide(BrushStyleSizer);
 
-           //add sizer borders
-           si = ToolPanelSizer->GetItem(BrushToolSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-           }
-           si = ToolPanelSizer->GetItem(SizeSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize2.SetHeight(sMinSize2.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize2.SetHeight(sMinSize2.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize2.SetWidth(sMinSize2.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize2.SetWidth(sMinSize2.GetWidth() + iBorder);
-           }
-           si = ToolPanelSizer->GetItem(BrushStyleSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize3.SetHeight(sMinSize3.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize3.SetHeight(sMinSize3.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize3.SetWidth(sMinSize3.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize3.SetWidth(sMinSize3.GetWidth() + iBorder);
-           }
-
            sMinSize.SetHeight(sMinSize.GetHeight() + sMinSize2.GetHeight() + sMinSize3.GetHeight());
 
            if (sMinSize.GetHeight() > sChildSize.GetHeight()) sChildSize.SetHeight(sMinSize.GetHeight());
@@ -1194,19 +1154,6 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            sMinSize = GradientSizer->GetMinSize();
            if (!bHidden1) ToolPanelSizer->Hide(GradientSizer);
 
-           //add sizer borders
-           si = ToolPanelSizer->GetItem(GradientSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-           }
-
            if (sMinSize.GetHeight() > sChildSize.GetHeight()) sChildSize.SetHeight(sMinSize.GetHeight());
            if (sMinSize.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize.GetWidth());
        }
@@ -1218,19 +1165,6 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            if (!bHidden1) ToolPanelSizer->Show(ColourPickerSizer);
            sMinSize = ColourPickerSizer->GetMinSize();
            if (!bHidden1) ToolPanelSizer->Hide(ColourPickerSizer);
-
-           //add sizer borders
-           si = ToolPanelSizer->GetItem(ColourPickerSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-           }
 
            sMinSize.SetHeight(sMinSize.GetHeight() + sMinSize2.GetHeight());
 
@@ -1260,52 +1194,6 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            if (!bHidden3) ToolPanelSizer->Hide(BrushStyleSizer);
            if (!bHidden4) ToolPanelSizer->Hide(PenStyleSizer);
 
-           //add sizer borders
-           si = ToolPanelSizer->GetItem(RadiusSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-           }
-           si = ToolPanelSizer->GetItem(ThicknessSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize2.SetHeight(sMinSize2.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize2.SetHeight(sMinSize2.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize2.SetWidth(sMinSize2.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize2.SetWidth(sMinSize2.GetWidth() + iBorder);
-           }
-           si = ToolPanelSizer->GetItem(BrushStyleSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize3.SetHeight(sMinSize3.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize3.SetHeight(sMinSize3.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize3.SetWidth(sMinSize3.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize3.SetWidth(sMinSize3.GetWidth() + iBorder);
-           }
-           si = ToolPanelSizer->GetItem(PenStyleSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               if (iFlags & wxTOP) sMinSize4.SetHeight(sMinSize4.GetHeight() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize4.SetHeight(sMinSize4.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize4.SetWidth(sMinSize4.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize4.SetWidth(sMinSize4.GetWidth() + iBorder);
-           }
-
            sMinSize.SetHeight(sMinSize.GetHeight() + sMinSize2.GetHeight() + sMinSize3.GetHeight() + sMinSize4.GetHeight());
 
            if (sMinSize.GetHeight() > sChildSize.GetHeight()) sChildSize.SetHeight(sMinSize.GetHeight());
@@ -1324,19 +1212,6 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            if (!bHidden1) ToolPanelSizer->Show(FontSizer);
            sMinSize = FontSizer->GetMinSize();
            if (!bHidden1) ToolPanelSizer->Hide(FontSizer);
-
-           //add sizer borders
-           si = ToolPanelSizer->GetItem(FontSizer);
-           if (si)
-           {
-               iBorder = si->GetBorder();
-               iFlags = si->GetFlag();
-
-               //if (iFlags & wxTOP) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               //if (iFlags & wxBOTTOM) sMinSize.SetHeight(sMinSize.GetHeight() + iBorder);
-               if (iFlags & wxLEFT) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-               if (iFlags & wxBOTTOM) sMinSize.SetWidth(sMinSize.GetWidth() + iBorder);
-           }
 
            sMinSize.SetHeight(sMinSize.GetHeight() + sMinSize2.GetHeight());
 

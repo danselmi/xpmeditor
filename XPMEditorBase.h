@@ -56,17 +56,17 @@ class XPMEditorBase: public EditorBase
         void SetReadOnly(bool bReadOnly);           ///< \brief set read-only status
 		bool GetReadOnly(void) const;               ///< \brief test if current image is read-only
 		bool IsReadOnly(void) const;                ///< \brief test if current image is read-only
-		bool Save(void);                            ///< \brief Save image
-		bool SaveAs(void);                          ///< \brief Save image under a new name
-		bool Close(void);                           ///< \brief Close the editor
+		virtual bool Save(void);                    ///< \brief Save image
+		virtual bool SaveAs(void);                  ///< \brief Save image under a new name
+		virtual bool Close(void);                   ///< \brief Close the editor
 		void SetProjectFile(ProjectFile* project_file,
                             bool preserve_modified = false); ///< \brief Set the Project file of the Image. Can be NULL
         void NotifyPlugins(wxEventType type, int intArg = 0, const wxString& strArg = wxEmptyString,
                            int xArg = 0, int yArg = 0);     ///< \brief Post application-wide events
 
 		//undo / redo functions
-		bool CanUndo(void) const;   ///< \brief Checking if can Undo
-		bool CanRedo(void) const;   ///< \brief Ckeck if can Redo
+		virtual bool CanUndo(void) const;   ///< \brief Checking if can Undo
+		virtual bool CanRedo(void) const;   ///< \brief Ckeck if can Redo
 		void ClearUndoBuffer(void); ///< \brief Clear the Undo Buffer
 		void ClearRedoBuffer(void); ///< \brief Clear the Redo Buffer
 		bool AddUndo(wxBitmap *bm); ///< \brief Add 1 UNDO operation to the buffer
@@ -75,19 +75,21 @@ class XPMEditorBase: public EditorBase
         bool AddRedo(wxImage *img); ///< \brief Add 1 REDO operation to the buffer
         bool AddUndo(void);         ///< \brief Add 1 UNDO operation to the buffer
         bool AddRedo(void);         ///< \brief Add 1 REDO operation to the buffer
-		void Undo(void);            ///< \brief UNDO
-		void Redo(void);            ///< \brief REDO
+		virtual void Undo(void);    ///< \brief UNDO
+		virtual void Redo(void);    ///< \brief REDO
 
 		//clipboards operations
 		bool CanCopy(void) const;        ///< \brief Check if we can copy
-        bool CanCut(void) const;         ///< \brief Check if we can cut
-		bool CanPaste(void) const;       ///< \brief Check if we can paste
-		void Cut(void);                  ///< \brief Perform a Cut operation
-		void Copy(void);                 ///< \brief perform a Copy operation
-		void Paste(void);                ///< \brief perform a Paste operation
-		bool HasSelection(void) const;   ///< \brief returns true if it has selection
+        virtual bool CanCut(void) const;         ///< \brief Check if we can cut
+        virtual bool CanPaste(void) const;       ///< \brief Check if we can paste
+		virtual void Cut(void);          ///< \brief Perform a Cut operation
+		virtual void Copy(void);         ///< \brief perform a Copy operation
+		virtual void Paste(void);        ///< \brief perform a Paste operation
+		virtual bool HasSelection(void) const;   ///< \brief returns true if it has selection
 		void ClearSelection(void);       ///< \brief clear the current selection
 		void GetBoundingRect(wxRect *r); ///< \brief Get the bounding rectangle of the selection
+        virtual bool CanSelectAll(void) const; ///< \brief return True if the editor can select all content, false if not.
+        virtual void SelectAll(void);  ///< \brief Select everything in the editor
 
 		//image access
 		wxImage GetImage(void);         ///< \brief Get current image (a copy)

@@ -401,7 +401,7 @@ void XPMEditorPanel::UpdateMinimalSizes(void)
                 sBestSize = FoldPanel->FoldPanelBar1->GetBestSize();
             }
 
-            auiFoldInfo = auiFoldInfo.BestSize(sMinSize)
+            auiFoldInfo = auiFoldInfo.BestSize(sBestSize)
                                      .FloatingSize(sMinSize)
                                      .MinSize(sMinSize);
 
@@ -1541,11 +1541,15 @@ void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
     if (x > iWidth) x = iWidth ;
     if (y  > iHeight) y = iHeight;
 
-    //simulate a double click
-    ProcessToolAction(iTool, x, y, true, false, false, false, event.ShiftDown());
-    ProcessToolAction(iTool, x, y, false, true, false, false, event.ShiftDown());
-    ProcessToolAction(iTool, x, y, false, false, true, false, event.ShiftDown());
-    ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());
+    //simulate a double click, send a sequential list of Left Mouse button events : Down + Pressed, Up, DClick, Up
+
+    ProcessToolAction(iTool, x, y, true, false, true, false, event.ShiftDown()); //Left Down + Left pressed
+    ProcessToolAction(iTool, x, y, false, true, false, false, event.ShiftDown());//Left Up
+    ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());//Left Double click
+    ProcessToolAction(iTool, x, y, false, true, false, false, event.ShiftDown());//Left Up
+
+
+    //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Right Click 7")));
 
     event.Skip();
 }
@@ -1826,7 +1830,7 @@ void XPMEditorPanel::ProcessFill(int x, int y,
   * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessPen(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
+                                bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
 
     if (bLeftDown)
@@ -1890,9 +1894,13 @@ void XPMEditorPanel::ProcessPen(int x, int y,
             xx = x / dScale; yy = y / dScale;
             if ((bShiftDown) && (tdata.x2 >= 0) && (tdata.y2 >=0)) MakeStandardOrientation(&tdata.x2, &tdata.y2, &xx, &yy);
 
+            if (tdata.x1 < 0) tdata.x1 = xx;
+            if (tdata.y1 < 0) tdata.y1 = yy;
+
             mem_dc.DrawLine(tdata.x1, tdata.y1, xx, yy);
             mem_dc.DrawPoint(xx, yy);
             mem_dc.SelectObject(wxNullBitmap);
+            //Manager::Get()->GetLogManager()->Log(wxString::Format(_("xx=%d yy=%d x1=%d y1=%d"), xx, yy, tdata.x1, tdata.y1));
             tdata.x1 = xx;
             tdata.y1 = yy;
         }
@@ -2527,6 +2535,7 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
 void XPMEditorPanel::ProcessLasso(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
+
     if ((!bLeftDown) && (!bLeftUp) && (!bPressed) && (!bDClick))
     {
         if (tdata.iNbClicks > 0)
@@ -2566,9 +2575,11 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
     // left button UP
     if (bLeftUp)
     {
-        if (tdata.iNbClicks == 0)
+
+        if ((tdata.iNbClicks == 0) && (!tdata.bComplexSelection))
         {
             ClearSelection();
+            tdata.bComplexSelection = false;
             bUsingTool = true;
             Repaint();
             tdata.iNbClicks = 1;
@@ -2582,7 +2593,7 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
                 pSelection[0].y = y / dScale;
             }
         }
-        else
+        else if (!tdata.bComplexSelection)
         {
             NbPoints = NbPoints + 1;
             pSelection = CheckMemorySelection(NbPoints);
@@ -2600,6 +2611,7 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
     {
         ToggleButtons(-1, false);
         bUsingTool = false;
+        tdata.bComplexSelection = true;
         m_bEraseSelection = true;
     }
 }
@@ -2687,6 +2699,9 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             wxBitmap bmp;
             if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(tdata.iStyle, cColour, iSize, tdata.iBrushStyle, tdata.iPenStyle);
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
+
+            if (tdata.x1 < 0) tdata.x1 = xx;
+            if (tdata.y1 < 0) tdata.y1 = yy;
 
             Interpolate(tdata.x1, tdata.y1, xx, yy);
             for(i=0; i < m_pt_x.Count(); i++)
@@ -2803,6 +2818,9 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
             if (tdata.angle >= 360) tdata.angle = 0;
             if (tdata.angle < 0) tdata.angle = 0;
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
+
+            if (tdata.x1 < 0) tdata.x1 = xx;
+            if (tdata.y1 < 0) tdata.y1 = yy;
 
             Interpolate(tdata.x1, tdata.y1, xx, yy);
             for(i=0; i < m_pt_x.Count(); i=i+2)
@@ -2940,6 +2958,9 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             wxBitmap bmp;
             if (ToolPanel) bmp = ToolPanel->CreateBrushBitmap(-1, cColour, iSize, wxSOLID, wxSOLID);
             if (bmp.IsOk()) mem_dc.DrawBitmap(bmp, xx - iSize / 2, yy - iSize / 2, true);
+
+            if (tdata.x1 < 0) tdata.x1 = xx;
+            if (tdata.y1 < 0) tdata.y1 = yy;
 
             Interpolate(tdata.x1, tdata.y1, xx, yy);
             for(i=0; i < m_pt_x.Count(); i++)
@@ -3714,6 +3735,7 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
   */
 void XPMEditorPanel::InitToolData(void)
 {
+    //Manager::Get()->GetLogManager()->Log(_("Init tool data"));
     bUsingTool = false;
     if (DrawCanvas)
     {
@@ -3730,7 +3752,7 @@ void XPMEditorPanel::GetToolData(ToolData *t)
     //get the tool data
     if (t)
     {
-        memcpy(t, &tdata, sizeof(ToolData));
+        CopyToolData(t, &tdata);
     }
 }
 
@@ -3742,8 +3764,46 @@ void XPMEditorPanel::SetToolData(ToolData *t)
     //set the tool data
     if (t)
     {
-        memcpy(&tdata, t, sizeof(ToolData));
+        CopyToolData(&tdata, t);
     }
+}
+
+/** copy the tool data from Source to Dest
+  * Using memcpy will lead to strange behaviour with font (and all other referenced counted objects)
+  * Therefore we use a manual method
+  * \param Dest : the destination data
+  * \param Source: the source data
+  */
+void XPMEditorPanel::CopyToolData(ToolData *Dest, ToolData *Source)
+{
+    if (!Dest) return;
+    if (!Source) return;
+    int i;
+
+    Dest->x1 = Source->x1;
+    Dest->y1 = Source->y1;
+    Dest->x2 = Source->x2;
+    Dest->y2 = Source->y2;
+    Dest->iNbClicks = Source->iNbClicks;
+    Dest->iStyle = Source->iStyle;
+    Dest->iSize = Source->iSize;
+    Dest->iSize2 = Source->iSize2;
+    for(i=0; i <= XPM_MAXPOINTS;i++)
+    {
+        Dest->pts[i] = Source->pts[i];
+    }
+    Dest->iNbPoints = Source->iNbPoints;
+    Dest->iRadius = Source->iRadius;
+    Dest->sText = Source->sText;
+    Dest->font = Source->font;
+    Dest->iHorizAlign = Source->iHorizAlign;
+    Dest->iVertAlign = Source->iVertAlign;
+    Dest->iPenStyle = Source->iPenStyle;
+    Dest->iBrushStyle = Source->iBrushStyle;
+    Dest->iGradient = Source->iGradient;
+    Dest->iGradientDirection = Source->iGradientDirection;
+    Dest->angle = Source->angle;
+    Dest->bComplexSelection = Source->bComplexSelection;
 }
 
 /** Return the ID of the tool currently in use
@@ -5003,6 +5063,7 @@ void XPMEditorPanel::OnDrawCanvasKeyDown(wxKeyEvent& event)
     if (iModifiers & wxMOD_CONTROL) dx = 1;
     if (iModifiers & wxMOD_SHIFT) dx = 10;
 
+
     switch(event.GetKeyCode())
     {
         case WXK_NUMPAD_DELETE :
@@ -5063,6 +5124,32 @@ void XPMEditorPanel::OnDrawCanvasKeyDown(wxKeyEvent& event)
     }
 
     if ((bSkip) && (!HasSelection())) event.Skip();
+}
+
+/** Handler for CTRL+A
+  */
+void XPMEditorPanel::SelectAll(void)
+{
+    ClearSelection();
+    if (!m_Image) return;
+
+    NbPoints = 4;
+    pSelection = CheckMemorySelection(4);
+
+    if (pSelection)
+    {
+        pSelection[0].x = 0;
+        pSelection[0].y = 0;
+        pSelection[1].x = m_Image->GetWidth();
+        pSelection[1].y = 0;
+        pSelection[2].x = m_Image->GetWidth();
+        pSelection[2].y = m_Image->GetHeight();
+        pSelection[3].x = 0;
+        pSelection[3].y = m_Image->GetHeight();
+    }
+    m_SelectionImage = GetImageFromSelection();
+    Repaint();
+    m_bEraseSelection = false;
 }
 
 /** Handler for the "STRETCH" BUTTON

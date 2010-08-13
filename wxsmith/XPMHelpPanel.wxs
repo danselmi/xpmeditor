@@ -11,7 +11,7 @@
 					<handler function="OnHelpButtonClick" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
-				<border>5</border>
+				<border>2</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
@@ -20,7 +20,7 @@
 					<style>wxST_NO_AUTORESIZE|wxSUNKEN_BORDER</style>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
-				<border>5</border>
+				<border>2</border>
 				<option>1</option>
 			</object>
 		</object>

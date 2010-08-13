@@ -70,6 +70,7 @@ struct ToolData
     int iBrushStyle;        ///< \brief the brush style to use (see doc wxBrush for more info)
     int iGradient;          ///< \brief 0: Linear gradient. Other: Concentric gradient
     int iGradientDirection; ///< \brief 0: To the top; 1: to the bottom; 2: to the left; 3: to the right
+    bool bComplexSelection; ///< \brief to avoid clearing unecessarily the selection after a double click
 };
 
 
@@ -129,6 +130,7 @@ class XPMEditorPanel: public wxPanel
 		void Cut(void);                  ///< \brief Perform a Cut operation
 		void Copy(void);                 ///< \brief perform a Copy operation
 		void Paste(void);                ///< \brief perform a Paste operation
+		void SelectAll(void);            ///< \brief select all in the image
 
 		//Configuration
 		void UpdateConfiguration(void); ///< \brief ask all the image editors to update their configuration
@@ -398,6 +400,7 @@ class XPMEditorPanel: public wxPanel
         void SnapToGrid(int *x, int *y, bool bUp); ///< \brief snap coordinates to grid
         wxBitmap m_bmDrawBitmap;  ///< \brief the bitmap which will be used to draw the tool effect
         bool m_bDrawToolDynamic;  ///< \brief true if m_bmDrawBitmap must be blited during paint
+        void CopyToolData(ToolData *Dest, ToolData *Source); ///< \brief copy the tool data from Source to Dest
 
         //hotspot position
         int iHotSpotX;              ///< \brief HotSpot X coordinate. A negative value means there are no HotSpot

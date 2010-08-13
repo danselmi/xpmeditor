@@ -39,9 +39,9 @@ void XPMHelpPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& po
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer1 = new wxBoxSizer(wxVERTICAL);
 	Button1 = new wxButton(this, ID_BUTTON1, _("HELP"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
-	BoxSizer1->Add(Button1, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 5);
+	BoxSizer1->Add(Button1, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 2);
 	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("..."), wxDefaultPosition, wxSize(60,199), wxST_NO_AUTORESIZE|wxSUNKEN_BORDER, _T("ID_STATICTEXT1"));
-	BoxSizer1->Add(StaticText1, 1, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 5);
+	BoxSizer1->Add(StaticText1, 1, wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL, 2);
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);

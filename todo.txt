@@ -13,8 +13,6 @@ IMPROVEMENTS / NEW FEATURES:
 
 5 - Pen + Brush + Eraser: SHIFT key behaviour to improve
 
-6 - CTRL + A to implement
-
 
 BUGS:
 
@@ -22,6 +20,7 @@ BUGS:
     before copy : bitmap put in clipboard has a Mask
     after paste : bitmap does not have mask
     It seems to be normal on Windows.
+    Works as expected on wxGTK
     Solution: create a custom format for the clipboard, and place multiple format in the clipboard
 
 2 - Text tool : add angular rotation & alignment
@@ -52,7 +51,6 @@ BUGS:
 
 
 CHANGES:
-1 - added the missing files in LINUX Project
-2 - fixed DragImage on LINUX (tested successfully on LINUX and Windows without too much flicker)
-3 - spray can & Gradient Linear works on LINUX
-4 - Gradient concentric broken on LINUX (wxWidgets bug)
+1 - some bugs solved (related to right-click handling and font bug).
+2 - Select All implemented
+

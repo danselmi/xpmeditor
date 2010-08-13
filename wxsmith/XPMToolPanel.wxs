@@ -35,18 +35,6 @@
 								<border>2</border>
 							</object>
 							<object class="sizeritem">
-								<object class="wxCustomButton" name="ID_HOTSPOT_BTN" variable="HotSpotButton" member="yes">
-									<type>wxCUSTBUT_TOGGLE</type>
-									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-									<bitmap_margin>2,2</bitmap_margin>
-									<tooltip>Cursor Hot Spot</tooltip>
-									<help>This define the location of the Hot Spot, for cursors. There can be only one hot spot. To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. Currently, only Windows support HotSpot information in *cur files.</help>
-									<handler function="OnHotSpotButtonToggle" entry="EVT_TOGGLEBUTTON" />
-								</object>
-								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-								<border>2</border>
-							</object>
-							<object class="sizeritem">
 								<object class="wxCustomButton" name="ID_PIPETTE_BTN" variable="PipetteButton" member="yes">
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
@@ -56,6 +44,30 @@
 									<handler function="OnPipetteButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>2</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCustomButton" name="ID_LINE_BTN" variable="LineButton" member="yes">
+									<type>wxCUSTBUT_TOGGLE</type>
+									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Line</tooltip>
+									<help>Select a Line Colour. Choose a Line Style and a Line Thickness.&#x0A;Left Click to indicate the start point. Move the mouse, and left click again to indicate the end point.</help>
+									<handler function="OnLineButtonToggle" entry="EVT_TOGGLEBUTTON" />
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>2</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCustomButton" name="ID_CURVE_BTN" variable="CurveButton" member="yes">
+									<type>wxCUSTBUT_TOGGLE</type>
+									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Curve</tooltip>
+									<help>Select a Line Colour. Choose a Line Style and a Line Thickness.&#x0A;Left Click to indicate the start point. Move the mouse, and left click again to indicate another point. Continue to click to indicater further points. Terminate by Right Click or Double Click.</help>
+									<handler function="OnCurveButtonToggle" entry="EVT_TOGGLEBUTTON" />
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
 							</object>
 						</object>
@@ -129,42 +141,6 @@
 					<object class="sizeritem">
 						<object class="wxBoxSizer" variable="BoxSizer7" member="no">
 							<object class="sizeritem">
-								<object class="wxCustomButton" name="ID_LINE_BTN" variable="LineButton" member="yes">
-									<type>wxCUSTBUT_TOGGLE</type>
-									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-									<bitmap_margin>2,2</bitmap_margin>
-									<tooltip>Line</tooltip>
-									<help>Select a Line Colour. Choose a Line Style and a Line Thickness.&#x0A;Left Click to indicate the start point. Move the mouse, and left click again to indicate the end point.</help>
-									<handler function="OnLineButtonToggle" entry="EVT_TOGGLEBUTTON" />
-								</object>
-								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-								<border>2</border>
-							</object>
-							<object class="sizeritem">
-								<object class="wxCustomButton" name="ID_CURVE_BTN" variable="CurveButton" member="yes">
-									<type>wxCUSTBUT_TOGGLE</type>
-									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-									<bitmap_margin>2,2</bitmap_margin>
-									<tooltip>Curve</tooltip>
-									<help>Select a Line Colour. Choose a Line Style and a Line Thickness.&#x0A;Left Click to indicate the start point. Move the mouse, and left click again to indicate another point. Continue to click to indicater further points. Terminate by Right Click or Double Click.</help>
-									<handler function="OnCurveButtonToggle" entry="EVT_TOGGLEBUTTON" />
-								</object>
-								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-								<border>2</border>
-							</object>
-							<object class="sizeritem">
-								<object class="wxCustomButton" name="ID_ERASER_BTN" variable="EraserButton" member="yes">
-									<type>wxCUSTBUT_TOGGLE</type>
-									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
-									<bitmap_margin>2,2</bitmap_margin>
-									<tooltip>Eraser</tooltip>
-									<help>Select the size of the eraser. Left click on the image will replace the selected area by the MASK (transparent) colour. When saving, this area will be considered as transparent. Moving the mouse while keeping the left button pressed will erase further area.</help>
-									<handler function="OnEraserButtonToggle" entry="EVT_TOGGLEBUTTON" />
-								</object>
-								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-								<border>2</border>
-							</object>
-							<object class="sizeritem">
 								<object class="wxCustomButton" name="ID_TEXT_BTN" variable="TextButton" member="yes">
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
@@ -176,11 +152,6 @@
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
 							</object>
-						</object>
-						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-					</object>
-					<object class="sizeritem">
-						<object class="wxBoxSizer" variable="BoxSizer10" member="no">
 							<object class="sizeritem">
 								<object class="wxCustomButton" name="ID_RECTANGLE_BTN" variable="RectangleButton" member="yes">
 									<type>wxCUSTBUT_TOGGLE</type>
@@ -232,12 +203,42 @@
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 					</object>
+					<object class="sizeritem">
+						<object class="wxBoxSizer" variable="BoxSizer10" member="no">
+							<object class="sizeritem">
+								<object class="wxCustomButton" name="ID_ERASER_BTN" variable="EraserButton" member="yes">
+									<type>wxCUSTBUT_TOGGLE</type>
+									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Eraser</tooltip>
+									<help>Select the size of the eraser. Left click on the image will replace the selected area by the MASK (transparent) colour. When saving, this area will be considered as transparent. Moving the mouse while keeping the left button pressed will erase further area.</help>
+									<handler function="OnEraserButtonToggle" entry="EVT_TOGGLEBUTTON" />
+								</object>
+								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+								<border>2</border>
+							</object>
+							<object class="sizeritem">
+								<object class="wxCustomButton" name="ID_HOTSPOT_BTN" variable="HotSpotButton" member="yes">
+									<type>wxCUSTBUT_TOGGLE</type>
+									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
+									<bitmap_margin>2,2</bitmap_margin>
+									<tooltip>Cursor Hot Spot</tooltip>
+									<help>This define the location of the Hot Spot, for cursors. There can be only one hot spot. To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. Currently, only Windows support HotSpot information in *cur files.</help>
+									<handler function="OnHotSpotButtonToggle" entry="EVT_TOGGLEBUTTON" />
+								</object>
+								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+								<border>2</border>
+							</object>
+						</object>
+						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 			</object>
 			<object class="spacer">
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 				<border>1</border>
+				<size>118,5</size>
 			</object>
 			<object class="sizeritem">
 				<object class="wxBoxSizer" variable="BrushToolSizer" member="yes">
@@ -357,6 +358,12 @@
 							<orient>wxVERTICAL</orient>
 							<object class="sizeritem">
 								<object class="wxBoxSizer" variable="BoxSizer4" member="no">
+									<object class="spacer">
+										<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>2</border>
+										<option>1</option>
+										<size>1,1</size>
+									</object>
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON1" variable="TopLeft" member="yes">
 											<label></label>
@@ -374,7 +381,7 @@
 											<tooltip>Top Center Alignment</tooltip>
 											<handler function="OnTopCenterSelect" entry="EVT_RADIOBUTTON" />
 										</object>
-										<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_TOP</flag>
+										<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 										<border>1</border>
 									</object>
 									<object class="sizeritem">
@@ -386,11 +393,23 @@
 										<flag>wxTOP|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_TOP</flag>
 										<border>1</border>
 									</object>
+									<object class="spacer">
+										<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>2</border>
+										<option>1</option>
+										<size>1,1</size>
+									</object>
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 							</object>
 							<object class="sizeritem">
 								<object class="wxBoxSizer" variable="BoxSizer9" member="no">
+									<object class="spacer">
+										<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>2</border>
+										<option>1</option>
+										<size>1,1</size>
+									</object>
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON7" variable="CenterLeft" member="yes">
 											<label></label>
@@ -418,11 +437,23 @@
 										<flag>wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 										<border>1</border>
 									</object>
+									<object class="spacer">
+										<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>2</border>
+										<option>1</option>
+										<size>1,1</size>
+									</object>
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							</object>
 							<object class="sizeritem">
 								<object class="wxBoxSizer" variable="BoxSizer11" member="no">
+									<object class="spacer">
+										<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>2</border>
+										<option>1</option>
+										<size>1,1</size>
+									</object>
 									<object class="sizeritem">
 										<object class="wxRadioButton" name="ID_RADIOBUTTON4" variable="BottomLeft" member="yes">
 											<label></label>
@@ -449,6 +480,12 @@
 										</object>
 										<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_RIGHT|wxALIGN_BOTTOM</flag>
 										<border>1</border>
+									</object>
+									<object class="spacer">
+										<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+										<border>2</border>
+										<option>1</option>
+										<size>1,1</size>
 									</object>
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
@@ -597,6 +634,7 @@
 			<object class="spacer">
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 				<border>1</border>
+				<size>118,5</size>
 			</object>
 		</object>
 	</object>

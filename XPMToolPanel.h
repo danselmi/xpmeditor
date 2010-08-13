@@ -115,21 +115,21 @@ class XPMToolPanel: public wxPanel
 		//(*Identifiers(XPMToolPanel)
 		static const long ID_SELECT_BUTN;
 		static const long ID_LASSO_BTN;
-		static const long ID_HOTSPOT_BTN;
 		static const long ID_PIPETTE_BTN;
+		static const long ID_LINE_BTN;
+		static const long ID_CURVE_BTN;
 		static const long ID_PEN_BTN;
 		static const long ID_BRUSH_BTN;
 		static const long ID_FILL_BTN;
 		static const long ID_BUTTONSPRAYCAN;
 		static const long ID_GRADIENTBUTTON;
-		static const long ID_LINE_BTN;
-		static const long ID_CURVE_BTN;
-		static const long ID_ERASER_BTN;
 		static const long ID_TEXT_BTN;
 		static const long ID_RECTANGLE_BTN;
 		static const long ID_POLYGON_BTN;
 		static const long ID_ELLIPSE_BTN;
 		static const long ID_ROUNDEDRECT_BTN;
+		static const long ID_ERASER_BTN;
+		static const long ID_HOTSPOT_BTN;
 		static const long ID_CUSTOM4;
 		static const long ID_CUSTOM2;
 		static const long ID_STATICTEXT5;

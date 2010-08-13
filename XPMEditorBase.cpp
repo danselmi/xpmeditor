@@ -589,6 +589,22 @@ void XPMEditorBase::GetBoundingRect(wxRect *r)
     m_DrawArea->GetBoundingRect(r);
 }
 
+/** Can the editor select everything?
+  *
+  * \return True if the editor can select all content, false if not.
+  */
+bool XPMEditorBase::CanSelectAll(void) const
+{
+    return(true);
+}
+
+/** Select everything in the editor
+  */
+void XPMEditorBase::SelectAll(void)
+{
+    if (m_DrawArea) m_DrawArea->SelectAll();
+}
+
 /** Return a copy of the current Image
   * \return a pointer if succesfull, NULL otherwise
   */

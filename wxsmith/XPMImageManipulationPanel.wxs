@@ -11,7 +11,7 @@
 					<handler function="OnButtonStretchClick" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
-				<border>5</border>
+				<border>2</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxButton" name="ID_BUTTON2" variable="Button2" member="yes">
@@ -19,7 +19,7 @@
 					<handler function="OnButtonMirrorClick" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
-				<border>5</border>
+				<border>2</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxButton" name="ID_BUTTON3" variable="Button3" member="yes">
@@ -27,7 +27,7 @@
 					<handler function="OnButtonBlurClick" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-				<border>5</border>
+				<border>2</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxButton" name="ID_BUTTON4" variable="Button4" member="yes">
@@ -35,7 +35,7 @@
 					<handler function="OnButtonRotateClick" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-				<border>5</border>
+				<border>2</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxButton" name="ID_BUTTON5" variable="Button5" member="yes">
@@ -43,7 +43,7 @@
 					<handler function="OnButtonHueClick" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-				<border>5</border>
+				<border>2</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxButton" name="ID_BUTTON6" variable="Button6" member="yes">
@@ -51,7 +51,7 @@
 					<handler function="OnButtonColourDepthClick" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
-				<border>5</border>
+				<border>2</border>
 			</object>
 			<object class="sizeritem">
 				<object class="wxButton" name="ID_BUTTON7" variable="Button7" member="yes">
@@ -59,12 +59,12 @@
 					<handler function="OnButtonInvertClick" entry="EVT_BUTTON" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
-				<border>5</border>
+				<border>2</border>
 			</object>
 			<object class="spacer">
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-				<border>5</border>
-				<option>1</option>
+				<border>2</border>
+				<size>5,5</size>
 			</object>
 		</object>
 	</object>

@@ -18,14 +18,14 @@
 							<handler function="OnImageSizeChanged" entry="EVT_SPINCTRL" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-						<border>5</border>
+						<border>2</border>
 					</object>
 					<object class="sizeritem">
 						<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 							<label>x</label>
 						</object>
 						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-						<border>5</border>
+						<border>2</border>
 						<option>1</option>
 					</object>
 					<object class="sizeritem">
@@ -37,7 +37,7 @@
 							<handler function="OnImageSizeChanged" entry="EVT_SPINCTRL" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
-						<border>5</border>
+						<border>2</border>
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -54,8 +54,7 @@
 							<handler function="OnImageTypeChanged" entry="EVT_CHOICE" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-						<option>1</option>
+						<border>2</border>
 					</object>
 					<object class="sizeritem">
 						<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
@@ -64,7 +63,7 @@
 							<handler function="OnButtonAdvancedPropClick" entry="EVT_BUTTON" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-						<border>5</border>
+						<border>2</border>
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL</flag>
