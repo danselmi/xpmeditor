@@ -110,12 +110,12 @@
 		<Unit filename="wxBlur.h" />
 		<Unit filename="wxConversion.cpp" />
 		<Unit filename="wxConversion.h" />
+		<Unit filename="wxImageDataObject.cpp" />
+		<Unit filename="wxImageDataObject.h" />
 		<Unit filename="wxInvertDialog.cpp" />
 		<Unit filename="wxInvertDialog.h" />
 		<Unit filename="wxMirror.cpp" />
 		<Unit filename="wxMirror.h" />
-		<Unit filename="wxResizeCtrl.cpp" />
-		<Unit filename="wxResizeCtrl.h" />
 		<Unit filename="wxRotate.cpp" />
 		<Unit filename="wxRotate.h" />
 		<Unit filename="wxRotateHue.cpp" />

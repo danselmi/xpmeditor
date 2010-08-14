@@ -533,11 +533,11 @@
 									<max>360</max>
 									<size>72,21</size>
 									<tooltip>Text orientation, in degrees.</tooltip>
+									<style>wxSP_WRAP</style>
 									<handler function="OnSpinAngleChange" entry="EVT_SPINCTRL" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
-								<option>1</option>
 							</object>
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>

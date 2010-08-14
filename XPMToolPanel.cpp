@@ -15,7 +15,6 @@
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
 #include <wx/textctrl.h>
-#include "wxResizeCtrl.h"
 
 //button icons
 #include "xpm/brush.xpm"
@@ -293,10 +292,10 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	BoxSizer3 = new wxBoxSizer(wxVERTICAL);
 	StaticText8 = new wxStaticText(this, ID_STATICTEXT9, _("Angle (deg):"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT9"));
 	BoxSizer3->Add(StaticText8, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 2);
-	SpinAngle = new wxSpinCtrl(this, ID_SPINCTRL6, _T("0"), wxDefaultPosition, wxSize(72,21), 0, 0, 360, 0, _T("ID_SPINCTRL6"));
+	SpinAngle = new wxSpinCtrl(this, ID_SPINCTRL6, _T("0"), wxDefaultPosition, wxSize(72,21), wxSP_WRAP, 0, 360, 0, _T("ID_SPINCTRL6"));
 	SpinAngle->SetValue(_T("0"));
 	SpinAngle->SetToolTip(_("Text orientation, in degrees."));
-	BoxSizer3->Add(SpinAngle, 1, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
+	BoxSizer3->Add(SpinAngle, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 	FontSizer->Add(BoxSizer3, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	ToolPanelSizer->Add(FontSizer, 0, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 2);
 	PenStyleSizer = new wxBoxSizer(wxVERTICAL);

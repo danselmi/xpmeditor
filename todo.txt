@@ -13,17 +13,18 @@ IMPROVEMENTS / NEW FEATURES:
 
 5 - Pen + Brush + Eraser: SHIFT key behaviour to improve
 
+6 - review size of ToolPanel (again)
+     a - minimal size to increase, to fit a vertical scrollbar
+     b - Minimal floating size to reduce to Tools size
+     c - Best floating size to recompute
+
 
 BUGS:
+1 - Resizing selection: resizing once will paste the selection
+                        loss of quality when resizing to original
 
-1 - Copy / Paste:
-    before copy : bitmap put in clipboard has a Mask
-    after paste : bitmap does not have mask
-    It seems to be normal on Windows.
-    Works as expected on wxGTK
-    Solution: create a custom format for the clipboard, and place multiple format in the clipboard
-
-2 - Text tool : add angular rotation & alignment
+2 - Text tool : finish
+    When click on selection, Text entry is disconnected from image
 
 3 - SetCursor to review
 
@@ -51,6 +52,12 @@ BUGS:
 
 
 CHANGES:
-1 - some bugs solved (related to right-click handling and font bug).
-2 - Select All implemented
+1 - bug solved Copy / Paste:
+    before copy : bitmap put in clipboard has a Mask
+    after paste : bitmap does not have mask
+    Solved by adding a custom data format in the clipboard
+
+2 - Change in Text Tool.
+    Currently partially broken (orientation not taken into account) due to the changes.
+
 

@@ -7,7 +7,6 @@ class wxTextCtrl;
 class wxScrolledWindow;
 class wxStaticText;
 class wxBoxSizer;
-class wxResizeCtrl;
 //*)
 
 class XPMDrawCanvasPanel: public wxPanel
@@ -22,21 +21,26 @@ class XPMDrawCanvasPanel: public wxPanel
                           );
 		virtual ~XPMDrawCanvasPanel();
 
+		void ShowTextSizer(bool bShow); ///< \brief Hide or show the text controls used by the Text Tool
+		void SetTextValue(wxString sText); ///< \brief change the text inside the Text Box used by the Text Tool
+
 		//(*Declarations(XPMDrawCanvasPanel)
 		wxStaticText* sCursorPos;
 		wxScrolledWindow* DrawCanvas;
+		wxStaticText* StaticText2;
 		wxBoxSizer* CanvasSizer;
 		wxTextCtrl* TextEdit;
-		wxResizeCtrl* ResizeCtrl1;
+		wxBoxSizer* sTextSizer;
+		wxBoxSizer* BoxSizer1;
 		wxTextCtrl* TextCtrl1;
 		//*)
 
 	protected:
 
 		//(*Identifiers(XPMDrawCanvasPanel)
-		static const long ID_TEXTCTRL1;
-		static const long ID_RESIZECTRL1;
 		static const long ID_SCROLLEDWINDOW1;
+		static const long ID_STATICTEXT2;
+		static const long ID_TEXTCTRL1;
 		static const long ID_STATICTEXT4;
 		static const long ID_TEXTCTRL2;
 		//*)

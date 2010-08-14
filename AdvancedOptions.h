@@ -1,5 +1,14 @@
 #ifndef ADVANCEDOPTIONS_H
 #define ADVANCEDOPTIONS_H
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      AdvancedOptions.h
+ * Purpose:   a dialog box for editing compressions options of the image - definition
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2009-04-23
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
 
 //(*Headers(AdvancedOptions)
 #include <wx/dialog.h>

@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxPanel" name="XPMDrawCanvasPanel">
-		<pos_arg>1</pos_arg>
-		<size_arg>1</size_arg>
+		<id_arg>0</id_arg>
 		<object class="wxBoxSizer" variable="CanvasSizer" member="yes">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
 				<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1" variable="DrawCanvas" member="yes">
 					<bg>wxSYS_COLOUR_BTNFACE</bg>
 					<style>wxHSCROLL|wxVSCROLL|wxSUNKEN_BORDER</style>
-					<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextEdit" member="yes">
-						<value>Text</value>
-						<pos>57,126</pos>
-						<style>wxTE_MULTILINE|wxTE_LEFT|wxTE_CHARWRAP</style>
-						<handler function="OnTextEditText" entry="EVT_TEXT" />
-					</object>
-					<object class="Custom" name="ID_RESIZECTRL1" subclass="wxResizeCtrl" variable="ResizeCtrl1" member="yes">
-						<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),$(POS),$(SIZE),0,$(NAME));</creating_code>
-						<include_file>wxResizeCtrl.h</include_file>
-						<local_include>1</local_include>
-						<style></style>
-						<pos>6,7</pos>
-						<size>119,74</size>
-					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 				<option>1</option>
 			</object>
 			<object class="sizeritem">
-				<object class="wxBoxSizer" variable="BoxSizer1" member="no">
+				<object class="wxBoxSizer" variable="sTextSizer" member="yes">
+					<object class="sizeritem">
+						<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+							<label>Text:</label>
+						</object>
+						<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+					</object>
+					<object class="sizeritem">
+						<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextEdit" member="yes">
+							<value>Text</value>
+							<style>wxTE_MULTILINE|wxTE_LEFT|wxTE_CHARWRAP</style>
+							<handler function="OnTextEditText" entry="EVT_TEXT" />
+						</object>
+						<flag>wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+			</object>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer1" member="yes">
 					<object class="sizeritem">
 						<object class="wxStaticText" name="ID_STATICTEXT4" variable="sCursorPos" member="yes">
 							<label>Cursor at: x=00000 y=00000</label>
@@ -49,7 +55,6 @@
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
-				<border>5</border>
 			</object>
 		</object>
 	</object>

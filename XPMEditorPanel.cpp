@@ -16,6 +16,7 @@
 #include "wxRotateHue.h"
 #include "wxConversion.h"
 #include "wxInvertDialog.h"
+#include "wxImageDataObject.h"
 
 #include <wx/dcclient.h>
 #include <wx/dcbuffer.h>
@@ -44,7 +45,6 @@
 #include "XPMHelpPanel.h"
 #include "XPMImagePropertiesPanel.h"
 #include "XPMImageManipulationPanel.h"
-#include "wxResizeCtrl.h"
 
 //(*InternalHeaders(XPMEditorPanel)
 #include "XPMInterfacePanel.h"
@@ -83,9 +83,6 @@ END_EVENT_TABLE()
   */
 XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
-
-	ResizeCtrl1 = NULL; //necessary to avoid race condition, when building the panel
-	TextEdit = NULL;    //necessary to avoid race condition, when building the panel
 	BuildContent(parent,id,pos,size);
 
 	m_Bitmap = NULL;
@@ -108,10 +105,6 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     m_undo_buffer = new XPMUndo;
     if (m_undo_buffer) m_undo_buffer->SetParentPanel(this);
 
-
-    TextEdit->Hide();
-    ResizeCtrl1->Hide();
-
     bUsingTool = false;
     m_DragImage = NULL;
     m_bDragging = false;
@@ -121,7 +114,6 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     cMaskColour = *wxBLACK;
     m_iSizeAction = 0;
     m_bSizing = false;
-    iPos = 0;
     iHotSpotX = -1;
     iHotSpotY = -1;
     m_bDrawToolDynamic = false;
@@ -171,8 +163,6 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	if (DrawCanvasPanel)
 	{
 	    DrawCanvas  = DrawCanvasPanel->DrawCanvas;
-		TextEdit    = DrawCanvasPanel->TextEdit;
-		ResizeCtrl1 = DrawCanvasPanel->ResizeCtrl1;
 		sCursorPos  = DrawCanvasPanel->sCursorPos;
 
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_PAINT,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasPaint,0,this);
@@ -189,8 +179,6 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	else
 	{
 	    DrawCanvas  = NULL;
-		TextEdit    = NULL;
-		ResizeCtrl1 = NULL;
 		sCursorPos  = NULL;
 	}
 
@@ -222,9 +210,6 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
     if (ColourPicker) ColourPicker->SetParentPanel(this);
     if (InterfacePanel) InterfacePanel->SetParentPanel(this);
     if (FoldPanel) FoldPanel->SetParentPanel(this);
-
-    //ResizeCtrl
-    ResizeCtrl1->SetChild(TextEdit);
 
     ToggleButtons(-1, false); //Toggle All buttons off.
 
@@ -1974,7 +1959,7 @@ void XPMEditorPanel::ProcessText(int x, int y,
 
             m_SelectionBitmap = wxBitmap(x / dScale - tdata.x1 + 1, y / dScale - tdata.y1 + 1);
             tdata.sText = _("");
-            TextEdit->ChangeValue(tdata.sText);
+            if (DrawCanvasPanel) DrawCanvasPanel->SetTextValue(tdata.sText);
             DrawTextBitmap();
 
             Repaint();
@@ -1982,10 +1967,7 @@ void XPMEditorPanel::ProcessText(int x, int y,
             m_bEraseSelection = false;
             tdata.iNbClicks = 2;
 
-            //wxMessageBox(wxString::Format(_("Tool ID = %d"), this));
-
-            TextEdit->Show(true);
-            ResizeCtrl1->Show(true);
+            if (DrawCanvasPanel) DrawCanvasPanel->ShowTextSizer(true);
         }
         else
         {
@@ -4274,16 +4256,25 @@ void XPMEditorPanel::Cut(void)
     //CUT
     if (!HasSelection()) return;
 
-    if (!HasSelection()) return;
-
     if ((wxTheClipboard->Open()) && (m_SelectionBitmap.IsOk()))
     {
         //copy to the clipboard
-        wxTheClipboard->SetData(new wxBitmapDataObject(m_SelectionBitmap));
+        wxDataObjectComposite *doc;
+        doc = new wxDataObjectComposite;
+        if (doc)
+        {
+            doc->Add(new wxImageDataObject(m_SelectionImage), true);
+            doc->Add(new wxBitmapDataObject(m_SelectionBitmap), false);
+            wxTheClipboard->SetData(doc);
+        }
+        else
+        {
+             wxTheClipboard->SetData(new wxBitmapDataObject(m_SelectionBitmap));
+        }
         wxTheClipboard->Close();
-        AddUndo();
 
-        //cute a transparent image
+        //cut a transparent image
+        AddUndo();
         if(m_bEraseSelection) CutSelection();
         NbPoints = 0;
         SetModified(true);
@@ -4302,8 +4293,18 @@ void XPMEditorPanel::Copy(void)
     if ((wxTheClipboard->Open()) && (m_SelectionBitmap.IsOk()))
     {
         //copy to the clipboard
-        //if (m_SelectionBitmap.GetMask()) wxMessageBox(_("mask")); else wxMessageBox(_("no mask"));
-        wxTheClipboard->SetData(new wxBitmapDataObject(m_SelectionBitmap));
+        wxDataObjectComposite *doc;
+        doc = new wxDataObjectComposite;
+        if (doc)
+        {
+            doc->Add(new wxImageDataObject(m_SelectionImage), true);
+            doc->Add(new wxBitmapDataObject(m_SelectionBitmap), false);
+            wxTheClipboard->SetData(doc);
+        }
+        else
+        {
+             wxTheClipboard->SetData(new wxBitmapDataObject(m_SelectionBitmap));
+        }
         wxTheClipboard->Close();
     }
 }
@@ -4317,22 +4318,39 @@ void XPMEditorPanel::Paste(void)
     if (!DrawCanvas) return;
     ClearSelection();
     bool bResult;
+    wxImage img;
+    wxBitmap bm;
 
     //get the bitmap from the clipboard
     if (wxTheClipboard->Open())
     {
+        //try first in wxImageFormat
         wxBitmapDataObject bmdo;
-        bResult = wxTheClipboard->IsSupported(wxDF_BITMAP);
+        wxImageDataObject ido;
+        bResult = wxTheClipboard->IsSupported(wxDataFormat(_("wxImage")));
         if (bResult)
         {
-            wxTheClipboard->GetData(bmdo);
+            wxTheClipboard->GetData(ido);
+            img = ido.GetImage();
+            bm = wxBitmap(img);
+        }
+        else
+        {
+            bResult = wxTheClipboard->IsSupported(wxDF_BITMAP);
+            if (bResult)
+            {
+                wxTheClipboard->GetData(bmdo);
+                bm = bmdo.GetBitmap();
+                img = bm.ConvertToImage();
+            }
         }
         wxTheClipboard->Close();
+
         if (bResult)
         {
             AddUndo();
-            wxBitmap bm;
-            bm = bmdo.GetBitmap();
+
+
             wxBitmap *original_bitmap;
             original_bitmap = GetBitmap();
 
@@ -4380,7 +4398,7 @@ void XPMEditorPanel::Paste(void)
 
             //paste the Bitmap at 0,0
             m_SelectionBitmap = bm;
-            m_SelectionImage = bm.ConvertToImage();
+            m_SelectionImage = img;
             SetModified(true);
             Repaint();
             m_bEraseSelection = false;
@@ -4603,8 +4621,7 @@ void XPMEditorPanel::ToggleButtons(int iIndex, bool bClearSelection)
   */
 void XPMEditorPanel::ShowCanvasWidgets(bool bShow)
 {
-    if (TextEdit) TextEdit->Show(bShow);
-    if (ResizeCtrl1) ResizeCtrl1->Show(bShow);
+    if (DrawCanvasPanel) DrawCanvasPanel->ShowTextSizer(bShow);
 }
 
 //------ CONFIGURATION ---------------
@@ -5739,6 +5756,7 @@ void XPMEditorPanel::OnTopLeftSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_LEFT;
     tdata.iVertAlign  = wxALIGN_TOP;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Text alignement handler - radio button **/
@@ -5747,6 +5765,7 @@ void XPMEditorPanel::OnTopCenterSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_CENTER;
     tdata.iVertAlign  = wxALIGN_TOP;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Text alignement handler - radio button **/
@@ -5755,6 +5774,7 @@ void XPMEditorPanel::OnTopRightSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_RIGHT;
     tdata.iVertAlign  = wxALIGN_TOP;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Text alignement handler - radio button **/
@@ -5763,6 +5783,7 @@ void XPMEditorPanel::OnCenterLeftSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_LEFT;
     tdata.iVertAlign  = wxALIGN_CENTER;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Text alignement handler - radio button **/
@@ -5771,6 +5792,7 @@ void XPMEditorPanel::OnCenterCenterSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_CENTER;
     tdata.iVertAlign  = wxALIGN_CENTER;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Text alignement handler - radio button **/
@@ -5779,6 +5801,7 @@ void XPMEditorPanel::OnCenterRightSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_RIGHT;
     tdata.iVertAlign  = wxALIGN_CENTER;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Text alignement handler - radio button **/
@@ -5787,6 +5810,7 @@ void XPMEditorPanel::OnBottomLeftSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_LEFT;
     tdata.iVertAlign  = wxALIGN_BOTTOM;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Text alignement handler - radio button **/
@@ -5795,6 +5819,7 @@ void XPMEditorPanel::OnBottomCenterSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_CENTER;
     tdata.iVertAlign  = wxALIGN_BOTTOM;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Text alignement handler - radio button **/
@@ -5803,37 +5828,18 @@ void XPMEditorPanel::OnBottomRightSelect(wxCommandEvent& event)
     tdata.iHorizAlign = wxALIGN_RIGHT;
     tdata.iVertAlign  = wxALIGN_BOTTOM;
     DrawTextBitmap();
+    Repaint();
 }
 
 /** Spin Control for text alignment - force 90, 180, 270 or 0 **/
 void XPMEditorPanel::OnSpinAngleChange(wxSpinEvent& event)
 {
     int iCurrentPos;
-    wxSpinCtrl *SpinAngle;
     iCurrentPos = event.GetPosition();
 
-    //wxMessageBox(wxString::Format(_("iPos=%d iCurrentPos=%d"), iPos, iCurrentPos));
-    if (ToolPanel) SpinAngle = ToolPanel->SpinAngle; else SpinAngle = NULL;
-
-    if ((iPos > iCurrentPos) && (SpinAngle))
-    {
-        //the user downgrades the value
-
-        if (iCurrentPos <= 90) SpinAngle->SetValue(0);
-        if ((iCurrentPos <= 180) && (iCurrentPos > 90)) SpinAngle->SetValue(90);
-        if ((iCurrentPos <= 270) && (iCurrentPos > 180)) SpinAngle->SetValue(180);
-        if ((iCurrentPos <= 360) && (iCurrentPos > 270)) SpinAngle->SetValue(270);
-    }
-    else if (SpinAngle)
-    {
-        //the user upgrades the value
-        if (iCurrentPos > 270) SpinAngle->SetValue(0);
-        if ((iCurrentPos > 180) && (iCurrentPos <= 270)) SpinAngle->SetValue(270);
-        if ((iCurrentPos > 90) && (iCurrentPos <= 180)) SpinAngle->SetValue(180);
-        if ((iCurrentPos > 0) && (iCurrentPos <= 90)) SpinAngle->SetValue(90);
-    }
-    iPos = iCurrentPos;
-
+    tdata.angle = iCurrentPos;
+    DrawTextBitmap();
+    Repaint();
 }
 
 /** The Hot Spot colour must be updated

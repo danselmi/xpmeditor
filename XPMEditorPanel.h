@@ -41,7 +41,6 @@ class XPMHelpPanel;
 class XPMImagePropertiesPanel;
 class XPMImageManipulationPanel;
 class XPMUndo;
-class wxResizeCtrl;
 class wxStaticText;
 
 #define XPM_NUMBER_TOOLS 17
@@ -313,8 +312,6 @@ class XPMEditorPanel: public wxPanel
         XPMImageManipulationPanel *ImageManipulationPanel;  ///< \brief The panel containing image manipulation tools (invert colours, rotate, ...)
 
 		wxScrolledWindow* DrawCanvas;          ///< \brief A scrolling window containing the image to edit
-		wxTextCtrl* TextEdit;                  ///< \brief A Text Editor belonging to DrawCanvas, for adding text to image
-		wxResizeCtrl *ResizeCtrl1;             ///< \brief A widget belonging to DrawCanvas, allowing to resize the text editor
 		wxStaticText *sCursorPos;              ///< \brief A text belonging to DrawCanvas, displaying cursor position information
 
         //bitmap, images methods
@@ -351,7 +348,6 @@ class XPMEditorPanel: public wxPanel
         int OldY;           ///< \brief For resizing the bitmap: indicates the last x mouse position
 
         //Text tool methods & members
-        int iPos;           ///< \brief The current SpinCtrl4 value.
         void DrawTextRectangle( wxDC& dc,
                                 const wxString& value,
                                 const wxRect& rect,
