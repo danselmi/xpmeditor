@@ -4,7 +4,6 @@
 		<size>199,144</size>
 		<id_arg>0</id_arg>
 		<style>wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE</style>
-		<handler function="OnDrawCanvasKeyDown" entry="EVT_KEY_DOWN" />
 		<object class="wxAuiManager" variable="m_AUIXPMEditor" member="yes">
 			<style>wxAUI_MGR_ALLOW_FLOATING|wxAUI_MGR_ALLOW_ACTIVE_PANE|wxAUI_MGR_DEFAULT</style>
 			<object class="AuiManagerItem">
@@ -84,6 +83,14 @@
 				<dockabledirection></dockabledirection>
 				<destroyonclose>0</destroyonclose>
 				<firstadd>0</firstadd>
+			</object>
+		</object>
+		<object class="wxMenu" variable="PopupMenuCopy" member="yes">
+			<object class="wxMenuItem" name="ID_POPUP_COPYTO" variable="MenuItem1" member="yes">
+				<label>Copy to File...</label>
+			</object>
+			<object class="wxMenuItem" name="ID_POPUP_PASTEFROM" variable="MenuItem2" member="yes">
+				<label>Paste from File...</label>
 			</object>
 		</object>
 	</object>

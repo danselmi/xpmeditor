@@ -522,12 +522,6 @@ bool XPMEditor::LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt)
     wxString sExt;
     wxBitmapType bt2;
 
-    if (img->LoadFile(sFileName, wxBITMAP_TYPE_PNG))
-    {
-        Manager::Get()->GetLogManager()->Log(_("Image loaded as PNG"));
-        return(true);
-    }
-
     sExt = fn.GetExt();
 
     //get the file format
@@ -636,6 +630,7 @@ bool XPMEditor::LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt)
   * \param sFileName [in/out] : the full path to the image to save
   * \param bt [int] : the file format detected
   * \param editor: a pointer to the editor for which the image must be saved
+  *                Can be NULL (in which case, no notifications are sent, and the modification flag is not reseted)
   * \return : true on success, false on failure
   *           on failure, img is not modified, and bt = wxBITMAP_TYPE_INVALID
   */

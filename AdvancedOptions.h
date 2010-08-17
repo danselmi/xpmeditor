@@ -11,6 +11,17 @@
  **************************************************************/
 
 //(*Headers(AdvancedOptions)
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      AdvancedOptions.h
+ * Purpose:   a dialog box for editing compressions options of the image - definition
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2009-04-23
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
+
 #include <wx/dialog.h>
 class wxSpinEvent;
 class wxCheckBox;

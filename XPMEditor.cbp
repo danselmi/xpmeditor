@@ -27,10 +27,8 @@
 					<Add option="-DCB_PRECOMP" />
 					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
-					<Add option="-DWXMAKINGDLL_THINGS" />
-					<Add option="-DWXMAKINGDLL_FOLDPANELEX" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add option="-DWXMAKINGDLL_PROPGRID" />
+					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="$(#cb)\include" />
 					<Add directory="$(#cb)\sdk\wxscintilla\include" />
 					<Add directory="$(#wx.include)" />
@@ -110,12 +108,16 @@
 		<Unit filename="wxBlur.h" />
 		<Unit filename="wxConversion.cpp" />
 		<Unit filename="wxConversion.h" />
+		<Unit filename="wxDragImageExt.cpp" />
+		<Unit filename="wxDragImageExt.h" />
 		<Unit filename="wxImageDataObject.cpp" />
 		<Unit filename="wxImageDataObject.h" />
 		<Unit filename="wxInvertDialog.cpp" />
 		<Unit filename="wxInvertDialog.h" />
 		<Unit filename="wxMirror.cpp" />
 		<Unit filename="wxMirror.h" />
+		<Unit filename="wxResizeCtrl.cpp" />
+		<Unit filename="wxResizeCtrl.h" />
 		<Unit filename="wxRotate.cpp" />
 		<Unit filename="wxRotate.h" />
 		<Unit filename="wxRotateHue.cpp" />

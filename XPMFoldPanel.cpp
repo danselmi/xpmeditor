@@ -9,6 +9,16 @@
  **************************************************************/
 
 #include "XPMEditorPanel.h"
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      XPMFoldPanel.cpp
+ * Purpose:   A panel containing iall the other tool panels, collapsible - code
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2010-05-19
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #include "XPMFoldPanel.h"
 #include "XPMToolPanel.h"
 #include "XPMImageManipulationPanel.h"

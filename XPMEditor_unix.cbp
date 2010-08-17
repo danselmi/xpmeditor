@@ -111,6 +111,10 @@
 		<Unit filename="wxMirror.h" />
 		<Unit filename="wxImageDataObject.cpp" />
 		<Unit filename="wxImageDataObject.h" />
+		<Unit filename="wxDragImageExt.cpp" />
+		<Unit filename="wxDragImageExt.h" />
+		<Unit filename="wxResizeCtrl.cpp" />
+		<Unit filename="wxResizeCtrl.h" />
 		<Unit filename="wxRotate.cpp" />
 		<Unit filename="wxRotate.h" />
 		<Unit filename="wxRotateHue.cpp" />

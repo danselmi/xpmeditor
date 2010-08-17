@@ -1,3 +1,13 @@
+/***************************************************************
+ * Plugin:    XPMEditor for Code::Blocks
+ * Name:      XPMDrawCanvasPanel.h
+ * Purpose:   wxPanel containing the status bar, and the area where the image is drawn - definition
+ * Author:    Seb (seb_seb0@lycos.com)
+ * Created:   2009-04-23
+ * Copyright: Seb ()
+ * License:   GPL 3.0
+ **************************************************************/
+
 #ifndef XPMDRAWCANVASPANEL_H
 #define XPMDRAWCANVASPANEL_H
 

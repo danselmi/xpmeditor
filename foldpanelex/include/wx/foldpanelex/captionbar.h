@@ -15,7 +15,7 @@
 
 #ifdef WXMAKINGDLL_FOLDPANELEX
     #define WXDLLIMPEXP_FOLDBAR WXEXPORT
-#elif defined(WXUSINGDLL)
+#elif defined(WXUSINGDLL_FOLDPANELEX)
     #define WXDLLIMPEXP_FOLDBAR WXIMPORT
 #else // not making nor using DLL
     #define WXDLLIMPEXP_FOLDBAR

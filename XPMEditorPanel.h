@@ -17,14 +17,10 @@
 #include <wx/spinctrl.h>
 #include <wx/dcmemory.h>
 
-#if defined(__WXMSW__)
-    class wxDragImage;
-#else
-    #include <wx/generic/dragimgg.h>
-    #define wxDragImage wxGenericDragImage
-#endif
+#define wxDragImage wxDragImageExt
 
 //(*Headers(XPMEditorPanel)
+#include <wx/menu.h>
 #include <wx/panel.h>
 class XPMColourPickerPanel;
 class XPMInterfacePanel;
@@ -41,6 +37,7 @@ class XPMHelpPanel;
 class XPMImagePropertiesPanel;
 class XPMImageManipulationPanel;
 class XPMUndo;
+class wxDragImage;
 class wxStaticText;
 
 #define XPM_NUMBER_TOOLS 17
@@ -131,6 +128,10 @@ class XPMEditorPanel: public wxPanel
 		void Paste(void);                ///< \brief perform a Paste operation
 		void SelectAll(void);            ///< \brief select all in the image
 
+		//file operations
+		void CopyTo(void);               ///< \brief copy the selection and save it to a new file
+		void PasteFrom(void);            ///< \brief read an image from a file and paste it
+
 		//Configuration
 		void UpdateConfiguration(void); ///< \brief ask all the image editors to update their configuration
 
@@ -190,12 +191,16 @@ class XPMEditorPanel: public wxPanel
 		void OnDrawCanvasKeyDown(wxKeyEvent& event);            ///< \brief DrawCanvas key down char event handler
 
  		//(*Declarations(XPMEditorPanel)
+ 		wxMenuItem* MenuItem2;
  		XPMFoldPanel* FoldPanel;
+ 		wxMenuItem* MenuItem1;
  		wxAuiManager* m_AUIXPMEditor;
  		XPMDrawCanvasPanel* DrawCanvasPanel;
  		XPMColourPickerPanel* ColourPicker;
  		XPMInterfacePanel* InterfacePanel;
+ 		wxMenu PopupMenuCopy;
  		//*)
+
 
 	protected:
 
@@ -204,6 +209,8 @@ class XPMEditorPanel: public wxPanel
 		static const long ID_FOLDPANEL;
 		static const long ID_COLOURPICKERPANEL;
 		static const long ID_INTERFACEPANEL;
+		static const long ID_POPUP_COPYTO;
+		static const long ID_POPUP_PASTEFROM;
 		//*)
 
 #if __WXMSW__
@@ -301,6 +308,14 @@ class XPMEditorPanel: public wxPanel
         void UpdateAUIColours(void);   ///< \brief Get the same colours as codeblocks configuration
         void UpdateMinimalSizes(void); ///< \brief set minimal sizes for the AUI Panes
 
+        //popup menu
+        void OnCopyTo(wxCommandEvent& event);      ///< \brief popup menu "Copy To" has been selected
+        void OnPasteFrom(wxCommandEvent& event);   ///< \brief popup menu "Paste From" has been selected
+        void OnOpenPopupMenu(wxMenuEvent& event);  ///< \brief the popup menu is displayed
+        void OnClosePopupMenu(wxMenuEvent& event); ///< \brief the popup menu is closed
+        void OnContextMenu(wxCommandEvent& event); ///< \brief popup menu event
+        void SetPopupMenu(bool bVisible);          ///< \brief indicates if the menu is currently visible or not
+
     private:
         //debugging function
         void LogToFile(wxString sLogText, wxString sFilePath); ///< \brief Debugging function : writes a string to a text file
@@ -371,7 +386,7 @@ class XPMEditorPanel: public wxPanel
         int NbPointsMax;            ///< \brief the maximal size of the wxPoint array
         bool m_bSizing;             ///< \brief if true, the user is currently resizing the selection
         int m_iSizeAction;          ///< \brief the direction of the selection stretch / resizing (see IsPointInSelection() for a list of code)
-        bool bDrawSelection;        ///< \brief true to draw the selection in OnDrawCanvasPaint
+        bool m_bDrawSelection;      ///< \brief true to draw the selection in OnDrawCanvasPaint
         wxPoint* CheckMemorySelection(int iNeeded); ///< \brief increase the memory if needed
         wxImage GetImageFromSelection(void); ///< \brief Return an image representing the selection
         void CutSelection(void);    ///< \brief Replace the Selection with the mask colour
@@ -419,6 +434,19 @@ class XPMEditorPanel: public wxPanel
                                     const wxColour& initialColour,
                                     const wxColour& destColour,
                                     const wxPoint& circleCenter); ///< \brief fill a gradient rectangle, from a given center
+
+        //popup menu
+        bool m_bPopupMenuShown;    ///< \brief if true, a popup menu is currently shown. False otherwise
+        bool m_bIsMenuBeingClosed; ///< \brief true if the popup menu is being closed (mouse button events should not be handled in this case)
+
+        //drawing methods
+        void DrawImage(wxDC& dc);           ///< \brief Draw the main bitmap
+        void DrawSelection(wxDC& dc);       ///< \brief Draw the selection
+        void DrawDynamicTool(wxDC& dc);     ///< \brief Draw the tools in action, if needed
+        void DrawGrid(wxDC& dc);            ///< \brief Draw the Grid
+        void DrawBackground(wxDC& dc);      ///< \brief Draw the background
+        void DrawSizingBorder(wxDC& dc);    ///< \brief Draw the sizing border
+        void DrawSelectionBorder(wxDC& dc); ///< \brief Draw the selection border
 
         DECLARE_EVENT_TABLE()
 };

@@ -8,16 +8,7 @@
  * License:   GPL 3.0
  **************************************************************/
 
-#include "XPMEditor.h"
-#include "wxStretchImage.h"
-#include "wxMirror.h"
-#include "wxRotate.h"
-#include "wxBlur.h"
-#include "wxRotateHue.h"
-#include "wxConversion.h"
-#include "wxInvertDialog.h"
-#include "wxImageDataObject.h"
-
+#include <wx/log.h>
 #include <wx/dcclient.h>
 #include <wx/dcbuffer.h>
 #include <wx/brush.h>
@@ -28,18 +19,28 @@
 #include <wx/rawbmp.h>
 #include <wx/region.h>
 #include <wx/graphics.h>
-#include <wx/bitmap.h>
 #include <wx/fontdlg.h>
 #include <wx/textfile.h>
 #include <wx/stattext.h>
 #include <wx/textfile.h>
+#include <wx/bitmap.h>
+#include "wxDragImageExt.h"
+
+#include <filefilters.h>
+
 #include <math.h>
 
-#if defined(__WXMSW__)
-    #include <wx/dragimag.h>
-#endif
-
 #define PI 3.14159265358979
+
+#include "XPMEditor.h"
+#include "wxStretchImage.h"
+#include "wxMirror.h"
+#include "wxRotate.h"
+#include "wxBlur.h"
+#include "wxRotateHue.h"
+#include "wxConversion.h"
+#include "wxInvertDialog.h"
+#include "wxImageDataObject.h"
 
 #include "XPMToolPanel.h"
 #include "XPMHelpPanel.h"
@@ -66,6 +67,8 @@ const long XPMEditorPanel::ID_DRAWCANVASPANEL = wxNewId();
 const long XPMEditorPanel::ID_FOLDPANEL = wxNewId();
 const long XPMEditorPanel::ID_COLOURPICKERPANEL = wxNewId();
 const long XPMEditorPanel::ID_INTERFACEPANEL = wxNewId();
+const long XPMEditorPanel::ID_POPUP_COPYTO = wxNewId();
+const long XPMEditorPanel::ID_POPUP_PASTEFROM = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(XPMEditorPanel,wxPanel)
@@ -99,7 +102,7 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	NbPointsMax = 100;
     NbPoints = 0;
     pSelection = (wxPoint*) malloc(NbPointsMax * sizeof(wxPoint));
-    bDrawSelection = true;
+    m_bDrawSelection = true;
 
     //Undo and Redo buffer
     m_undo_buffer = new XPMUndo;
@@ -141,11 +144,11 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	InterfacePanel = new XPMInterfacePanel(this);
 	m_AUIXPMEditor->AddPane(InterfacePanel, wxAuiPaneInfo().Name(_T("Interface")).DefaultPane().Caption(_("Interface")).PinButton().CloseButton(false).Top());
 	m_AUIXPMEditor->Update();
-
-	Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasKeyDown);
+	MenuItem1 = new wxMenuItem((&PopupMenuCopy), ID_POPUP_COPYTO, _("Copy to File..."), wxEmptyString, wxITEM_NORMAL);
+	PopupMenuCopy.Append(MenuItem1);
+	MenuItem2 = new wxMenuItem((&PopupMenuCopy), ID_POPUP_PASTEFROM, _("Paste from File..."), wxEmptyString, wxITEM_NORMAL);
+	PopupMenuCopy.Append(MenuItem2);
 	//*)
-
-	//wxMessageBox(_("XPMEditorPanel 1"));
 
 	//to do : register an event handler when AUI colours are updated
 	//EVT_MENU(idSettingsEnvironment, MainFrame::OnSettingsEnvironment)
@@ -157,8 +160,6 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	sFilePath = sFilePath + _("\\XPMEditor_log.txt");
 
 	LogToFile(_("Step 1"), sFilePath);
-
-	//wxMessageBox(_("XPMEditorPanel 2"));
 
 	if (DrawCanvasPanel)
 	{
@@ -175,6 +176,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_MOTION,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseMove,0,this);
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseLeave,0,this);
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SIZE,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasResize,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_CONTEXT_MENU, (wxObjectEventFunction)&XPMEditorPanel::OnContextMenu,0,this);
 	}
 	else
 	{
@@ -182,7 +184,13 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 		sCursorPos  = NULL;
 	}
 
-	//wxMessageBox(_("XPMEditorPanel 3"));
+	//event handler for popup menu
+	PopupMenuCopy.Connect(ID_POPUP_COPYTO, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&XPMEditorPanel::OnCopyTo,0,this);
+	PopupMenuCopy.Connect(ID_POPUP_PASTEFROM, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&XPMEditorPanel::OnPasteFrom,0,this);
+    Connect(wxEVT_MENU_OPEN, (wxObjectEventFunction)&XPMEditorPanel::OnOpenPopupMenu,0,this);
+    Connect(wxEVT_MENU_CLOSE, (wxObjectEventFunction)&XPMEditorPanel::OnClosePopupMenu,0,this);
+    SetPopupMenu(false);
+    m_bIsMenuBeingClosed = false;
 
 	//init pointers to panels
 	if (FoldPanel)
@@ -911,6 +919,20 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
     if (DrawCanvas) DrawCanvas->PrepareDC(dc);
     dc.SetUserScale(1,1);
 
+    DrawImage(dc);
+    DrawSelection(dc);
+    DrawDynamicTool(dc);
+    DrawGrid(dc);
+    DrawBackground(dc);
+    DrawSelectionBorder(dc);
+    DrawSizingBorder(dc);
+}
+
+/** Draw the main bitmap
+  * \param wxDC: the device context on which to draw
+  */
+void XPMEditorPanel::DrawImage(wxDC& dc)
+{
     //create the transparent background, and draw the bitmap on it
     wxColour cTransparent;
     if (ColourPicker) cTransparent = ColourPicker->GetTransparentColour(); else cTransparent = *wxWHITE;
@@ -943,15 +965,23 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
             memDC_HotSpot.SetUserScale(1 / dScale, 1 / dScale);
             dc.Blit(iHotSpotX * dScale,iHotSpotY * dScale, iSize, iSize,&memDC_HotSpot,0,0, wxCOPY, false);
         }
+    }
+}
 
-
+/** Draw the selection
+  * \param wxDC: the device context on which to draw
+  */
+void XPMEditorPanel::DrawSelection(wxDC& dc)
+{
+    if ((m_Bitmap) && (dScale > 0) && (m_bDrawSelection))
+    {
         //draw selection
         wxRect rSelection;
-        wxMemoryDC memDC2;
+        wxMemoryDC memDC;
         GetBoundingRect(&rSelection);
-        memDC2.SelectObject(m_SelectionBitmap);
-        memDC2.SetUserScale(1 / dScale, 1 / dScale);
-        if ((pSelection) && (NbPoints > 1) && (bDrawSelection) && (memDC2.IsOk()))
+        memDC.SelectObject(m_SelectionBitmap);
+        memDC.SetUserScale(1 / dScale, 1 / dScale);
+        if ((pSelection) && (NbPoints > 1) && (memDC.IsOk()))
         {
             //Selection bitmap
             int iStartX, iStartY, iSourceX, iSourceY, iSelWidth, iSelHeight;
@@ -974,39 +1004,38 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
             iSelWidth = m_SelectionBitmap.GetWidth() - iSourceX;
             iSelHeight = m_SelectionBitmap.GetHeight() - iSourceY;
 
-            //if (iSelWidth + iStartX > )
-
             dc.Blit(iStartX * dScale, iStartY * dScale,
                     iSelWidth * dScale, iSelHeight * dScale,
-                    &memDC2, iSourceX * dScale, iSourceY * dScale, wxCOPY, true
+                    &memDC, iSourceX * dScale, iSourceY * dScale, wxCOPY, true
                    ); //Selection
-
-/*
-            dc.Blit(rSelection.GetLeft() * dScale, rSelection.GetTop() * dScale,
-                    m_SelectionBitmap.GetWidth() * dScale, m_SelectionBitmap.GetHeight() * dScale,
-                    &memDC2, 0, 0, wxCOPY, true); //Selection
-*/
         }
     }
+}
 
+/** Draw the tools in action, if needed
+  * \param wxDC: the device context on which to draw
+  */
+void XPMEditorPanel::DrawDynamicTool(wxDC& dc)
+{
     //draw the dynamic tool
     if (m_bDrawToolDynamic)
     {
-        wxMemoryDC memDC3;
-        memDC3.SelectObject(m_bmDrawBitmap);
-        memDC3.SetUserScale(1 / dScale, 1 / dScale);
-        /*
-        dc.Blit(m_rClip.GetLeft() * dScale, m_rClip.GetTop() * dScale,
-                m_rClip.GetWidth() * dScale, m_rClip.GetHeight() * dScale,
-                &memDC3, m_rClip.GetLeft() * dScale, m_rClip.GetTop() * dScale, wxCOPY, true
-               );*/
+        wxMemoryDC memDC;
+        memDC.SelectObject(m_bmDrawBitmap);
+        memDC.SetUserScale(1 / dScale, 1 / dScale);
+
         dc.Blit(0, 0,
                 m_Bitmap->GetWidth() * dScale, m_Bitmap->GetHeight() * dScale,
-                &memDC3, 0, 0, wxCOPY, true
+                &memDC, 0, 0, wxCOPY, true
                );
     }
+}
 
-
+/** Draw the Grid
+  * \param wxDC: the device context on which to draw
+  */
+void XPMEditorPanel::DrawGrid(wxDC& dc)
+{
     //draw the grid
     if ((dScale >= 4.0) && (bShowGrid) &&(m_Bitmap))
     {
@@ -1026,9 +1055,14 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
             dc.DrawLine(0,j * dScale,iMax * dScale,j * dScale);
             //dc.DrawLine(0,(j+1) * dScale - 1,iMax * dScale,(j+1) * dScale - 1);
         }
-
     }
+}
 
+/** Draw the background
+  * \param wxDC: the device context on which to draw
+  */
+void XPMEditorPanel::DrawBackground(wxDC& dc)
+{
     //clear the background
     wxBrush bBackgroundBrush(cBackgroundColour);
     wxPen pBackgroundPen(cBackgroundColour);
@@ -1063,11 +1097,44 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
         {
             dc.DrawRectangle(xStart, iBmpHeight, vSize.GetWidth() - xStart + 10, cSize.GetHeight() - iBmpHeight + yStart);
         }
-
     }
+}
 
+/** Draw the sizing border
+  * \param wxDC: the device context on which to draw
+  */
+void XPMEditorPanel::DrawSizingBorder(wxDC& dc)
+{
+    //draw sizing border
+    if (m_Bitmap)
+    {
+        int iMax, jMax;
+        iMax = m_Bitmap->GetWidth() * dScale;
+        jMax = m_Bitmap->GetHeight() * dScale;
+        wxPen pBluePen(*wxBLUE,1,wxSOLID);
+        dc.SetPen(pBluePen);
+        //blue border
+        dc.DrawLine(0,jMax , iMax, jMax);
+        dc.DrawLine(iMax, 0, iMax, jMax);
+
+        //5 small rectangles at corners and middles of lines
+        wxBrush pBlueBrush(*wxBLUE,wxSOLID);
+        dc.SetBrush(pBlueBrush);
+        dc.DrawRectangle(0,jMax,4,4);
+        dc.DrawRectangle(iMax / 2,jMax,4,4);
+        dc.DrawRectangle(iMax,jMax,4,4);
+        dc.DrawRectangle(iMax,jMax / 2,4,4);
+        dc.DrawRectangle(iMax,0,4,4);
+    }
+}
+
+/** Draw the selection border
+  * \param wxDC: the device context on which to draw
+  */
+void XPMEditorPanel::DrawSelectionBorder(wxDC& dc)
+{
     //draw the selection border
-    if ((pSelection) && (NbPoints > 1) && (bDrawSelection))
+    if ((pSelection) && (NbPoints > 1) && (m_bDrawSelection))
     {
         dc.SetLogicalFunction(wxINVERT);
         int iPenWidth;
@@ -1090,28 +1157,6 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
         }
         dc.SetLogicalFunction(wxCOPY);
     }
-
-    //draw sizing border
-    if (m_Bitmap)
-    {
-        iMax = m_Bitmap->GetWidth() * dScale;
-        jMax = m_Bitmap->GetHeight() * dScale;
-        wxPen pBluePen(*wxBLUE,1,wxSOLID);
-        dc.SetPen(pBluePen);
-        //blue border
-        dc.DrawLine(0,jMax , iMax, jMax);
-        dc.DrawLine(iMax, 0, iMax, jMax);
-
-        //5 small rectangles at corners and middles of lines
-        wxBrush pBlueBrush(*wxBLUE,wxSOLID);
-        dc.SetBrush(pBlueBrush);
-        dc.DrawRectangle(0,jMax,4,4);
-        dc.DrawRectangle(iMax / 2,jMax,4,4);
-        dc.DrawRectangle(iMax,jMax,4,4);
-        dc.DrawRectangle(iMax,jMax / 2,4,4);
-        dc.DrawRectangle(iMax,0,4,4);
-    }
-
 }
 
 //---------------------- ZOOMING & SIZING HANDLERS  -----------------------
@@ -1468,7 +1513,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
     switch(iResult)
     {
         case 1 : if (    (!bUsingTool)
-                          || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
+                          || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL) && (GetToolID() != XPM_ID_POLYGON_TOOL))
                          )
                  {
                      ProcessDragAction(x, y, false, false, false, true, event.ShiftDown());
@@ -1486,7 +1531,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
         case 7 :
         case 8 :
         case 9 : if (    (!bUsingTool)
-                          || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
+                          || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL) && (GetToolID() != XPM_ID_POLYGON_TOOL))
                          )
                  {
                      ProcessSizeAction(x, y, false, false, false, true, event.ShiftDown(), iResult); break;
@@ -1526,15 +1571,34 @@ void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
     if (x > iWidth) x = iWidth ;
     if (y  > iHeight) y = iHeight;
 
-    //simulate a double click, send a sequential list of Left Mouse button events : Down + Pressed, Up, DClick, Up
+    if (bUsingTool)
+    {
+        //simulate a double click, send a sequential list of Left Mouse button events : Down + Pressed, Up, DClick, Up
+        ProcessToolAction(iTool, x, y, true, false, true, false, event.ShiftDown()); //Left Down + Left pressed
+        ProcessToolAction(iTool, x, y, false, true, false, false, event.ShiftDown());//Left Up
+        ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());//Left Double click
+        ProcessToolAction(iTool, x, y, false, true, false, false, event.ShiftDown());//Left Up
+    }
+    else
+    {
+        int iResult;
+        iResult = IsPointInSelection(ptPosition.x, ptPosition.y);
 
-    ProcessToolAction(iTool, x, y, true, false, true, false, event.ShiftDown()); //Left Down + Left pressed
-    ProcessToolAction(iTool, x, y, false, true, false, false, event.ShiftDown());//Left Up
-    ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());//Left Double click
-    ProcessToolAction(iTool, x, y, false, true, false, false, event.ShiftDown());//Left Up
+        if (iResult != 0)
+        {
+            PopupMenuCopy.Enable(ID_POPUP_COPYTO, true);
+            PopupMenuCopy.Enable(ID_POPUP_PASTEFROM, true);
+        }
+        else
+        {
+            PopupMenuCopy.Enable(ID_POPUP_COPYTO, false);
+            PopupMenuCopy.Enable(ID_POPUP_PASTEFROM, true);
+        }
+        PopupMenu(&PopupMenuCopy);
+        SetPopupMenu(true);
+    }
 
 
-    //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Right Click 7")));
 
     event.Skip();
 }
@@ -2352,25 +2416,25 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         wxRect rSelection;
         GetBoundingRect(&rSelection);
 
-        //get the drag image
-        wxImage img(m_SelectionImage);
-        img.Rescale(img.GetWidth() * dScale, img.GetHeight() * dScale);
-        wxBitmap bmp(img);
-        if (m_DragImage) delete(m_DragImage);
-        m_DragImage = new wxDragImage(bmp, wxCursor(wxCURSOR_HAND));
-        if (!m_DragImage) return;
-        if (!m_Bitmap) return;
-
         //replace the selection by a transparent image
+        if (bShiftDown) m_bEraseSelection = false;
+        m_bDrawSelection = false;
         if (m_bEraseSelection)
         {
-            CutSelection();
+            CutSelection(); //this method already calls Repaint()
+        }
+        else
+        {
+            Repaint();
         }
 
+        if (m_DragImage) delete(m_DragImage);
+        m_DragImage = new wxDragImage(m_SelectionBitmap, wxCursor(wxCURSOR_HAND));
+        if (!m_DragImage) return;
+        if (!m_Bitmap) return;
+        m_DragImage->SetScale(dScale);
 
         //begin the drag
-        //wxPoint ptHotSpot(rSelection.GetWidth() * dScale / 2, rSelection.GetHeight() * dScale / 2);
-
         wxPoint ptHotSpot(x - rSelection.GetLeft() * dScale + 1, y - rSelection.GetTop() * dScale + 1);
 
         pStartDragging.x = x / dScale - rSelection.GetLeft();
@@ -2379,7 +2443,6 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         m_DragImage->Hide();
 
         //Update Image
-        Repaint();
         int xx, yy;
         DrawCanvas->CalcScrolledPosition (x, y, &xx, &yy);
         m_DragImage->Move(wxPoint(xx, yy));
@@ -2389,19 +2452,17 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
     }
     else if ((bPressed) && (m_bDragging))
     {
-
         if (!m_Bitmap) return;
         if (!m_DragImage) return;
 
         //m_DragImage->Hide();
-        Repaint();
+        //Repaint();
         m_DragImage->Move(wxPoint(x,y));
         m_DragImage->Show();
 
     }
     else if (bLeftUp)
     {
-
         //finish
         m_bDragging = false;
 
@@ -2420,12 +2481,13 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
             //offset the selection
             //MoveSelection(xx / dScale - m_SelectionImage.GetWidth() / 2 - rSelection.GetLeft(),
             //              yy / dScale - m_SelectionImage.GetHeight()/ 2 - rSelection.GetTop());
-            MoveSelection(xx / dScale - pStartDragging.x - rSelection.GetLeft(),
-                          yy / dScale - pStartDragging.y - rSelection.GetTop());
+            MoveSelection(xx / dScale - pStartDragging.x - rSelection.GetLeft() - 1,
+                          yy / dScale - pStartDragging.y - rSelection.GetTop() - 1);
 
             SetCursor(wxCURSOR_HAND);
         }
         m_bEraseSelection = false;
+        m_bDrawSelection = true;
         Repaint();
 
         InitToolData();
@@ -2454,9 +2516,6 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
         m_bSizing = true;
         m_iSizeAction = iDirection;
 
-        //wxMessageBox(wxString::Format(_("iDirection=%d"), iDirection));
-
-        ToggleButtons(XPM_ID_STRETCH_TOOL, false);
         ConvertSelectionToRect();
         wxRect rSelection;
         GetBoundingRect(&rSelection);
@@ -2500,6 +2559,8 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
     if (bLeftUp)
     {
         //finish
+        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Button Up tool=%d"), GetToolID()));
+        ToggleButtons(XPM_ID_STRETCH_TOOL, false);
         m_bSizing = false;
         InitToolData();
     }
@@ -2522,9 +2583,9 @@ void XPMEditorPanel::ProcessLasso(int x, int y,
     {
         if (tdata.iNbClicks > 0)
         {
-            bDrawSelection = false;
+            m_bDrawSelection = false;
             Repaint();
-            bDrawSelection = true;
+            m_bDrawSelection = true;
 
             wxClientDC dc(DrawCanvas);
             dc.SetLogicalFunction(wxINVERT);
@@ -3918,6 +3979,14 @@ int XPMEditorPanel::IsPointInSelection(int x, int y)
   */
 void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
 {
+
+    //if ((m_bPopupMenuShown) || (m_bIsMenuBeingClosed))
+    if ((m_bPopupMenuShown) && (m_bIsMenuBeingClosed))
+    {
+        event.Skip();
+        return;
+    }
+
     if (DrawCanvas) DrawCanvas->SetFocus();
 
     if ((DrawCanvas) && ((bCanResizeX) || (bCanResizeY)) && (m_Bitmap) && (!bUsingTool))
@@ -4001,6 +4070,13 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
   */
 void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
 {
+    if ((m_bPopupMenuShown) && (m_bIsMenuBeingClosed))
+    {
+        m_bIsMenuBeingClosed = false;
+        event.Skip();
+        return;
+    }
+
     if (((bSizingX) || (bSizingY)) && (m_Bitmap) && (!bUsingTool))
     {
         //resize
@@ -4184,9 +4260,11 @@ void XPMEditorPanel::PasteImage(const wxImage &newImage, int x, int y)
 {
     if (!m_Bitmap) return;
 
-    //test is the position is valid
-    if ((x < 0) || (x > m_Bitmap->GetWidth())) return;
-    if ((y < 0) || (y > m_Bitmap->GetHeight())) return;
+    //make sure there is something to paste (image to paste is overlapping the display area)
+    if (x + newImage.GetWidth() < 0) return;
+    if (x > m_Bitmap->GetWidth()) return;
+    if (y + newImage.GetHeight() < 0) return;
+    if (y > m_Bitmap->GetHeight()) return;
 
     //create and resize the image to paste
     wxImage img(newImage);
@@ -4320,13 +4398,13 @@ void XPMEditorPanel::Paste(void)
     bool bResult;
     wxImage img;
     wxBitmap bm;
+    wxBitmapDataObject bmdo;
+    wxImageDataObject ido;
 
     //get the bitmap from the clipboard
     if (wxTheClipboard->Open())
     {
         //try first in wxImageFormat
-        wxBitmapDataObject bmdo;
-        wxImageDataObject ido;
         bResult = wxTheClipboard->IsSupported(wxDataFormat(_("wxImage")));
         if (bResult)
         {
@@ -4345,64 +4423,63 @@ void XPMEditorPanel::Paste(void)
             }
         }
         wxTheClipboard->Close();
+    }
 
-        if (bResult)
+    if (bResult)
+    {
+        AddUndo();
+
+        wxBitmap *original_bitmap;
+        original_bitmap = GetBitmap();
+
+        //increase the size of the current bitmap if needed
+        int iWidth, iHeight, iWidth2, iHeight2;
+        iWidth = bm.GetWidth();
+        iHeight = bm.GetHeight();
+        if (original_bitmap)
         {
-            AddUndo();
-
-
-            wxBitmap *original_bitmap;
-            original_bitmap = GetBitmap();
-
-            //increase the size of the current bitmap if needed
-            int iWidth, iHeight, iWidth2, iHeight2;
-            iWidth = bm.GetWidth();
-            iHeight = bm.GetHeight();
-            if (original_bitmap)
-            {
-                iWidth2 = original_bitmap->GetWidth();
-                iHeight2 = original_bitmap->GetHeight();
-            }
-            else
-            {
-                iWidth2 = XPM_DEFAULT_WIDTH;
-                iHeight2 = XPM_DEFAULT_HEIGHT;
-            }
-            if ((iHeight > iHeight2) || (iWidth > iWidth2))
-            {
-                int iResult;
-                iResult = wxMessageBox(_("Do you want to resize the Bitmap ?"), _("Confirmation required."), wxYES_NO);
-                if (iResult == wxYES)
-                {
-                    //resize the bitmap
-                    if (iHeight > iHeight2) iHeight2 = iHeight;
-                    if (iWidth > iWidth2) iWidth2 = iWidth;;
-                    SetDrawAreaSize(wxSize(iWidth2, iHeight2));
-                }
-            }
-
-            //Create the selection
-            NbPoints = 4;
-            if (NbPoints > NbPointsMax)
-            {
-                pSelection = (wxPoint*) realloc(pSelection, (NbPointsMax + 10) * sizeof(wxPoint));
-                if (pSelection) NbPointsMax = NbPointsMax + 10;
-            }
-            if (pSelection)
-            {
-                pSelection[0] = wxPoint(0,0);
-                pSelection[1] = wxPoint(iWidth,0);
-                pSelection[2] = wxPoint(iWidth,iHeight);
-                pSelection[3] = wxPoint(0,iHeight);
-            }
-
-            //paste the Bitmap at 0,0
-            m_SelectionBitmap = bm;
-            m_SelectionImage = img;
-            SetModified(true);
-            Repaint();
-            m_bEraseSelection = false;
+            iWidth2 = original_bitmap->GetWidth();
+            iHeight2 = original_bitmap->GetHeight();
         }
+        else
+        {
+            iWidth2 = XPM_DEFAULT_WIDTH;
+            iHeight2 = XPM_DEFAULT_HEIGHT;
+        }
+        if ((iHeight > iHeight2) || (iWidth > iWidth2))
+        {
+            int iResult;
+            iResult = wxMessageBox(_("Do you want to resize the Bitmap ?"), _("Confirmation required."), wxYES_NO);
+            if (iResult == wxYES)
+            {
+                //resize the bitmap
+                if (iHeight > iHeight2) iHeight2 = iHeight;
+                if (iWidth > iWidth2) iWidth2 = iWidth;;
+                SetDrawAreaSize(wxSize(iWidth2, iHeight2));
+            }
+        }
+
+        //Create the selection
+        NbPoints = 4;
+        if (NbPoints > NbPointsMax)
+        {
+            pSelection = (wxPoint*) realloc(pSelection, (NbPointsMax + 10) * sizeof(wxPoint));
+            if (pSelection) NbPointsMax = NbPointsMax + 10;
+        }
+        if (pSelection)
+        {
+            pSelection[0] = wxPoint(0,0);
+            pSelection[1] = wxPoint(iWidth,0);
+            pSelection[2] = wxPoint(iWidth,iHeight);
+            pSelection[3] = wxPoint(0,iHeight);
+        }
+
+        //paste the Bitmap at 0,0
+        m_SelectionBitmap = bm;
+        m_SelectionImage = img;
+        SetModified(true);
+        Repaint();
+        m_bEraseSelection = false;
     }
 }
 
@@ -5050,9 +5127,9 @@ void XPMEditorPanel::OnFillColorChanged(wxCommandEvent& event)
   */
 void XPMEditorPanel::OnTextEditText(wxString sText)
 {
+    //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Text id = %d Current Tool id = %d"), XPM_ID_TEXT_TOOL, GetToolID()));
     if (bUsingTool)
     {
-        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Text id = %d Current Tool id = %d"), XPM_ID_TEXT_TOOL, GetToolID()));
         switch(GetToolID())
         {
             case XPM_ID_TEXT_TOOL: tdata.sText = sText;
@@ -6478,4 +6555,249 @@ void XPMEditorPanel::GradientFillConcentric(wxDC& dc,
     dc.SetPen(penOrig);
 }
 
+//--------- POPUP MENU EVENT HANDLERS --------------
+/** popup menu "Copy To" has been selected
+  */
+void XPMEditorPanel::OnCopyTo(wxCommandEvent& event)
+{
+    CopyTo();
+    SetPopupMenu(false);
+}
+
+/** Copy the selection to a new file
+  */
+void XPMEditorPanel::CopyTo(void)
+{
+    //get the image from the selection
+    wxImage img;
+    img = GetImageFromSelection();
+
+    if (!img.IsOk()) return;
+
+    //get a filename
+    wxString sFileName;
+    wxFileName fname;
+    ConfigManager* mgr = Manager::Get()->GetConfigManager(_T("app"));
+    int StoredIndex = 0;
+    wxString Filters = FileFilters::GetFilterString();
+    wxString Path = fname.GetPath();
+    wxString Extension = fname.GetExt();
+    wxString Filter;
+    if (!Extension.IsEmpty())
+    {    // use the current extension as the filter
+        // Select filter belonging to this file type:
+        Extension.Prepend(_T("."));
+        Filter = FileFilters::GetFilterString(Extension);
+    }
+    else if(mgr)
+    {
+        // File type is unknown. Select the last used filter:
+        Filter = mgr->Read(_T("/file_dialogs/save_file_as/filter"), _T("bitmap files"));
+    }
+    if(!Filter.IsEmpty())
+    {
+        // We found a filter, look up its index:
+        int sep = Filter.find(_T("|"));
+        if (sep != wxNOT_FOUND)
+        {
+            Filter.Truncate(sep);
+        }
+        if (!Filter.IsEmpty())
+        {
+            FileFilters::GetFilterIndexFromName(Filters, Filter, StoredIndex);
+        }
+    }
+    if(mgr && Path.IsEmpty())
+    {
+        Path = mgr->Read(_T("/file_dialogs/save_file_as/directory"), Path);
+    }
+    wxFileDialog dlg(Manager::Get()->GetAppWindow(),
+                                         _("Save selection to a new file"),
+                                         Path,
+                                         fname.GetFullName(),
+                                         Filters,
+                                         wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    dlg.SetFilterIndex(StoredIndex);
+    PlaceWindow(&dlg);
+    if (dlg.ShowModal() != wxID_OK)
+    {  // cancelled out
+        return;
+    }
+    sFileName = dlg.GetPath();
+
+    wxBitmapType bt;
+    bt = GetImageFormat();
+
+    if (!XPM_Plugin()->SaveImage(&img, sFileName, bt, NULL))
+    {
+        Manager::Get()->GetLogManager()->LogError(wxString::Format(_("Impossible to save the file %s"), sFileName.c_str()));
+    }
+}
+
+/** read an image from a file and paste it
+  */
+void XPMEditorPanel::PasteFrom(void)
+{
+    //get a filename
+    wxString sFileName;
+    wxFileName fname;
+    ConfigManager* mgr = Manager::Get()->GetConfigManager(_T("app"));
+    int StoredIndex = 0;
+    wxString Filters = FileFilters::GetFilterString();
+    wxString Path = fname.GetPath();
+    wxString Extension = fname.GetExt();
+    wxString Filter;
+    if (!Extension.IsEmpty())
+    {    // use the current extension as the filter
+        // Select filter belonging to this file type:
+        Extension.Prepend(_T("."));
+        Filter = FileFilters::GetFilterString(Extension);
+    }
+    else if(mgr)
+    {
+        // File type is unknown. Select the last used filter:
+        Filter = mgr->Read(_T("/file_dialogs/save_file_as/filter"), _T("bitmap files"));
+    }
+    if(!Filter.IsEmpty())
+    {
+        // We found a filter, look up its index:
+        int sep = Filter.find(_T("|"));
+        if (sep != wxNOT_FOUND)
+        {
+            Filter.Truncate(sep);
+        }
+        if (!Filter.IsEmpty())
+        {
+            FileFilters::GetFilterIndexFromName(Filters, Filter, StoredIndex);
+        }
+    }
+    if(mgr && Path.IsEmpty())
+    {
+        Path = mgr->Read(_T("/file_dialogs/save_file_as/directory"), Path);
+    }
+    wxFileDialog dlg(Manager::Get()->GetAppWindow(),
+                                         _("Open an image file"),
+                                         Path,
+                                         fname.GetFullName(),
+                                         Filters,
+                                         wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    dlg.SetFilterIndex(StoredIndex);
+    PlaceWindow(&dlg);
+    if (dlg.ShowModal() != wxID_OK)
+    {  // cancelled out
+        return;
+    }
+    sFileName = dlg.GetPath();
+
+    //read the image from the file
+    wxImage img;
+    wxBitmapType bt;
+    if (!XPM_Plugin()->LoadImage(&img, sFileName, &bt))
+    {
+        Manager::Get()->GetLogManager()->LogError(wxString::Format(_("Impossible to read the file %s"), sFileName.c_str()));
+        return;
+    }
+    if (!img.IsOk())
+    {
+        Manager::Get()->GetLogManager()->LogError(wxString::Format(_("Impossible to read the file %s"), sFileName.c_str()));
+        return;
+    }
+
+    AddUndo();
+
+    wxBitmap *original_bitmap;
+    original_bitmap = GetBitmap();
+
+    //increase the size of the current bitmap if needed
+    int iWidth, iHeight, iWidth2, iHeight2;
+    iWidth = img.GetWidth();
+    iHeight = img.GetHeight();
+    if (original_bitmap)
+    {
+        iWidth2 = original_bitmap->GetWidth();
+        iHeight2 = original_bitmap->GetHeight();
+    }
+    else
+    {
+        iWidth2 = XPM_DEFAULT_WIDTH;
+        iHeight2 = XPM_DEFAULT_HEIGHT;
+    }
+    if ((iHeight > iHeight2) || (iWidth > iWidth2))
+    {
+        int iResult;
+        iResult = wxMessageBox(_("Do you want to resize the Bitmap ?"), _("Confirmation required."), wxYES_NO);
+        if (iResult == wxYES)
+        {
+            //resize the bitmap
+            if (iHeight > iHeight2) iHeight2 = iHeight;
+            if (iWidth > iWidth2) iWidth2 = iWidth;;
+            SetDrawAreaSize(wxSize(iWidth2, iHeight2));
+        }
+    }
+
+    //Create the selection
+    ClearSelection();
+    NbPoints = 4;
+    if (NbPoints > NbPointsMax)
+    {
+        pSelection = (wxPoint*) realloc(pSelection, (NbPointsMax + 10) * sizeof(wxPoint));
+        if (pSelection) NbPointsMax = NbPointsMax + 10;
+    }
+    if (pSelection)
+    {
+        pSelection[0] = wxPoint(0,0);
+        pSelection[1] = wxPoint(iWidth,0);
+        pSelection[2] = wxPoint(iWidth,iHeight);
+        pSelection[3] = wxPoint(0,iHeight);
+    }
+
+    //paste the Bitmap at 0,0
+    m_SelectionBitmap = wxBitmap(img);
+    m_SelectionImage = img;
+    SetModified(true);
+    Repaint();
+    m_bEraseSelection = false;
+}
+
+/** popup menu "Paste From" has been selected
+  */
+void XPMEditorPanel::OnPasteFrom(wxCommandEvent& event)
+{
+    PasteFrom();
+    SetPopupMenu(false);
+}
+
+/** the popup menu is displayed
+  */
+void XPMEditorPanel::OnOpenPopupMenu(wxMenuEvent& event)
+{
+    SetPopupMenu(true);
+    event.Skip();
+}
+
+/** the popup menu is closed
+  */
+void XPMEditorPanel::OnClosePopupMenu(wxMenuEvent& event)
+{
+    SetPopupMenu(false);
+    event.Skip();
+}
+
+/** popup menu event
+  */
+void XPMEditorPanel::OnContextMenu(wxCommandEvent& event)
+{
+    SetPopupMenu(false);
+    m_bIsMenuBeingClosed = true;
+    event.Skip();
+}
+
+/** Indicates if the popup menu is visible or not
+  * It does not actually hide or show anything. It just updates a flag
+  * \param bVisible: true if the popup menu is visible, false otherwise
+  */
+void XPMEditorPanel::SetPopupMenu(bool bVisible)
+{
+    m_bPopupMenuShown = bVisible;
+}
 

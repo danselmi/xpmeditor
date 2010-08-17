@@ -40,7 +40,7 @@
 #ifdef WXMAKINGDLL_THINGS
     #define WXDLLIMPEXP_THINGS WXEXPORT
     #define WXDLLIMPEXP_DATA_THINGS(type) WXEXPORT type
-#elif defined(WXUSINGDLL)
+#elif defined(WXUSINGDLL_THINGS)
     #define WXDLLIMPEXP_THINGS WXIMPORT
     #define WXDLLIMPEXP_DATA_THINGS(type) WXIMPORT type
 #else // not making nor using DLL
