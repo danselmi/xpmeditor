@@ -9,8 +9,6 @@ IMPROVEMENTS / NEW FEATURES:
 
 3 - Quick Help display (tooltip)  + help in status bar
 
-5 - Pen + Brush + Eraser: SHIFT key behaviour to improve
-
 6 - review size of ToolPanel (again)
      a - minimal size to increase, to fit a vertical scrollbar
      b - Minimal floating size to reduce to Tools size
@@ -35,11 +33,9 @@ BUGS:
         4 - draw the dragged bitmap
         5 - reset the dc scale to 1
 
-5 - When dropping a file on Code::Blocks, the file is displayed correctly - however, the Zoom function does not work.
-    Editing & Saving are working.
-    Loading the SAME file using the Project Manager or the File/Load menu gives normal results (no bug)
+5 - Context menu: when a mouse click close the context menu, it should not send a mouse click event (because it clears the selection)
 
-6 - Context menu: when a mouse click close the context menu, it should not send a mouse click event (because it clears the selection)
+6 - Zoom > 200% + Selection overlaps on left edge: selection is only partially drawn.
 
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
@@ -73,6 +69,27 @@ CHANGES:
 
 6 - Bug solved: ClearSelection: when the image to paste is bigger than the destination image, nothing is done sometimes
 
+7 - Bug solved: MIME Handling: when no extensions was available in the file name, the Plugin was trying to open the file anyway
+                and gave no chance to the default MIME handler.
+
+8 - Added default context menu entries in Project Manager
+
+9 - Remove some flickering when creating the editor
+
+10 - Bug solved: When dropping a file on Code::Blocks, the file is displayed correctly - however, the Zoom function does not work.
+     Editing & Saving are working.
+     Loading the SAME file using the Project Manager or the File/Load menu gives normal results (no bug)
+
+11 - Pen + Brush + Eraser: SHIFT key behaviour implemented
+
+CHANGES:
+1 - bug solved Copy / Paste:
+    before copy : bitmap put in clipboard has a Mask
+    after paste : bitmap does not have mask
+    Solved by adding a custom data format in the clipboard
+
+2 - Change in Text Tool.
+    Currently partially broken (orientation not taken into account) due to the changes.
 
 
 

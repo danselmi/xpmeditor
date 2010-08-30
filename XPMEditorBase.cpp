@@ -36,6 +36,7 @@ XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *im
     :EditorBase(parent,title)
 {
     //constructor
+    Freeze();
 
     //initialisation code
     m_bModified = false;
@@ -67,6 +68,8 @@ XPMEditorBase::XPMEditorBase(wxWindow* parent, const wxString& title,wxImage *im
         m_DrawArea->SetImage(img);
         m_DrawArea->SetImageFormat(bt); //default behaviour : autodetection using file extension
     }
+
+    Thaw();
 
 }
 

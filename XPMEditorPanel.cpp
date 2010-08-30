@@ -32,6 +32,12 @@
 
 #define PI 3.14159265358979
 
+//allow for line an angle of 45 degrees when SHIFT KEY is pressed
+#define XPM_LINEORIENTATION PI/4.0
+
+//allow for pen an angle of 90 degrees when SHIFT KEY is pressed
+#define XPM_PENORIENTATION PI/2.0
+
 #include "XPMEditor.h"
 #include "wxStretchImage.h"
 #include "wxMirror.h"
@@ -88,7 +94,7 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 {
 	BuildContent(parent,id,pos,size);
 
-	m_Bitmap = NULL;
+	m_Bitmap = wxBitmap(XPM_DEFAULT_WIDTH, XPM_DEFAULT_HEIGHT);
 	m_Image = NULL;
 	m_ImageFormat = wxBITMAP_TYPE_ANY;
 	bCanResizeX = false;
@@ -132,6 +138,8 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
   */
 void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
+	Freeze();
+
 	//(*Initialize(XPMEditorPanel)
 	Create(parent, wxID_ANY, wxDefaultPosition, wxSize(199,144), wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
 	m_AUIXPMEditor = new wxAuiManager(this, wxAUI_MGR_ALLOW_FLOATING|wxAUI_MGR_ALLOW_ACTIVE_PANE|wxAUI_MGR_DEFAULT);
@@ -154,6 +162,7 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	//EVT_MENU(idSettingsEnvironment, MainFrame::OnSettingsEnvironment)
     UpdateMinimalSizes();
 	UpdateAUIColours();
+	Thaw();
 
 	wxString sFilePath;
 	sFilePath = ConfigManager::GetExecutableFolder();
@@ -476,13 +485,6 @@ XPMEditorPanel::~XPMEditorPanel()
 	//(*Destroy(XPMEditorPanel)
 	//*)
 
-    //bitmap release
-	if (m_Bitmap)
-	{
-        delete(m_Bitmap);
-        m_Bitmap = NULL;
-	}
-
 	//image release
 	if (m_Image)
 	{
@@ -535,7 +537,7 @@ bool XPMEditorPanel::GetModified(void)
 wxBitmap* XPMEditorPanel::GetBitmap(void)
 {
     //return the associated bitmap
-    return(m_Bitmap);
+    return(&m_Bitmap);
 }
 
 /** Return an image representing the selection
@@ -757,7 +759,7 @@ void XPMEditorPanel::SetImage(wxImage *img)
         }
         else
         {
-            //create a blank bitmap
+            //create a blank image
             m_Image = new wxImage(iXPMDefaultWidth, iXPMDefaultHeight, true);
             cMaskColour = ColourPicker->GetTransparentColour();
         }
@@ -803,36 +805,23 @@ void XPMEditorPanel::SetBitmap(wxBitmap *bm)
     //set the associated bitmap
     if (DrawCanvas)
     {
-        //delete the previous bitmap first
-        wxBitmap *bmTemp;
-        if (m_Bitmap)
-        {
-            bmTemp = m_Bitmap;
-        }
-        else
-        {
-            bmTemp = NULL;
-        }
-
         if (bm)
         {
             //create a copy of the bitmap
-            m_Bitmap = new wxBitmap(*bm);
+            m_Bitmap = *bm;
         }
         else
         {
             //create a blank bitmap
-            m_Bitmap = new wxBitmap(iXPMDefaultWidth, iXPMDefaultHeight);
+            m_Bitmap = wxBitmap(iXPMDefaultWidth, iXPMDefaultHeight);
         }
-        if (bmTemp) delete(bmTemp);
-        if (!m_Bitmap) return;
 
         //Set the scrollbars and draw area size
-        sDrawAreaSize = wxSize(m_Bitmap->GetWidth(), m_Bitmap->GetHeight());
+        sDrawAreaSize = wxSize(m_Bitmap.GetWidth(), m_Bitmap.GetHeight());
         if (PropertiesPanel)
         {
-            if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetValue(m_Bitmap->GetWidth());
-            if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPHeight->SetValue(m_Bitmap->GetHeight());
+            if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetValue(m_Bitmap.GetWidth());
+            if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPHeight->SetValue(m_Bitmap.GetHeight());
         }
 
         int iFactor;
@@ -845,7 +834,7 @@ void XPMEditorPanel::SetBitmap(wxBitmap *bm)
 
         DoSetScrollBars();
 
-        m_bmDrawBitmap = wxBitmap(m_Bitmap->GetWidth(), m_Bitmap->GetHeight());
+        m_bmDrawBitmap = wxBitmap(m_Bitmap.GetWidth(), m_Bitmap.GetHeight());
 
         Repaint();
     }
@@ -861,20 +850,19 @@ void XPMEditorPanel::UpdateImage(void)
 {
     //Ensure the Image is up-to-date (buffered user actions are flushed)
     //recreate the m_Image member from the m_Bitmap member
-    if (m_Bitmap)
+
+    wxImage img;
+    img = m_Bitmap.ConvertToImage();
+    wxImage *img2;
+    img2 = new wxImage(img);
+    if (img2)
     {
-        wxImage img;
-        img = m_Bitmap->ConvertToImage();
-        wxImage *img2;
-        img2 = new wxImage(img);
-        if (img2)
-        {
-            wxImage *img_temp;
-            img_temp = m_Image;
-            m_Image = img2;
-            if(img_temp) delete(img_temp);
-        }
+        wxImage *img_temp;
+        img_temp = m_Image;
+        m_Image = img2;
+        if(img_temp) delete(img_temp);
     }
+
 }
 
 /** return a pointer to the wxScrolledWindow on which the Bitmap is drawn.
@@ -917,7 +905,13 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
     int iMax, jMax;
 
     if (DrawCanvas) DrawCanvas->PrepareDC(dc);
-    dc.SetUserScale(1,1);
+
+    //we need to draw in 2 differents scales:
+    // 1 - in the scale selected by the user (Zoom)
+    // 2 - scale 1 for drawing the grid and the sizing border
+    //keep the destination User Scale at 1. It prevents Round off errors in wxWidgets library
+    //we will blit instead all the data from a dc with a scale 1/dScale to this one
+    dc.SetUserScale(1.0, 1.0);
 
     DrawImage(dc);
     DrawSelection(dc);
@@ -941,18 +935,27 @@ void XPMEditorPanel::DrawImage(wxDC& dc)
     wxPen bTransparentPen(cTransparent, 1, wxSOLID);
     dc.SetBrush(bTransparent);
     dc.SetPen(bTransparentPen);
-    if ((m_Bitmap) && (dScale > 0))
-    {
-        wxMemoryDC memDC;
-        memDC.SelectObject(*m_Bitmap);
 
-        memDC.SetUserScale(1 / dScale, 1 / dScale);
+    if ((m_Bitmap.IsOk()) && (dScale > 0))
+    {
+        //this work:
+        wxMemoryDC memDC;
+        wxBitmap bmp(m_Bitmap); //this does not take too much time, because reference counting is used
+        memDC.SelectObject(bmp);
+        //this does not work, due to reference counting problems
+        //wxMemoryDC memDC;
+        //memDC.SelectObject(m_Bitmap);
+        //wxMemoryDC memDC(m_Bitmap);
+
+        double ddScale;
+        ddScale = 1.0 / dScale;
+        memDC.SetUserScale(ddScale, ddScale);
 
         //main bitmap
-        dc.Blit(0,0,m_Bitmap->GetWidth() * dScale, m_Bitmap->GetHeight() * dScale,&memDC,0,0, wxCOPY, false);
+        dc.Blit(0,0,m_Bitmap.GetWidth() * dScale, m_Bitmap.GetHeight() * dScale,&memDC,0,0, wxCOPY, false);
 
         //Draw the Hotspot
-        if ((iHotSpotX >= 0) && (iHotSpotY >= 0) && (iHotSpotX < m_Bitmap->GetWidth()) && (iHotSpotY <= m_Bitmap->GetHeight()))
+        if ((iHotSpotX >= 0) && (iHotSpotY >= 0) && (iHotSpotX < m_Bitmap.GetWidth()) && (iHotSpotY <= m_Bitmap.GetHeight()))
         {
             wxMemoryDC memDC_HotSpot;
             wxBitmap bmpHotSpot(1,1);
@@ -962,8 +965,8 @@ void XPMEditorPanel::DrawImage(wxDC& dc)
             wxPen pHotSpotPen(cHotSpotColour, 1, wxSOLID);
             memDC_HotSpot.SetPen(pHotSpotPen);
             memDC_HotSpot.DrawPoint(0, 0);
-            memDC_HotSpot.SetUserScale(1 / dScale, 1 / dScale);
-            dc.Blit(iHotSpotX * dScale,iHotSpotY * dScale, iSize, iSize,&memDC_HotSpot,0,0, wxCOPY, false);
+            memDC_HotSpot.SetUserScale(ddScale, ddScale);
+            dc.Blit(iHotSpotX * dScale, iHotSpotY  * dScale, iSize, iSize,&memDC_HotSpot,0,0, wxCOPY, false);
         }
     }
 }
@@ -973,14 +976,14 @@ void XPMEditorPanel::DrawImage(wxDC& dc)
   */
 void XPMEditorPanel::DrawSelection(wxDC& dc)
 {
-    if ((m_Bitmap) && (dScale > 0) && (m_bDrawSelection))
+    if ((dScale > 0) && (m_bDrawSelection))
     {
         //draw selection
         wxRect rSelection;
         wxMemoryDC memDC;
         GetBoundingRect(&rSelection);
         memDC.SelectObject(m_SelectionBitmap);
-        memDC.SetUserScale(1 / dScale, 1 / dScale);
+        memDC.SetUserScale(1.0 / dScale, 1.0 / dScale);
         if ((pSelection) && (NbPoints > 1) && (memDC.IsOk()))
         {
             //Selection bitmap
@@ -1025,7 +1028,7 @@ void XPMEditorPanel::DrawDynamicTool(wxDC& dc)
         memDC.SetUserScale(1 / dScale, 1 / dScale);
 
         dc.Blit(0, 0,
-                m_Bitmap->GetWidth() * dScale, m_Bitmap->GetHeight() * dScale,
+                m_Bitmap.GetWidth() * dScale, m_Bitmap.GetHeight() * dScale,
                 &memDC, 0, 0, wxCOPY, true
                );
     }
@@ -1037,12 +1040,12 @@ void XPMEditorPanel::DrawDynamicTool(wxDC& dc)
 void XPMEditorPanel::DrawGrid(wxDC& dc)
 {
     //draw the grid
-    if ((dScale >= 4.0) && (bShowGrid) &&(m_Bitmap))
+    if ((dScale >= 4.0) && (bShowGrid) &&(m_Bitmap.IsOk()))
     {
         //draw the grid
         int i, iMax, j, jMax;
-        iMax = m_Bitmap->GetWidth();
-        jMax = m_Bitmap->GetHeight();
+        iMax = m_Bitmap.GetWidth();
+        jMax = m_Bitmap.GetHeight();
         wxPen pen(cGridColour, 1);
         dc.SetPen(pen);
         for(i=0;i<iMax+1;i++)
@@ -1068,7 +1071,7 @@ void XPMEditorPanel::DrawBackground(wxDC& dc)
     wxPen pBackgroundPen(cBackgroundColour);
     dc.SetBackground(bBackgroundBrush);
     dc.SetBackgroundMode(wxSOLID);
-    if (m_Bitmap)
+    if (m_Bitmap.IsOk())
     {
         wxSize cSize, vSize;
         int xStart, yStart, iXPixelPerScrollUnit, iYPixelPerScrollUnit, iBmpWidth, iBmpHeight;
@@ -1080,8 +1083,8 @@ void XPMEditorPanel::DrawBackground(wxDC& dc)
         DrawCanvas->GetScrollPixelsPerUnit(&iXPixelPerScrollUnit, &iYPixelPerScrollUnit);
         xStart = xStart * iXPixelPerScrollUnit;
         yStart = yStart * iYPixelPerScrollUnit;
-        iBmpWidth = m_Bitmap->GetWidth() * dScale;
-        iBmpHeight = m_Bitmap->GetHeight() * dScale;
+        iBmpWidth = m_Bitmap.GetWidth() * dScale;
+        iBmpHeight = m_Bitmap.GetHeight() * dScale;
         dc.SetPen(pBackgroundPen);
         dc.SetBrush(bBackgroundBrush);
 
@@ -1106,11 +1109,11 @@ void XPMEditorPanel::DrawBackground(wxDC& dc)
 void XPMEditorPanel::DrawSizingBorder(wxDC& dc)
 {
     //draw sizing border
-    if (m_Bitmap)
+    if (m_Bitmap.IsOk())
     {
         int iMax, jMax;
-        iMax = m_Bitmap->GetWidth() * dScale;
-        jMax = m_Bitmap->GetHeight() * dScale;
+        iMax = m_Bitmap.GetWidth() * dScale;
+        jMax = m_Bitmap.GetHeight() * dScale;
         wxPen pBluePen(*wxBLUE,1,wxSOLID);
         dc.SetPen(pBluePen);
         //blue border
@@ -1252,11 +1255,12 @@ void XPMEditorPanel::SetDrawAreaSize(wxSize sNewDrawAreaSize)
                             cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue()
                            );
         }
+
         UpdateBitmap();
 
-        if (m_Bitmap)
+        if (m_Bitmap.IsOk())
         {
-            m_bmDrawBitmap = wxBitmap(m_Bitmap->GetWidth(), m_Bitmap->GetHeight());
+            m_bmDrawBitmap = wxBitmap(m_Bitmap.GetWidth(), m_Bitmap.GetHeight());
         }
         SetModified(true);
     }
@@ -1277,27 +1281,27 @@ void XPMEditorPanel::DoSetScrollBars(void)
     if (dScale2 < 0) dScale2 = - dScale2;
     if (dScale2 == 0) dScale2 = 1;
 
-    if ((m_Bitmap) && (DrawCanvas))
+    if ((m_Bitmap.IsOk()) && (DrawCanvas))
     {
-        if (m_Bitmap->GetWidth() < 100)
+        if (m_Bitmap.GetWidth() < 100)
         {
             xStep = 10;
-            iWidth =  m_Bitmap->GetWidth() * dScale2 / xStep;
+            iWidth =  m_Bitmap.GetWidth() * dScale2 / xStep;
         }
         else
         {
-            xStep = m_Bitmap->GetWidth() / 10;
-            iWidth =  m_Bitmap->GetWidth() * dScale2 / xStep;
+            xStep = m_Bitmap.GetWidth() / 10;
+            iWidth =  m_Bitmap.GetWidth() * dScale2 / xStep;
         }
-        if (m_Bitmap->GetHeight() < 100)
+        if (m_Bitmap.GetHeight() < 100)
         {
             yStep = 10;
-            iHeight = m_Bitmap->GetHeight() * dScale2 / yStep;
+            iHeight = m_Bitmap.GetHeight() * dScale2 / yStep;
         }
         else
         {
-            yStep = m_Bitmap->GetHeight() / 10;
-            iHeight = m_Bitmap->GetHeight() * dScale2 / yStep;
+            yStep = m_Bitmap.GetHeight() / 10;
+            iHeight = m_Bitmap.GetHeight() * dScale2 / yStep;
         }
 
         iWidth = iWidth + 1;   //for resizing border
@@ -1326,10 +1330,10 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
     //test for sizing border
     int iWidth, iHeight;
 
-    if (m_Bitmap)
+    if (m_Bitmap.IsOk())
     {
-        iWidth = m_Bitmap->GetWidth() * dScale;
-        iHeight = m_Bitmap->GetHeight() * dScale;
+        iWidth = m_Bitmap.GetWidth() * dScale;
+        iHeight = m_Bitmap.GetHeight() * dScale;
     }
     else
     {
@@ -1352,8 +1356,8 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
 
         //Get mouse position
         DrawCanvas->GetViewStart(&x, &y);
-        if (bSizingX) x = event.m_x; else x = m_Bitmap->GetWidth() * dScale - x;
-        if (bSizingY) y = event.m_y; else y = m_Bitmap->GetHeight() * dScale - y ;
+        if (bSizingX) x = event.m_x; else x = m_Bitmap.GetWidth() * dScale - x;
+        if (bSizingY) y = event.m_y; else y = m_Bitmap.GetHeight() * dScale - y ;
 
         DrawCanvas->CalcUnscrolledPosition(x, y, &xx, &yy);
         //set the text indicating the cursor position
@@ -1387,8 +1391,11 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
     {
         //move the selection
         int x, y;
+        wxPoint ptPosition;
 
-        event.GetPosition(&x, &y);
+        ptPosition = event.GetPosition();
+        DrawCanvas->CalcUnscrolledPosition(ptPosition.x, ptPosition.y, &x, &y);
+
         ProcessDragAction(x, y, false, false, true, false, event.ShiftDown());
 
     }
@@ -1478,8 +1485,7 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
         //draw the tools in action
         int iTool;
         iTool = GetToolID();
-        if (x > iWidth) x = iWidth ;
-        if (y  > iHeight) y = iHeight;
+        ClipCoordinates(&x, &y);
         ProcessToolAction(iTool, x, y, false, false, event.LeftIsDown(), false, event.ShiftDown());
     }
 
@@ -1488,25 +1494,15 @@ void XPMEditorPanel::OnDrawCanvasMouseMove(wxMouseEvent& event)
 
 void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
 {
-    int x, y, iWidth, iHeight;
+    int x, y;
     wxPoint ptPosition;
 
     ptPosition = event.GetPosition();
     DrawCanvas->CalcUnscrolledPosition(ptPosition.x, ptPosition.y, &x, &y);
-    if (m_Bitmap)
-    {
-        iWidth = m_Bitmap->GetWidth() * dScale;
-        iHeight = m_Bitmap->GetHeight() * dScale;
-    }
-    else
-    {
-        if (DrawCanvas) DrawCanvas->GetClientSize(&iWidth, &iHeight); else GetClientSize(&iWidth, &iHeight);
-    }
+
 
     int iTool;
     iTool = GetToolID();
-    if (x > iWidth) x = iWidth ;
-    if (y  > iHeight) y = iHeight;
 
     int iResult;
     iResult = IsPointInSelection(ptPosition.x, ptPosition.y);
@@ -1520,6 +1516,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
                  }
                  else
                  {
+                     ClipCoordinates(&x, &y);
                      ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());
                  }
                  break;
@@ -1534,20 +1531,48 @@ void XPMEditorPanel::OnDrawCanvasLeftDClick(wxMouseEvent& event)
                           || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL) && (GetToolID() != XPM_ID_POLYGON_TOOL))
                          )
                  {
+                     ClipCoordinates(&x, &y);
                      ProcessSizeAction(x, y, false, false, false, true, event.ShiftDown(), iResult); break;
                  }
                  else
                  {
+                     ClipCoordinates(&x, &y);
                      ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown());
                  }
                  break;
         case 0 :
-        default: ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown()); break;
+        default: ClipCoordinates(&x, &y);
+                 ProcessToolAction(iTool, x, y, false, false, false, true, event.ShiftDown()); break;
     }
 
     event.Skip();
 }
 
+/** Clip the x and y coordinates to the bitmap
+  * \param x : [in, out] the X coordinate
+  * \param y : [in, out] the Y coordinate
+  */
+void XPMEditorPanel::ClipCoordinates(int *x, int*y)
+{
+    if (!x) return;
+    if (!y) return;
+
+    int iWidth, iHeight;
+    if (m_Bitmap.IsOk())
+    {
+        iWidth = m_Bitmap.GetWidth() * dScale;
+        iHeight = m_Bitmap.GetHeight() * dScale;
+    }
+    else
+    {
+        if (DrawCanvas) DrawCanvas->GetClientSize(&iWidth, &iHeight); else GetClientSize(&iWidth, &iHeight);
+    }
+
+    if (*x > iWidth) *x = iWidth ;
+    if (*y  > iHeight) *y = iHeight;
+    if (*x < 0) *x = 0;
+    if (*y < 0) *y = 0;
+}
 
 void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
 {
@@ -1556,10 +1581,10 @@ void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
 
     ptPosition = event.GetPosition();
     DrawCanvas->CalcUnscrolledPosition(ptPosition.x, ptPosition.y, &x, &y);
-    if (m_Bitmap)
+    if (m_Bitmap.IsOk())
     {
-        iWidth = m_Bitmap->GetWidth() * dScale;
-        iHeight = m_Bitmap->GetHeight() * dScale;
+        iWidth = m_Bitmap.GetWidth() * dScale;
+        iHeight = m_Bitmap.GetHeight() * dScale;
     }
     else
     {
@@ -1838,8 +1863,8 @@ void XPMEditorPanel::ProcessFill(int x, int y,
         bUsingTool = true;
 
         //draw the pixel
-        if (!m_Bitmap) return;
-        wxMemoryDC mem_dc(*m_Bitmap);
+        if (!m_Bitmap.IsOk()) return;
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -1892,12 +1917,12 @@ void XPMEditorPanel::ProcessPen(int x, int y,
         }
 
         //Undo & modification flag
-        if (!m_Bitmap) return;
+        if (!m_Bitmap.IsOk()) return;
         AddUndo();
         SetModified(true);
         bUsingTool = true;
 
-        wxMemoryDC mem_dc(*m_Bitmap);
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -1914,6 +1939,10 @@ void XPMEditorPanel::ProcessPen(int x, int y,
             tdata.y1 = yy;
             tdata.x2 = xx;
             tdata.y2 = yy;
+            tdata.pts[0].x = xx;
+            tdata.pts[0].y = yy;
+            tdata.pts[1].x = -1;
+            tdata.pts[1].y = -1;
         }
         UpdateImage();
         Repaint();
@@ -1930,8 +1959,8 @@ void XPMEditorPanel::ProcessPen(int x, int y,
         }
 
         //draw the pixel
-        if (!m_Bitmap) return;
-        wxMemoryDC mem_dc(*m_Bitmap);
+        if (!m_Bitmap.IsOk()) return;
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -1941,7 +1970,43 @@ void XPMEditorPanel::ProcessPen(int x, int y,
 
             int xx, yy;
             xx = x / dScale; yy = y / dScale;
-            if ((bShiftDown) && (tdata.x2 >= 0) && (tdata.y2 >=0)) MakeStandardOrientation(&tdata.x2, &tdata.y2, &xx, &yy);
+            //Get the orientation
+            if (bShiftDown)
+            {
+                //tdata.pts[0] and tdata.pts[1] will hold the 2 coordinates which will define the direction
+                //tdata.x1 & tdata.y1 defines the start point
+                //xx & yy define the end point
+
+                //check 1st if we have an orientation defined
+                if ((tdata.pts[0].x < 0) || (tdata.pts[0].y < 0) || (tdata.pts[1].x < 0) || (tdata.pts[1].y < 0))
+                {
+                    //define the orientation
+                    if ((tdata.pts[0].x != xx) && (tdata.pts[0].y != yy)) //ensure the coordinates are different
+                    {
+                        //Log(wxString::Format(_("before 1 pts[0].x=%d pts[0].y=%d pts[1].x=%d pts[1].y=%d"), tdata.pts[0].x, tdata.pts[0].y, xx, yy));
+                        MakeStandardOrientation(&tdata.pts[0].x, &tdata.pts[0].y, &xx, &yy, XPM_PENORIENTATION);
+                        tdata.pts[1].x = xx;
+                        tdata.pts[1].y = yy;
+                        //Log(wxString::Format(_("after 1 pts[0].x=%d pts[0].y=%d pts[1].x=%d pts[1].y=%d"), tdata.pts[0].x, tdata.pts[0].y, tdata.pts[1].x, tdata.pts[1].y));
+                    }
+                }
+                else
+                {
+                    //the direction is defined. Compute the new xx and the new yy
+                    //Log(wxString::Format(_("before 2 pts[0].x=%d pts[0].y=%d pts[1].x=%d pts[1].y=%d tdata.x1=%d tdata.y1=%d xx=%d yy=%d"),
+                    //                        tdata.pts[0].x, tdata.pts[0].y, tdata.pts[1].x, tdata.pts[1].y, tdata.x1, tdata.y1, xx, yy));
+                    MakeStandardOrientation(tdata.pts[0].x, tdata.pts[0].y, //1st point defining the direction
+                                            tdata.pts[1].x, tdata.pts[1].y, //2nd point defining the direction
+                                            tdata.x1, tdata.y1,             //1st point of the line to be modified
+                                            &xx, &yy,                       //2nd point of the line: these 2 coordinates will be modified in order
+                                                                            //to match the direction defined by the 2 first points
+                                            XPM_PENORIENTATION             //orientation of the pen
+                                           );
+                    //Log(wxString::Format(_("after 2 pts[0].x=%d pts[0].y=%d pts[1].x=%d pts[1].y=%d tdata.x1=%d tdata.y1=%d xx=%d yy=%d"),
+                    //                        tdata.pts[0].x, tdata.pts[0].y, tdata.pts[1].x, tdata.pts[1].y, tdata.x1, tdata.y1, xx, yy));
+                }
+
+            }
 
             if (tdata.x1 < 0) tdata.x1 = xx;
             if (tdata.y1 < 0) tdata.y1 = yy;
@@ -2213,10 +2278,10 @@ void XPMEditorPanel::ProcessGradient(int x, int y,
         }
         else
         {
-            if (!m_Bitmap) return;
+            if (!m_Bitmap.IsOk()) return;
             AddUndo();
             SetModified(true);
-            wxMemoryDC memDC(*m_Bitmap);
+            wxMemoryDC memDC(m_Bitmap);
             if (memDC.IsOk())
             {
                 int x1,y1,x2,y2;
@@ -2431,28 +2496,28 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         if (m_DragImage) delete(m_DragImage);
         m_DragImage = new wxDragImage(m_SelectionBitmap, wxCursor(wxCURSOR_HAND));
         if (!m_DragImage) return;
-        if (!m_Bitmap) return;
-        m_DragImage->SetScale(dScale);
+        if (!m_Bitmap.IsOk()) return;
+        //m_DragImage->SetScale(dScale);
 
         //begin the drag
         wxPoint ptHotSpot(x - rSelection.GetLeft() * dScale + 1, y - rSelection.GetTop() * dScale + 1);
 
         pStartDragging.x = x / dScale - rSelection.GetLeft();
         pStartDragging.y = y / dScale - rSelection.GetTop() ;
-        m_DragImage->BeginDrag(ptHotSpot, DrawCanvas, false, NULL);
+        m_DragImage->BeginDrag(ptHotSpot, DrawCanvas, (wxRect*) NULL);
         m_DragImage->Hide();
 
         //Update Image
         int xx, yy;
         DrawCanvas->CalcScrolledPosition (x, y, &xx, &yy);
-        m_DragImage->Move(wxPoint(xx, yy));
+        m_DragImage->Move(wxPoint(xx+1, yy+1));
         m_DragImage->Show();
 
 
     }
     else if ((bPressed) && (m_bDragging))
     {
-        if (!m_Bitmap) return;
+        if (!m_Bitmap.IsOk()) return;
         if (!m_DragImage) return;
 
         //m_DragImage->Hide();
@@ -2481,8 +2546,8 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
             //offset the selection
             //MoveSelection(xx / dScale - m_SelectionImage.GetWidth() / 2 - rSelection.GetLeft(),
             //              yy / dScale - m_SelectionImage.GetHeight()/ 2 - rSelection.GetTop());
-            MoveSelection(xx / dScale - pStartDragging.x - rSelection.GetLeft() - 1,
-                          yy / dScale - pStartDragging.y - rSelection.GetTop() - 1);
+            MoveSelection(xx / dScale - pStartDragging.x - rSelection.GetLeft() ,
+                          yy / dScale - pStartDragging.y - rSelection.GetTop() );
 
             SetCursor(wxCURSOR_HAND);
         }
@@ -2512,7 +2577,7 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
 {
     if ((bLeftDown) || (bPressed))
     {
-        if (!m_Bitmap) return;
+        if (!m_Bitmap.IsOk()) return;
         m_bSizing = true;
         m_iSizeAction = iDirection;
 
@@ -2682,12 +2747,12 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
         }
 
         //Undo & modification flag
-        if (!m_Bitmap) return;
+        if (!m_Bitmap.IsOk()) return;
         AddUndo();
         SetModified(true);
         bUsingTool = true;
 
-        wxMemoryDC mem_dc(*m_Bitmap);
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -2709,6 +2774,12 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 
             tdata.x1 = xx;
             tdata.y1 = yy;
+            tdata.x2 = xx;
+            tdata.y2 = yy;
+            tdata.pts[0].x = xx;
+            tdata.pts[0].y = yy;
+            tdata.pts[1].x = -1;
+            tdata.pts[1].y = -1;
         }
         UpdateImage();
         Repaint();
@@ -2723,8 +2794,8 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
             return;
         }
 
-        if (!m_Bitmap) return;
-        wxMemoryDC mem_dc(*m_Bitmap);
+        if (!m_Bitmap.IsOk()) return;
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -2736,7 +2807,38 @@ void XPMEditorPanel::ProcessBrush(int x, int y,
 
             int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
-            if ((bShiftDown) && (tdata.x1 >= 0) && (tdata.y1 >=0)) MakeStandardOrientation(&tdata.x1, &tdata.y1, &xx, &yy);
+            //Get the orientation
+            if (bShiftDown)
+            {
+                //tdata.pts[0] and tdata.pts[1] will hold the 2 coordinates which will define the direction
+                //tdata.x1 & tdata.y1 defines the start point
+                //xx & yy define the end point
+
+                //check 1st if we have an orientation defined
+                if ((tdata.pts[0].x < 0) || (tdata.pts[0].y < 0) || (tdata.pts[1].x < 0) || (tdata.pts[1].y < 0))
+                {
+                    //define the orientation
+                    if ((tdata.pts[0].x != xx) && (tdata.pts[0].y != yy)) //ensure the coordinates are different
+                    {
+                        MakeStandardOrientation(&tdata.pts[0].x, &tdata.pts[0].y, &xx, &yy, XPM_PENORIENTATION);
+                        tdata.pts[1].x = xx;
+                        tdata.pts[1].y = yy;
+                    }
+                }
+                else
+                {
+                    //the direction is defined. Compute the new xx and the new yy
+                    MakeStandardOrientation(tdata.pts[0].x, tdata.pts[0].y, //1st point defining the direction
+                                            tdata.pts[1].x, tdata.pts[1].y, //2nd point defining the direction
+                                            tdata.x1, tdata.y1,             //1st point of the line to be modified
+                                            &xx, &yy,                       //2nd point of the line: these 2 coordinates will be modified in order
+                                                                            //to match the direction defined by the 2 first points
+                                            XPM_PENORIENTATION              //orientation of the pen
+                                           );
+                }
+
+            }
+
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
@@ -2797,13 +2899,13 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
         }
 
         //Undo & modification flag
-        if (!m_Bitmap) return;
+        if (!m_Bitmap.IsOk()) return;
         AddUndo();
         SetModified(true);
         bUsingTool = true;
         //tdata.angle = 0;
 
-        wxMemoryDC mem_dc(*m_Bitmap);
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -2839,8 +2941,8 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
             return;
         }
 
-        if (!m_Bitmap) return;
-        wxMemoryDC mem_dc(*m_Bitmap);
+        if (!m_Bitmap.IsOk()) return;
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -2852,7 +2954,7 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
 
             int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
-            if ((bShiftDown) && (tdata.x1 >= 0) && (tdata.y1 >=0)) MakeStandardOrientation(&tdata.x1, &tdata.y1, &xx, &yy);
+            if ((bShiftDown) && (tdata.x1 >= 0) && (tdata.y1 >=0)) MakeStandardOrientation(&tdata.x1, &tdata.y1, &xx, &yy, XPM_LINEORIENTATION);
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
@@ -2886,7 +2988,7 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
         wxBitmap bmp;
         do
         {
-            wxMemoryDC mem_dc(*m_Bitmap);
+            wxMemoryDC mem_dc(m_Bitmap);
             if (mem_dc.IsOk())
             {
                 if (ToolPanel) bmp = ToolPanel->CreateSprayCanBitmap(cColour, tdata.iSize2, tdata.angle);
@@ -2941,12 +3043,12 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
         }
 
         //Undo & modification flag
-        if (!m_Bitmap) return;
+        if (!m_Bitmap.IsOk()) return;
         AddUndo();
         SetModified(true);
         bUsingTool = true;
 
-        wxMemoryDC mem_dc(*m_Bitmap);
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -2968,6 +3070,12 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
 
             tdata.x1 = xx;
             tdata.y1 = yy;
+            tdata.x2 = xx;
+            tdata.y2 = yy;
+            tdata.pts[0].x = xx;
+            tdata.pts[0].y = yy;
+            tdata.pts[1].x = -1;
+            tdata.pts[1].y = -1;
         }
         UpdateImage();
         Repaint();
@@ -2982,8 +3090,8 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
             return;
         }
 
-        if (!m_Bitmap) return;
-        wxMemoryDC mem_dc(*m_Bitmap);
+        if (!m_Bitmap.IsOk()) return;
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cColour;
@@ -2995,7 +3103,38 @@ void XPMEditorPanel::ProcessEraser(int x, int y,
 
             int xx, yy, i, iSize;
             xx = x / dScale; yy = y / dScale;
-            if ((bShiftDown) && (tdata.x1 >= 0) && (tdata.y1 >=0)) MakeStandardOrientation(&tdata.x1, &tdata.y1, &xx, &yy);
+            //Get the orientation
+            if (bShiftDown)
+            {
+                //tdata.pts[0] and tdata.pts[1] will hold the 2 coordinates which will define the direction
+                //tdata.x1 & tdata.y1 defines the start point
+                //xx & yy define the end point
+
+                //check 1st if we have an orientation defined
+                if ((tdata.pts[0].x < 0) || (tdata.pts[0].y < 0) || (tdata.pts[1].x < 0) || (tdata.pts[1].y < 0))
+                {
+                    //define the orientation
+                    if ((tdata.pts[0].x != xx) && (tdata.pts[0].y != yy)) //ensure the coordinates are different
+                    {
+                        MakeStandardOrientation(&tdata.pts[0].x, &tdata.pts[0].y, &xx, &yy, XPM_PENORIENTATION);
+                        tdata.pts[1].x = xx;
+                        tdata.pts[1].y = yy;
+                    }
+                    return;
+                }
+                else
+                {
+                    //the direction is defined. Compute the new xx and the new yy
+                    MakeStandardOrientation(tdata.pts[0].x, tdata.pts[0].y, //1st point defining the direction
+                                            tdata.pts[1].x, tdata.pts[1].y, //2nd point defining the direction
+                                            tdata.x1, tdata.y1,             //1st point of the line to be modified
+                                            &xx, &yy,                       //2nd point of the line: these 2 coordinates will be modified in order
+                                                                            //to match the direction defined by the 2 first points
+                                            XPM_PENORIENTATION
+                                           );
+                }
+
+            }
             iSize = tdata.iSize2;
 
             wxBitmap bmp;
@@ -3141,8 +3280,8 @@ void XPMEditorPanel::ProcessPolygon(int x, int y,
         AddUndo();
         SetModified(true);
 
-        if (!m_Bitmap) return;
-        wxMemoryDC mem_dc(*m_Bitmap);
+        if (!m_Bitmap.IsOk()) return;
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cLineColour, cFillColour;
@@ -3247,10 +3386,10 @@ void XPMEditorPanel::ProcessRectangle(int x, int y,
         }
         else
         {
-            if (!m_Bitmap) return;
+            if (!m_Bitmap.IsOk()) return;
             AddUndo();
             SetModified(true);
-            wxMemoryDC mem_dc(*m_Bitmap);
+            wxMemoryDC mem_dc(m_Bitmap);
             if (mem_dc.IsOk())
             {
                 wxColour cLineColour, cFillColour;
@@ -3330,7 +3469,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
                 x2 = x2 / dScale;
                 y2 = y2 / dScale;
 
-                if (bShiftDown) MakeStandardOrientation(&x1, &y1, &x2, &y2);
+                if (bShiftDown) MakeStandardOrientation(&x1, &y1, &x2, &y2, XPM_LINEORIENTATION);
 
                 memDC.Clear();
                 memDC.DrawLine(x1 , y1, x2, y2);
@@ -3367,10 +3506,10 @@ void XPMEditorPanel::ProcessLine(int x, int y,
         }
         else
         {
-            if (!m_Bitmap) return;
+            if (!m_Bitmap.IsOk()) return;
             AddUndo();
             SetModified(true);
-            wxMemoryDC mem_dc(*m_Bitmap);
+            wxMemoryDC mem_dc(m_Bitmap);
             if (mem_dc.IsOk())
             {
                 wxColour cLineColour, cFillColour;
@@ -3389,7 +3528,7 @@ void XPMEditorPanel::ProcessLine(int x, int y,
                 y1 = y1 / dScale;
                 x2 = x2 / dScale;
                 y2 = y2 / dScale;
-                if (bShiftDown) MakeStandardOrientation(&x1, &y1, &x2, &y2);
+                if (bShiftDown) MakeStandardOrientation(&x1, &y1, &x2, &y2, XPM_LINEORIENTATION);
                 mem_dc.DrawLine(x1, y1, x2, y2);
                 mem_dc.DrawPoint(x2, y2);
 
@@ -3515,8 +3654,8 @@ void XPMEditorPanel::ProcessCurve(int x, int y,
         AddUndo();
         SetModified(true);
 
-        if (!m_Bitmap) return;
-        wxMemoryDC mem_dc(*m_Bitmap);
+        if (!m_Bitmap.IsOk()) return;
+        wxMemoryDC mem_dc(m_Bitmap);
         if (mem_dc.IsOk())
         {
             wxColour cLineColour;
@@ -3619,10 +3758,10 @@ void XPMEditorPanel::ProcessRoundedRectangle(int x, int y,
         }
         else
         {
-            if (!m_Bitmap) return;
+            if (!m_Bitmap.IsOk()) return;
             AddUndo();
             SetModified(true);
-            wxMemoryDC mem_dc(*m_Bitmap);
+            wxMemoryDC mem_dc(m_Bitmap);
             if (mem_dc.IsOk())
             {
                 wxColour cLineColour, cFillColour;
@@ -3737,10 +3876,10 @@ void XPMEditorPanel::ProcessEllipse(int x, int y,
         }
         else
         {
-            if (!m_Bitmap) return;
+            if (!m_Bitmap.IsOk()) return;
             AddUndo();
             SetModified(true);
-            wxMemoryDC mem_dc(*m_Bitmap);
+            wxMemoryDC mem_dc(m_Bitmap);
             if (mem_dc.IsOk())
             {
                 wxColour cLineColour, cFillColour;
@@ -3989,7 +4128,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
 
     if (DrawCanvas) DrawCanvas->SetFocus();
 
-    if ((DrawCanvas) && ((bCanResizeX) || (bCanResizeY)) && (m_Bitmap) && (!bUsingTool))
+    if ((DrawCanvas) && ((bCanResizeX) || (bCanResizeY)) && (m_Bitmap.IsOk()) && (!bUsingTool))
     {
 
         if ((!bSizingX) && (!bSizingY))
@@ -4006,22 +4145,11 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
     {
         bSizingX = false;
         bSizingY = false;
-        int x, y, xx, yy, iTool, iWidth, iHeight;
+        int x, y, xx, yy, iTool;
         x = event.m_x;
         y = event.m_y;
         DrawCanvas->CalcUnscrolledPosition(x, y, &xx, &yy);
         iTool = GetToolID();
-        if (m_Bitmap)
-        {
-            iWidth = m_Bitmap->GetWidth() * dScale;
-            iHeight = m_Bitmap->GetHeight() * dScale;
-        }
-        else
-        {
-            if (DrawCanvas) DrawCanvas->GetClientSize(&iWidth, &iHeight); else GetClientSize(&iWidth, &iHeight);
-        }
-        if (xx > iWidth) xx = iWidth ;
-        if (yy  > iHeight) yy = iHeight;
 
         DrawCanvas->CaptureMouse();
         int iResult;
@@ -4036,6 +4164,7 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
                      }
                      else
                      {
+                         ClipCoordinates(&xx, &yy);
                          ProcessToolAction(iTool, xx, yy, true, false, true, false, event.ShiftDown());
                      }
                      break;
@@ -4046,7 +4175,8 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
             case 6 :
             case 7 :
             case 8 :
-            case 9 : if (    (!bUsingTool)
+            case 9 : ClipCoordinates(&xx, &yy);
+                     if (    (!bUsingTool)
                           || ((GetToolID() != XPM_ID_SELECT_TOOL) && (GetToolID() != XPM_ID_LASSO_TOOL))
                          )
                      {
@@ -4058,7 +4188,8 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
                      }
                      break;
             case 0 :
-            default: ProcessToolAction(iTool, xx, yy, true, false, true, false, event.ShiftDown()); break;
+            default: ClipCoordinates(&xx, &yy);
+                     ProcessToolAction(iTool, xx, yy, true, false, true, false, event.ShiftDown()); break;
         }
 
 
@@ -4077,13 +4208,13 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
         return;
     }
 
-    if (((bSizingX) || (bSizingY)) && (m_Bitmap) && (!bUsingTool))
+    if (((bSizingX) || (bSizingY)) && (m_Bitmap.IsOk()) && (!bUsingTool))
     {
         //resize
         if (DrawCanvas) DrawCanvas->ReleaseMouse();
         int x, y, xx, yy;
-        if (bSizingX) x = event.m_x; else x = m_Bitmap->GetWidth() * dScale;
-        if (bSizingY) y = event.m_y; else y = m_Bitmap->GetHeight() * dScale;
+        if (bSizingX) x = event.m_x; else x = m_Bitmap.GetWidth() * dScale;
+        if (bSizingY) y = event.m_y; else y = m_Bitmap.GetHeight() * dScale;
         DrawCanvas->CalcUnscrolledPosition(x, y, &xx, &yy);
         if (xx < 1) xx = 1;
         if (yy < 1) yy = 1;
@@ -4112,23 +4243,14 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
     else if ((!bSizingX) && (!bSizingY))
     {
         //process a tool click
-        int x, y, xx, yy, iTool, iWidth, iHeight;
+        int x, y, xx, yy, iTool;
 
         x = event.m_x;
         y = event.m_y;
         DrawCanvas->CalcUnscrolledPosition(x, y, &xx, &yy);
         iTool = GetToolID();
-        if (m_Bitmap)
-        {
-            iWidth = m_Bitmap->GetWidth() * dScale;
-            iHeight = m_Bitmap->GetHeight() * dScale;
-        }
-        else
-        {
-            if (DrawCanvas) DrawCanvas->GetClientSize(&iWidth, &iHeight); else GetClientSize(&iWidth, &iHeight);
-        }
-        if (xx > iWidth) xx = iWidth ;
-        if (yy  > iHeight) yy = iHeight;
+
+        ClipCoordinates(&xx, &yy);
 
         if (DrawCanvas->HasCapture()) DrawCanvas->ReleaseMouse();
         ProcessToolAction(iTool, xx, yy, false, true, false, false, event.ShiftDown());
@@ -4258,22 +4380,22 @@ void XPMEditorPanel::ReplaceRect(const wxImage &newImage, wxRect rRect)
   */
 void XPMEditorPanel::PasteImage(const wxImage &newImage, int x, int y)
 {
-    if (!m_Bitmap) return;
+    if (!m_Bitmap.IsOk()) return;
 
     //make sure there is something to paste (image to paste is overlapping the display area)
     if (x + newImage.GetWidth() < 0) return;
-    if (x > m_Bitmap->GetWidth()) return;
+    if (x > m_Bitmap.GetWidth()) return;
     if (y + newImage.GetHeight() < 0) return;
-    if (y > m_Bitmap->GetHeight()) return;
+    if (y > m_Bitmap.GetHeight()) return;
 
     //create and resize the image to paste
     wxImage img(newImage);
-    if (img.GetWidth() + x > m_Bitmap->GetWidth()) img.Resize(wxSize(m_Bitmap->GetWidth() - x, img.GetHeight()), wxPoint(0,0));
-    if (img.GetHeight() + y > m_Bitmap->GetHeight()) img.Resize(wxSize( img.GetWidth(), m_Bitmap->GetHeight() - y), wxPoint(0,0));
+    if (img.GetWidth() + x > m_Bitmap.GetWidth()) img.Resize(wxSize(m_Bitmap.GetWidth() - x, img.GetHeight()), wxPoint(0,0));
+    if (img.GetHeight() + y > m_Bitmap.GetHeight()) img.Resize(wxSize( img.GetWidth(), m_Bitmap.GetHeight() - y), wxPoint(0,0));
 
     //draw the image on the buffer bitmap
     wxMemoryDC mem_dc;
-    mem_dc.SelectObject(*m_Bitmap);
+    mem_dc.SelectObject(m_Bitmap);
     if (!mem_dc.IsOk()) return;
     wxBitmap bmp(img);
     mem_dc.DrawBitmap(bmp, x, y, true);
@@ -6014,30 +6136,40 @@ void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
   * \param y1 : [input] the top left coordinate Y
   * \param x2 : [input / output] the bottom-right coordinate X
   * \param y2 : [input / output] the bottom-right coordinate Y
+  * \param dM : [input] the multiple of angle allowed, in radians
   */
-void XPMEditorPanel::MakeStandardOrientation(int *x1, int *y1, int *x2, int *y2)
+void XPMEditorPanel::MakeStandardOrientation(int *x1, int *y1, int *x2, int *y2, double dM)
 {
+    //the biggest difficulty in this kind of methods is to avoid the round-off errors
+    //The solution is to convert everything to double, perform the calcultion, and convert the results to int
+    //converting to int is tricky, because the assignment (int) i = 1.99; will lead to i = 1 (and not i = 2)
+    //therefore we use the function "Round"
     if ((x1) && (y1) && (x2) && (y2))
     {
         //get the orientation of the line
         double dAngle;
-        int dx, dy;
-        dx = *x2 - *x1;
-        dy = *y2 - *y1;
-        //dAngle = GetAngle(dx, dy);
+        int idx, idy;
+        double dx, dy;
+        idx = *x2 - *x1;
+        idy = *y2 - *y1;
+        dx = idx;
+        dy = idy;
         dAngle = atan2(dy, dx);
 
         //compute the correct angle
         double dMultiple;
-        dMultiple = PI / 4.0;
+        dMultiple = dM;
         dAngle = Round(dAngle / dMultiple) * dMultiple;
 
         //compute the new coordinates
         double dDistance;
         dDistance = sqrt(dx * dx + dy * dy);
         //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Angle = %f dDistance=%f"), dAngle, dDistance));
-        *x2 = dDistance * cos(dAngle) + (*x1);
-        *y2 = dDistance * sin(dAngle) + (*y1);
+        double s, c, dx1, dy1;
+        dx1 = *x1;
+        dy1 = *y1;
+        *x2 = Round(dDistance * cos(dAngle) + dx1);
+        *y2 = Round(dDistance * sin(dAngle) + dy1);
 
         //clip to image boundaries
         if (*x1 < 0) *x1 = 0;
@@ -6051,6 +6183,128 @@ void XPMEditorPanel::MakeStandardOrientation(int *x1, int *y1, int *x2, int *y2)
             if (*y1 >= m_Image->GetHeight() ) *y1 = m_Image->GetHeight()  -1;
             if (*y2 >= m_Image->GetHeight() ) *y2 = m_Image->GetHeight() -1;
         }
+    }
+}
+
+/** Convert the coordinates to make sure they represent an horizontal or a vertical line, or has a 45 Grad multiple orientation
+  * The first 2 coordinates [(x1,y1) and (x2,y2) define the direction
+  * The 3rd coordinate (x3, y3) defines the starting point
+  * The 4th coordinate (x4, y4) is the end point
+  * \param x1 : [input] the 1st point which defines the direction - coordinate X
+  * \param y1 : [input] the 1st point which defines the direction - coordinate Y
+  * \param x2 : [input] the 2nd point which defines the direction - coordinate X
+  * \param y2 : [input] the 2nd point which defines the direction - coordinate Y
+  * \param x3 : [input] the starting point - coordinate X
+  * \param y3 : [input] the starting point - coordinate Y
+  * \param x2 : [input / output] the ending point - coordinate X
+  * \param y2 : [input / output] the ending point - coordinate Y
+  * \param dM : [input] the multiple of angle allowed, in radians
+  */
+void XPMEditorPanel::MakeStandardOrientation(int  x1, int  y1, int  x2, int  y2,
+                                             int  x3, int  y3, int *x4, int *y4, double dM)
+{
+    if (!x4) return;
+    if (!y4) return;
+
+    //the biggest difficulty in this kind of methods is to avoid the round-off errors
+    //The solution is to convert everything to double, perform the calcultion, and convert the results to int
+    //converting to int is tricky, because the assignment (int) i = 1.99; will lead to i = 1 (and not i = 2)
+    //therefore we use the function "Round"
+
+    double dx, dy, dx2, dy2;
+    dx = x2 - x1;   //x component of the vector for the desired direction
+    dy = y2 - y1;   //y component of the vector for the desired direction
+    dx2 = *x4 - x3; //x component of the vector for the actual direction - we need it for projection
+    dy2 = *y4 - y3; //y component of the vector for the actual direction - we need it for projection
+
+    //compute the new coordinates
+    if (dx == 0)
+    {
+        //1st specific case: y4 is not modified (vertical line)
+        //Manager::Get()->GetLogManager()->Log(_("Vertical Case"));
+        *x4 = x3;
+    }
+    else if (dy == 0)
+    {
+        //2nd specific case: x4 is not modified (horizontal line)
+        //Manager::Get()->GetLogManager()->Log(_("Horizontal Case"));
+        *y4 = y3;
+    }
+    else if ((dx2 == 0) && (dy2 == 0))
+    {
+        //the end point is the same as the start point
+        //Manager::Get()->GetLogManager()->Log(_("Nothing Case"));
+        return;
+    }
+    else
+    {
+        //general case
+
+        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("General Case dx=%d dy=%d dx2=%d dy2=%d"), dx, dy, dx2, dy2));
+
+        //compute the angle of the desired direction
+        double dAngle, dMultiple;
+        dAngle = atan2(dy, dx);
+        dMultiple = dM;
+        dAngle = Round(dAngle / dMultiple) * dMultiple;
+
+        //compute the angle of the actual direction
+        double dAngle2, dLength, L;
+        dAngle2 = atan2(dy2, dx2);
+        dAngle2 = dAngle2 - dAngle;
+
+        //compute the length of the desired direction vector
+        dLength = sqrt(dx2 * dx2 + dy2 * dy2);
+
+        //compute the length of the final vector (projected vector)
+        L = dLength * cos(dAngle2);
+
+        //compute the coordinate
+        double c, s, dx3, dy3;
+        c = cos(dAngle);
+        c = L * c;
+        s = sin(dAngle);
+        s = L * s;
+        dx3 = x3;
+        dy3 = y3;
+        *x4 = Round(c + dx3);
+        *y4 = Round(s + dy3);
+
+        /*
+        //compute the length of the desired direction vector, and normalize this vector
+        dLength = sqrt(dx * dx + dy * dy);
+        if (dLength != 0.0)
+        {
+            dx = dx / dLength;
+            dy = dy / dLength;
+        }
+
+        //compute the angle of the actual direction
+        double dAngle2, dLength2, L;
+        dAngle2 = atan2(dy2, dx2);
+        dAngle2 = dAngle2 - dAngle;
+
+        //compute the length of the desired direction vector
+        dLength2 = sqrt(dx2 * dx2 + dy2 * dy2);
+
+        //compute the length of the final vector (projected vector)
+        L = dx * dx2 + dy * dy2;
+        if (dLength2 !=  0.0) L = L / dLength2;
+
+        //compute the coordinates
+        *x4 = L * cos(dAngle) + x3;
+        *y4 = L * sin(dAngle) + y3;
+        */
+
+    }
+
+    //clip to image boundaries
+    if (*x4 < 0) *x4 = 0;
+    if (*y4 < 0) *y4 = 0;
+    if (m_Image)
+    {
+        if (*x4 >= m_Image->GetWidth() ) *x4 = m_Image->GetWidth()  -1;
+        if (*y4 >= m_Image->GetHeight() ) *y4 = m_Image->GetHeight() -1;
     }
 }
 
@@ -6799,5 +7053,13 @@ void XPMEditorPanel::OnContextMenu(wxCommandEvent& event)
 void XPMEditorPanel::SetPopupMenu(bool bVisible)
 {
     m_bPopupMenuShown = bVisible;
+}
+
+/** shortcut to CB Logging methods
+  * \param sLogText: the text to display in the "Code::Blocks" log tab
+  */
+void XPMEditorPanel::Log(wxString sLogText)
+{
+    Manager::Get()->GetLogManager()->Log(sLogText);
 }
 

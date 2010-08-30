@@ -29,6 +29,8 @@ namespace
 const long XPMEditor::idFileNewImage = wxNewId();
 const long XPMEditor::idOpenImage = wxNewId();
 const long XPMEditor::idwxSmithNewImage = wxNewId();
+const long XPMEditor::idOpenImageModuleMenu = wxNewId();
+const long XPMEditor::idOpenImageModuleMenu2 = wxNewId();
 
 XPMEditor* XPMEditor::m_Singleton = 0;
 
@@ -94,6 +96,10 @@ bool XPMEditor::CanHandleFile(const wxString& filename) const
 
    if (GetImageFormatFromFileName(filename, &bt)) return(true);
 
+   //try to open it directly
+   wxImage img;
+   if (LoadImage(&img, filename, &bt)) return(true);
+
    return(false);
 }
 
@@ -157,6 +163,7 @@ void XPMEditor::OnAttach()
         wxFileSystem::AddHandler(new wxZipFSHandler);
         AddFileMasksToProjectManager();
         m_Singleton = this;
+        m_FileNameSelected = _("");
     }
 }
 
@@ -195,6 +202,66 @@ void XPMEditor::AddFileMasksToFileOpenSaveDialog(wxArrayString sFileMasks)
     FileFilters::Add(_("Image Files"), sImageMasks);
 }
 
+/** This method is called by Code::Blocks core modules (EditorManager,
+          * ProjectManager etc) and is used by the plugin to add any menu
+          * items it needs in the module's popup menu. For example, when
+          * the user right-clicks on a project file in the project tree,
+          * ProjectManager prepares a popup menu to display with context
+          * sensitive options for that file. Before it displays this popup
+          * menu, it asks all attached plugins (by asking PluginManager to call
+          * this method), if they need to add any entries
+          * in that menu. This method is called.\n
+          * If the plugin does not need to add items in the menu,
+          * just do nothing ;)
+          * \param type the module that's preparing a popup menu
+          * \param menu pointer to the popup menu
+          * \param data pointer to FileTreeData object (to access/modify the file tree)
+          */
+void XPMEditor::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data)
+{
+    if ( !menu || !IsAttached() ) return;
+    wxMenu* menu2;
+
+    switch ( type )
+    {
+        case mtProjectManager:
+
+            if ( data && data->GetKind()==FileTreeData::ftdkFile )
+            {
+                wxMenuItem* child = menu->FindItem( menu->FindItem( _("Open with") ) );
+                if ( child && child->IsSubMenu() )
+                {
+                    menu2 = child->GetSubMenu();
+                    if (menu2) menu = menu2;
+                }
+
+                menu->AppendSeparator();
+                menu->Append(idOpenImageModuleMenu, _( "XPM Editor" ), _( "Open this file in image editor" ));
+                Connect(idOpenImageModuleMenu,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&XPMEditor::OnOpenFromProjectManager);
+            }
+            break;
+
+        case mtUnknown: //Assuming file explorer -- fileexplorer fills the filetreedata with ftdkFile or ftdkFolder as "kind", the file/folder selected is the "FullPath" of the entry
+            if(data && data->GetKind()==FileTreeData::ftdkFile)  //right clicked on folder in file explorer
+            {
+                wxFileName f(data->GetFolder());
+                m_FileNameSelected = f.GetFullPath();
+                wxMenuItem* child = menu->FindItem( menu->FindItem( _("Open with") ) );
+                if ( child && child->IsSubMenu() )
+                {
+                    menu2 = child->GetSubMenu();
+                    if (menu2) menu = menu2;
+                }
+                menu->Append( idOpenImageModuleMenu2, _( "Open with XPM Editor" ), _( "Open this file in image editor" ) );
+                Connect(idOpenImageModuleMenu2,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&XPMEditor::OnOpenFromFileManager);
+            }
+            break;
+
+
+        default:
+            break;
+    }
+}
 
 /** This method is called by Code::Blocks and is used by the plugin
   * to add any menu items it needs on Code::Blocks's menu bar.\n
@@ -238,7 +305,7 @@ void XPMEditor::BuildMenu(wxMenuBar* menuBar)
                 id = item->GetId();
                 if (id == idFileOpen)
                 {
-                    popup->Insert( pos+1, idOpenImage, _("Open with XPMEditor"), _("Open file using the image editor") );
+                    popup->Insert( pos+1, idOpenImage, _(" Open with XPMEditor"), _("Open file using the image editor") );
                     Connect(idOpenImage,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&XPMEditor::OnOpenImage);
                 }
             }
@@ -481,8 +548,6 @@ bool XPMEditor::OpenInEditor(wxString FileName)
 
         if (!(LoadImage(&img, FileName, &bt))) return(false);
 
-        //Manager::Get()->GetLogManager()->Log(_("Image loaded"));
-
         NewEditor = new XPMEditorBase(Manager::Get()->GetEditorManager()->GetNotebook(),
                                         title,
                                         &img,
@@ -503,7 +568,7 @@ bool XPMEditor::OpenInEditor(wxString FileName)
         }
     }
 
-  return(false);
+    return(false);
 }
 
 /** This method will load an image from a file
@@ -514,7 +579,7 @@ bool XPMEditor::OpenInEditor(wxString FileName)
   * \return : true on success, false on failure
   *           on failure, img is not modified, and bt = wxBITMAP_TYPE_INVALID
   */
-bool XPMEditor::LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt)
+bool XPMEditor::LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt) const
 {
     //load an image
     bool bRecognized;
@@ -1140,7 +1205,7 @@ bool XPMEditor::GetImageFormatFromFileName(wxString sFileName, wxBitmapType *bt)
         if (handler2)
         {
             sExtension2 = handler2->GetExtension();
-            if (sExtension2 == sExtension)
+            if ((sExtension2 == sExtension) && (sExtension2.Len() > 0))
             {
                 *bt = (wxBitmapType) handler2->GetType();
                 return(true);
@@ -1653,4 +1718,43 @@ void XPMEditor::OnOpenImage(wxCommandEvent &event)
          sFileName = dlg.GetPath();
          OpenFile(sFileName);
     }
+}
+
+/** menu handler for "Open Image" (Project Manager context menu)
+  */
+void XPMEditor::OnOpenFromProjectManager(wxCommandEvent &event)
+{
+    wxTreeCtrl *tree = Manager::Get()->GetProjectManager()->GetTree();
+
+    if ( !tree )
+        return;
+
+    wxTreeItemId treeItem =  tree->GetSelection();
+
+    if ( !treeItem.IsOk() )
+        return;
+
+    const FileTreeData *data = static_cast<FileTreeData*>( tree->GetItemData( treeItem ) );
+
+    if ( !data )
+        return;
+
+    if ( data->GetKind() == FileTreeData::ftdkFile )
+    {
+
+        wxString sFileName;
+        sFileName = data->GetProject()->GetFile(data->GetFileIndex())->file.GetFullPath();
+        OpenFile(sFileName);
+    }
+}
+
+/**  menu handler for "Open Image" (File Manager context menu)
+  */
+void XPMEditor::OnOpenFromFileManager(wxCommandEvent &event)
+{
+    if (m_FileNameSelected != _(""))
+    {
+        OpenFile(m_FileNameSelected);
+    }
+    m_FileNameSelected = _("");
 }

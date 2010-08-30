@@ -41,22 +41,7 @@ class XPMEditor : public cbMimePlugin
 
         virtual void BuildMenu(wxMenuBar* menuBar); ///< \brief build a menu in the main application menu
 
-        /** This method is called by Code::Blocks core modules (EditorManager,
-          * ProjectManager etc) and is used by the plugin to add any menu
-          * items it needs in the module's popup menu. For example, when
-          * the user right-clicks on a project file in the project tree,
-          * ProjectManager prepares a popup menu to display with context
-          * sensitive options for that file. Before it displays this popup
-          * menu, it asks all attached plugins (by asking PluginManager to call
-          * this method), if they need to add any entries
-          * in that menu. This method is called.\n
-          * If the plugin does not need to add items in the menu,
-          * just do nothing ;)
-          * \param type the module that's preparing a popup menu
-          * \param menu pointer to the popup menu
-          * \param data pointer to FileTreeData object (to access/modify the file tree)
-          */
-        virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0){}
+        virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0); ///< \brief build the project manager menu
 
         /** This method is called by Code::Blocks and is used by the plugin
           * to add any toolbar items it needs on Code::Blocks's toolbar.\n
@@ -111,7 +96,7 @@ class XPMEditor : public cbMimePlugin
         bool DeleteEditor(XPMEditorBase *editor);
 
         //save and load images
-        bool LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt); ///< \brief This method will load an image from a file
+        bool LoadImage(wxImage *img, wxString sFileName, wxBitmapType *bt) const; ///< \brief This method will load an image from a file
         bool SaveImage(wxImage *img, wxString sFileName, wxBitmapType bt, XPMEditorBase *Editor);  ///< \brief This method will save an image to a file
 
         //for setting & getting standard configuration
@@ -171,14 +156,18 @@ class XPMEditor : public cbMimePlugin
         virtual void OnRelease(bool appShutDown);
 
         //menu handler
-        void OnNewImage(wxCommandEvent &event);        ///< \brief menu handler for "New Image"
-        void OnNewProjectImage(wxCommandEvent &event); ///< \brief menu handler for "Add Image" (wxSmith menu)
-        void OnOpenImage(wxCommandEvent &event);       ///< \brief menu handler for "Open Image"
+        void OnNewImage(wxCommandEvent &event);                 ///< \brief menu handler for "New Image"
+        void OnNewProjectImage(wxCommandEvent &event);          ///< \brief menu handler for "Add Image" (wxSmith menu)
+        void OnOpenImage(wxCommandEvent &event);                ///< \brief menu handler for "Open Image"
+        void OnOpenFromProjectManager(wxCommandEvent &event);   ///< \brief menu handler for "Open Image" (Project Manager context menu)
+        void OnOpenFromFileManager(wxCommandEvent &event);      ///< \brief menu handler for "Open Image" (File Manager context menu)
 
         //menu identifiers
-        static const long idFileNewImage;     ///< \brief menu identifier for "New Image"
-        static const long idOpenImage;        ///< \brief menu identifier for "Open Image" in the "File" Menu
-        static const long idwxSmithNewImage;  ///< \brief menu identifier for the "New Image" in the wxSmith menu
+        static const long idFileNewImage;         ///< \brief menu identifier for "New Image"
+        static const long idOpenImage;            ///< \brief menu identifier for "Open Image" in the "File" Menu
+        static const long idwxSmithNewImage;      ///< \brief menu identifier for the "New Image" in the wxSmith menu
+        static const long idOpenImageModuleMenu;  ///< \brief menu identifier for the "Open in XPMEditor" in the module menu
+        static const long idOpenImageModuleMenu2; ///< \brief menu identifier for the "Open in XPMEditor" in the module menu
 
     private:
         static XPMEditor* m_Singleton;      ///< \brief Singleton object
@@ -194,6 +183,8 @@ class XPMEditor : public cbMimePlugin
         wxColour cTransparent; ///< \brief the transparent colour
         int iNbColours;        ///< \brief the amount of colours in DefaultColourArray
         wxColour cBackgroundColour; ///< \brief the background colour
+
+        wxString m_FileNameSelected; ///< \brief FileName on which the Context Menu is activated
 };
 
 /** \brief Helper function to easily access xpm_builder plugin */

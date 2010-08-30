@@ -17,7 +17,8 @@
 #include <wx/spinctrl.h>
 #include <wx/dcmemory.h>
 
-#define wxDragImage wxDragImageExt
+//#define wxDragImage wxDragImageExt
+#define wxDragImage wxGenericDragImage
 
 //(*Headers(XPMEditorPanel)
 #include <wx/menu.h>
@@ -317,8 +318,12 @@ class XPMEditorPanel: public wxPanel
         void SetPopupMenu(bool bVisible);          ///< \brief indicates if the menu is currently visible or not
 
     private:
+        //mouse methods
+        void ClipCoordinates(int *x, int*y); ///< \brief clip the mouse cursor coordinates to the drawing area
+
         //debugging function
         void LogToFile(wxString sLogText, wxString sFilePath); ///< \brief Debugging function : writes a string to a text file
+        void Log(wxString sLogText); ///< \brief shortcut to CB Logging methods
 
         //child panels and widgets
         XPMToolPanel *ToolPanel;    ///< \brief The panel containing all the tools
@@ -331,7 +336,7 @@ class XPMEditorPanel: public wxPanel
 
         //bitmap, images methods
         wxColour cMaskColour;           ///< \brief the current mask colour
-        wxBitmap *m_Bitmap;             ///< \brief the temporary bitmap, used for drawing
+        wxBitmap m_Bitmap;              ///< \brief the temporary bitmap, used for drawing
         wxImage *m_Image;               ///< \brief the temporary image, used for misc functions
         wxBitmapType m_ImageFormat;     ///< \brief the format of the image file (JPEG, BMP, XPM, ...)
         void UpdateBitmap(void);        ///< \brief recreate the m_Bitmap member from the m_Image member
@@ -347,20 +352,21 @@ class XPMEditorPanel: public wxPanel
 		bool m_bEraseSelection;          ///< \brief if true, the selection will be erased during a drag operation
         wxPoint pStartDragging;          ///< \brief position for the 1st dragging event
 
+
         //scale factor & scrollbars
-        double dScale;          ///< \brief scale factor
-        bool bShowGrid;         ///< \brief Grid display
-        wxColour cGridColour; ///< \brief the grid colour
+        double dScale;              ///< \brief scale factor
+        bool bShowGrid;             ///< \brief Grid display
+        wxColour cGridColour;       ///< \brief the grid colour
         void DoSetScrollBars(void); ///< \brief Set scrollbars size
 
         //Sizing
         wxSize sDrawAreaSize;   ///< \brief Canvas size
-        bool bCanResizeX;   ///< \brief indicate that the mouse is in a sizing area (border)
-        bool bCanResizeY;   ///< \brief indicate that the mouse is in a sizing area (border)
-        bool bSizingX;      ///< \brief indicate that the user is currently resizing the bitmap
-        bool bSizingY;      ///< \brief indicate that the user is currently resizing the bitmapnt
-        int OldX;           ///< \brief For resizing the bitmap: indicates the last x mouse position
-        int OldY;           ///< \brief For resizing the bitmap: indicates the last x mouse position
+        bool bCanResizeX;       ///< \brief indicate that the mouse is in a sizing area (border)
+        bool bCanResizeY;       ///< \brief indicate that the mouse is in a sizing area (border)
+        bool bSizingX;          ///< \brief indicate that the user is currently resizing the bitmap
+        bool bSizingY;          ///< \brief indicate that the user is currently resizing the bitmapnt
+        int OldX;               ///< \brief For resizing the bitmap: indicates the last x mouse position
+        int OldY;               ///< \brief For resizing the bitmap: indicates the last x mouse position
 
         //Text tool methods & members
         void DrawTextRectangle( wxDC& dc,
@@ -404,7 +410,11 @@ class XPMEditorPanel: public wxPanel
         void TransformToSquare(int *x1, int *y1,
                                int *x2, int *y2); ///< \brief make a square from a rectangle
         void MakeStandardOrientation(int *x1, int *y1,
-                                     int *x2, int *y2); ///< \brief ensure a line is vertical or horizontal
+                                     int *x2, int *y2, double dM); ///< \brief ensure a line is vertical or horizontal
+        void MakeStandardOrientation(int  x1, int  y1,
+                                     int  x2, int  y2,
+                                     int  x3, int  y3,
+                                     int *x4, int *y4, double dM); ///< \brief ensure a line is vertical or horizontal
         void SnapRectToGrid(int *x1, int *y1,
                             int *x2, int *y2, bool bInvert = true); ///< \brief snap coordinates to grid
         double Round(double d);          ///< \brief Round off a decimal value to an integer value
