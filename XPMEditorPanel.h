@@ -17,8 +17,8 @@
 #include <wx/spinctrl.h>
 #include <wx/dcmemory.h>
 
-//#define wxDragImage wxDragImageExt
-#define wxDragImage wxGenericDragImage
+#define wxDragImage wxDragImageExt
+//#define wxDragImage wxGenericDragImage
 
 //(*Headers(XPMEditorPanel)
 #include <wx/menu.h>

@@ -21,8 +21,9 @@ wxDragImageExt::wxDragImageExt(const wxBitmap& image, const wxCursor& cursor)
     m_isDirty = false;
     m_isShown = false;
     m_windowDC = (wxDC*) NULL;
-    m_window = (wxWindow*) NULL;
+    m_window = (wxScrolledWindow*) NULL;
     m_backingBitmap = wxNullBitmap;
+
 
     // We don't have to combine the cursor explicitly since we simply show the cursor
     // as we drag. This currently will only work within one window.
@@ -231,32 +232,16 @@ bool wxDragImageExt::Hide(void)
   */
 bool wxDragImageExt::DoDrawImage(wxDC& dc, const wxPoint& pos) const
 {
-    double dOldScaleX, dOldScaleY;
-    dc.GetUserScale(&dOldScaleX, &dOldScaleY);
-    wxPoint pos2;
 
     if (m_bitmap.Ok())
     {
-        wxRect rBmpRect;
-        pos2 = pos;
-        rBmpRect = ComputeBitmapRectangle(pos2);
-
-        //get the position of the dragged bitmap - clip it to the visible client window
-        wxBitmap bmp;
-        bmp = m_bitmap.GetSubBitmap(rBmpRect);
-
-        if (bmp.IsOk())
-        {
-            dc.SetUserScale(m_dScale, m_dScale);
-            dc.DrawBitmap(m_bitmap, pos2.x, pos2.y, (bmp.GetMask() != 0));
-            dc.SetUserScale(dOldScaleX, dOldScaleY);
-            return(true);
-        }
-        dc.SetUserScale(m_dScale, m_dScale);
-        dc.DrawBitmap(m_bitmap, pos.x, pos.y, (bmp.GetMask() != 0));
-        dc.SetUserScale(dOldScaleX, dOldScaleY);
+        if (m_dScale == 0.0) return(false);
+        wxBitmap bmp(m_bitmap);
+        wxMemoryDC mdc(bmp);
+        mdc.SetUserScale(1 / m_dScale, 1/ m_dScale);
+        dc.SetUserScale(1, 1);
+        dc.Blit(pos.x,pos.y, m_bitmap.GetWidth() * m_dScale, m_bitmap.GetHeight() * m_dScale, &mdc, 0, 0);
         return(true);
-
     }
 
     return(false);

@@ -2497,7 +2497,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         m_DragImage = new wxDragImage(m_SelectionBitmap, wxCursor(wxCURSOR_HAND));
         if (!m_DragImage) return;
         if (!m_Bitmap.IsOk()) return;
-        //m_DragImage->SetScale(dScale);
+        m_DragImage->SetScale(dScale);
 
         //begin the drag
         wxPoint ptHotSpot(x - rSelection.GetLeft() * dScale + 1, y - rSelection.GetTop() * dScale + 1);
@@ -2505,7 +2505,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         pStartDragging.x = x / dScale - rSelection.GetLeft();
         pStartDragging.y = y / dScale - rSelection.GetTop() ;
         m_DragImage->BeginDrag(ptHotSpot, DrawCanvas, (wxRect*) NULL);
-        m_DragImage->Hide();
+        //m_DragImage->Hide();
 
         //Update Image
         int xx, yy;
@@ -2522,7 +2522,9 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
 
         //m_DragImage->Hide();
         //Repaint();
-        m_DragImage->Move(wxPoint(x,y));
+        int xx, yy;
+        DrawCanvas->CalcScrolledPosition (x, y, &xx, &yy);
+        m_DragImage->Move(wxPoint(xx,yy));
         m_DragImage->Show();
 
     }

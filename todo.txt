@@ -9,7 +9,7 @@ IMPROVEMENTS / NEW FEATURES:
 
 3 - Quick Help display (tooltip)  + help in status bar
 
-6 - review size of ToolPanel (again)
+4 - review size of ToolPanel (again)
      a - minimal size to increase, to fit a vertical scrollbar
      b - Minimal floating size to reduce to Tools size
      c - Best floating size to recompute
@@ -24,18 +24,9 @@ BUGS:
 
 3 - SetCursor to review
 
-4 - DragImage + Zoom >800% : no dynamic drawing on Windows.
-    This happens when the bitmap is too big to fit in memory
-    The solution is to :
-        1 - override wxGenericDragImage::DoDrawImage
-        2 - use an UNSCALED bitmap for the selection
-        3 - Temporarily set the destination dc scale to dScale
-        4 - draw the dragged bitmap
-        5 - reset the dc scale to 1
+4 - Context menu: when a mouse click close the context menu, it should not send a mouse click event (because it clears the selection)
 
-5 - Context menu: when a mouse click close the context menu, it should not send a mouse click event (because it clears the selection)
-
-6 - Zoom > 200% + Selection overlaps on left edge: selection is only partially drawn.
+5 - Zoom > 200% + Selection overlaps on left edge: selection is only partially drawn.
 
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
@@ -53,43 +44,6 @@ BUGS:
 
 
 CHANGES:
-1 - Copy To / Paste from file implemented (via context menu)
-
-2 - DragImage: bug solved when selection is large (zoomed for example)
-    The cursor in that case was disappearing
-    In addition, the flicker has been removed
-    Solved by reordering the Drawing operations, and modifications of XPMEditorPanel::ProcessDragAction
-    (hiding the drag image and repainting were not necessary).
-
-3 - Drag action: now holding the shift key will prevent the image to be deleted
-
-4 - Bug solved in Drag Action: 1 or 2 pixels innacuracy in draging selection with the mouse
-
-5 - Bug solved: PasteImage gives a black image when the image is truncated
-
-6 - Bug solved: ClearSelection: when the image to paste is bigger than the destination image, nothing is done sometimes
-
-7 - Bug solved: MIME Handling: when no extensions was available in the file name, the Plugin was trying to open the file anyway
-                and gave no chance to the default MIME handler.
-
-8 - Added default context menu entries in Project Manager
-
-9 - Remove some flickering when creating the editor
-
-10 - Bug solved: When dropping a file on Code::Blocks, the file is displayed correctly - however, the Zoom function does not work.
-     Editing & Saving are working.
-     Loading the SAME file using the Project Manager or the File/Load menu gives normal results (no bug)
-
-11 - Pen + Brush + Eraser: SHIFT key behaviour implemented
-
-CHANGES:
-1 - bug solved Copy / Paste:
-    before copy : bitmap put in clipboard has a Mask
-    after paste : bitmap does not have mask
-    Solved by adding a custom data format in the clipboard
-
-2 - Change in Text Tool.
-    Currently partially broken (orientation not taken into account) due to the changes.
 
 
 

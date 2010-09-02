@@ -52,19 +52,19 @@ class wxDragImageExt: public wxObject
         wxRect ComputeBitmapRectangle(wxPoint& pos) const;  ///< \brief Clip the enclosing wxRect of the dragged bitmap to the client area of the destination window
 
     private:
-        double          m_dScale;        ///< \brief the scaling factor of the target window
-        wxBitmap        m_bitmap;        ///< \brief the dragged bitmap
-        wxCursor        m_cursor;        ///< \brief the mouse cursor used while dragging the bitmap
-        wxCursor        m_oldCursor;     ///< \brief a backup of the cursor before dragging
-        wxPoint         m_offset;        ///< \brief The hostpot value passed to BeginDrag
-        wxPoint         m_position;      ///< \brief the current dragging position
-        bool            m_isDirty;       ///< \brief true if the window must be redrawn
-        bool            m_isShown;       ///< \brief true if the dragged bitmap is currently shown
-        wxWindow*       m_window;        ///< \brief the target window
-        wxDC*           m_windowDC;      ///< \brief a wxDeviceContext for the target window
-        wxBitmap        m_backingBitmap; ///< \brief the original window drawing (before dragging)
-        wxBitmap        m_repairBitmap;  ///< \brief A temporary bitmap for repairing/redrawing
-        wxRect          m_boundingRect;  ///< \brief the bounding rectangle of the window
+        double            m_dScale;        ///< \brief the scaling factor of the target window
+        wxBitmap          m_bitmap;        ///< \brief the dragged bitmap
+        wxCursor          m_cursor;        ///< \brief the mouse cursor used while dragging the bitmap
+        wxCursor          m_oldCursor;     ///< \brief a backup of the cursor before dragging
+        wxPoint           m_offset;        ///< \brief The hostpot value passed to BeginDrag
+        wxPoint           m_position;      ///< \brief the current dragging position
+        bool              m_isDirty;       ///< \brief true if the window must be redrawn
+        bool              m_isShown;       ///< \brief true if the dragged bitmap is currently shown
+        wxWindow*         m_window;        ///< \brief the target window
+        wxDC*             m_windowDC;      ///< \brief a wxDeviceContext for the target window
+        wxBitmap          m_backingBitmap; ///< \brief the original window drawing (before dragging)
+        wxBitmap          m_repairBitmap;  ///< \brief A temporary bitmap for repairing/redrawing
+        wxRect            m_boundingRect;  ///< \brief the bounding rectangle of the window
 
         void ClipBitmap(int *x, int *y, int *width, int *height) const; ///< \brief Clip the bitmap size to the visible client area of the target window
 
