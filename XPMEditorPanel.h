@@ -96,7 +96,7 @@ class XPMEditorPanel: public wxPanel
 
         //sizing & scaling
         double GetScaleFactor(void); ///< \brief Get Scaling (zoom) Factor
-        void SetScaleFactor(double dNewScalingFactor); ///< \brief Set Scaling (zoom) Factor
+        void SetScaleFactor(double dNewScalingFactor, bool bUpdateInterface = true); ///< \brief Set Scaling (zoom) Factor
         wxSize GetDrawAreaSize(void); ///< \brief Get Bitmap Size
         void SetDrawAreaSize(wxSize sNewDrawAreaSize); ///< \brief Set Bitmap Size
 

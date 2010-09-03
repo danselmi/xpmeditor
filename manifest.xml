@@ -15,6 +15,6 @@
         <Value authorEmail="seb_seb0@lycos.com" />
         <Value authorWebsite="" />
         <Value thanksTo="The Code::Blocks team !" />
-        <Value license="GPL" />
+        <Value license="GPL v3" />
     </Plugin>
 </CodeBlocks_plugin_manifest_file>

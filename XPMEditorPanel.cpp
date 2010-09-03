@@ -939,9 +939,10 @@ void XPMEditorPanel::DrawImage(wxDC& dc)
     if ((m_Bitmap.IsOk()) && (dScale > 0))
     {
         //this work:
-        wxMemoryDC memDC;
+        //wxMemoryDC memDC;
         wxBitmap bmp(m_Bitmap); //this does not take too much time, because reference counting is used
-        memDC.SelectObject(bmp);
+        //memDC.SelectObject(bmp);
+        wxMemoryDC memDC(bmp);
         //this does not work, due to reference counting problems
         //wxMemoryDC memDC;
         //memDC.SelectObject(m_Bitmap);
@@ -1195,17 +1196,20 @@ double XPMEditorPanel::GetScaleFactor(void)
 /** Set the new  scaling factor (== zoom factor)
   * a factor of 1 indicate no zooming (100%)
   * \param dNewScalingFactor : the new scale factor (double)
+  * \param bUpdateInterface: if true, the ComboBox with the Zoom factor will be updated
   */
-void XPMEditorPanel::SetScaleFactor(double dNewScalingFactor)
+void XPMEditorPanel::SetScaleFactor(double dNewScalingFactor, bool bUpdateInterface)
 {
     //Set Scaling Factor
     dScale = dNewScalingFactor;
-    wxString s = wxString::Format(_("%d%%"), dScale * 100);
+    int iScale;
+    iScale = dScale * 100;
+    wxString s = wxString::Format(_("%d%%"), iScale);
     if (InterfacePanel) InterfacePanel->ZoomFactor->SetValue(s);
     DoSetScrollBars();
 
 
-    if (InterfacePanel)
+    if ((InterfacePanel) && (bUpdateInterface))
     {
         if (dScale >= 4.0)
         {
