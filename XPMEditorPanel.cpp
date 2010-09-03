@@ -6149,7 +6149,7 @@ void XPMEditorPanel::MakeStandardOrientation(int *x1, int *y1, int *x2, int *y2,
     //the biggest difficulty in this kind of methods is to avoid the round-off errors
     //The solution is to convert everything to double, perform the calcultion, and convert the results to int
     //converting to int is tricky, because the assignment (int) i = 1.99; will lead to i = 1 (and not i = 2)
-    //therefore we use the function "Round"
+    //therefore we use the function "RoundOff"
     if ((x1) && (y1) && (x2) && (y2))
     {
         //get the orientation of the line
@@ -6165,7 +6165,7 @@ void XPMEditorPanel::MakeStandardOrientation(int *x1, int *y1, int *x2, int *y2,
         //compute the correct angle
         double dMultiple;
         dMultiple = dM;
-        dAngle = Round(dAngle / dMultiple) * dMultiple;
+        dAngle = RoundOff(dAngle / dMultiple) * dMultiple;
 
         //compute the new coordinates
         double dDistance;
@@ -6174,8 +6174,8 @@ void XPMEditorPanel::MakeStandardOrientation(int *x1, int *y1, int *x2, int *y2,
         double s, c, dx1, dy1;
         dx1 = *x1;
         dy1 = *y1;
-        *x2 = Round(dDistance * cos(dAngle) + dx1);
-        *y2 = Round(dDistance * sin(dAngle) + dy1);
+        *x2 = RoundOff(dDistance * cos(dAngle) + dx1);
+        *y2 = RoundOff(dDistance * sin(dAngle) + dy1);
 
         //clip to image boundaries
         if (*x1 < 0) *x1 = 0;
@@ -6215,7 +6215,7 @@ void XPMEditorPanel::MakeStandardOrientation(int  x1, int  y1, int  x2, int  y2,
     //the biggest difficulty in this kind of methods is to avoid the round-off errors
     //The solution is to convert everything to double, perform the calcultion, and convert the results to int
     //converting to int is tricky, because the assignment (int) i = 1.99; will lead to i = 1 (and not i = 2)
-    //therefore we use the function "Round"
+    //therefore we use the function "RoundOff"
 
     double dx, dy, dx2, dy2;
     dx = x2 - x1;   //x component of the vector for the desired direction
@@ -6252,7 +6252,7 @@ void XPMEditorPanel::MakeStandardOrientation(int  x1, int  y1, int  x2, int  y2,
         double dAngle, dMultiple;
         dAngle = atan2(dy, dx);
         dMultiple = dM;
-        dAngle = Round(dAngle / dMultiple) * dMultiple;
+        dAngle = RoundOff(dAngle / dMultiple) * dMultiple;
 
         //compute the angle of the actual direction
         double dAngle2, dLength, L;
@@ -6273,8 +6273,8 @@ void XPMEditorPanel::MakeStandardOrientation(int  x1, int  y1, int  x2, int  y2,
         s = L * s;
         dx3 = x3;
         dy3 = y3;
-        *x4 = Round(c + dx3);
-        *y4 = Round(s + dy3);
+        *x4 = RoundOff(c + dx3);
+        *y4 = RoundOff(s + dy3);
 
         /*
         //compute the length of the desired direction vector, and normalize this vector
@@ -6320,7 +6320,7 @@ void XPMEditorPanel::MakeStandardOrientation(int  x1, int  y1, int  x2, int  y2,
   *         if decimal part is < 0.5, then the value is rounded DOWN
   *         if decimal part is >= 0.5, then the value is rounded UP
   */
-double XPMEditorPanel::Round(double d)
+double XPMEditorPanel::RoundOff(double d)
 {
     double decimal;
 
@@ -6691,7 +6691,7 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
             for(i=xStart + 1; i < xEnd; i++)
             {
                 m_pt_x.Add(i);
-                dresult = Round(a * i + b);
+                dresult = RoundOff(a * i + b);
                 m_pt_y.Add(dresult);
             }
         }
@@ -6700,7 +6700,7 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
             for(i=xEnd + 1; i < xStart; i++)
             {
                 m_pt_x.Add(i);
-                dresult = Round(a * i + b);
+                dresult = RoundOff(a * i + b);
                 m_pt_y.Add(dresult);
             }
         }
@@ -6714,7 +6714,7 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
             for(i=yStart; i < yEnd; i++)
             {
                 m_pt_y.Add(i);
-                dresult = Round((i - b) / a);
+                dresult = RoundOff((i - b) / a);
                 m_pt_x.Add(dresult);
             }
         }
@@ -6723,7 +6723,7 @@ void XPMEditorPanel::Interpolate(int xStart, int yStart, int xEnd, int yEnd)
             for(i=yEnd; i < yStart; i++)
             {
                 m_pt_y.Add(i);
-                dresult = Round((i - b) / a);
+                dresult = RoundOff((i - b) / a);
                 m_pt_x.Add(dresult);
             }
         }

@@ -417,7 +417,7 @@ class XPMEditorPanel: public wxPanel
                                      int *x4, int *y4, double dM); ///< \brief ensure a line is vertical or horizontal
         void SnapRectToGrid(int *x1, int *y1,
                             int *x2, int *y2, bool bInvert = true); ///< \brief snap coordinates to grid
-        double Round(double d);          ///< \brief Round off a decimal value to an integer value
+        double RoundOff(double d);          ///< \brief Round off a decimal value to an integer value
         void SnapToGrid(int *x, int *y, bool bUp); ///< \brief snap coordinates to grid
         wxBitmap m_bmDrawBitmap;  ///< \brief the bitmap which will be used to draw the tool effect
         bool m_bDrawToolDynamic;  ///< \brief true if m_bmDrawBitmap must be blited during paint
