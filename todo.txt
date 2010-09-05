@@ -14,6 +14,24 @@ IMPROVEMENTS / NEW FEATURES:
      b - Minimal floating size to reduce to Tools size
      c - Best floating size to recompute
 
+5 - DragImage: apply dc.SetUserScale & dc.Clear fix from XPMEditorPanel
+
+6 - replace m_Image pointer by a direct object instance
+
+7 - performs all the drawing directly on bitmap (faster)
+    remove as many calls to XPMEditorPanel::UpdateBitmap and to XPMEditorPanel::UpdateImage as possible
+    (in the ProcessXXXX methods)
+    Call UpdateImage only before a call to GetImage(), and whenever m_Image is used (reduce the occurence of this happening, btw)
+
+8 - remove useless double buffering
+
+9 - XPMEditorPanel::UpdateBitmap and XPMEditorPanel::UpdateImage optimisations:
+    update only the dirty area
+
+10 - Optimisations:
+      a - draw only the visible portion of the bitmap
+      b - clip drawdynamictool
+
 
 BUGS:
 1 - Resizing selection: resizing once will paste the selection
@@ -44,6 +62,8 @@ BUGS:
 
 
 CHANGES:
+    1 - fix the bug with wxGTK regarding zooming
+    2 - fixing the bug in 1 lead to refactoring wxDragImageExt. This is still a work in progress
 
 
 

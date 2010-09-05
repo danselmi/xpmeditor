@@ -41,6 +41,7 @@
 					<Add option="-mthreads" />
 					<Add library="wxmsw28u" />
 					<Add library="codeblocks" />
+					<Add library="libgdi32.a" />
 					<Add directory="$(#cb)\devel" />
 					<Add directory="$(#wx.lib)\gcc_dll" />
 				</Linker>

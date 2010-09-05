@@ -18,7 +18,6 @@
 #include <wx/dcmemory.h>
 
 #define wxDragImage wxDragImageExt
-//#define wxDragImage wxGenericDragImage
 
 //(*Headers(XPMEditorPanel)
 #include <wx/menu.h>
@@ -354,7 +353,7 @@ class XPMEditorPanel: public wxPanel
 
 
         //scale factor & scrollbars
-        double dScale;              ///< \brief scale factor
+        double m_dScale;              ///< \brief scale factor
         bool bShowGrid;             ///< \brief Grid display
         wxColour cGridColour;       ///< \brief the grid colour
         void DoSetScrollBars(void); ///< \brief Set scrollbars size
@@ -457,6 +456,11 @@ class XPMEditorPanel: public wxPanel
         void DrawBackground(wxDC& dc);      ///< \brief Draw the background
         void DrawSizingBorder(wxDC& dc);    ///< \brief Draw the sizing border
         void DrawSelectionBorder(wxDC& dc); ///< \brief Draw the selection border
+        void SetDCOptions(wxDC &dc);        ///< \brief work around a wxMSW bug with scaling
+        void SetUserScale(wxDC &dc,
+                          double dScale_X,
+                          double dScale_Y); ///< \brief wrapper around dc.SetUserScale()
+        void ClearDC(wxDC &dc);             ///< \brief wrapper around dc.Clear()
 
         DECLARE_EVENT_TABLE()
 };
