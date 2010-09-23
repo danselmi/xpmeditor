@@ -1041,6 +1041,16 @@ void XPMEditorPanel::DrawImage(wxDC& dc)
 
         SetUserScale(memDC, 1.0, 1.0);
 
+        //clip the bitmap coordinates to the visible parts of the bitmap
+        int iXStart, iYStart, iXEnd, iYEnd;
+        if (DrawCanvas)
+        {
+            DrawCanvas->GetViewStart(&iXStart, &iYStart);
+            DrawCanvas->GetClientSize(&iXEnd, &iYEnd);
+            iXEnd = iXStart + iXEnd;
+            iYEnd = iYStart + iYEnd;
+        }
+
         //main bitmap
         dc.Blit(0,0,m_Bitmap.GetWidth() , m_Bitmap.GetHeight() ,&memDC,0,0, wxCOPY, false);
 
@@ -1367,44 +1377,33 @@ void XPMEditorPanel::OnDrawCanvasResize(wxSizeEvent& event)
 
 void XPMEditorPanel::DoSetScrollBars(void)
 {
-    int xStep, yStep, x, y, iWidth, iHeight;
-    double dScale2;
-
-    dScale2 = m_dScale;
-    if (dScale2 < 0) dScale2 = - dScale2;
-    if (dScale2 == 0) dScale2 = 1;
 
     if ((m_Bitmap.IsOk()) && (DrawCanvas))
     {
-        if (m_Bitmap.GetWidth() < 100)
-        {
-            xStep = 10;
-            iWidth =  m_Bitmap.GetWidth() * dScale2 / xStep;
-        }
-        else
-        {
-            xStep = m_Bitmap.GetWidth() / 10;
-            iWidth =  m_Bitmap.GetWidth() * dScale2 / xStep;
-        }
-        if (m_Bitmap.GetHeight() < 100)
-        {
-            yStep = 10;
-            iHeight = m_Bitmap.GetHeight() * dScale2 / yStep;
-        }
-        else
-        {
-            yStep = m_Bitmap.GetHeight() / 10;
-            iHeight = m_Bitmap.GetHeight() * dScale2 / yStep;
-        }
+        int x, y, xStep, yStep, iWidth, iHeight;
 
-        iWidth = iWidth + 1;   //for resizing border
-        iHeight = iHeight + 1; //for resizing border
+        //the step should be 1 pixel
+        if (m_dScale < 1)
+        {
+            xStep = 1;
+            yStep = 1;
+        }
+        else
+        {
+            xStep = m_dScale;
+            yStep = m_dScale;
+        };
+
+        iWidth = m_Bitmap.GetWidth() + 1;
+        iHeight = m_Bitmap.GetHeight() + 1;
+
         DrawCanvas->GetViewStart(&x, &y);
-        DrawCanvas->SetScrollbars(  xStep, yStep,
-                                    iWidth, iHeight,
-                                    x, y, true
+        DrawCanvas->SetScrollbars(xStep, yStep,
+                                  iWidth, iHeight,
+                                  x, y, true
                                  );
     }
+
 }
 
 /**Show or hide the grid
@@ -2552,11 +2551,11 @@ void XPMEditorPanel::ProcessSelect(int x, int y,
   * \param bShiftDown: true if the shift key is pressed, false otherwise
   */
 void XPMEditorPanel::ProcessDragAction(int x, int y,
-                                  bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
+                                       bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     if (bLeftDown)
     {
-        if (m_dScale == 0.0) return;
+        if (m_dScale <= 0.0) return;
         //Release the mouse capture to prevent weird behaviour (cursor seems blocked)
         //this is due to the fact that the mouse is captured again during the drag action
         if (DrawCanvas)
@@ -2593,19 +2592,20 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
         m_DragImage->SetScale(m_dScale);
 
         //begin the drag
-        wxPoint ptHotSpot(x - rSelection.GetLeft() * m_dScale + 1, y - rSelection.GetTop() * m_dScale + 1);
+        int xx, yy, x1, y1;
+        x1 = x; y1 = y;
+        SnapToGrid(&x1, &y1, true);
 
-        pStartDragging.x = x / m_dScale - rSelection.GetLeft();
-        pStartDragging.y = y / m_dScale - rSelection.GetTop() ;
+        wxPoint ptHotSpot(x1 / m_dScale - rSelection.GetLeft(), y1 / m_dScale - rSelection.GetTop());
+
+        pStartDragging.x = x1 / m_dScale - rSelection.GetLeft();
+        pStartDragging.y = y1 / m_dScale - rSelection.GetTop() ;
         m_DragImage->BeginDrag(ptHotSpot, DrawCanvas, (wxRect*) NULL);
-        //m_DragImage->Hide();
 
         //Update Image
-        int xx, yy;
-        DrawCanvas->CalcScrolledPosition (x, y, &xx, &yy);
-        m_DragImage->Move(wxPoint(xx+1, yy+1));
+        DrawCanvas->CalcScrolledPosition (x1, y1, &xx, &yy);
+        m_DragImage->Move(wxPoint(xx, yy));
         m_DragImage->Show();
-
 
     }
     else if ((bPressed) && (m_bDragging))
@@ -2615,9 +2615,10 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
 
         //m_DragImage->Hide();
         //Repaint();
-        int xx, yy;
-        DrawCanvas->CalcScrolledPosition (x, y, &xx, &yy);
-        SnapToGrid(&xx, &yy, true);
+        int xx, yy, x1, y1;
+        x1 = x; y1 = y;
+        SnapToGrid(&x1, &y1, true);
+        DrawCanvas->CalcScrolledPosition (x1, y1, &xx, &yy);
         m_DragImage->Move(wxPoint(xx,yy));
         m_DragImage->Show();
 
@@ -2643,8 +2644,8 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
             //offset the selection
             //MoveSelection(xx / m_dScale - m_SelectionImage.GetWidth() / 2 - rSelection.GetLeft(),
             //              yy / m_dScale - m_SelectionImage.GetHeight()/ 2 - rSelection.GetTop());
-            MoveSelection(xx / m_dScale - pStartDragging.x - rSelection.GetLeft() - 1,
-                          yy / m_dScale - pStartDragging.y - rSelection.GetTop() - 1);
+            MoveSelection(xx / m_dScale - pStartDragging.x - rSelection.GetLeft() ,
+                          yy / m_dScale - pStartDragging.y - rSelection.GetTop() );
 
             SetCursor(wxCURSOR_HAND);
         }
@@ -6180,8 +6181,8 @@ void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
     {
         int l1, l2, l;
 
-        l1 = *x2 - *x1; //width
-        l2 = *y2 - *y1; //heigth
+        l1 = *x2 - *x1 - 1; //width
+        l2 = *y2 - *y1 - 1; //heigth
 
         if ((l1 >= 0) && (l2 >= 0))
         {
@@ -6654,6 +6655,7 @@ void XPMEditorPanel::SnapToGrid(int *x, int *y, bool bUp)
 {
     if (!x) return;
     if (!y) return;
+    if (m_dScale < 0) return;
 
     if (bUp)
     {
@@ -7158,5 +7160,56 @@ void XPMEditorPanel::SetPopupMenu(bool bVisible)
 void XPMEditorPanel::Log(wxString sLogText)
 {
     Manager::Get()->GetLogManager()->Log(sLogText);
+}
+
+
+/** Modify the scale of a bitmap
+  * \param src: the source bitmap
+  * \param dest: the resulting bitmap
+  * \param dSrcScale: the original scale of the bitmap
+  * \param dDestScale: the desired scale of the bitmap
+  *        example: if dSrcScale == 1.0 and dDestScale == 2.0, then the
+  *                 destination bitmap is twice the size of the original bitmap
+  * \param true on success, false on failure
+  */
+bool XPMEditorPanel::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScale, double dDestScale)
+{
+    if (!src.IsOk()) return(false);
+    if (dSrcScale <= 0.0) return(false);
+    if (dDestScale <= 0.0) return(false);
+
+    int iWidthSrc, iHeightSrc;   //dimensions of the Source bitmap
+    int iWidthDest, iHeightDest; //dimensions of the Destination bitmap
+    double dScaleFactor;
+
+    //compute the dimensions of the 2 bitmaps
+    dScaleFactor = dDestScale / dSrcScale;
+    iWidthSrc = src.GetWidth();
+    iHeightSrc = src.GetHeight();
+    iWidthDest = iWidthSrc * dScaleFactor;
+    iHeightDest = iHeightSrc * dScaleFactor;
+
+    //create the memory DC
+    wxMemoryDC dcMemSrc;
+    wxMemoryDC dcMemDest;
+    wxBitmap destBmp(iWidthDest, iHeightDest);
+
+    if (!destBmp.IsOk()) return(false);
+
+    dcMemSrc.SelectObject(src);
+    dcMemDest.SelectObject(destBmp);
+    if (!dcMemSrc.IsOk()) return(false);
+    if (!dcMemDest.IsOk()) return(false);
+
+    SetUserScale(dcMemSrc, dSrcScale, dSrcScale);
+    SetUserScale(dcMemDest, dDestScale, dDestScale);
+
+    dcMemDest.Blit(0,0, iWidthSrc, iHeightSrc, &dcMemSrc, 0, 0, wxCOPY, false);
+    dcMemSrc.SelectObject(wxNullBitmap);
+    dcMemDest.SelectObject(wxNullBitmap);
+
+    dest = destBmp;
+
+    return(true);
 }
 

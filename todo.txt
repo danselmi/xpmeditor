@@ -46,6 +46,10 @@ BUGS:
 
 5 - Zoom > 200% + Selection overlaps on left edge: selection is only partially drawn.
 
+6 - DragImage:
+      a - when a very big image is dragged, it is clipped too much
+          (comes from StretchBitmap: improve the "NewRect" parameter passed to DoDrawImage)
+
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
 
@@ -62,8 +66,9 @@ BUGS:
 
 
 CHANGES:
-    1 - fix the bug with wxGTK regarding zooming
-    2 - fixing the bug in 1 lead to refactoring wxDragImageExt. This is still a work in progress
+1 - DragImage corrected
+2 - scrollbars behaviour improved (scrolled by 1 pixel only)
+
 
 
 

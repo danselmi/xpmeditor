@@ -32,8 +32,8 @@ class wxDragImageExt: public wxObject
         virtual ~wxDragImageExt(void); ///< \brief destructor
 
         //wxGenericDragImage API. Only BeginDrag is modified (no fullscreen flag)
-        virtual bool DoDrawImage(wxDC& dc, const wxPoint& pos) const;   ///< \brief Draw the dragged bitmap, as if it was a cursor
-        virtual wxRect GetImageRect(const wxPoint& pos) const;          ///< \brief Compute the wxRect enclosing the dragged bitmap, as if it was a cursor
+        virtual bool DoDrawImage(wxDC& dc, const wxPoint& pos, wxRect newRect, wxPoint newPos) const;   ///< \brief Draw the dragged bitmap, as if it was a cursor
+        virtual wxRect GetImageRect(const wxPoint& pos, bool bClipToDC = true) const;          ///< \brief Compute the wxRect enclosing the dragged bitmap, as if it was a cursor
 
         virtual bool UpdateBackingFromWindow(wxDC& windowDC, wxMemoryDC& destDC,
                                              const wxRect& sourceRect,
@@ -48,11 +48,10 @@ class wxDragImageExt: public wxObject
         bool Show(void);              ///< \brief Show the image
         bool Hide(void);              ///< \brief Hide the image
 
-        void SetScale(double dScale);                       ///< \brief Set the destination scaling factor
-        wxRect ComputeBitmapRectangle(wxPoint& pos) const;  ///< \brief Clip the enclosing wxRect of the dragged bitmap to the client area of the destination window
+        void SetScale(double dScale); ///< \brief set the scale factor
 
     private:
-        double            m_dScale;        ///< \brief the scaling factor of the target window
+        double            m_dScale;        ///< \brief the scaling factor
         wxBitmap          m_bitmap;        ///< \brief the dragged bitmap
         wxCursor          m_cursor;        ///< \brief the mouse cursor used while dragging the bitmap
         wxCursor          m_oldCursor;     ///< \brief a backup of the cursor before dragging
@@ -67,6 +66,20 @@ class wxDragImageExt: public wxObject
         wxRect            m_boundingRect;  ///< \brief the bounding rectangle of the window
 
         void ClipBitmap(int *x, int *y, int *width, int *height) const; ///< \brief Clip the bitmap size to the visible client area of the target window
+
+        //wxDC methods helper: workaround bugs, add functionnality
+        void SetDCOptions(wxDC &dc) const;        ///< \brief work around a wxMSW bug with scaling
+        void SetUserScale(wxDC &dc,
+                          double dScale_X,
+                          double dScale_Y) const; ///< \brief wrapper around dc.SetUserScale()
+        void ClearDC(wxDC &dc) const;             ///< \brief wrapper around dc.Clear()
+        bool StretchBitmap(wxBitmap src,
+                           wxBitmap &dest,
+                           double dSrcScale,
+                           double dDestScale,
+                           wxRect &rDestRect,
+                           wxPoint pos) const; ///< \brief modify the scale of a bitmap
+        void Log(wxString sLogText) const; ///< \brief shortcut to CB Logging methods
 
         DECLARE_DYNAMIC_CLASS(wxDragImageExt)
         DECLARE_NO_COPY_CLASS(wxDragImageExt)

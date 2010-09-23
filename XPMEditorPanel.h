@@ -456,11 +456,15 @@ class XPMEditorPanel: public wxPanel
         void DrawBackground(wxDC& dc);      ///< \brief Draw the background
         void DrawSizingBorder(wxDC& dc);    ///< \brief Draw the sizing border
         void DrawSelectionBorder(wxDC& dc); ///< \brief Draw the selection border
-        void SetDCOptions(wxDC &dc);        ///< \brief work around a wxMSW bug with scaling
-        void SetUserScale(wxDC &dc,
-                          double dScale_X,
-                          double dScale_Y); ///< \brief wrapper around dc.SetUserScale()
+        static void SetDCOptions(wxDC &dc); ///< \brief work around a wxMSW bug with scaling
+        static void SetUserScale(wxDC &dc,
+                                 double dScale_X,
+                                 double dScale_Y); ///< \brief wrapper around dc.SetUserScale()
         void ClearDC(wxDC &dc);             ///< \brief wrapper around dc.Clear()
+        static bool StretchBitmap(wxBitmap src,
+                                  wxBitmap &dest,
+                                  double dSrcScale,
+                                  double dDestScale); ///< \brief modify the scale of a bitmap
 
         DECLARE_EVENT_TABLE()
 };
@@ -468,8 +472,8 @@ class XPMEditorPanel: public wxPanel
 //brush style
 enum
 {
-    XPM_BRUSH_STYLE_SQUARE = 0,
-    XPM_BRUSH_STYLE_CIRCLE = 1,
+    XPM_BRUSH_STYLE_CIRCLE = 0,
+    XPM_BRUSH_STYLE_SQUARE = 1,
     XPM_BRUSH_STYLE_LEFTHAIR = 2,
     XPM_BRUSH_STYLE_RIGHTHAIR = 3
 };
