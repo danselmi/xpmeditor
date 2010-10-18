@@ -336,7 +336,7 @@ class XPMEditorPanel: public wxPanel
         //bitmap, images methods
         wxColour cMaskColour;           ///< \brief the current mask colour
         wxBitmap m_Bitmap;              ///< \brief the temporary bitmap, used for drawing
-        wxImage *m_Image;               ///< \brief the temporary image, used for misc functions
+        wxImage  m_Image;               ///< \brief the temporary image, used for misc functions
         wxBitmapType m_ImageFormat;     ///< \brief the format of the image file (JPEG, BMP, XPM, ...)
         void UpdateBitmap(void);        ///< \brief recreate the m_Bitmap member from the m_Image member
         void UpdateImage(void);         ///< \brief Ensure the Image is up-to-date (buffered user actions are flushed)
@@ -445,8 +445,9 @@ class XPMEditorPanel: public wxPanel
                                     const wxPoint& circleCenter); ///< \brief fill a gradient rectangle, from a given center
 
         //popup menu
-        bool m_bPopupMenuShown;    ///< \brief if true, a popup menu is currently shown. False otherwise
-        bool m_bIsMenuBeingClosed; ///< \brief true if the popup menu is being closed (mouse button events should not be handled in this case)
+        bool m_bPopupMenuShown;      ///< \brief if true, a popup menu is currently shown. False otherwise
+        bool m_bIsMenuBeingClosed;   ///< \brief true if the popup menu is being closed (mouse button events should not be handled in this case)
+        bool m_bMenuCommandSelected; ///< \brief true if a menu command has been selected
 
         //drawing methods
         void DrawImage(wxDC& dc);           ///< \brief Draw the main bitmap

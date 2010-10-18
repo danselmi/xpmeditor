@@ -14,41 +14,29 @@ IMPROVEMENTS / NEW FEATURES:
      b - Minimal floating size to reduce to Tools size
      c - Best floating size to recompute
 
-5 - DragImage: apply dc.SetUserScale & dc.Clear fix from XPMEditorPanel
-
-6 - replace m_Image pointer by a direct object instance
-
-7 - performs all the drawing directly on bitmap (faster)
+5 - performs all the drawing directly on bitmap (faster)
     remove as many calls to XPMEditorPanel::UpdateBitmap and to XPMEditorPanel::UpdateImage as possible
     (in the ProcessXXXX methods)
     Call UpdateImage only before a call to GetImage(), and whenever m_Image is used (reduce the occurence of this happening, btw)
 
-8 - remove useless double buffering
+6 - remove useless double buffering
 
-9 - XPMEditorPanel::UpdateBitmap and XPMEditorPanel::UpdateImage optimisations:
+7 - XPMEditorPanel::UpdateBitmap and XPMEditorPanel::UpdateImage optimisations:
     update only the dirty area
 
-10 - Optimisations:
+8 - Optimisations:
       a - draw only the visible portion of the bitmap
       b - clip drawdynamictool
+      c - perhap the lag on wxGTK is coming from Undo: try to deactivate it.
 
+9 - Rotated text can be improved
 
-BUGS:
-1 - Resizing selection: resizing once will paste the selection
-                        loss of quality when resizing to original
+10 - SetCursor can be improved: it is not always giving the good cursor.
+    Set the Cursor for the DrawCanvas AND the XPMEditorPanel (child & parent respectively)
 
-2 - Text tool : finish
-    When click on selection, Text entry is disconnected from image
-
-3 - SetCursor to review
-
-4 - Context menu: when a mouse click close the context menu, it should not send a mouse click event (because it clears the selection)
-
-5 - Zoom > 200% + Selection overlaps on left edge: selection is only partially drawn.
-
-6 - DragImage:
-      a - when a very big image is dragged, it is clipped too much
-          (comes from StretchBitmap: improve the "NewRect" parameter passed to DoDrawImage)
+11  in XPMEditorPanel::BuildContents
+    //to do : register an event handler when AUI colours are updated
+	//EVT_MENU(idSettingsEnvironment, MainFrame::OnSettingsEnvironment)
 
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
@@ -63,12 +51,4 @@ BUGS:
 3 - Save As: does not update the file status in the Project Manager
 
 ---- SOLVED & DONE ----------------------------------------------
-
-
-CHANGES:
-1 - DragImage corrected
-2 - scrollbars behaviour improved (scrolled by 1 pixel only)
-
-
-
 

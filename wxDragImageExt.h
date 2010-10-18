@@ -11,6 +11,11 @@
 #ifndef _WX_DRAG_IMAGE_EXT_H_
 #define _WX_DRAG_IMAGE_EXT_H_
 
+#define _WX_DEBUG__WX_DRAG_IMAGE_EXT_ 0
+#if _WX_DEBUG__WX_DRAG_IMAGE_EXT_==1
+#include <wx/textfile.h>
+#endif
+
 #include <wx/dc.h>
 #include <wx/dcmemory.h>
 #include <wx/generic/dragimgg.h>
@@ -32,7 +37,7 @@ class wxDragImageExt: public wxObject
         virtual ~wxDragImageExt(void); ///< \brief destructor
 
         //wxGenericDragImage API. Only BeginDrag is modified (no fullscreen flag)
-        virtual bool DoDrawImage(wxDC& dc, const wxPoint& pos, wxRect newRect, wxPoint newPos) const;   ///< \brief Draw the dragged bitmap, as if it was a cursor
+        virtual bool DoDrawImage(wxDC& dc, const wxPoint& pos, wxPoint newPos) const;   ///< \brief Draw the dragged bitmap, as if it was a cursor
         virtual wxRect GetImageRect(const wxPoint& pos, bool bClipToDC = true) const;          ///< \brief Compute the wxRect enclosing the dragged bitmap, as if it was a cursor
 
         virtual bool UpdateBackingFromWindow(wxDC& windowDC, wxMemoryDC& destDC,
@@ -77,9 +82,10 @@ class wxDragImageExt: public wxObject
                            wxBitmap &dest,
                            double dSrcScale,
                            double dDestScale,
-                           wxRect &rDestRect,
                            wxPoint pos) const; ///< \brief modify the scale of a bitmap
-        void Log(wxString sLogText) const; ///< \brief shortcut to CB Logging methods
+        void Log(wxString sLogText) const;             ///< \brief debug method - shortcut to CB Logging methods
+        void Save(wxBitmap bmp, wxString sPath) const; ///< \brief debug method - save the bitmap to a file
+        void LogToFile(int xDest, int yDest, int width, int height, int xSrc, int ySrc, wxString sPath) const; ///< \brief debug method - save blit coordinates to a text file
 
         DECLARE_DYNAMIC_CLASS(wxDragImageExt)
         DECLARE_NO_COPY_CLASS(wxDragImageExt)

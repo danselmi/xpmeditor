@@ -95,7 +95,7 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	BuildContent(parent,id,pos,size);
 
 	m_Bitmap = wxBitmap(XPM_DEFAULT_WIDTH, XPM_DEFAULT_HEIGHT);
-	m_Image = NULL;
+	m_Image = wxImage(1,1);
 	m_ImageFormat = wxBITMAP_TYPE_ANY;
 	bCanResizeX = false;
 	bCanResizeY = false;
@@ -196,10 +196,11 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	//event handler for popup menu
 	PopupMenuCopy.Connect(ID_POPUP_COPYTO, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&XPMEditorPanel::OnCopyTo,0,this);
 	PopupMenuCopy.Connect(ID_POPUP_PASTEFROM, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&XPMEditorPanel::OnPasteFrom,0,this);
-    Connect(wxEVT_MENU_OPEN, (wxObjectEventFunction)&XPMEditorPanel::OnOpenPopupMenu,0,this);
+	Connect(wxEVT_MENU_OPEN, (wxObjectEventFunction)&XPMEditorPanel::OnOpenPopupMenu,0,this);
     Connect(wxEVT_MENU_CLOSE, (wxObjectEventFunction)&XPMEditorPanel::OnClosePopupMenu,0,this);
     SetPopupMenu(false);
     m_bIsMenuBeingClosed = false;
+    m_bMenuCommandSelected = false;
 
 	//init pointers to panels
 	if (FoldPanel)
@@ -485,13 +486,6 @@ XPMEditorPanel::~XPMEditorPanel()
 	//(*Destroy(XPMEditorPanel)
 	//*)
 
-	//image release
-	if (m_Image)
-	{
-        delete(m_Image);
-        m_Image = NULL;
-	}
-
 	//selection memory release
 	ClearSelection();
     free(pSelection);
@@ -545,7 +539,6 @@ wxBitmap* XPMEditorPanel::GetBitmap(void)
 wxImage XPMEditorPanel::GetImageFromSelection(void)
 {
     //Return an image representing the selection
-    if (!m_Image) return(wxImage());
     if (!HasSelection()) return(wxImage());
 
     //get Selection bounding rect
@@ -563,7 +556,7 @@ wxImage XPMEditorPanel::GetImageFromSelection(void)
     rSelection.SetHeight(iHeight);
 
     //get sub-image from selection bounding rect
-    wxImage imgCopy(*m_Image);
+    wxImage imgCopy(m_Image);
     imgCopy = imgCopy.GetSubImage(rSelection);
 
     //create a bitmap mask
@@ -603,7 +596,6 @@ wxImage XPMEditorPanel::GetImageFromSelection(void)
   */
 void XPMEditorPanel::CutSelection(void)
 {
-    if (!m_Image) return;
     if (!HasSelection()) return;
 
     //get Selection bounding rect
@@ -676,8 +668,8 @@ void XPMEditorPanel::MoveSelection(int dx, int dy)
         //border check
         if (pSelection[i].x < 0) pSelection[i].x = 0;
         if (pSelection[i].y < 0) pSelection[i].y = 0;
-        if (pSelection[i].x > m_Image->GetWidth()) pSelection[i].x = m_Image->GetWidth();
-        if (pSelection[i].y > m_Image->GetHeight()) pSelection[i].y = m_Image->GetHeight();
+        if (pSelection[i].x > m_Image.GetWidth()) pSelection[i].x = m_Image.GetWidth();
+        if (pSelection[i].y > m_Image.GetHeight()) pSelection[i].y = m_Image.GetHeight();
 */
     }
 }
@@ -690,13 +682,12 @@ void XPMEditorPanel::MoveSelection(int dx, int dy)
 wxImage XPMEditorPanel::GetImage(void)
 {
     //return the associated image
-    if (!m_Image) return(wxImage());
 
-    wxImage img(*m_Image);
+    wxImage img(m_Image);
     img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
 
     //hot spot information
-    if ((iHotSpotX >= 0) && (iHotSpotX < m_Image->GetWidth()) && (iHotSpotY >= 0) && (iHotSpotY < m_Image->GetHeight()))
+    if ((iHotSpotX >= 0) && (iHotSpotX < m_Image.GetWidth()) && (iHotSpotY >= 0) && (iHotSpotY < m_Image.GetHeight()))
     {
         img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, iHotSpotX);
         img.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, iHotSpotY);
@@ -717,33 +708,25 @@ void XPMEditorPanel::SetImage(wxImage *img)
     //set the associated bitmap
     if (DrawCanvas)
     {
-        //delete the previous bitmap first
-        if (m_Image)
-        {
-            delete(m_Image);
-        }
 
         if (img)
         {
             //create a copy of the bitmap
-            m_Image = new wxImage(*img);
+            m_Image = wxImage(*img);
 
-            if (!m_Image) return;
-            //if (m_Image->HasAlpha()) Manager::Get()->GetLogManager()->Log(_("Image has alpha channel")); else Manager::Get()->GetLogManager()->Log(_("Image has no alpha channel"));
-            //if (m_Image->HasMask()) Manager::Get()->GetLogManager()->Log(_("Image has a mask")); else Manager::Get()->GetLogManager()->Log(_("Image has no mask"));
-            if ((m_Image->HasAlpha()) && (!m_Image->HasMask()))
+            if ((m_Image.HasAlpha()) && (!m_Image.HasMask()))
             {
                 //convert Alpha channel to mask data
                 //Manager::Get()->GetLogManager()->Log(_("Image has alpha channel and no mask"));
-                m_Image->ConvertAlphaToMask(128);
+                m_Image.ConvertAlphaToMask(128);
             }
 
             unsigned char r, g, b;
-            m_Image->GetOrFindMaskColour(&r, &g, &b);
+            m_Image.GetOrFindMaskColour(&r, &g, &b);
             cMaskColour = wxColour(r, g , b);
             ColourPicker->SetTransparentColour(cMaskColour, false);
             ColourPicker->Repaint();
-            if (m_Image->HasMask())
+            if (m_Image.HasMask())
             {
                 //remove the mask
                 unsigned char r2, g2, b2;
@@ -753,26 +736,25 @@ void XPMEditorPanel::SetImage(wxImage *img)
                 g2 = cTransparent.Green();
                 b2 = cTransparent.Blue();
                 //wxMessageBox(wxString::Format(_("Has mask r=%d g=%d b=%d r2=%d g2=%d b2=%d"),r,g,b, r2, g2, b2));
-                m_Image->SetMask(false);
+                m_Image.SetMask(false);
             }
 
         }
         else
         {
             //create a blank image
-            m_Image = new wxImage(iXPMDefaultWidth, iXPMDefaultHeight, true);
+            m_Image = wxImage(iXPMDefaultWidth, iXPMDefaultHeight, true);
             cMaskColour = ColourPicker->GetTransparentColour();
         }
-        if (!m_Image) return;
 
         //check for HotSpot coordinates
-        if ((m_Image->HasOption(wxIMAGE_OPTION_CUR_HOTSPOT_X)) && (m_Image->HasOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y)))
+        if ((m_Image.HasOption(wxIMAGE_OPTION_CUR_HOTSPOT_X)) && (m_Image.HasOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y)))
         {
-            iHotSpotX = m_Image->GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_X);
-            iHotSpotY = m_Image->GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_Y);
+            iHotSpotX = m_Image.GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_X);
+            iHotSpotY = m_Image.GetOptionInt(wxIMAGE_OPTION_CUR_HOTSPOT_Y);
         }
 
-        wxBitmap bm(*m_Image);
+        wxBitmap bm(m_Image);
         SetBitmap(&bm);
     }
 }
@@ -784,11 +766,8 @@ void XPMEditorPanel::SetImage(wxImage *img)
 void XPMEditorPanel::UpdateBitmap(void)
 {
     //recreate the m_Bitmap member from the m_Image member
-    if (m_Image)
-    {
-        wxBitmap bm(*m_Image);
-        SetBitmap(&bm);
-    }
+    wxBitmap bm(m_Image);
+    SetBitmap(&bm);
 }
 
 /** Set the unscaled internal bitmap.
@@ -852,17 +831,7 @@ void XPMEditorPanel::UpdateImage(void)
     //recreate the m_Image member from the m_Bitmap member
 
     wxImage img;
-    img = m_Bitmap.ConvertToImage();
-    wxImage *img2;
-    img2 = new wxImage(img);
-    if (img2)
-    {
-        wxImage *img_temp;
-        img_temp = m_Image;
-        m_Image = img2;
-        if(img_temp) delete(img_temp);
-    }
-
+    m_Image = m_Bitmap.ConvertToImage();
 }
 
 /** return a pointer to the wxScrolledWindow on which the Bitmap is drawn.
@@ -1275,7 +1244,7 @@ void XPMEditorPanel::OnImageSizeChanged(wxSpinEvent& event)
 
         if (PropertiesPanel->BMPWidth) iWidth = PropertiesPanel->BMPWidth->GetValue();
         if (PropertiesPanel->BMPHeight) iHeight = PropertiesPanel->BMPHeight->GetValue();
-        if (m_undo_buffer) m_undo_buffer->AddUndo(xpm_size_undo, m_Image);
+        if (m_undo_buffer) m_undo_buffer->AddUndo(xpm_size_undo, &m_Image);
         SetDrawAreaSize(wxSize(iWidth, iHeight));
     }
 
@@ -1352,12 +1321,9 @@ void XPMEditorPanel::SetDrawAreaSize(wxSize sNewDrawAreaSize)
 
 
         //resize the image
-        if (m_Image)
-        {
-            m_Image->Resize(sDrawAreaSize, wxPoint(0,0),
-                            cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue()
-                           );
-        }
+         m_Image.Resize(sDrawAreaSize, wxPoint(0,0),
+                        cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue()
+                       );
 
         UpdateBitmap();
 
@@ -1711,8 +1677,9 @@ void XPMEditorPanel::OnDrawCanvasRightUp(wxMouseEvent& event)
             PopupMenuCopy.Enable(ID_POPUP_COPYTO, false);
             PopupMenuCopy.Enable(ID_POPUP_PASTEFROM, true);
         }
-        PopupMenu(&PopupMenuCopy);
+
         SetPopupMenu(true);
+        PopupMenu(&PopupMenuCopy);
     }
 
 
@@ -1735,7 +1702,6 @@ void XPMEditorPanel::ProcessToolAction(int iTool, int x, int y,
                                          bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown)
 {
     //draw the tool action: select box for Selection tool, rectangle for rectangle tool, ...
-
     switch(iTool)
     {
         case XPM_ID_SELECT_TOOL :
@@ -1846,28 +1812,25 @@ void XPMEditorPanel::ProcessPipette(int x, int y,
         }
 
         //get the pixel color
-        if (m_Image)
-        {
-            int iColour;
-            unsigned char iRed, iGreen, iBlue;
+        int iColour;
+        unsigned char iRed, iGreen, iBlue;
 
-            bUsingTool = true;
-            iRed = m_Image->GetRed(x / m_dScale, y / m_dScale);
-            iGreen = m_Image->GetGreen(x / m_dScale, y / m_dScale);
-            iBlue = m_Image->GetBlue(x / m_dScale, y / m_dScale);
-            wxColour cColour(iRed, iGreen, iBlue);
-            if (bShiftDown)
-            {
-                iColour = ColourPicker->GetFillColourIndex();
-            }
-            else
-            {
-                iColour = ColourPicker->GetLineColourIndex();
-            }
-            ColourPicker->SetPaletteColour(iColour, cColour);
-            ColourPicker->Refresh(false,NULL);
-            ColourPicker->Update();
+        bUsingTool = true;
+        iRed = m_Image.GetRed(x / m_dScale, y / m_dScale);
+        iGreen = m_Image.GetGreen(x / m_dScale, y / m_dScale);
+        iBlue = m_Image.GetBlue(x / m_dScale, y / m_dScale);
+        wxColour cColour(iRed, iGreen, iBlue);
+        if (bShiftDown)
+        {
+            iColour = ColourPicker->GetFillColourIndex();
         }
+        else
+        {
+            iColour = ColourPicker->GetLineColourIndex();
+        }
+        ColourPicker->SetPaletteColour(iColour, cColour);
+        ColourPicker->Refresh(false,NULL);
+        ColourPicker->Update();
     }
 
     if (bLeftUp)
@@ -2673,6 +2636,7 @@ void XPMEditorPanel::ProcessDragAction(int x, int y,
 void XPMEditorPanel::ProcessSizeAction(int x, int y,
                                   bool bLeftDown, bool bLeftUp, bool bPressed, bool bDClick, bool bShiftDown, int iDirection)
 {
+
     if ((bLeftDown) || (bPressed))
     {
         if (!m_Bitmap.IsOk()) return;
@@ -2697,7 +2661,10 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
 
         if (m_SelectionImage.IsOk())
         {
-            m_SelectionImage.Rescale(iRight - iLeft, iBottom - iTop, wxIMAGE_QUALITY_NORMAL);
+            //we use wxIMAGE_QUALITY_HIGH and not wxIMAGE_QUALITY_NORMAL: it gives nicer, more natural results.
+            //There are 2 drawbacks: 1 - it is slower (not noticeable here)
+            //                       2 - there is a loss of mask (transparency) data
+            m_SelectionImage.Rescale(iRight - iLeft, iBottom - iTop, wxIMAGE_QUALITY_HIGH);
             m_SelectionBitmap = wxBitmap(m_SelectionImage);
 
             if (NbPoints == 4)
@@ -2727,6 +2694,7 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
         m_bSizing = false;
         InitToolData();
     }
+
 }
 
 /** Process the Lasso (complex selection) tool in action
@@ -4216,15 +4184,14 @@ int XPMEditorPanel::IsPointInSelection(int x, int y)
   */
 void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
 {
+    if (DrawCanvas) DrawCanvas->SetFocus();
 
-    //if ((m_bPopupMenuShown) || (m_bIsMenuBeingClosed))
-    if ((m_bPopupMenuShown) && (m_bIsMenuBeingClosed))
+    m_bMenuCommandSelected = false;
+    if (((m_bPopupMenuShown) && (m_bIsMenuBeingClosed)) || (m_bIsMenuBeingClosed))
     {
         event.Skip();
         return;
     }
-
-    if (DrawCanvas) DrawCanvas->SetFocus();
 
     if ((DrawCanvas) && ((bCanResizeX) || (bCanResizeY)) && (m_Bitmap.IsOk()) && (!bUsingTool))
     {
@@ -4238,6 +4205,19 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
         }
 
 
+    }
+    else if (m_bSizing)
+    {
+        //the user is currently resizing the selection
+        int x, y, xx, yy, iResult;
+        x = event.m_x;
+        y = event.m_y;
+        DrawCanvas->CalcUnscrolledPosition(x, y, &xx, &yy);
+
+        iResult = IsPointInSelection(x, y);
+        ClipCoordinates(&xx, &yy);
+
+        ProcessSizeAction(xx, yy, true, false, true, false, event.ShiftDown(), iResult);
     }
     else
     {
@@ -4299,9 +4279,10 @@ void XPMEditorPanel::OnDrawCanvasLeftDown(wxMouseEvent& event)
   */
 void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
 {
-    if ((m_bPopupMenuShown) && (m_bIsMenuBeingClosed))
+    if (((m_bPopupMenuShown) && (m_bIsMenuBeingClosed)) || (m_bIsMenuBeingClosed))
     {
         m_bIsMenuBeingClosed = false;
+        m_bMenuCommandSelected = false;
         event.Skip();
         return;
     }
@@ -4322,7 +4303,7 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
         x = xx / m_dScale;
         y = yy / m_dScale;
         wxSize sNewSize(x, y);
-        if (m_undo_buffer) m_undo_buffer->AddUndo(xpm_size_undo, m_Image);
+        if (m_undo_buffer) m_undo_buffer->AddUndo(xpm_size_undo, &m_Image);
         SetDrawAreaSize(sNewSize);
         Refresh(false,NULL);
         Update();
@@ -4333,10 +4314,24 @@ void XPMEditorPanel::OnDrawCanvasLeftUp(wxMouseEvent& event)
     {
         int x, y;
 
+
         x = event.m_x;
         y = event.m_y;
         if (DrawCanvas) DrawCanvas->ReleaseMouse();
         ProcessDragAction(x, y, false, true, false, false, event.ShiftDown());
+    }
+    else if (m_bSizing)
+    {
+        //the user is currently resizing the selection
+        int x, y, xx, yy, iResult;
+        x = event.m_x;
+        y = event.m_y;
+        DrawCanvas->CalcUnscrolledPosition(x, y, &xx, &yy);
+
+        iResult = IsPointInSelection(x, y);
+        ClipCoordinates(&xx, &yy);
+
+        ProcessSizeAction(xx, yy, false, true, false, false, event.ShiftDown(), iResult);
     }
     else if ((!bSizingX) && (!bSizingY))
     {
@@ -4442,14 +4437,12 @@ void XPMEditorPanel::ConvertSelectionToRect(void)
   */
 void XPMEditorPanel::ReplaceRect(const wxImage &newImage, wxRect rRect)
 {
-    if (!m_Image) return;
-
     wxRect r(rRect);
 
     if (r.GetLeft() < 0) r.SetLeft(0);
     if (r.GetTop() < 0) r.SetTop(0);
-    if (r.GetWidth() > m_Image->GetWidth()) r.SetWidth(m_Image->GetWidth());
-    if (r.GetHeight() > m_Image->GetHeight()) r.SetHeight(m_Image->GetHeight());
+    if (r.GetWidth() > m_Image.GetWidth()) r.SetWidth(m_Image.GetWidth());
+    if (r.GetHeight() > m_Image.GetHeight()) r.SetHeight(m_Image.GetHeight());
 
 
     wxImage img(r.GetWidth(), r.GetHeight(), true);
@@ -4532,6 +4525,7 @@ void XPMEditorPanel::PasteSelection(void)
     GetBoundingRect(&rSelection);
 
     PasteImage(m_SelectionImage, rSelection.GetLeft(), rSelection.GetTop());
+    SetModified(true);
 }
 
 
@@ -4784,13 +4778,10 @@ bool XPMEditorPanel::AddUndo(wxImage *img)
 bool XPMEditorPanel::AddUndo(void)
 {
     //add 1 Undo operation to the Buffer
-    if (m_Image)
-    {
-        wxImage img(*m_Image);
-        img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+    wxImage img(m_Image);
+    img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
 
-        if (m_undo_buffer) return(m_undo_buffer->AddUndo(xpm_image_undo, &img));
-    }
+    if (m_undo_buffer) return(m_undo_buffer->AddUndo(xpm_image_undo, &img));
 
     return(false);
 }
@@ -4801,13 +4792,10 @@ bool XPMEditorPanel::AddUndo(void)
 bool XPMEditorPanel::AddRedo(void)
 {
     //add 1 Redo operation to the Buffer
-    if (m_Image)
-    {
-        wxImage img(*m_Image);
-        img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
+    wxImage img(m_Image);
+    img.SetMaskColour(cMaskColour.Red(), cMaskColour.Green(), cMaskColour.Blue());
 
-        if (m_undo_buffer) return(m_undo_buffer->AddRedo(xpm_image_undo, &img));
-    }
+    if (m_undo_buffer) return(m_undo_buffer->AddRedo(xpm_image_undo, &img));
 
     return(false);
 }
@@ -4881,20 +4869,17 @@ void XPMEditorPanel::OnTransparentColorChanged(wxCommandEvent& event)
     iBlue = cColour.Blue();
 
     //Replace the old mask colour by the new mask colour
-    if (m_Image)
-    {
-        AddUndo();
-        SetModified(true);
-        unsigned char iGreen2, iRed2, iBlue2;
-        iRed2 = cMaskColour.Red();
-        iGreen2 = cMaskColour.Green();
-        iBlue2 = cMaskColour.Blue();
+    AddUndo();
+    SetModified(true);
+    unsigned char iGreen2, iRed2, iBlue2;
+    iRed2 = cMaskColour.Red();
+    iGreen2 = cMaskColour.Green();
+    iBlue2 = cMaskColour.Blue();
 
-        m_Image->Replace(iRed2, iGreen2, iBlue2, iRed, iGreen, iBlue);
-        cMaskColour = cColour;
+    m_Image.Replace(iRed2, iGreen2, iBlue2, iRed, iGreen, iBlue);
+    cMaskColour = cColour;
 
-        UpdateBitmap();
-    }
+    UpdateBitmap();
 }
 
 //---- HANDLERS FOR ALL THE DRAWING TOOLS  ----
@@ -5445,7 +5430,6 @@ void XPMEditorPanel::OnDrawCanvasKeyDown(wxKeyEvent& event)
 void XPMEditorPanel::SelectAll(void)
 {
     ClearSelection();
-    if (!m_Image) return;
 
     NbPoints = 4;
     pSelection = CheckMemorySelection(4);
@@ -5454,12 +5438,12 @@ void XPMEditorPanel::SelectAll(void)
     {
         pSelection[0].x = 0;
         pSelection[0].y = 0;
-        pSelection[1].x = m_Image->GetWidth();
+        pSelection[1].x = m_Image.GetWidth();
         pSelection[1].y = 0;
-        pSelection[2].x = m_Image->GetWidth();
-        pSelection[2].y = m_Image->GetHeight();
+        pSelection[2].x = m_Image.GetWidth();
+        pSelection[2].y = m_Image.GetHeight();
         pSelection[3].x = 0;
-        pSelection[3].y = m_Image->GetHeight();
+        pSelection[3].y = m_Image.GetHeight();
     }
     m_SelectionImage = GetImageFromSelection();
     Repaint();
@@ -5525,10 +5509,7 @@ void XPMEditorPanel::OnStretchImage(wxCommandEvent& event)
             }
 
             //resize the image
-            if (m_Image)
-            {
-                m_Image->Rescale(iWidth, iHeight, iQuality);
-            }
+            m_Image.Rescale(iWidth, iHeight, iQuality);
             UpdateBitmap();
             SetModified(true);
             Repaint();
@@ -5577,14 +5558,11 @@ void XPMEditorPanel::OnMirror(wxCommandEvent& event)
         if ((md.RadioButton3->GetValue()))
         {
            //mirror image
-           if (m_Image)
-           {
-               AddUndo();
-               wxImage img;
-               img = m_Image->Mirror(bHorizontal);
-               SetImage(&img);
-               SetModified(true);
-           }
+           AddUndo();
+           wxImage img;
+           img = m_Image.Mirror(bHorizontal);
+           SetImage(&img);
+           SetModified(true);
         }
         else
         {
@@ -5629,28 +5607,25 @@ void XPMEditorPanel::OnBlur(wxCommandEvent& event)
         if (bd.RadioButton5->GetValue()) bBoth = true; else bBoth = false;
         iRadius = bd.SpinCtrl1->GetValue();
 
-        if ((bd.RadioButton3->GetValue()) && (m_Image))
+        if (bd.RadioButton3->GetValue())
         {
            //blur image
-           if (m_Image)
+           AddUndo();
+           wxImage img;
+           if (bHorizontal)
            {
-               AddUndo();
-               wxImage img;
-               if (bHorizontal)
-               {
-                   img = m_Image->BlurHorizontal(iRadius);
-               }
-               else if (bBoth)
-               {
-                   img = m_Image->Blur(iRadius);
-               }
-               else
-               {
-                   img = m_Image->BlurVertical(iRadius);
-               }
-               SetImage(&img);
-               SetModified(true);
+               img = m_Image.BlurHorizontal(iRadius);
            }
+           else if (bBoth)
+           {
+               img = m_Image.Blur(iRadius);
+           }
+           else
+           {
+               img = m_Image.BlurVertical(iRadius);
+           }
+           SetImage(&img);
+           SetModified(true);
         }
         else
         {
@@ -5707,33 +5682,33 @@ void XPMEditorPanel::OnRotate(wxCommandEvent& event)
         iAngle = rd.SpinCtrl1->GetValue();
         dAngle = iAngle;
 
-        if ((rd.RadioButton3->GetValue()) && (m_Image))
+        if (rd.RadioButton3->GetValue())
         {
             //rotate image
             AddUndo();
             wxImage img;
             if (rd.RadioButton1->GetValue())
             {
-                img = m_Image->Rotate90(true);
+                img = m_Image.Rotate90(true);
             }
             if (rd.RadioButton2->GetValue())
             {
-                img = m_Image->Rotate90(true);
+                img = m_Image.Rotate90(true);
                 img = img.Rotate90(true);
             }
             if (rd.RadioButton5->GetValue())
             {
-                img = m_Image->Rotate90(false);
+                img = m_Image.Rotate90(false);
             }
             if (rd.RadioButton6->GetValue())
             {
                 dAngle = 360 - dAngle; //to reverse the direction
                 dAngle = dAngle * PI / 180; //conversion in Radians
-                wxPoint ptCenter(m_Image->GetWidth() / 2, m_Image->GetHeight() / 2);
+                wxPoint ptCenter(m_Image.GetWidth() / 2, m_Image.GetHeight() / 2);
 
                 NbPoints = 0; //Clear the selection
 
-                img = m_Image->Rotate(dAngle, ptCenter, false, NULL);
+                img = m_Image.Rotate(dAngle, ptCenter, false, NULL);
             }
             SetImage(&img);
             SetModified(true);
@@ -5821,13 +5796,10 @@ void XPMEditorPanel::RotateCounterClockwise(void)
     }
     else
     {
-        if (m_Image)
-        {
-            AddUndo();
-            img = m_Image->Rotate90(false);
-            SetImage(&img);
-            SetModified(true);
-        }
+        AddUndo();
+        img = m_Image.Rotate90(false);
+        SetImage(&img);
+        SetModified(true);
     }
 }
 
@@ -5851,13 +5823,10 @@ void XPMEditorPanel::RotateClockwise(void)
     }
     else
     {
-        if (m_Image)
-        {
-            AddUndo();
-            img = m_Image->Rotate90(true);
-            SetImage(&img);
-            SetModified(true);
-        }
+        AddUndo();
+        img = m_Image.Rotate90(true);
+        SetImage(&img);
+        SetModified(true);
     }
 }
 
@@ -5899,14 +5868,11 @@ void XPMEditorPanel::OnRotateHueClick(wxCommandEvent& event)
         if ((rd.RadioButton3->GetValue()))
         {
            //rotate hue for the image
-           if (m_Image)
-           {
-               AddUndo();
-               wxImage img;
-               m_Image->RotateHue(dAngle);
-               UpdateBitmap();
-               SetModified(true);
-           }
+           AddUndo();
+           wxImage img;
+           m_Image.RotateHue(dAngle);
+           UpdateBitmap();
+           SetModified(true);
         }
         else
         {
@@ -5945,14 +5911,11 @@ void XPMEditorPanel::OnInvertImageClick(wxCommandEvent& event)
         if ((id.RadioButton3->GetValue()))
         {
            //invert image
-           if (m_Image)
-           {
-               AddUndo();
-               wxImage img;
-               img = InvertImage(*m_Image);
-               SetImage(&img);
-               SetModified(true);
-           }
+           AddUndo();
+           wxImage img;
+           img = InvertImage(m_Image);
+           SetImage(&img);
+           SetModified(true);
         }
         else
         {
@@ -6020,15 +5983,12 @@ void XPMEditorPanel::OnButtonColourDepthClick(wxCommandEvent& event)
         if ((cd.RadioButton3->GetValue()))
         {
            //mirror image
-           if (m_Image)
-           {
-               AddUndo();
-               wxImage img;
-               if (bMonochrome) img = m_Image->ConvertToMono(255,255,255);
-               else img = m_Image->ConvertToGreyscale();
-               SetImage(&img);
-               SetModified(true);
-           }
+           AddUndo();
+           wxImage img;
+           if (bMonochrome) img = m_Image.ConvertToMono(255,255,255);
+           else img = m_Image.ConvertToGreyscale();
+           SetImage(&img);
+           SetModified(true);
         }
         else
         {
@@ -6218,13 +6178,10 @@ void XPMEditorPanel::TransformToSquare(int *x1, int *y1, int *x2, int *y2)
         if (*x2 < 0) *x2 = 0;
         if (*y1 < 0) *y1 = 0;
         if (*y2 < 0) *y2 = 0;
-        if (m_Image)
-        {
-            if (*x1 >= m_Image->GetWidth() * m_dScale) *x1 = m_Image->GetWidth() * m_dScale -1;
-            if (*x2 >= m_Image->GetWidth() * m_dScale) *x2 = m_Image->GetWidth() * m_dScale -1;
-            if (*y1 >= m_Image->GetHeight() * m_dScale) *y1 = m_Image->GetHeight() * m_dScale -1;
-            if (*y2 >= m_Image->GetHeight() * m_dScale) *y2 = m_Image->GetHeight() * m_dScale -1;
-        }
+        if (*x1 >= m_Image.GetWidth() * m_dScale) *x1 = m_Image.GetWidth() * m_dScale -1;
+        if (*x2 >= m_Image.GetWidth() * m_dScale) *x2 = m_Image.GetWidth() * m_dScale -1;
+        if (*y1 >= m_Image.GetHeight() * m_dScale) *y1 = m_Image.GetHeight() * m_dScale -1;
+        if (*y2 >= m_Image.GetHeight() * m_dScale) *y2 = m_Image.GetHeight() * m_dScale -1;
 
     }
 }
@@ -6274,13 +6231,10 @@ void XPMEditorPanel::MakeStandardOrientation(int *x1, int *y1, int *x2, int *y2,
         if (*x2 < 0) *x2 = 0;
         if (*y1 < 0) *y1 = 0;
         if (*y2 < 0) *y2 = 0;
-        if (m_Image)
-        {
-            if (*x1 >= m_Image->GetWidth() ) *x1 = m_Image->GetWidth()  -1;
-            if (*x2 >= m_Image->GetWidth() ) *x2 = m_Image->GetWidth()  -1;
-            if (*y1 >= m_Image->GetHeight() ) *y1 = m_Image->GetHeight()  -1;
-            if (*y2 >= m_Image->GetHeight() ) *y2 = m_Image->GetHeight() -1;
-        }
+        if (*x1 >= m_Image.GetWidth() ) *x1 = m_Image.GetWidth()  -1;
+        if (*x2 >= m_Image.GetWidth() ) *x2 = m_Image.GetWidth()  -1;
+        if (*y1 >= m_Image.GetHeight() ) *y1 = m_Image.GetHeight()  -1;
+        if (*y2 >= m_Image.GetHeight() ) *y2 = m_Image.GetHeight() -1;
     }
 }
 
@@ -6399,11 +6353,9 @@ void XPMEditorPanel::MakeStandardOrientation(int  x1, int  y1, int  x2, int  y2,
     //clip to image boundaries
     if (*x4 < 0) *x4 = 0;
     if (*y4 < 0) *y4 = 0;
-    if (m_Image)
-    {
-        if (*x4 >= m_Image->GetWidth() ) *x4 = m_Image->GetWidth()  -1;
-        if (*y4 >= m_Image->GetHeight() ) *y4 = m_Image->GetHeight() -1;
-    }
+    if (*x4 >= m_Image.GetWidth() ) *x4 = m_Image.GetWidth()  -1;
+    if (*y4 >= m_Image.GetHeight() ) *y4 = m_Image.GetHeight() -1;
+
 }
 
 /** Round off a decimal value to an integer value
@@ -6909,14 +6861,6 @@ void XPMEditorPanel::GradientFillConcentric(wxDC& dc,
 }
 
 //--------- POPUP MENU EVENT HANDLERS --------------
-/** popup menu "Copy To" has been selected
-  */
-void XPMEditorPanel::OnCopyTo(wxCommandEvent& event)
-{
-    CopyTo();
-    SetPopupMenu(false);
-}
-
 /** Copy the selection to a new file
   */
 void XPMEditorPanel::CopyTo(void)
@@ -7112,12 +7056,21 @@ void XPMEditorPanel::PasteFrom(void)
     m_bEraseSelection = false;
 }
 
+/** popup menu "Copy To" has been selected
+  */
+void XPMEditorPanel::OnCopyTo(wxCommandEvent& event)
+{
+    CopyTo();
+    m_bMenuCommandSelected = true;
+}
+
+
 /** popup menu "Paste From" has been selected
   */
 void XPMEditorPanel::OnPasteFrom(wxCommandEvent& event)
 {
     PasteFrom();
-    SetPopupMenu(false);
+    m_bMenuCommandSelected = true;
 }
 
 /** the popup menu is displayed
@@ -7133,6 +7086,7 @@ void XPMEditorPanel::OnOpenPopupMenu(wxMenuEvent& event)
 void XPMEditorPanel::OnClosePopupMenu(wxMenuEvent& event)
 {
     SetPopupMenu(false);
+    m_bIsMenuBeingClosed = true;
     event.Skip();
 }
 
@@ -7141,7 +7095,7 @@ void XPMEditorPanel::OnClosePopupMenu(wxMenuEvent& event)
 void XPMEditorPanel::OnContextMenu(wxCommandEvent& event)
 {
     SetPopupMenu(false);
-    m_bIsMenuBeingClosed = true;
+    m_bIsMenuBeingClosed = !m_bMenuCommandSelected;
     event.Skip();
 }
 

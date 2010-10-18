@@ -7,7 +7,6 @@
  * Copyright: Seb ()
  * License:   GPL 3.0
  **************************************************************/
-
 #include <sdk.h>
 #include "wxDragImageExt.h"
 
@@ -252,8 +251,6 @@ bool wxDragImageExt::Hide(void)
   *              These coordinates are not direct coordinates: DoDrawImage draws the image on a memory bitmap
   *              These coordinates are therefore relative to this bitmap.
   *              The memory bitmap will be pasted on the wxWindow client area (or on the screen) at the coordinates newPos
-  * \param newRect: the final rectangle enclosing the destination bitmap
-  *                 this rectangle is clipped to the bounding rectangle (generally the client area or the screen)
   * \param newPos: the position of the upper left corner of the bitmap to draw, in the destination wxDC coordinates
   *                This is different than @pos, because the wxDC are not identical.
   *                If the drag is limited to a window, then the coordinates are client coordinates
@@ -261,18 +258,19 @@ bool wxDragImageExt::Hide(void)
   *                These coordinates are direct coordinates.
   * \return true on success, false on failure
   */
-bool wxDragImageExt::DoDrawImage(wxDC& dc, const wxPoint& pos, wxRect newRect, wxPoint newPos) const
+bool wxDragImageExt::DoDrawImage(wxDC& dc, const wxPoint& pos, wxPoint newPos) const
 {
 
     if ((m_bitmap.Ok()) && (pos.x <= m_boundingRect.GetRight()) && (pos.y <= m_boundingRect.GetBottom()))
     {
         wxBitmap bmp(m_bitmap);
         wxBitmap bmp2;
-        if (!StretchBitmap(bmp, bmp2, 1.0, m_dScale, newRect, newPos)) return(false);
+        if (!StretchBitmap(bmp, bmp2, 1.0, m_dScale, newPos)) return(false);
+
+
 
         wxMemoryDC mdc(bmp2);
 
-        Log(wxString::Format(_("pos.x=%d pos.y=%d"), pos.x, pos.y));
         int x, y;
         x = pos.x;
         y = pos.y;
@@ -408,12 +406,12 @@ bool wxDragImageExt::RedrawImage(const wxPoint& oldPos, const wxPoint& newPos,
     wxRect oldRect(GetImageRect(oldPos));
     wxRect newRect(GetImageRect(newPos));
     wxRect fullRect;
-    int iMargin;
+    //int iMargin;
 
     //Log(wxString::Format(_("wxDragImageExt::RedrawImage oldRect.x=%d oldRect.y=%d oldRect.width=%d oldRect.height=%d"), oldRect.x, oldRect.y, oldRect.width, oldRect.height));
     //Log(wxString::Format(_("wxDragImageExt::RedrawImage newRect.x=%d newRect.y=%d newRect.width=%d newRect.height=%d"), newRect.x, newRect.y, newRect.width, newRect.height));
 
-    iMargin = -0;
+    //iMargin = -0;
 
     // Full rect: the combination of both rects
     if (eraseOld && drawNew)
@@ -440,12 +438,12 @@ bool wxDragImageExt::RedrawImage(const wxPoint& oldPos, const wxPoint& newPos,
         fullRect = newRect;
     }
 
-    fullRect.Inflate(iMargin);
+    //fullRect.Inflate(iMargin);
     //Log(wxString::Format(_("wxDragImageExt::RedrawImage fullRect.x=%d fullRect.y=%d fullRect.width=%d fullRect.height=%d"), fullRect.x, fullRect.y, fullRect.width, fullRect.height));
 
     // Make the bitmap bigger than it need be, so we don't
     // keep reallocating all the time.
-    int excess = 50;
+    int excess = 0;
 
     if ((!m_repairBitmap.Ok()) || ((m_repairBitmap.GetWidth() < fullRect.GetWidth()) || (m_repairBitmap.GetHeight() < fullRect.GetHeight())))
     {
@@ -459,20 +457,45 @@ bool wxDragImageExt::RedrawImage(const wxPoint& oldPos, const wxPoint& newPos,
     memDCTemp.SelectObject(m_repairBitmap);
 
     // Draw the backing bitmap onto the repair bitmap.
-    memDCTemp.Blit(0, 0, fullRect.GetWidth() + excess, fullRect.GetHeight() + excess, &memDC, fullRect.x - m_boundingRect.x, fullRect.y - m_boundingRect.y);
+    int x, y, x2, y2, w, h;
+    x = 0; y = 0;
+    if (fullRect.x < 0)
+    {
+        x = 0;
+        x2 = -fullRect.x;
+        w = fullRect.width + fullRect.x;
+    }
+    else
+    {
+        x = fullRect.x;
+        x2 = 0;
+        w = fullRect.width;
+    }
+    if (fullRect.y < 0)
+    {
+        y = 0;
+        y2 = -fullRect.y;
+        h = fullRect.height + fullRect.y;
+    }
+    else
+    {
+        y = fullRect.y;
+        y2 = 0;
+        h = fullRect.height;
+    }
+
+    memDCTemp.Blit(0, 0, w, h, &memDC, x, y);
 
     // If drawing, draw the image onto the mem DC
     if (drawNew)
     {
         wxPoint pos(newPos.x - fullRect.x, newPos.y - fullRect.y) ;
-        wxRect rBmpRect(newRect.x, newRect.y, newRect.width, newRect.height);
-        //Log(wxString::Format(_("wxDragImageExt::RedrawImage newRect.x=%d newRect.y=%d newRect.width=%d newRect.height=%d pos.x=%d pos.y=%d"), newRect.x, newRect.y, newRect.width, newRect.height, pos.x, pos.y));
-        DoDrawImage(memDCTemp, pos, rBmpRect, newPos);
+        DoDrawImage(memDCTemp, pos, newPos);
     }
 
     // Now blit to the window
     // Finally, blit the temp mem DC to the window.
-    m_windowDC->Blit(fullRect.x, fullRect.y, fullRect.width, fullRect.height, &memDCTemp, 0, 0);
+    m_windowDC->Blit(x, y, w, h, &memDCTemp, 0, 0);
 
     memDCTemp.SelectObject(wxNullBitmap);
     memDC.SelectObject(wxNullBitmap);
@@ -488,23 +511,20 @@ bool wxDragImageExt::RedrawImage(const wxPoint& oldPos, const wxPoint& newPos,
   * \param dDestScale: the desired scale of the bitmap
   *        example: if dSrcScale == 1.0 and dDestScale == 2.0, then the
   *                 destination bitmap is twice the size of the original bitmap
-  * \param rDestRect: the final rectangle enclosing the destination bitmap
-  *                   this rectangle is clipped to the bounding rectangle (generally the client area or the screen)
   * \param pos : the upper left corner of the destination bitmap.
   *              these coordinates are relative to the destination (Window or Screen) DC
   *              used for clipping the bitmap to the visible portion of the screen
   * \param true on success, false on failure
   */
-bool wxDragImageExt::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScale, double dDestScale, wxRect &rDestRect, wxPoint pos) const
+bool wxDragImageExt::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScale, double dDestScale, wxPoint pos) const
 {
     if (!src.IsOk()) return(false);
     if (dSrcScale <= 0.0) return(false);
     if (dDestScale <= 0.0) return(false);
 
-    //Log(wxString::Format(_("pos.x=%d pos.y=%d r.x=%d r.y=%d r.width=%d r.height=%d"), pos.x, pos.y, rDestRect.x, rDestRect.y, rDestRect.width, rDestRect.height));
-
     //Step 1 : compute the dimensions of the stretched bitmap
     //Step 2 : find the bounding pixels of this stretched bitmap, to ensure it fits in the screen
+    //         0,0 is the top left pixel of the stretched bitmap, which may be outside the visible part of the window
     //Step 3 : convert these bounding pixels to coordinates in the source bitmap
     //Step 4 : perform the stretch using a blit
 
@@ -522,31 +542,44 @@ bool wxDragImageExt::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScal
 
     //Step 2 : find the bounding pixels of this stretched bitmap, to ensure it fits in the screen
     //left border
-    if (pos.x < m_boundingRect.x) iXDestLeft = -pos.x; else iXDestLeft = 0;
-    if (iXDestLeft > m_boundingRect.x + m_boundingRect.width) return(false);
-    //top border
-    if (pos.y < m_boundingRect.y) iYDestTop = -pos.y; else iYDestTop = 0;
-    if (iYDestTop > m_boundingRect.y + m_boundingRect.height) return(false);
-    //right border
-    if (pos.x + iWidthDest > m_boundingRect.x + m_boundingRect.width)
+    if (pos.x >= m_boundingRect.x)
     {
-        iXDestRight = m_boundingRect.width - pos.x - 1;
+        iXDestLeft = 0;
     }
     else
+    {
+        iXDestLeft = m_boundingRect.x - pos.x;
+    }
+    //right border
+    if (pos.x + iWidthDest < m_boundingRect.x + m_boundingRect.width + 1)
     {
         iXDestRight = iWidthDest - 1;
     }
-    //top border
-    if (pos.y + iHeightDest > m_boundingRect.y + m_boundingRect.height)
+    else
     {
-        iYDestBottom = m_boundingRect.height - pos.y - 1;
+        iXDestRight = m_boundingRect.x + m_boundingRect.width - pos.x;
+    }
+    //top border
+    if (pos.y >= m_boundingRect.y)
+    {
+        iYDestTop = 0;
     }
     else
     {
+        iYDestTop = m_boundingRect.y - pos.y;
+    }
+    //bottom border
+    if (pos.y + iHeightDest < m_boundingRect.y + m_boundingRect.height + 1)
+    {
         iYDestBottom = iHeightDest - 1;
+    }
+    else
+    {
+        iYDestBottom = m_boundingRect.y + m_boundingRect.height - pos.y;
     }
     iWidthDest = iXDestRight - iXDestLeft + 1;
     iHeightDest = iYDestBottom - iYDestTop + 1;
+    //Log(wxString::Format(_("iXDestLeft=%d iXDestRight=%d iYDestTop=%d iYDestBottom=%d"), iXDestLeft, iXDestRight, iYDestTop, iYDestBottom));
 
     //Step 3 : convert these bounding pixels to coordinates in the source bitmap
     iXSrc = iXDestLeft / dScaleFactor;
@@ -574,74 +607,6 @@ bool wxDragImageExt::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScal
     dcMemDest.SelectObject(wxNullBitmap);
 
     dest = destBmp;
-
-    //Log(wxString::Format(_("iXDestLeft=%d iXDestRight=%d iYDestTop=%d iYDestBottom=%d iWidthDest=%d iHeightDest=%d"), iXDestLeft, iXDestRight, iYDestTop, iYDestBottom, iWidthDest, iHeightDest));
-
-    /*
-    int iWidthSrc, iHeightSrc;   //dimensions of the Source bitmap
-    int iWidthDest, iHeightDest; //dimensions of the Destination bitmap
-    int iXDest, iYDest;          //position of the upper left corner of the destination bitmap
-    int iXSrc,  iYSrc;           //position of the upper left corner of the source bitmap
-    double dScaleFactor;
-
-    //Log(wxString::Format(_("pos.x=%d pos.y=%d r.x=%d r.y=%d r.width=%d r.height=%d"), pos.x, pos.y, rDestRect.x, rDestRect.y, rDestRect.width, rDestRect.height));
-
-    //compute the dimensions of the source bitmap
-    iWidthSrc = src.GetWidth();
-    iHeightSrc = src.GetHeight();
-
-    //clip the dimensions of the destination bitmap
-    //the goal is to compute the visible portion of the destination bitmap
-    //Once it is done, we use it to compute the portion of the source bitmap which has to be stretched (or compressed)
-    //This avoids having to stretch a 500x500 bitmap by 16 or more, when only 1200x800 are visible on the window.
-    //We want the destination bitmap to be no bigger than 1200x800.
-    iXDest = pos.x;
-    iYDest = pos.y;
-    rDestRect = GetImageRect(pos, true); //rectangle of the final bitmap
-    //Log(wxString::Format(_("pos.x=%d pos.y=%d r.x=%d r.y=%d"), pos.x, pos.y, rDestRect.x, rDestRect.y));
-    iXDest = rDestRect.x - pos.x;
-    if (iXDest < 0) iXDest = 0;
-    iYDest = rDestRect.y - pos.y;
-    if (iYDest < 0) iYDest = 0;
-    //Log(wxString::Format(_("iXDest=%d iYDest=%d"), iXDest, iYDest));
-    iWidthDest = rDestRect.width;
-    iHeightDest = rDestRect.height;
-
-    //now that we have the destination bitmap coordinates for performing the blit,
-    //we need to compute the corresponding source bitmap coordinates
-    dScaleFactor = dDestScale / dSrcScale;
-    iXSrc = iXDest / dScaleFactor;
-    iYSrc = iYDest / dScaleFactor;
-    iWidthSrc = iWidthDest / dScaleFactor;
-    iHeightSrc = iHeightDest / dScaleFactor;
-    //normalize, just in case
-    if (iXSrc < 0) iXSrc = 0;
-    if (iYSrc < 0) iYSrc = 0;
-    if (iWidthSrc < 1) iWidthSrc = 1;
-    if (iHeightSrc < 1) iHeightSrc = 1;
-    //Log(wxString::Format(_("iXSrc=%d iYSrc=%d iWidthDest=%d iHeightDest=%d"), iXSrc, iYSrc, iWidthDest, iHeightDest));
-
-    //create the memory DC
-    wxMemoryDC dcMemSrc;
-    wxMemoryDC dcMemDest;
-    wxBitmap destBmp(iWidthDest, iHeightDest);
-
-    if (!destBmp.IsOk()) return(false);
-
-    dcMemSrc.SelectObject(src);
-    dcMemDest.SelectObject(destBmp);
-    if (!dcMemSrc.IsOk()) return(false);
-    if (!dcMemDest.IsOk()) return(false);
-
-    SetUserScale(dcMemSrc, dSrcScale, dSrcScale);
-    SetUserScale(dcMemDest, dDestScale, dDestScale);
-
-    dcMemDest.Blit(0, 0, iWidthDest, iHeightDest, &dcMemSrc, iXSrc, iYSrc, wxCOPY, false);
-    dcMemSrc.SelectObject(wxNullBitmap);
-    dcMemDest.SelectObject(wxNullBitmap);
-
-    dest = destBmp;
-    */
 
     return(true);
 }
@@ -746,4 +711,48 @@ void wxDragImageExt::Log(wxString sLogText) const
     Manager::Get()->GetLogManager()->Log(sLogText);
 }
 
+/** debug method - save the bitmap to a file
+  * \param bmp : the bitmap to save
+  * \param sPath : the full path where to save the bitmap
+  */
+void wxDragImageExt::Save(wxBitmap bmp, wxString sPath) const
+{
+#if _WX_DEBUG__WX_DRAG_IMAGE_EXT_ == 1
+    wxString sFullPath;
+    sFullPath = _("C:\\debug\\");
+    sFullPath += sPath;
+    bmp.SaveFile(sFullPath, wxBITMAP_TYPE_BMP);
+#endif
+}
 
+/** debug method - save blit coordinates to a text file
+  * \param xDest : the Destination device context x position
+  * \param yDest : the Destination device context y position
+  * \param width : Width of source area to be copied
+  * \param height: height of source area to be copied
+  * \param xSrc  : Source device context x position.
+  * \param ySrc  : Source device context y position.
+  */
+void wxDragImageExt::LogToFile(int xDest, int yDest, int width, int height, int xSrc, int ySrc, wxString sPath) const
+{
+#if _WX_DEBUG__WX_DRAG_IMAGE_EXT_ == 1
+    wxString sFullPath;
+    wxString sLine;
+    wxTextFile tf;
+
+    sFullPath = _("C:\\debug\\");
+    sFullPath += sPath;
+
+    sLine = wxString::Format(_("xDest=%d yDest=%d width=%d height=%d xSrc=%d ySrc=%d"), xDest, yDest, width, height, xSrc, ySrc);
+
+    if (!tf.Create(sFullPath))
+    {
+        if (!tf.Open(sFullPath)) return;
+    }
+    if (!tf.IsOpened()) return;
+
+    tf.Clear();
+    tf.AddLine(sLine);
+    tf.Write();
+#endif
+}
