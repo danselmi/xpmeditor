@@ -99,7 +99,6 @@
 		<Unit filename="foldpanelex/src/icon_expanded.xpm" />
 		<Unit filename="foldpanelex/src/icon_theresmore.xpm" />
 		<Unit filename="manifest.xml" />
-		<Unit filename="test.bmp" />
 		<Unit filename="todo.txt" />
 		<Unit filename="wxBlur.cpp" />
 		<Unit filename="wxBlur.h" />

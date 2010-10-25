@@ -102,7 +102,6 @@
 		<Unit filename="foldpanelex\src\icon_theresmore.xpm" />
 		<Unit filename="manifest.xml" />
 		<Unit filename="shape01.png" />
-		<Unit filename="test.bmp" />
 		<Unit filename="test.xpm">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
