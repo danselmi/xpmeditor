@@ -32,6 +32,7 @@
 #include "XPMEditorBase.h"
 #include "XPMCustomZoom.h"
 #include "XPMUndo.h"
+#include "XPMEditorLogger.h"
 
 class XPMEditor : public cbMimePlugin
 {
@@ -185,6 +186,9 @@ class XPMEditor : public cbMimePlugin
         wxColour cBackgroundColour; ///< \brief the background colour
 
         wxString m_FileNameSelected; ///< \brief FileName on which the Context Menu is activated
+
+        XPMEditorLogger *m_XPMEditorLogger;
+        int m_LogPageIndex;
 };
 
 /** \brief Helper function to easily access xpm_builder plugin */

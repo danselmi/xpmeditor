@@ -68,7 +68,7 @@ void AdvancedOptions::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint&
 	wxBoxSizer* BoxSizer1;
 	wxStaticBoxSizer* StaticBoxSizer1;
 	wxBoxSizer* BoxSizer3;
-
+	
 	Create(parent, id, _("Advanced Image Options"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER, _T("id"));
 	SetClientSize(wxDefaultSize);
 	Move(wxDefaultPosition);
@@ -150,7 +150,7 @@ void AdvancedOptions::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint&
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
-
+	
 	Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&AdvancedOptions::OnCheckBoxResolutionOptionClick);
 	Connect(ID_CHECKBOX2,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&AdvancedOptions::OnCheckBoxJPGCompressionClick);
 	Connect(ID_CHECKBOX3,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&AdvancedOptions::OnCheckBoxPNGOptionsClick);

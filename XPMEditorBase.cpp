@@ -99,8 +99,11 @@ void XPMEditorBase::CloseAllEditors(void)
     EditorsSet s = m_AllEditors;
     for ( EditorsSet::iterator i = s.begin(); i != s.end(); ++i )
     {
-        EditorManager::Get()->QueryClose( *i );
-        (*i)->Close();
+        if (*i)
+        {
+            EditorManager::Get()->QueryClose( *i );
+            (*i)->Close();
+        }
     }
     assert( m_AllEditors.empty() );
 }

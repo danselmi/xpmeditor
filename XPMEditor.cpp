@@ -38,6 +38,10 @@ XPMEditor* XPMEditor::m_Singleton = 0;
   */
 XPMEditor::XPMEditor()
 {
+
+    m_XPMEditorLogger = NULL;
+    m_Singleton = NULL;
+
     // Make sure our resources are available.
     // In the generated boilerplate code we have no resources but when
     // we add some, it will be nice that this code is in place already ;)
@@ -164,6 +168,16 @@ void XPMEditor::OnAttach()
         AddFileMasksToProjectManager();
         m_Singleton = this;
         m_FileNameSelected = _("");
+
+        // Create a new log window.
+        if(LogManager *LogMan = Manager::Get()->GetLogManager())
+        {
+            m_XPMEditorLogger = new XPMEditorLogger();
+            m_LogPageIndex = LogMan->SetLog(m_XPMEditorLogger);
+            LogMan->Slot(m_LogPageIndex).title = wxT("XPMEditor");
+            CodeBlocksLogEvent evtAdd(cbEVT_ADD_LOG_WINDOW, m_XPMEditorLogger, LogMan->Slot(m_LogPageIndex).title);
+            Manager::Get()->ProcessEvent(evtAdd);
+        }
     }
 }
 
@@ -179,6 +193,16 @@ void XPMEditor::OnRelease(bool appShutDown)
     if ( !appShutDown )
     {
         CloseMyEditors();
+    }
+
+    // Remove the log window.
+    if(Manager::Get()->GetLogManager())
+    {
+        if(m_XPMEditorLogger)
+        {
+            CodeBlocksLogEvent evt(cbEVT_REMOVE_LOG_WINDOW, m_XPMEditorLogger);
+            Manager::Get()->ProcessEvent(evt);
+        }
     }
 }
 

@@ -123,7 +123,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	wxBoxSizer* BoxSizer9;
 	wxStaticBoxSizer* StaticBoxSizer1;
 	wxBoxSizer* BoxSizer3;
-	
+
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
 	wxToolTip::Enable(true);
 	ToolPanelSizer = new wxBoxSizer(wxVERTICAL);
@@ -328,7 +328,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	SetSizer(ToolPanelSizer);
 	ToolPanelSizer->Fit(this);
 	ToolPanelSizer->SetSizeHints(this);
-	
+
 	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSelectButtonToggle);
 	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLassoButtonToggle);
 	Connect(ID_PIPETTE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPipetteButtonToggle);
@@ -595,6 +595,7 @@ void XPMToolPanel::InitToolData(void)
                                           break;
 
             case XPM_ID_GRADIENT_TOOL: tdata.iGradient = ChoiceGradient->GetSelection();
+                                       tdata.iGradientDirection = ChoiceGradientDirection->GetSelection();
                                        break;
 
             case XPM_ID_TEXT_TOOL: if (BackgroundButton->GetValue())

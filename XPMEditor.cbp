@@ -71,6 +71,8 @@
 		<Unit filename="XPMEditor.h" />
 		<Unit filename="XPMEditorBase.cpp" />
 		<Unit filename="XPMEditorBase.h" />
+		<Unit filename="XPMEditorLogger.cpp" />
+		<Unit filename="XPMEditorLogger.h" />
 		<Unit filename="XPMEditorPanel.cpp" />
 		<Unit filename="XPMEditorPanel.h" />
 		<Unit filename="XPMFoldPanel.cpp" />
@@ -168,26 +170,26 @@
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
 				<resources>
-					<wxPanel wxs="wxsmith/XPMEditorPanel.wxs" src="XPMEditorPanel.cpp" hdr="XPMEditorPanel.h" fwddecl="1" name="XPMEditorPanel" language="CPP" />
-					<wxDialog wxs="wxsmith/XPMCustomZoom.wxs" src="XPMCustomZoom.cpp" hdr="XPMCustomZoom.h" fwddecl="1" name="XPMCustomZoom" language="CPP" />
-					<wxDialog wxs="wxsmith/wxStretchImage.wxs" src="wxStretchImage.cpp" hdr="wxStretchImage.h" name="wxStretchImage" language="CPP" />
-					<wxDialog wxs="wxsmith/wxMirror.wxs" src="wxMirror.cpp" hdr="wxMirror.h" name="wxMirror" language="CPP" />
-					<wxDialog wxs="wxsmith/wxBlur.wxs" src="wxBlur.cpp" hdr="wxBlur.h" name="wxBlur" language="CPP" />
-					<wxDialog wxs="wxsmith/wxRotate.wxs" src="wxRotate.cpp" hdr="wxRotate.h" name="wxRotate" language="CPP" />
-					<wxDialog wxs="wxsmith/wxRotateHue.wxs" src="wxRotateHue.cpp" hdr="wxRotateHue.h" name="wxRotateHue" language="CPP" />
-					<wxDialog wxs="wxsmith/wxConversion.wxs" src="wxConversion.cpp" hdr="wxConversion.h" name="wxConversion" language="CPP" />
-					<wxPanel wxs="wxsmith/QuickHelpPanel.wxs" src="QuickHelpPanel.cpp" hdr="QuickHelpPanel.h" name="QuickHelpPanel" language="CPP" />
-					<wxPanel wxs="wxsmith/XPMColourPickerPanel.wxs" src="XPMColourPickerPanel.cpp" hdr="XPMColourPickerPanel.h" name="XPMColourPickerPanel" language="CPP" />
-					<wxPanel wxs="wxsmith/XPMInterfacePanel.wxs" src="XPMInterfacePanel.cpp" hdr="XPMInterfacePanel.h" name="XPMInterfacePanel" language="CPP" />
-					<wxPanel wxs="wxsmith/XPMImagePropertiesPanel.wxs" src="XPMImagePropertiesPanel.cpp" hdr="XPMImagePropertiesPanel.h" name="XPMImagePropertiesPanel" language="CPP" />
-					<wxPanel wxs="wxsmith/XPMImageManipulationPanel.wxs" src="XPMImageManipulationPanel.cpp" hdr="XPMImageManipulationPanel.h" name="XPMImageManipulationPanel" language="CPP" />
-					<wxDialog wxs="wxsmith/wxInvertDialog.wxs" src="wxInvertDialog.cpp" hdr="wxInvertDialog.h" name="wxInvertDialog" language="CPP" />
-					<wxPanel wxs="wxsmith/XPMToolPanel.wxs" src="XPMToolPanel.cpp" hdr="XPMToolPanel.h" name="XPMToolPanel" language="CPP" />
-					<wxPanel wxs="wxsmith/XPMFoldPanel.wxs" src="XPMFoldPanel.cpp" hdr="XPMFoldPanel.h" name="XPMFoldPanel" language="CPP" />
-					<wxPanel wxs="wxsmith/XPMHelpPanel.wxs" src="XPMHelpPanel.cpp" hdr="XPMHelpPanel.h" name="XPMHelpPanel" language="CPP" />
-					<wxPanel wxs="wxsmith/XPMDrawCanvasPanel.wxs" src="XPMDrawCanvasPanel.cpp" hdr="XPMDrawCanvasPanel.h" fwddecl="1" name="XPMDrawCanvasPanel" language="CPP" />
-					<wxDialog wxs="wxsmith/AdvancedOptions.wxs" src="AdvancedOptions.cpp" hdr="AdvancedOptions.h" fwddecl="1" name="AdvancedOptions" language="CPP" />
-					<wxScrollingDialog wxs="wxsmith/QuickHelpDialog.wxs" src="QuickHelpDialog.cpp" hdr="QuickHelpDialog.h" fwddecl="1" name="QuickHelpDialog" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMEditorPanel.wxs" src="XPMEditorPanel.cpp" hdr="XPMEditorPanel.h" fwddecl="1" i18n="1" name="XPMEditorPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/XPMCustomZoom.wxs" src="XPMCustomZoom.cpp" hdr="XPMCustomZoom.h" fwddecl="1" i18n="1" name="XPMCustomZoom" language="CPP" />
+					<wxDialog wxs="wxsmith/wxStretchImage.wxs" src="wxStretchImage.cpp" hdr="wxStretchImage.h" fwddecl="0" i18n="1" name="wxStretchImage" language="CPP" />
+					<wxDialog wxs="wxsmith/wxMirror.wxs" src="wxMirror.cpp" hdr="wxMirror.h" fwddecl="0" i18n="1" name="wxMirror" language="CPP" />
+					<wxDialog wxs="wxsmith/wxBlur.wxs" src="wxBlur.cpp" hdr="wxBlur.h" fwddecl="0" i18n="1" name="wxBlur" language="CPP" />
+					<wxDialog wxs="wxsmith/wxRotate.wxs" src="wxRotate.cpp" hdr="wxRotate.h" fwddecl="0" i18n="1" name="wxRotate" language="CPP" />
+					<wxDialog wxs="wxsmith/wxRotateHue.wxs" src="wxRotateHue.cpp" hdr="wxRotateHue.h" fwddecl="0" i18n="1" name="wxRotateHue" language="CPP" />
+					<wxDialog wxs="wxsmith/wxConversion.wxs" src="wxConversion.cpp" hdr="wxConversion.h" fwddecl="0" i18n="1" name="wxConversion" language="CPP" />
+					<wxPanel wxs="wxsmith/QuickHelpPanel.wxs" src="QuickHelpPanel.cpp" hdr="QuickHelpPanel.h" fwddecl="0" i18n="1" name="QuickHelpPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMColourPickerPanel.wxs" src="XPMColourPickerPanel.cpp" hdr="XPMColourPickerPanel.h" fwddecl="0" i18n="1" name="XPMColourPickerPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMInterfacePanel.wxs" src="XPMInterfacePanel.cpp" hdr="XPMInterfacePanel.h" fwddecl="0" i18n="1" name="XPMInterfacePanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMImagePropertiesPanel.wxs" src="XPMImagePropertiesPanel.cpp" hdr="XPMImagePropertiesPanel.h" fwddecl="0" i18n="1" name="XPMImagePropertiesPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMImageManipulationPanel.wxs" src="XPMImageManipulationPanel.cpp" hdr="XPMImageManipulationPanel.h" fwddecl="0" i18n="1" name="XPMImageManipulationPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/wxInvertDialog.wxs" src="wxInvertDialog.cpp" hdr="wxInvertDialog.h" fwddecl="0" i18n="1" name="wxInvertDialog" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMToolPanel.wxs" src="XPMToolPanel.cpp" hdr="XPMToolPanel.h" fwddecl="0" i18n="1" name="XPMToolPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMFoldPanel.wxs" src="XPMFoldPanel.cpp" hdr="XPMFoldPanel.h" fwddecl="0" i18n="1" name="XPMFoldPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMHelpPanel.wxs" src="XPMHelpPanel.cpp" hdr="XPMHelpPanel.h" fwddecl="0" i18n="1" name="XPMHelpPanel" language="CPP" />
+					<wxPanel wxs="wxsmith/XPMDrawCanvasPanel.wxs" src="XPMDrawCanvasPanel.cpp" hdr="XPMDrawCanvasPanel.h" fwddecl="1" i18n="1" name="XPMDrawCanvasPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/AdvancedOptions.wxs" src="AdvancedOptions.cpp" hdr="AdvancedOptions.h" fwddecl="1" i18n="1" name="AdvancedOptions" language="CPP" />
+					<wxScrollingDialog wxs="wxsmith/QuickHelpDialog.wxs" src="QuickHelpDialog.cpp" hdr="QuickHelpDialog.h" fwddecl="1" i18n="1" name="QuickHelpDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 			<DoxyBlocks>

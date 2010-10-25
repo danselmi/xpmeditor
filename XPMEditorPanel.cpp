@@ -235,6 +235,10 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	bShowGrid = false;
 	cGridColour = *wxBLACK;
 
+	//set tooltips & Help text
+	SetToolTips();
+	SetHelpTexts();
+
 }
 
 /** Debugging function : writes a string to a text file
@@ -2664,7 +2668,20 @@ void XPMEditorPanel::ProcessSizeAction(int x, int y,
             //we use wxIMAGE_QUALITY_HIGH and not wxIMAGE_QUALITY_NORMAL: it gives nicer, more natural results.
             //There are 2 drawbacks: 1 - it is slower (not noticeable here)
             //                       2 - there is a loss of mask (transparency) data
-            m_SelectionImage.Rescale(iRight - iLeft, iBottom - iTop, wxIMAGE_QUALITY_HIGH);
+            if (!m_SelectionImage.HasAlpha())
+            {
+                //convert mask to alpha, and reverse, to avoid loss of mask due to interpolation of mask colours
+                m_SelectionImage.InitAlpha(); //init alpha channel
+                m_SelectionImage.Rescale(iRight - iLeft, iBottom - iTop, wxIMAGE_QUALITY_HIGH);
+                m_SelectionImage.ConvertAlphaToMask();
+
+                //there is no way to remove the Alpha channel in a wxImage in wxWidgets 2.8.x.
+                //In wxWidgets 2.9.x, there is wxImage::ClearAlpha()
+            }
+            else
+            {
+                m_SelectionImage.Rescale(iRight - iLeft, iBottom - iTop, wxIMAGE_QUALITY_HIGH);
+            }
             m_SelectionBitmap = wxBitmap(m_SelectionImage);
 
             if (NbPoints == 4)
@@ -4957,6 +4974,9 @@ void XPMEditorPanel::UpdateConfiguration(void)
         if (ColourPicker) ColourPicker->init_colours();
     }
 
+    UpdateAUIColours();
+    UpdateMinimalSizes();
+
     if (m_undo_buffer) m_undo_buffer->SetMaxUndoSize(iMaxUndoRedo);
     Refresh(true,NULL);
     Update();
@@ -7167,3 +7187,264 @@ bool XPMEditorPanel::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScal
     return(true);
 }
 
+/** set tooltips for all controls in the panel
+  */
+void XPMEditorPanel::SetToolTips(void)
+{
+    /*
+ 	XPMToolPanel *ToolPanel;
+    XPMHelpPanel *HelpPanel;
+    XPMImagePropertiesPanel *PropertiesPanel;
+    XPMImageManipulationPanel *ImageManipulationPanel;
+    */
+
+    wxArrayString sTextArray;
+    wxString sText;
+    sText.Alloc(50);
+
+    sText = wxT("Colour Picker. Left Click to select a Line Colour. ");
+    sText += wxT("Right Click to select a Fill Colour. ");
+    sText += wxT("Double-click on a colour to redefine it.");
+
+    //Colour Picker text
+    sTextArray.Add(sText); //0
+
+    //Interface panel text
+    sTextArray.Add(wxT("Zoom selection.")); //1
+    sTextArray.Add(wxT("Rotate the Image 90 degrees counter-clockwise.")); //2
+    sTextArray.Add(wxT("Rotate the Image 90 degrees clockwise.")); //3
+    sTextArray.Add(wxT("Show / Hide the grid. A minimal Zoom of 400% is needed.")); //4
+    sTextArray.Add(wxT("Change the colour of the grid.")); //5
+
+    //Tool Panel text 1st row
+    sTextArray.Add(wxT("Rectangle selection area.")); //6
+    sTextArray.Add(wxT("Complex area selection.")); //7
+    sTextArray.Add(wxT("Pipette.")); //8
+    sTextArray.Add(wxT("Line.")); //9
+    sTextArray.Add(wxT("Curve.")); //10
+
+    //Tool Panel text 2nd row
+    sTextArray.Add(wxT("Pen. Colours 1 single pixel.")); //11
+    sTextArray.Add(wxT("Brush.")); //12
+    sTextArray.Add(wxT("Flood fill. Fill a complete area with a specific colour and pattern.")); //13
+    sTextArray.Add(wxT("Spray Can.")); //14
+    sTextArray.Add(wxT("Colour Gradient.")); //15
+
+    //Tool Panel text 3rd row
+    sTextArray.Add(wxT("Text.")); //16
+    sTextArray.Add(wxT("Rectangle.")); //17
+    sTextArray.Add(wxT("Polygon.")); //18
+    sTextArray.Add(wxT("Ellipse / Circle.")); //19
+    sTextArray.Add(wxT("Rounded rectangle.")); //20
+
+    //Tool Panel text 4th row
+    sTextArray.Add(wxT("Eraser.")); //21
+    sTextArray.Add(wxT("Cursor Hot Spot.")); //22
+
+    //Tool Panel - all the other controls
+    sTextArray.Add(wxT("Brush shape.")); //23
+    sTextArray.Add(wxT("Cursor Hot Spot colour.")); //24
+
+    if (ColourPicker)
+    {
+        if (ColourPicker->ColourPicker) ColourPicker->ColourPicker->SetToolTip(sTextArray[0]);
+    }
+
+    if (InterfacePanel)
+    {
+        if (InterfacePanel->ZoomFactor) InterfacePanel->ZoomFactor->SetToolTip(sTextArray[1]);
+        if (InterfacePanel->BitmapButton1) InterfacePanel->BitmapButton1->SetToolTip(sTextArray[2]);
+        if (InterfacePanel->BitmapButton2) InterfacePanel->BitmapButton2->SetToolTip(sTextArray[3]);
+        if (InterfacePanel->CheckBox1) InterfacePanel->CheckBox1->SetToolTip(sTextArray[4]);
+        if (InterfacePanel->GridColour) InterfacePanel->GridColour->SetToolTip(sTextArray[5]);
+    }
+
+    if (ToolPanel)
+    {
+        //1st row
+        if (ToolPanel->SelectButton) ToolPanel->SelectButton->SetToolTip(sTextArray[6]);
+        if (ToolPanel->LassoButton) ToolPanel->LassoButton->SetToolTip(sTextArray[7]);
+        if (ToolPanel->PipetteButton) ToolPanel->PipetteButton->SetToolTip(sTextArray[8]);
+        if (ToolPanel->LineButton) ToolPanel->LineButton->SetToolTip(sTextArray[9]);
+        if (ToolPanel->CurveButton) ToolPanel->CurveButton->SetToolTip(sTextArray[10]);
+
+        //2nd row
+        if (ToolPanel->PenButton) ToolPanel->PenButton->SetToolTip(sTextArray[11]);
+        if (ToolPanel->BrushButton) ToolPanel->BrushButton->SetToolTip(sTextArray[12]);
+        if (ToolPanel->FillButton) ToolPanel->FillButton->SetToolTip(sTextArray[13]);
+        if (ToolPanel->SprayCanButton) ToolPanel->SprayCanButton->SetToolTip(sTextArray[14]);
+        if (ToolPanel->GradientButton) ToolPanel->GradientButton->SetToolTip(sTextArray[15]);
+
+        //3rd row
+        if (ToolPanel->TextButton) ToolPanel->TextButton->SetToolTip(sTextArray[16]);
+        if (ToolPanel->RectangleButton) ToolPanel->RectangleButton->SetToolTip(sTextArray[17]);
+        if (ToolPanel->PolygonButton) ToolPanel->PolygonButton->SetToolTip(sTextArray[18]);
+        if (ToolPanel->EllipseButton) ToolPanel->EllipseButton->SetToolTip(sTextArray[19]);
+        if (ToolPanel->RRectButton) ToolPanel->RRectButton->SetToolTip(sTextArray[20]);
+
+        //4th row
+        if (ToolPanel->EraserButton) ToolPanel->EraserButton->SetToolTip(sTextArray[21]);
+        if (ToolPanel->HotSpotButton) ToolPanel->HotSpotButton->SetToolTip(sTextArray[22]);
+
+        //all the other controls
+        if (ToolPanel->ComboBrushTool) ToolPanel->ComboBrushTool->SetToolTip(sTextArray[23]);
+        if (ToolPanel->HotSpotColourPicker) ToolPanel->HotSpotColourPicker->SetToolTip(sTextArray[24]);
+    }
+}
+/** set help text for all tools in the panel
+  */
+void XPMEditorPanel::SetHelpTexts(void)
+{
+    wxArrayString sTextArray;
+    wxString sText;
+    sText.Alloc(50);
+
+    sText = wxT("Colour Picker. Left Click to select a Line Colour. ");
+    sText += wxT("Right Click to select a Fill Colour. ");
+    sText += wxT("Push the toggle button ""line"" / ""fill"" to invert this behaviour. ");
+    sText += wxT("Double-click on a colour to redefine it.");
+
+    //Colour Picker text
+    sTextArray.Add(sText); //0
+
+    //Interface panel text
+    sTextArray.Add(wxT("Zoom selection")); //1
+    sTextArray.Add(wxT("Rotate the Image 90 degrees counter-clockwise.")); //2
+    sTextArray.Add(wxT("Rotate the Image 90 degrees clockwise.")); //3
+    sTextArray.Add(wxT("Show / Hide the grid. A minimal Zoom of 400% is needed.")); //4
+    sTextArray.Add(wxT("Change the colour of the grid.")); //5
+
+    //Tool Panel text 1st row
+    sText = wxT("Left click on the image to set the top-left corner of the area.");
+    sText += wxT("Move the mouse to set the size of the area. Left click define the area.");
+    sText += wxT("Holding SHIFT key down will force the area to be a square.");
+    sTextArray.Add(sText); //6
+    sText = wxT("Left-click on the image to select the 1st point of the Polygon.");
+    sText += wxT("Each additionnal left-click will define a corner of the polygon.");
+    sText += wxT("Double-Click or Right-Click ends the polygon definition.");
+    sTextArray.Add(sText); //7
+    sText = wxT("Copy the colour of a pixel. Simply left click on the colour you want to copy. ");
+    sText += wxT("The colour will be copied in the currently selected Line Colour. ");
+    sText += wxT("To copy the colour in Fill Colour instead, hold the SHIFT key down.");
+    sTextArray.Add(sText); //8
+    sText = wxT("Select a Line Colour. Choose a Line Style and a Line Thickness.\n");
+    sText += wxT("Left Click to indicate the start point. Move the mouse, and left click again to indicate the end point.");
+    sTextArray.Add(sText); //9
+    sText = wxT("Select a Line Colour. Choose a Line Style and a Line Thickness.\n");
+    sText += wxT("Left Click to indicate the start point. Move the mouse, and left click again to indicate the end point.\n");
+    sText += wxT("Continue to click to indicater further points. Terminate by Right Click or Double Click.");
+    sTextArray.Add(sText); //10
+
+    //Tool Panel text 2nd row
+    sText = wxT("Draw a single pixel, in the given colour. ");
+    sText += wxT("Select a Line Colour. Keep the left button pressed to draw several pixels at once.");
+    sTextArray.Add(sText); //11
+    sText = wxT("Draw a pattern, like a circle or a square. Select a Line Colour. ");
+    sText += wxT("Select the pattern to draw, and the size in pixel of the pattern (square length, circle radius, ...). ");
+    sText += wxT("Left click on the image to draw the 1st pattern. Keeping the left button pressed will draw more patterns.");
+    sTextArray.Add(sText); //12
+    sText = wxT("Select a FILL colour (right click) in the Colour Picker. ");
+    sText += wxT("Then left click on the image: the fill colour will be used to replace all the area where the click occured. ");
+    sText += wxT("The fill stops whenever a pixel of another colour than the original colour is found.");
+    sTextArray.Add(sText); //13
+    sText = wxT("This simulate a paint spray can.");
+    sText += wxT("Select a size and a Line Colour, and keep the Left Mouse button pressed to continuously add colour.");
+    sTextArray.Add(sText); //14
+    sText = wxT("Select a Line Colour. Select a Fill Colour.");
+    sText += wxT("The Line Colour will be the 1st gradient colour.");
+    sText += wxT("The Fill Colour will be the 2nd gradient colour.");
+    sText += wxT("Select the type of gradient : Linear or Concentric. ");
+    sText += wxT("For linear gradient, define the direction. ""To the Top"" means that the Line Colour will be at the top, and the Fill Colour at the bottom");
+    sText += wxT("Define a rectangular area where to apply the gradient using the Left Mouse Button. ");
+    sText += wxT("The first click define the top left corner. ");
+    sText += wxT("The second click define the bottom right corner. ");
+    sText += wxT("For concentric gradient, a third click is necessary to define the start point inside the rectangle. ");
+    sTextArray.Add(sText); //15
+
+    //Tool Panel text 3rd row
+    sText = wxT("Select a Line Colour (it will be the Text Colour). Select a Fill Colour. Select the Font by clicking on ""FONT"". ");
+    sText += wxT("Toggle Opaque / Transparent to draw the text with a background or not, respectively. ");
+    sText += wxT("Select the text orientation, in degrees (0 means horizontal). ");
+    sText += wxT("Select the draw area by left clicking (see the ""Select Rectangle Area"" tool). ");
+    sText += wxT("Type your text in the box which appears. The colours, font, orientation, and alignment can still be changed. ");
+    sText += wxT("The text can be moved or resized using the mouse. When finished, click outside the text area. ");
+    sTextArray.Add(sText); //16
+    sText = wxT("Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. ");
+    sText += wxT("Left click on the image to define the first corner. ");
+    sText += wxT("Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Square.");
+    sTextArray.Add(sText); //17
+    sText = wxT("Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. ");
+    sText = wxT("Left-click on the image to select the 1st point of the Polygon. ");
+    sText += wxT("Each additionnal left-click will define a corner of the polygon. Double-Click or Right-Click ends the polygon definition.");
+    sTextArray.Add(sText); //18
+    sText = wxT("Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. ");
+    sText += wxT("The Ellipse or Circle is defined by a rectangular bounding box. ");
+    sText += wxT("Left click on the image to define the first corner of the bounding box. ");
+    sText += wxT(" Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Circle.");
+    sTextArray.Add(sText); //19
+    sText = wxT("Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. ");
+    sText += wxT("Select the radius to be used at the corners.  ");
+    sText += wxT("Left click on the image to define the first corner. Move the mouse, and left click again to indicate the second corner. ");
+    sText += wxT("Holding the SHIFT key down will define a Square with rounded corners.");
+    sTextArray.Add(sText); //20
+
+    //Tool Panel text 4th row
+    sText = wxT("Select the size of the eraser. Left click on the image will replace the selected area by the MASK (transparent) colour. ");
+    sText += wxT("When saving, this area will be considered as transparent. ");
+    sText += wxT("Moving the mouse while keeping the left button pressed will erase further area.");
+    sTextArray.Add(sText); //21
+    sText = wxT("This define the location of the Hot Spot, for cursors. There can be only one hot spot. ");
+    sText += wxT("To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. ");
+    sText += wxT("Currently, only Windows support HotSpot information in *cur files.");
+    sTextArray.Add(sText); //22
+
+    //Tool Panel - all the other controls
+    sTextArray.Add(wxT("Brush shape.")); //23
+    sTextArray.Add(wxT("Cursor Hot Spot colour.")); //24
+
+    if (ColourPicker)
+    {
+        if (ColourPicker->ColourPicker) ColourPicker->ColourPicker->SetHelpText(sTextArray[0]);
+    }
+
+    if (InterfacePanel)
+    {
+        if (InterfacePanel->ZoomFactor) InterfacePanel->ZoomFactor->SetHelpText(sTextArray[1]);
+        if (InterfacePanel->BitmapButton1) InterfacePanel->BitmapButton1->SetHelpText(sTextArray[2]);
+        if (InterfacePanel->BitmapButton2) InterfacePanel->BitmapButton2->SetHelpText(sTextArray[3]);
+        if (InterfacePanel->CheckBox1) InterfacePanel->CheckBox1->SetHelpText(sTextArray[4]);
+        if (InterfacePanel->GridColour) InterfacePanel->GridColour->SetHelpText(sTextArray[5]);
+    }
+
+    if (ToolPanel)
+    {
+        //1st row
+        if (ToolPanel->SelectButton) ToolPanel->SelectButton->SetHelpText(sTextArray[6]);
+        if (ToolPanel->LassoButton) ToolPanel->LassoButton->SetHelpText(sTextArray[7]);
+        if (ToolPanel->PipetteButton) ToolPanel->PipetteButton->SetHelpText(sTextArray[8]);
+        if (ToolPanel->LineButton) ToolPanel->LineButton->SetHelpText(sTextArray[9]);
+        if (ToolPanel->CurveButton) ToolPanel->CurveButton->SetHelpText(sTextArray[10]);
+
+        //2nd row
+        if (ToolPanel->PenButton) ToolPanel->PenButton->SetHelpText(sTextArray[11]);
+        if (ToolPanel->BrushButton) ToolPanel->BrushButton->SetHelpText(sTextArray[12]);
+        if (ToolPanel->FillButton) ToolPanel->FillButton->SetHelpText(sTextArray[13]);
+        if (ToolPanel->SprayCanButton) ToolPanel->SprayCanButton->SetHelpText(sTextArray[14]);
+        if (ToolPanel->GradientButton) ToolPanel->GradientButton->SetHelpText(sTextArray[15]);
+
+        //3rd row
+        if (ToolPanel->TextButton) ToolPanel->TextButton->SetHelpText(sTextArray[16]);
+        if (ToolPanel->RectangleButton) ToolPanel->RectangleButton->SetHelpText(sTextArray[17]);
+        if (ToolPanel->PolygonButton) ToolPanel->PolygonButton->SetHelpText(sTextArray[18]);
+        if (ToolPanel->EllipseButton) ToolPanel->EllipseButton->SetHelpText(sTextArray[19]);
+        if (ToolPanel->RRectButton) ToolPanel->RRectButton->SetHelpText(sTextArray[20]);
+
+        //4th row
+        if (ToolPanel->EraserButton) ToolPanel->EraserButton->SetHelpText(sTextArray[21]);
+        if (ToolPanel->HotSpotButton) ToolPanel->HotSpotButton->SetHelpText(sTextArray[22]);
+
+        //all the other controls
+        if (ToolPanel->ComboBrushTool) ToolPanel->ComboBrushTool->SetToolTip(sTextArray[23]);
+        if (ToolPanel->HotSpotColourPicker) ToolPanel->HotSpotColourPicker->SetToolTip(sTextArray[24]);
+    }
+}

@@ -467,6 +467,10 @@ class XPMEditorPanel: public wxPanel
                                   double dSrcScale,
                                   double dDestScale); ///< \brief modify the scale of a bitmap
 
+        void SetToolTips(void);   ///< \brief set tooltips for all controls in the panel
+        void SetHelpTexts(void);  ///< \brief set help text for all tools in the panel
+
+
         DECLARE_EVENT_TABLE()
 };
 
