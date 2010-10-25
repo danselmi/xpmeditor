@@ -116,8 +116,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
-									<tooltip>Cursor Hot Spot</tooltip>
-									<help>This define the location of the Hot Spot, for cursors. There can be only one hot spot. To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. Currently, only Windows support HotSpot information in *cur files.</help>
+									<tooltip>Spray Can</tooltip>
+									<help>This simulate a paint spray can.</help>
 									<handler function="OnSprayCanButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
@@ -128,8 +128,8 @@
 									<type>wxCUSTBUT_TOGGLE</type>
 									<bitmap stock_id="wxART_ADD_BOOKMARK" stock_client="wxART_BUTTON" />
 									<bitmap_margin>2,2</bitmap_margin>
-									<tooltip>Cursor Hot Spot</tooltip>
-									<help>This define the location of the Hot Spot, for cursors. There can be only one hot spot. To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. Currently, only Windows support HotSpot information in *cur files.</help>
+									<tooltip>Gradient</tooltip>
+									<help>Fill an area with a gradient.</help>
 									<handler function="OnGradientButtonToggle" entry="EVT_TOGGLEBUTTON" />
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
