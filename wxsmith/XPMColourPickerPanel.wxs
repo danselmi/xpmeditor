@@ -10,6 +10,7 @@
 					<include_file>XPMColorPicker.h</include_file>
 					<style></style>
 					<tooltip>Colour Picker. Left Click to select a Line Colour. Right Click to select a Fill Colour. Double-click on a colour to redefine it.</tooltip>
+					<handler function="OnColourPickerMouseEnter" entry="EVT_ENTER_WINDOW" />
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>1</border>

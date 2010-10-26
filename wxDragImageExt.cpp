@@ -277,7 +277,7 @@ bool wxDragImageExt::DoDrawImage(wxDC& dc, const wxPoint& pos, wxPoint newPos) c
         if (x < 0) x = 0;
         if (y < 0) y = 0;
 
-        dc.Blit(x, y, bmp2.GetWidth(), bmp2.GetHeight(), &mdc, 0, 0);
+        dc.Blit(x, y, bmp2.GetWidth(), bmp2.GetHeight(), &mdc, 0, 0, wxCOPY, true);
 
         return(true);
     }
@@ -601,10 +601,44 @@ bool wxDragImageExt::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScal
     SetUserScale(dcMemSrc, dSrcScale, dSrcScale);
     SetUserScale(dcMemDest, dDestScale, dDestScale);
 
-    dcMemDest.Blit(0, 0, iWidthDest, iHeightDest, &dcMemSrc, iXSrc, iYSrc, wxCOPY, false);
-    //m_windowDC->Blit(0, 0, iWidthDest, iHeightDest, &dcMemSrc, iXSrc, iYSrc, wxCOPY, false);
-    dcMemSrc.SelectObject(wxNullBitmap);
+
+
+    dcMemDest.Blit(0, 0, iWidthDest, iHeightDest, &dcMemSrc, iXSrc, iYSrc, wxCOPY, true, iXSrc, iYSrc); //WARNING: with this operation, the mask is lost !!
+
     dcMemDest.SelectObject(wxNullBitmap);
+
+    //if (src.GetMask()) Log(_("src has mask.")); else Log(_("src has no mask."));
+    //if (destBmp.GetMask()) Log(_("destBmp has mask.")); else Log(_("destBmp has no mask."));
+
+    //get the mask and stretch it
+    if (src.GetMask())
+    {
+        wxBitmap bmpMask(iWidthDest, iHeightDest);
+        wxMemoryDC dcMemDestMask;
+
+        dcMemDestMask.SelectObject(bmpMask);
+        SetUserScale(dcMemDestMask, dDestScale, dDestScale);
+
+        //set the bitmap in WHITE
+        dcMemDestMask.SetBackground(*wxWHITE_BRUSH);
+        ClearDC(dcMemDestMask);
+
+        //copying with mask, and a XOR on it will make all the unmasked (==shown) pixels in BLACK
+        dcMemDestMask.Blit(0, 0, iWidthDest, iHeightDest, &dcMemSrc, iXSrc, iYSrc, wxCOPY, true, iXSrc, iYSrc);
+        dcMemDestMask.Blit(0, 0, iWidthDest, iHeightDest, &dcMemSrc, iXSrc, iYSrc, wxXOR, true, iXSrc, iYSrc);
+        dcMemDestMask.SelectObject(wxNullBitmap);
+
+        //now we have a bitmap where:
+        //  1 - all the pixels which must be shown are BLACK
+        //  2 - all the pixels which must be hidden are WHITE
+        //This is therefore the REVERTED definition of a bitmap mask
+
+        //Set the bitmap mask
+        destBmp.SetMask(new wxMask(bmpMask, *wxWHITE)); //WHITE is defined as the TRANSPARENT colour - hidden pixels are TRANSPARENT.
+    }
+
+
+    dcMemSrc.SelectObject(wxNullBitmap);
 
     dest = destBmp;
 

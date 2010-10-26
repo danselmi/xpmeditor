@@ -127,6 +127,10 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     iHotSpotY = -1;
     m_bDrawToolDynamic = false;
 
+    //set tooltips & Help text
+	SetToolTips();
+	SetHelpTexts();
+
     UpdateConfiguration();
 }
 
@@ -234,11 +238,6 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 	m_dScale = 1;
 	bShowGrid = false;
 	cGridColour = *wxBLACK;
-
-	//set tooltips & Help text
-	SetToolTips();
-	SetHelpTexts();
-
 }
 
 /** Debugging function : writes a string to a text file
@@ -7191,113 +7190,193 @@ bool XPMEditorPanel::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScal
   */
 void XPMEditorPanel::SetToolTips(void)
 {
-    /*
- 	XPMToolPanel *ToolPanel;
-    XPMHelpPanel *HelpPanel;
-    XPMImagePropertiesPanel *PropertiesPanel;
-    XPMImageManipulationPanel *ImageManipulationPanel;
-    */
-
-    wxArrayString sTextArray;
     wxString sText;
-    sText.Alloc(50);
+
+    sToolTipTextArray.Clear();
+    sToolTipTextArray.Alloc(60);
 
     sText = wxT("Colour Picker. Left Click to select a Line Colour. ");
     sText += wxT("Right Click to select a Fill Colour. ");
     sText += wxT("Double-click on a colour to redefine it.");
 
     //Colour Picker text
-    sTextArray.Add(sText); //0
+    sToolTipTextArray.Add(sText); //0
 
     //Interface panel text
-    sTextArray.Add(wxT("Zoom selection.")); //1
-    sTextArray.Add(wxT("Rotate the Image 90 degrees counter-clockwise.")); //2
-    sTextArray.Add(wxT("Rotate the Image 90 degrees clockwise.")); //3
-    sTextArray.Add(wxT("Show / Hide the grid. A minimal Zoom of 400% is needed.")); //4
-    sTextArray.Add(wxT("Change the colour of the grid.")); //5
+    sToolTipTextArray.Add(wxT("Zoom selection.")); //1
+    sToolTipTextArray.Add(wxT("Rotate the Image 90 degrees counter-clockwise.")); //2
+    sToolTipTextArray.Add(wxT("Rotate the Image 90 degrees clockwise.")); //3
+    sToolTipTextArray.Add(wxT("Show / Hide the grid. A minimal Zoom of 400% is needed.")); //4
+    sToolTipTextArray.Add(wxT("Change the colour of the grid.")); //5
 
     //Tool Panel text 1st row
-    sTextArray.Add(wxT("Rectangle selection area.")); //6
-    sTextArray.Add(wxT("Complex area selection.")); //7
-    sTextArray.Add(wxT("Pipette.")); //8
-    sTextArray.Add(wxT("Line.")); //9
-    sTextArray.Add(wxT("Curve.")); //10
+    sToolTipTextArray.Add(wxT("Rectangle selection area.")); //6
+    sToolTipTextArray.Add(wxT("Complex area selection.")); //7
+    sToolTipTextArray.Add(wxT("Pipette.")); //8
+    sToolTipTextArray.Add(wxT("Line.")); //9
+    sToolTipTextArray.Add(wxT("Curve.")); //10
 
     //Tool Panel text 2nd row
-    sTextArray.Add(wxT("Pen. Colours 1 single pixel.")); //11
-    sTextArray.Add(wxT("Brush.")); //12
-    sTextArray.Add(wxT("Flood fill. Fill a complete area with a specific colour and pattern.")); //13
-    sTextArray.Add(wxT("Spray Can.")); //14
-    sTextArray.Add(wxT("Colour Gradient.")); //15
+    sToolTipTextArray.Add(wxT("Pen. Colours 1 single pixel.")); //11
+    sToolTipTextArray.Add(wxT("Brush.")); //12
+    sToolTipTextArray.Add(wxT("Flood fill. Fill a complete area with a specific colour and pattern.")); //13
+    sToolTipTextArray.Add(wxT("Spray Can.")); //14
+    sToolTipTextArray.Add(wxT("Colour Gradient.")); //15
 
     //Tool Panel text 3rd row
-    sTextArray.Add(wxT("Text.")); //16
-    sTextArray.Add(wxT("Rectangle.")); //17
-    sTextArray.Add(wxT("Polygon.")); //18
-    sTextArray.Add(wxT("Ellipse / Circle.")); //19
-    sTextArray.Add(wxT("Rounded rectangle.")); //20
+    sToolTipTextArray.Add(wxT("Text.")); //16
+    sToolTipTextArray.Add(wxT("Rectangle.")); //17
+    sToolTipTextArray.Add(wxT("Polygon.")); //18
+    sToolTipTextArray.Add(wxT("Ellipse / Circle.")); //19
+    sToolTipTextArray.Add(wxT("Rounded rectangle.")); //20
 
     //Tool Panel text 4th row
-    sTextArray.Add(wxT("Eraser.")); //21
-    sTextArray.Add(wxT("Cursor Hot Spot.")); //22
+    sToolTipTextArray.Add(wxT("Eraser.")); //21
+    sToolTipTextArray.Add(wxT("Cursor Hot Spot.")); //22
 
     //Tool Panel - all the other controls
-    sTextArray.Add(wxT("Brush shape.")); //23
-    sTextArray.Add(wxT("Cursor Hot Spot colour.")); //24
+    sToolTipTextArray.Add(wxT("Brush shape.")); //23
+    sToolTipTextArray.Add(wxT("Cursor Hot Spot colour.")); //24
+    sToolTipTextArray.Add(wxT("Size of the brush, in pixel.")); //25sToolTipTextArray
+    sToolTipTextArray.Add(wxT("Radius of the corner.")); //26
+    sToolTipTextArray.Add(wxT("Thickness of the line.")); //27
+    sToolTipTextArray.Add(wxT("Top Left alignment.")); //28
+    sToolTipTextArray.Add(wxT("Top Center alignment.")); //29
+    sToolTipTextArray.Add(wxT("Top Right alignment.")); //30
+    sToolTipTextArray.Add(wxT("Center Left alignment.")); //31
+    sToolTipTextArray.Add(wxT("Center Center alignment.")); //32
+    sToolTipTextArray.Add(wxT("Center Right alignment.")); //33
+    sToolTipTextArray.Add(wxT("Bottom Left alignment.")); //34
+    sToolTipTextArray.Add(wxT("Bottom Center alignment.")); //35
+    sToolTipTextArray.Add(wxT("Bottom Right alignment.")); //36
+    sToolTipTextArray.Add(wxT("Toggle Opaque (draw a background) / Transparent (draw only text).")); //37
+    sToolTipTextArray.Add(wxT("Select the Font for the text.")); //38
+    sToolTipTextArray.Add(wxT("Text orientation, in degrees.")); //39
+    sToolTipTextArray.Add(wxT("The Line Style. Use this style to draw a line, a curve, or the outline of a shape.")); //40
+    sToolTipTextArray.Add(wxT("The Fill Style. Use this style to fill a shape or an area.")); //41
+    sToolTipTextArray.Add(wxT("Indicate the type of gradient: Linear will propagate the colour along a line, Concentric will propagate the colour from a center, in radial direction.")); //42
+    sToolTipTextArray.Add(wxT("The direction in which the Linear gradient will propagate: to the top, to the bottom, to the left or to the right.")); //43
+
+    //Help panel
+    sToolTipTextArray.Add(wxT("Display online help for this plugin.")); //44
+    sToolTipTextArray.Add(wxT("Short help text for the tool currently in use.")); //45
+
+    //Properties panel
+    sToolTipTextArray.Add(wxT("Width of the image, in pixels.")); //46
+    sToolTipTextArray.Add(wxT("Height of the image, in pixels.")); //47
+    sText = wxT("Select a format for saving the image.\n");
+    sText = wxT("""Automatic"" means that the format will be decided based on the file extension (*.jpg is a JPEG, *.png is a PNG, ...).\n");
+    sText = wxT("Another format will force the editor to use this format, whatever the file extension is.");
+    sToolTipTextArray.Add(sText); //48sToolTipTextArray
+    sToolTipTextArray.Add(wxT("Advanced images options (compression, resolution, ...)")); //49
+
+    //Image manipulation panel
+    sToolTipTextArray.Add(wxT("Stretch or Compress the image or the selection.")); //50
+    sToolTipTextArray.Add(wxT("Create an horizontal / vertical mirror image of the image or the selection.")); //51
+    sToolTipTextArray.Add(wxT("Blur the image or the selection.")); //52
+    sToolTipTextArray.Add(wxT("Rotate the image or the selection around an arbitrary angle.")); //53
+    sToolTipTextArray.Add(wxT("Modify the colours of the image or the selection.")); //54
+    sToolTipTextArray.Add(wxT("Convert the image or the selection to Grey Scale or to monochrome.")); //55
+    sToolTipTextArray.Add(wxT("Invert the colours of the image or the selection.")); //56
 
     if (ColourPicker)
     {
-        if (ColourPicker->ColourPicker) ColourPicker->ColourPicker->SetToolTip(sTextArray[0]);
+        if (ColourPicker->ColourPicker) ColourPicker->ColourPicker->SetToolTip(sToolTipTextArray[0]);
     }
 
     if (InterfacePanel)
     {
-        if (InterfacePanel->ZoomFactor) InterfacePanel->ZoomFactor->SetToolTip(sTextArray[1]);
-        if (InterfacePanel->BitmapButton1) InterfacePanel->BitmapButton1->SetToolTip(sTextArray[2]);
-        if (InterfacePanel->BitmapButton2) InterfacePanel->BitmapButton2->SetToolTip(sTextArray[3]);
-        if (InterfacePanel->CheckBox1) InterfacePanel->CheckBox1->SetToolTip(sTextArray[4]);
-        if (InterfacePanel->GridColour) InterfacePanel->GridColour->SetToolTip(sTextArray[5]);
+        if (InterfacePanel->ZoomFactor) InterfacePanel->ZoomFactor->SetToolTip(sToolTipTextArray[1]);
+        if (InterfacePanel->BitmapButton1) InterfacePanel->BitmapButton1->SetToolTip(sToolTipTextArray[2]);
+        if (InterfacePanel->BitmapButton2) InterfacePanel->BitmapButton2->SetToolTip(sToolTipTextArray[3]);
+        if (InterfacePanel->CheckBox1) InterfacePanel->CheckBox1->SetToolTip(sToolTipTextArray[4]);
+        if (InterfacePanel->GridColour) InterfacePanel->GridColour->SetToolTip(sToolTipTextArray[5]);
     }
 
     if (ToolPanel)
     {
         //1st row
-        if (ToolPanel->SelectButton) ToolPanel->SelectButton->SetToolTip(sTextArray[6]);
-        if (ToolPanel->LassoButton) ToolPanel->LassoButton->SetToolTip(sTextArray[7]);
-        if (ToolPanel->PipetteButton) ToolPanel->PipetteButton->SetToolTip(sTextArray[8]);
-        if (ToolPanel->LineButton) ToolPanel->LineButton->SetToolTip(sTextArray[9]);
-        if (ToolPanel->CurveButton) ToolPanel->CurveButton->SetToolTip(sTextArray[10]);
+        if (ToolPanel->SelectButton) ToolPanel->SelectButton->SetToolTip(sToolTipTextArray[6]);
+        if (ToolPanel->LassoButton) ToolPanel->LassoButton->SetToolTip(sToolTipTextArray[7]);
+        if (ToolPanel->PipetteButton) ToolPanel->PipetteButton->SetToolTip(sToolTipTextArray[8]);
+        if (ToolPanel->LineButton) ToolPanel->LineButton->SetToolTip(sToolTipTextArray[9]);
+        if (ToolPanel->CurveButton) ToolPanel->CurveButton->SetToolTip(sToolTipTextArray[10]);
 
         //2nd row
-        if (ToolPanel->PenButton) ToolPanel->PenButton->SetToolTip(sTextArray[11]);
-        if (ToolPanel->BrushButton) ToolPanel->BrushButton->SetToolTip(sTextArray[12]);
-        if (ToolPanel->FillButton) ToolPanel->FillButton->SetToolTip(sTextArray[13]);
-        if (ToolPanel->SprayCanButton) ToolPanel->SprayCanButton->SetToolTip(sTextArray[14]);
-        if (ToolPanel->GradientButton) ToolPanel->GradientButton->SetToolTip(sTextArray[15]);
+        if (ToolPanel->PenButton) ToolPanel->PenButton->SetToolTip(sToolTipTextArray[11]);
+        if (ToolPanel->BrushButton) ToolPanel->BrushButton->SetToolTip(sToolTipTextArray[12]);
+        if (ToolPanel->FillButton) ToolPanel->FillButton->SetToolTip(sToolTipTextArray[13]);
+        if (ToolPanel->SprayCanButton) ToolPanel->SprayCanButton->SetToolTip(sToolTipTextArray[14]);
+        if (ToolPanel->GradientButton) ToolPanel->GradientButton->SetToolTip(sToolTipTextArray[15]);
 
         //3rd row
-        if (ToolPanel->TextButton) ToolPanel->TextButton->SetToolTip(sTextArray[16]);
-        if (ToolPanel->RectangleButton) ToolPanel->RectangleButton->SetToolTip(sTextArray[17]);
-        if (ToolPanel->PolygonButton) ToolPanel->PolygonButton->SetToolTip(sTextArray[18]);
-        if (ToolPanel->EllipseButton) ToolPanel->EllipseButton->SetToolTip(sTextArray[19]);
-        if (ToolPanel->RRectButton) ToolPanel->RRectButton->SetToolTip(sTextArray[20]);
+        if (ToolPanel->TextButton) ToolPanel->TextButton->SetToolTip(sToolTipTextArray[16]);
+        if (ToolPanel->RectangleButton) ToolPanel->RectangleButton->SetToolTip(sToolTipTextArray[17]);
+        if (ToolPanel->PolygonButton) ToolPanel->PolygonButton->SetToolTip(sToolTipTextArray[18]);
+        if (ToolPanel->EllipseButton) ToolPanel->EllipseButton->SetToolTip(sToolTipTextArray[19]);
+        if (ToolPanel->RRectButton) ToolPanel->RRectButton->SetToolTip(sToolTipTextArray[20]);
 
         //4th row
-        if (ToolPanel->EraserButton) ToolPanel->EraserButton->SetToolTip(sTextArray[21]);
-        if (ToolPanel->HotSpotButton) ToolPanel->HotSpotButton->SetToolTip(sTextArray[22]);
+        if (ToolPanel->EraserButton) ToolPanel->EraserButton->SetToolTip(sToolTipTextArray[21]);
+        if (ToolPanel->HotSpotButton) ToolPanel->HotSpotButton->SetToolTip(sToolTipTextArray[22]);
 
         //all the other controls
-        if (ToolPanel->ComboBrushTool) ToolPanel->ComboBrushTool->SetToolTip(sTextArray[23]);
-        if (ToolPanel->HotSpotColourPicker) ToolPanel->HotSpotColourPicker->SetToolTip(sTextArray[24]);
+        if (ToolPanel->ComboBrushTool) ToolPanel->ComboBrushTool->SetToolTip(sToolTipTextArray[23]);
+        if (ToolPanel->HotSpotColourPicker) ToolPanel->HotSpotColourPicker->SetToolTip(sToolTipTextArray[24]);
+        if (ToolPanel->SpinCtrl1) ToolPanel->SpinCtrl1->SetToolTip(sToolTipTextArray[25]);
+        if (ToolPanel->SpinCtrl3) ToolPanel->SpinCtrl3->SetToolTip(sToolTipTextArray[26]);
+        if (ToolPanel->SpinCtrl2) ToolPanel->SpinCtrl2->SetToolTip(sToolTipTextArray[27]);
+        if (ToolPanel->TopLeft) ToolPanel->TopLeft->SetToolTip(sToolTipTextArray[28]);
+        if (ToolPanel->TopCenter) ToolPanel->TopCenter->SetToolTip(sToolTipTextArray[29]);
+        if (ToolPanel->TopRight) ToolPanel->TopRight->SetToolTip(sToolTipTextArray[30]);
+        if (ToolPanel->CenterLeft) ToolPanel->CenterLeft->SetToolTip(sToolTipTextArray[31]);
+        if (ToolPanel->CenterCenter) ToolPanel->CenterCenter->SetToolTip(sToolTipTextArray[32]);
+        if (ToolPanel->CenterRight) ToolPanel->CenterRight->SetToolTip(sToolTipTextArray[33]);
+        if (ToolPanel->BottomLeft) ToolPanel->BottomLeft->SetToolTip(sToolTipTextArray[34]);
+        if (ToolPanel->BottomCenter) ToolPanel->BottomCenter->SetToolTip(sToolTipTextArray[35]);
+        if (ToolPanel->BottomRight) ToolPanel->BottomRight->SetToolTip(sToolTipTextArray[36]);
+        if (ToolPanel->BackgroundButton) ToolPanel->BackgroundButton->SetToolTip(sToolTipTextArray[37]);
+        if (ToolPanel->FontButton) ToolPanel->FontButton->SetToolTip(sToolTipTextArray[38]);
+        if (ToolPanel->SpinAngle) ToolPanel->SpinAngle->SetToolTip(sToolTipTextArray[39]);
+        if (ToolPanel->ComboPenStyle) ToolPanel->ComboPenStyle->SetToolTip(sToolTipTextArray[40]);
+        if (ToolPanel->ComboBrushStyle) ToolPanel->ComboBrushStyle->SetToolTip(sToolTipTextArray[41]);
+        if (ToolPanel->ChoiceGradient) ToolPanel->ChoiceGradient->SetToolTip(sToolTipTextArray[42]);
+        if (ToolPanel->ChoiceGradientDirection) ToolPanel->ChoiceGradientDirection->SetToolTip(sToolTipTextArray[43]);
+    }
+
+    if (HelpPanel)
+    {
+        if (HelpPanel->Button1) HelpPanel->Button1->SetToolTip(sToolTipTextArray[44]);
+        if (HelpPanel->StaticText1) HelpPanel->StaticText1->SetToolTip(sToolTipTextArray[45]);
+    }
+
+    if (PropertiesPanel)
+    {
+        if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetToolTip(sToolTipTextArray[46]);
+        if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPWidth->SetToolTip(sToolTipTextArray[47]);
+        if (PropertiesPanel->Choice1) PropertiesPanel->Choice1->SetToolTip(sToolTipTextArray[48]);
+        if (PropertiesPanel->Button1) PropertiesPanel->Button1->SetToolTip(sToolTipTextArray[49]);
+    }
+
+    if (ImageManipulationPanel)
+    {
+        if (ImageManipulationPanel->Button1) ImageManipulationPanel->Button1->SetToolTip(sToolTipTextArray[50]);
+        if (ImageManipulationPanel->Button2) ImageManipulationPanel->Button2->SetToolTip(sToolTipTextArray[51]);
+        if (ImageManipulationPanel->Button3) ImageManipulationPanel->Button3->SetToolTip(sToolTipTextArray[52]);
+        if (ImageManipulationPanel->Button4) ImageManipulationPanel->Button4->SetToolTip(sToolTipTextArray[53]);
+        if (ImageManipulationPanel->Button5) ImageManipulationPanel->Button5->SetToolTip(sToolTipTextArray[54]);
+        if (ImageManipulationPanel->Button6) ImageManipulationPanel->Button6->SetToolTip(sToolTipTextArray[55]);
+        if (ImageManipulationPanel->Button7) ImageManipulationPanel->Button7->SetToolTip(sToolTipTextArray[56]);
     }
 }
 /** set help text for all tools in the panel
   */
 void XPMEditorPanel::SetHelpTexts(void)
 {
-    wxArrayString sTextArray;
     wxString sText;
-    sText.Alloc(50);
+
+    sHelpTextArray.Clear();
+    sHelpTextArray.Alloc(60);
 
     sText = wxT("Colour Picker. Left Click to select a Line Colour. ");
     sText += wxT("Right Click to select a Fill Colour. ");
@@ -7305,51 +7384,51 @@ void XPMEditorPanel::SetHelpTexts(void)
     sText += wxT("Double-click on a colour to redefine it.");
 
     //Colour Picker text
-    sTextArray.Add(sText); //0
+    sHelpTextArray.Add(sText); //0
 
     //Interface panel text
-    sTextArray.Add(wxT("Zoom selection")); //1
-    sTextArray.Add(wxT("Rotate the Image 90 degrees counter-clockwise.")); //2
-    sTextArray.Add(wxT("Rotate the Image 90 degrees clockwise.")); //3
-    sTextArray.Add(wxT("Show / Hide the grid. A minimal Zoom of 400% is needed.")); //4
-    sTextArray.Add(wxT("Change the colour of the grid.")); //5
+    sHelpTextArray.Add(wxT("Zoom selection")); //1
+    sHelpTextArray.Add(wxT("Rotate the Image 90 degrees counter-clockwise.")); //2
+    sHelpTextArray.Add(wxT("Rotate the Image 90 degrees clockwise.")); //3
+    sHelpTextArray.Add(wxT("Show / Hide the grid. A minimal Zoom of 400% is needed.")); //4
+    sHelpTextArray.Add(wxT("Change the colour of the grid.")); //5
 
     //Tool Panel text 1st row
     sText = wxT("Left click on the image to set the top-left corner of the area.");
     sText += wxT("Move the mouse to set the size of the area. Left click define the area.");
     sText += wxT("Holding SHIFT key down will force the area to be a square.");
-    sTextArray.Add(sText); //6
+    sHelpTextArray.Add(sText); //6
     sText = wxT("Left-click on the image to select the 1st point of the Polygon.");
     sText += wxT("Each additionnal left-click will define a corner of the polygon.");
     sText += wxT("Double-Click or Right-Click ends the polygon definition.");
-    sTextArray.Add(sText); //7
+    sHelpTextArray.Add(sText); //7
     sText = wxT("Copy the colour of a pixel. Simply left click on the colour you want to copy. ");
     sText += wxT("The colour will be copied in the currently selected Line Colour. ");
     sText += wxT("To copy the colour in Fill Colour instead, hold the SHIFT key down.");
-    sTextArray.Add(sText); //8
+    sHelpTextArray.Add(sText); //8
     sText = wxT("Select a Line Colour. Choose a Line Style and a Line Thickness.\n");
     sText += wxT("Left Click to indicate the start point. Move the mouse, and left click again to indicate the end point.");
-    sTextArray.Add(sText); //9
+    sHelpTextArray.Add(sText); //9
     sText = wxT("Select a Line Colour. Choose a Line Style and a Line Thickness.\n");
     sText += wxT("Left Click to indicate the start point. Move the mouse, and left click again to indicate the end point.\n");
     sText += wxT("Continue to click to indicater further points. Terminate by Right Click or Double Click.");
-    sTextArray.Add(sText); //10
+    sHelpTextArray.Add(sText); //10
 
     //Tool Panel text 2nd row
     sText = wxT("Draw a single pixel, in the given colour. ");
     sText += wxT("Select a Line Colour. Keep the left button pressed to draw several pixels at once.");
-    sTextArray.Add(sText); //11
+    sHelpTextArray.Add(sText); //11
     sText = wxT("Draw a pattern, like a circle or a square. Select a Line Colour. ");
     sText += wxT("Select the pattern to draw, and the size in pixel of the pattern (square length, circle radius, ...). ");
     sText += wxT("Left click on the image to draw the 1st pattern. Keeping the left button pressed will draw more patterns.");
-    sTextArray.Add(sText); //12
+    sHelpTextArray.Add(sText); //12
     sText = wxT("Select a FILL colour (right click) in the Colour Picker. ");
     sText += wxT("Then left click on the image: the fill colour will be used to replace all the area where the click occured. ");
     sText += wxT("The fill stops whenever a pixel of another colour than the original colour is found.");
-    sTextArray.Add(sText); //13
+    sHelpTextArray.Add(sText); //13
     sText = wxT("This simulate a paint spray can.");
     sText += wxT("Select a size and a Line Colour, and keep the Left Mouse button pressed to continuously add colour.");
-    sTextArray.Add(sText); //14
+    sHelpTextArray.Add(sText); //14
     sText = wxT("Select a Line Colour. Select a Fill Colour.");
     sText += wxT("The Line Colour will be the 1st gradient colour.");
     sText += wxT("The Fill Colour will be the 2nd gradient colour.");
@@ -7359,7 +7438,7 @@ void XPMEditorPanel::SetHelpTexts(void)
     sText += wxT("The first click define the top left corner. ");
     sText += wxT("The second click define the bottom right corner. ");
     sText += wxT("For concentric gradient, a third click is necessary to define the start point inside the rectangle. ");
-    sTextArray.Add(sText); //15
+    sHelpTextArray.Add(sText); //15
 
     //Tool Panel text 3rd row
     sText = wxT("Select a Line Colour (it will be the Text Colour). Select a Fill Colour. Select the Font by clicking on ""FONT"". ");
@@ -7368,83 +7447,195 @@ void XPMEditorPanel::SetHelpTexts(void)
     sText += wxT("Select the draw area by left clicking (see the ""Select Rectangle Area"" tool). ");
     sText += wxT("Type your text in the box which appears. The colours, font, orientation, and alignment can still be changed. ");
     sText += wxT("The text can be moved or resized using the mouse. When finished, click outside the text area. ");
-    sTextArray.Add(sText); //16
+    sHelpTextArray.Add(sText); //16
     sText = wxT("Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. ");
     sText += wxT("Left click on the image to define the first corner. ");
     sText += wxT("Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Square.");
-    sTextArray.Add(sText); //17
+    sHelpTextArray.Add(sText); //17
     sText = wxT("Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. ");
     sText = wxT("Left-click on the image to select the 1st point of the Polygon. ");
     sText += wxT("Each additionnal left-click will define a corner of the polygon. Double-Click or Right-Click ends the polygon definition.");
-    sTextArray.Add(sText); //18
+    sHelpTextArray.Add(sText); //18
     sText = wxT("Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. ");
     sText += wxT("The Ellipse or Circle is defined by a rectangular bounding box. ");
     sText += wxT("Left click on the image to define the first corner of the bounding box. ");
     sText += wxT(" Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Circle.");
-    sTextArray.Add(sText); //19
+    sHelpTextArray.Add(sText); //19
     sText = wxT("Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. ");
     sText += wxT("Select the radius to be used at the corners.  ");
     sText += wxT("Left click on the image to define the first corner. Move the mouse, and left click again to indicate the second corner. ");
     sText += wxT("Holding the SHIFT key down will define a Square with rounded corners.");
-    sTextArray.Add(sText); //20
+    sHelpTextArray.Add(sText); //20
 
     //Tool Panel text 4th row
     sText = wxT("Select the size of the eraser. Left click on the image will replace the selected area by the MASK (transparent) colour. ");
     sText += wxT("When saving, this area will be considered as transparent. ");
     sText += wxT("Moving the mouse while keeping the left button pressed will erase further area.");
-    sTextArray.Add(sText); //21
+    sHelpTextArray.Add(sText); //21
     sText = wxT("This define the location of the Hot Spot, for cursors. There can be only one hot spot. ");
     sText += wxT("To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. ");
     sText += wxT("Currently, only Windows support HotSpot information in *cur files.");
-    sTextArray.Add(sText); //22
+    sHelpTextArray.Add(sText); //22
 
     //Tool Panel - all the other controls
-    sTextArray.Add(wxT("Brush shape.")); //23
-    sTextArray.Add(wxT("Cursor Hot Spot colour.")); //24
+    sHelpTextArray.Add(wxT("Brush shape: the choosen form will be paint repeatedly, at each position of the cursor.")); //23
+    sHelpTextArray.Add(wxT("Cursor Hot Spot colour.")); //24
+    sHelpTextArray.Add(wxT("Size of the brush, in pixel. This dimension correspond to the edge of the square enclosing the pattern.")); //25
+    sHelpTextArray.Add(wxT("Radius of the corner.")); //26
+    sHelpTextArray.Add(wxT("Thickness of the line.")); //27
+    sHelpTextArray.Add(wxT("Top Left alignment.")); //28
+    sHelpTextArray.Add(wxT("Top Center alignment.")); //29
+    sHelpTextArray.Add(wxT("Top Right alignment.")); //30
+    sHelpTextArray.Add(wxT("Center Left alignment.")); //31
+    sHelpTextArray.Add(wxT("Center Center alignment.")); //32
+    sHelpTextArray.Add(wxT("Center Right alignment.")); //33
+    sHelpTextArray.Add(wxT("Bottom Left alignment.")); //34
+    sHelpTextArray.Add(wxT("Bottom Center alignment.")); //35
+    sHelpTextArray.Add(wxT("Bottom Right alignment.")); //36
+    sHelpTextArray.Add(wxT("Toggle Opaque (draw a background) / Transparent (draw only text).")); //37
+    sHelpTextArray.Add(wxT("Select the Font for the text.")); //38
+    sHelpTextArray.Add(wxT("Text orientation, in degrees.")); //39
+    sHelpTextArray.Add(wxT("The Line Style. Use this style to draw a line, a curve, or the outline of a shape.")); //40
+    sHelpTextArray.Add(wxT("The Fill Style. Use this style to fill a shape or an area.")); //41
+    sHelpTextArray.Add(wxT("Indicate the type of gradient: Linear will propagate the colour along a line, Concentric will propagate the colour from a center, in radial direction.")); //42
+    sHelpTextArray.Add(wxT("The direction in which the Linear gradient will propagate: to the top, to the bottom, to the left or to the right.")); //43
+
+    //Help panel
+    sHelpTextArray.Add(wxT("Display online help for this plugin.")); //44
+    sHelpTextArray.Add(wxT("Short help text for the tool currently in use.")); //45
+
+    //Properties panel
+    sHelpTextArray.Add(wxT("Width of the image, in pixels.")); //46
+    sHelpTextArray.Add(wxT("Height of the image, in pixels.")); //47
+    sText = wxT("Select a format for saving the image.\n");
+    sText = wxT("""Automatic"" means that the format will be decided based on the file extension (*.jpg is a JPEG, *.png is a PNG, ...).\n");
+    sText = wxT("Another format will force the editor to use this format, whatever the file extension is.");
+    sHelpTextArray.Add(sText); //48
+    sHelpTextArray.Add(wxT("Advanced images options (compression, resolution, ...)")); //49
+
+    //Image manipulation panel
+    sHelpTextArray.Add(wxT("Stretch or Compress the image or the selection.")); //50
+    sHelpTextArray.Add(wxT("Create an horizontal / vertical mirror image of the image or the selection.")); //51
+    sHelpTextArray.Add(wxT("Blur the image or the selection.")); //52
+    sHelpTextArray.Add(wxT("Rotate the image or the selection around an arbitrary angle.")); //53
+    sHelpTextArray.Add(wxT("Modify the colours of the image or the selection.")); //54
+    sHelpTextArray.Add(wxT("Convert the image or the selection to Grey Scale or to monochrome.")); //55
+    sHelpTextArray.Add(wxT("Invert the colours of the image or the selection.")); //56
 
     if (ColourPicker)
     {
-        if (ColourPicker->ColourPicker) ColourPicker->ColourPicker->SetHelpText(sTextArray[0]);
+        if (ColourPicker->ColourPicker) ColourPicker->ColourPicker->SetHelpText(sHelpTextArray[0]);
     }
 
     if (InterfacePanel)
     {
-        if (InterfacePanel->ZoomFactor) InterfacePanel->ZoomFactor->SetHelpText(sTextArray[1]);
-        if (InterfacePanel->BitmapButton1) InterfacePanel->BitmapButton1->SetHelpText(sTextArray[2]);
-        if (InterfacePanel->BitmapButton2) InterfacePanel->BitmapButton2->SetHelpText(sTextArray[3]);
-        if (InterfacePanel->CheckBox1) InterfacePanel->CheckBox1->SetHelpText(sTextArray[4]);
-        if (InterfacePanel->GridColour) InterfacePanel->GridColour->SetHelpText(sTextArray[5]);
+        if (InterfacePanel->ZoomFactor) InterfacePanel->ZoomFactor->SetHelpText(sHelpTextArray[1]);
+        if (InterfacePanel->BitmapButton1) InterfacePanel->BitmapButton1->SetHelpText(sHelpTextArray[2]);
+        if (InterfacePanel->BitmapButton2) InterfacePanel->BitmapButton2->SetHelpText(sHelpTextArray[3]);
+        if (InterfacePanel->CheckBox1) InterfacePanel->CheckBox1->SetHelpText(sHelpTextArray[4]);
+        if (InterfacePanel->GridColour) InterfacePanel->GridColour->SetHelpText(sHelpTextArray[5]);
     }
 
     if (ToolPanel)
     {
         //1st row
-        if (ToolPanel->SelectButton) ToolPanel->SelectButton->SetHelpText(sTextArray[6]);
-        if (ToolPanel->LassoButton) ToolPanel->LassoButton->SetHelpText(sTextArray[7]);
-        if (ToolPanel->PipetteButton) ToolPanel->PipetteButton->SetHelpText(sTextArray[8]);
-        if (ToolPanel->LineButton) ToolPanel->LineButton->SetHelpText(sTextArray[9]);
-        if (ToolPanel->CurveButton) ToolPanel->CurveButton->SetHelpText(sTextArray[10]);
+        if (ToolPanel->SelectButton) ToolPanel->SelectButton->SetHelpText(sHelpTextArray[6]);
+        if (ToolPanel->LassoButton) ToolPanel->LassoButton->SetHelpText(sHelpTextArray[7]);
+        if (ToolPanel->PipetteButton) ToolPanel->PipetteButton->SetHelpText(sHelpTextArray[8]);
+        if (ToolPanel->LineButton) ToolPanel->LineButton->SetHelpText(sHelpTextArray[9]);
+        if (ToolPanel->CurveButton) ToolPanel->CurveButton->SetHelpText(sHelpTextArray[10]);
 
         //2nd row
-        if (ToolPanel->PenButton) ToolPanel->PenButton->SetHelpText(sTextArray[11]);
-        if (ToolPanel->BrushButton) ToolPanel->BrushButton->SetHelpText(sTextArray[12]);
-        if (ToolPanel->FillButton) ToolPanel->FillButton->SetHelpText(sTextArray[13]);
-        if (ToolPanel->SprayCanButton) ToolPanel->SprayCanButton->SetHelpText(sTextArray[14]);
-        if (ToolPanel->GradientButton) ToolPanel->GradientButton->SetHelpText(sTextArray[15]);
+        if (ToolPanel->PenButton) ToolPanel->PenButton->SetHelpText(sHelpTextArray[11]);
+        if (ToolPanel->BrushButton) ToolPanel->BrushButton->SetHelpText(sHelpTextArray[12]);
+        if (ToolPanel->FillButton) ToolPanel->FillButton->SetHelpText(sHelpTextArray[13]);
+        if (ToolPanel->SprayCanButton) ToolPanel->SprayCanButton->SetHelpText(sHelpTextArray[14]);
+        if (ToolPanel->GradientButton) ToolPanel->GradientButton->SetHelpText(sHelpTextArray[15]);
 
         //3rd row
-        if (ToolPanel->TextButton) ToolPanel->TextButton->SetHelpText(sTextArray[16]);
-        if (ToolPanel->RectangleButton) ToolPanel->RectangleButton->SetHelpText(sTextArray[17]);
-        if (ToolPanel->PolygonButton) ToolPanel->PolygonButton->SetHelpText(sTextArray[18]);
-        if (ToolPanel->EllipseButton) ToolPanel->EllipseButton->SetHelpText(sTextArray[19]);
-        if (ToolPanel->RRectButton) ToolPanel->RRectButton->SetHelpText(sTextArray[20]);
+        if (ToolPanel->TextButton) ToolPanel->TextButton->SetHelpText(sHelpTextArray[16]);
+        if (ToolPanel->RectangleButton) ToolPanel->RectangleButton->SetHelpText(sHelpTextArray[17]);
+        if (ToolPanel->PolygonButton) ToolPanel->PolygonButton->SetHelpText(sHelpTextArray[18]);
+        if (ToolPanel->EllipseButton) ToolPanel->EllipseButton->SetHelpText(sHelpTextArray[19]);
+        if (ToolPanel->RRectButton) ToolPanel->RRectButton->SetHelpText(sHelpTextArray[20]);
 
         //4th row
-        if (ToolPanel->EraserButton) ToolPanel->EraserButton->SetHelpText(sTextArray[21]);
-        if (ToolPanel->HotSpotButton) ToolPanel->HotSpotButton->SetHelpText(sTextArray[22]);
+        if (ToolPanel->EraserButton) ToolPanel->EraserButton->SetHelpText(sHelpTextArray[21]);
+        if (ToolPanel->HotSpotButton) ToolPanel->HotSpotButton->SetHelpText(sHelpTextArray[22]);
 
         //all the other controls
-        if (ToolPanel->ComboBrushTool) ToolPanel->ComboBrushTool->SetToolTip(sTextArray[23]);
-        if (ToolPanel->HotSpotColourPicker) ToolPanel->HotSpotColourPicker->SetToolTip(sTextArray[24]);
+        if (ToolPanel->ComboBrushTool) ToolPanel->ComboBrushTool->SetHelpText(sHelpTextArray[23]);
+        if (ToolPanel->HotSpotColourPicker) ToolPanel->HotSpotColourPicker->SetHelpText(sHelpTextArray[24]);
+        if (ToolPanel->SpinCtrl1) ToolPanel->SpinCtrl1->SetHelpText(sHelpTextArray[25]);
+        if (ToolPanel->SpinCtrl3) ToolPanel->SpinCtrl3->SetHelpText(sHelpTextArray[26]);
+        if (ToolPanel->SpinCtrl2) ToolPanel->SpinCtrl2->SetHelpText(sHelpTextArray[27]);
+        if (ToolPanel->TopLeft) ToolPanel->TopLeft->SetHelpText(sHelpTextArray[28]);
+        if (ToolPanel->TopCenter) ToolPanel->TopCenter->SetHelpText(sHelpTextArray[29]);
+        if (ToolPanel->TopRight) ToolPanel->TopRight->SetHelpText(sHelpTextArray[30]);
+        if (ToolPanel->CenterLeft) ToolPanel->CenterLeft->SetHelpText(sHelpTextArray[31]);
+        if (ToolPanel->CenterCenter) ToolPanel->CenterCenter->SetHelpText(sHelpTextArray[32]);
+        if (ToolPanel->CenterRight) ToolPanel->CenterRight->SetHelpText(sHelpTextArray[33]);
+        if (ToolPanel->BottomLeft) ToolPanel->BottomLeft->SetHelpText(sHelpTextArray[34]);
+        if (ToolPanel->BottomCenter) ToolPanel->BottomCenter->SetHelpText(sHelpTextArray[35]);
+        if (ToolPanel->BottomRight) ToolPanel->BottomRight->SetHelpText(sHelpTextArray[36]);
+        if (ToolPanel->BackgroundButton) ToolPanel->BackgroundButton->SetHelpText(sHelpTextArray[37]);
+        if (ToolPanel->FontButton) ToolPanel->FontButton->SetHelpText(sHelpTextArray[38]);
+        if (ToolPanel->SpinAngle) ToolPanel->SpinAngle->SetHelpText(sHelpTextArray[39]);
+        if (ToolPanel->ComboPenStyle) ToolPanel->ComboPenStyle->SetHelpText(sHelpTextArray[40]);
+        if (ToolPanel->ComboBrushStyle) ToolPanel->ComboBrushStyle->SetHelpText(sHelpTextArray[41]);
+        if (ToolPanel->ChoiceGradient) ToolPanel->ChoiceGradient->SetHelpText(sHelpTextArray[42]);
+        if (ToolPanel->ChoiceGradientDirection) ToolPanel->ChoiceGradientDirection->SetHelpText(sHelpTextArray[43]);
+    }
+
+    if (HelpPanel)
+    {
+        if (HelpPanel->Button1) HelpPanel->Button1->SetHelpText(sHelpTextArray[44]);
+        if (HelpPanel->StaticText1) HelpPanel->StaticText1->SetHelpText(sHelpTextArray[45]);
+    }
+
+    if (PropertiesPanel)
+    {
+        if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetHelpText(sHelpTextArray[46]);
+        if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPWidth->SetHelpText(sHelpTextArray[47]);
+        if (PropertiesPanel->Choice1) PropertiesPanel->Choice1->SetHelpText(sHelpTextArray[48]);
+        if (PropertiesPanel->Button1) PropertiesPanel->Button1->SetHelpText(sHelpTextArray[49]);
+    }
+
+    if (ImageManipulationPanel)
+    {
+        if (ImageManipulationPanel->Button1) ImageManipulationPanel->Button1->SetHelpText(sHelpTextArray[50]);
+        if (ImageManipulationPanel->Button2) ImageManipulationPanel->Button2->SetHelpText(sHelpTextArray[51]);
+        if (ImageManipulationPanel->Button3) ImageManipulationPanel->Button3->SetHelpText(sHelpTextArray[52]);
+        if (ImageManipulationPanel->Button4) ImageManipulationPanel->Button4->SetHelpText(sHelpTextArray[53]);
+        if (ImageManipulationPanel->Button5) ImageManipulationPanel->Button5->SetHelpText(sHelpTextArray[54]);
+        if (ImageManipulationPanel->Button6) ImageManipulationPanel->Button6->SetHelpText(sHelpTextArray[55]);
+        if (ImageManipulationPanel->Button7) ImageManipulationPanel->Button7->SetHelpText(sHelpTextArray[56]);
+    }
+}
+
+/** display information about the widget
+  * This help text is displayed under the image.
+  * This help text cannot be multilines
+  * \param iIndex : the index of the text in sHelpTextArray
+  */
+void XPMEditorPanel::DisplayHelpText(int iIndex)
+{
+    Log(sHelpTextArray[iIndex]);
+    if ((DrawCanvasPanel) and (iIndex >= 0) and (iIndex < sHelpTextArray.Count()))
+    {
+        if (DrawCanvasPanel->StaticText1) DrawCanvasPanel->StaticText1->SetLabel(sHelpTextArray[iIndex]);
+    }
+}
+
+/** display information about the usage of the drawing tool
+  * This help text is displayed in the Help control panel (which can be hidden)
+  * The help text may be multilines.
+  * \param sHelpText : the text to display
+  */
+void XPMEditorPanel::DisplayToolHelp(wxString sHelpText)
+{
+    if (HelpPanel)
+    {
+        if (HelpPanel->StaticText1) HelpPanel->StaticText1->SetLabel(sHelpText);
     }
 }

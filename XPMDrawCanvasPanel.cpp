@@ -27,7 +27,7 @@ const long XPMDrawCanvasPanel::ID_SCROLLEDWINDOW1 = wxNewId();
 const long XPMDrawCanvasPanel::ID_STATICTEXT2 = wxNewId();
 const long XPMDrawCanvasPanel::ID_TEXTCTRL1 = wxNewId();
 const long XPMDrawCanvasPanel::ID_STATICTEXT4 = wxNewId();
-const long XPMDrawCanvasPanel::ID_TEXTCTRL2 = wxNewId();
+const long XPMDrawCanvasPanel::ID_STATICTEXT1 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(XPMDrawCanvasPanel,wxPanel)
@@ -61,14 +61,13 @@ void XPMDrawCanvasPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoi
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	sCursorPos = new wxStaticText(this, ID_STATICTEXT4, _("Cursor at: x=00000 y=00000"), wxDefaultPosition, wxSize(170,21), wxST_NO_AUTORESIZE|wxSUNKEN_BORDER, _T("ID_STATICTEXT4"));
 	BoxSizer1->Add(sCursorPos, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
-	TextCtrl1 = new wxTextCtrl(this, ID_TEXTCTRL2, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_AUTO_SCROLL|wxTE_READONLY, wxDefaultValidator, _T("ID_TEXTCTRL2"));
-	TextCtrl1->Disable();
-	BoxSizer1->Add(TextCtrl1, 1, wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_LEFT|wxSUNKEN_BORDER, _T("ID_STATICTEXT1"));
+	BoxSizer1->Add(StaticText1, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
 	CanvasSizer->Add(BoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
 	SetSizer(CanvasSizer);
 	CanvasSizer->Fit(this);
 	CanvasSizer->SetSizeHints(this);
-
+	
 	Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&XPMDrawCanvasPanel::OnTextEditText);
 	//*)
 }

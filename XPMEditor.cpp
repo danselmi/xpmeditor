@@ -178,6 +178,7 @@ void XPMEditor::OnAttach()
             CodeBlocksLogEvent evtAdd(cbEVT_ADD_LOG_WINDOW, m_XPMEditorLogger, LogMan->Slot(m_LogPageIndex).title);
             Manager::Get()->ProcessEvent(evtAdd);
         }
+
     }
 }
 

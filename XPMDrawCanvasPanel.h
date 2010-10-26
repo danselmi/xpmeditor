@@ -40,9 +40,9 @@ class XPMDrawCanvasPanel: public wxPanel
 		wxStaticText* StaticText2;
 		wxBoxSizer* CanvasSizer;
 		wxTextCtrl* TextEdit;
+		wxStaticText* StaticText1;
 		wxBoxSizer* sTextSizer;
 		wxBoxSizer* BoxSizer1;
-		wxTextCtrl* TextCtrl1;
 		//*)
 
 	protected:
@@ -52,7 +52,7 @@ class XPMDrawCanvasPanel: public wxPanel
 		static const long ID_STATICTEXT2;
 		static const long ID_TEXTCTRL1;
 		static const long ID_STATICTEXT4;
-		static const long ID_TEXTCTRL2;
+		static const long ID_STATICTEXT1;
 		//*)
 
 		//(*Handlers(XPMDrawCanvasPanel)

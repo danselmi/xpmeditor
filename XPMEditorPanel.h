@@ -190,6 +190,10 @@ class XPMEditorPanel: public wxPanel
 		void OnDrawCanvasRightUp(wxMouseEvent& event);          ///< \brief DrawCanvas mouse right button up event handler
 		void OnDrawCanvasKeyDown(wxKeyEvent& event);            ///< \brief DrawCanvas key down char event handler
 
+		//help text
+        void DisplayHelpText(int iIndex); ///< \brief display information about the control
+        void DisplayToolHelp(wxString sHelpText); ///< \brief display information about the usage of the drawing tool
+
  		//(*Declarations(XPMEditorPanel)
  		wxMenuItem* MenuItem2;
  		XPMFoldPanel* FoldPanel;
@@ -469,6 +473,10 @@ class XPMEditorPanel: public wxPanel
 
         void SetToolTips(void);   ///< \brief set tooltips for all controls in the panel
         void SetHelpTexts(void);  ///< \brief set help text for all tools in the panel
+
+        //help text
+        wxArrayString sToolTipTextArray; ///< \brief array of tooltips text strings
+        wxArrayString sHelpTextArray;    ///< \brief array of help strings
 
 
         DECLARE_EVENT_TABLE()
