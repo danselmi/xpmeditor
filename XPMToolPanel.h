@@ -200,11 +200,52 @@ class XPMToolPanel: public wxPanel
 		void OnGradientButtonToggle(wxCommandEvent& event);
 		void OnChoiceGradientSelect(wxCommandEvent& event);
 		void OnChoiceGradientDirectionSelect(wxCommandEvent& event);
+		void OnSelectButtonMouseEnter(wxMouseEvent& event);
+		void OnButtonMouseLeave(wxMouseEvent& event);
+		void OnLassoButtonMouseEnter(wxMouseEvent& event);
+		void OnPipetteButtonMouseEnter(wxMouseEvent& event);
+		void OnLineButtonMouseEnter(wxMouseEvent& event);
+		void OnCurveButtonMouseEnter(wxMouseEvent& event);
+		void OnPenButtonMouseEnter(wxMouseEvent& event);
+		void OnBrushButtonMouseEnter(wxMouseEvent& event);
+		void OnFillButtonMouseEnter(wxMouseEvent& event);
+		void OnSprayCanButtonMouseEnter(wxMouseEvent& event);
+		void OnGradientButtonMouseEnter(wxMouseEvent& event);
+		void OnTextButtonMouseEnter(wxMouseEvent& event);
+		void OnRectangleButtonMouseEnter(wxMouseEvent& event);
+		void OnPolygonButtonMouseEnter(wxMouseEvent& event);
+		void OnEllipseButtonMouseEnter(wxMouseEvent& event);
+		void OnRRectButtonMouseEnter(wxMouseEvent& event);
+		void OnEraserButtonMouseEnter(wxMouseEvent& event);
+		void OnHotSpotButtonMouseEnter(wxMouseEvent& event);
+		void OnComboBrushToolMouseEnter(wxMouseEvent& event);
+		void OnHotSpotColourPickerMouseEnter(wxMouseEvent& event);
+		void OnComboPenStyleMouseEnter(wxMouseEvent& event);
+		void OnComboBrushStyleMouseEnter(wxMouseEvent& event);
 		//*)
 		void OnHotSpotColourPickerColourChanged(wxColourPickerEvent& event); ///< \brief the colour for the hot spot changed
 		void OnBrushStyleChanged(wxCommandEvent& event); ///< \brief the Fill Style changed
 		void OnLineStyleChanged(wxCommandEvent& event);  ///< \brief the Line Style changed
 		void OnBrushToolChanged(wxCommandEvent& event);   ///< \brief the Brush Tool style changed
+
+		//help handlers
+		void OnSizeSpinMouseEnter(wxMouseEvent& event);
+		void OnRadiusSpinMouseEnter(wxMouseEvent& event);
+		void OnThicknessSpinMouseEnter(wxMouseEvent& event);
+		void OnTopLeftMouseEnter(wxMouseEvent& event);
+		void OnTopCenterMouseEnter(wxMouseEvent& event);
+		void OnTopRightMouseEnter(wxMouseEvent& event);
+		void OnCenterLeftMouseEnter(wxMouseEvent& event);
+		void OnCenterCenterMouseEnter(wxMouseEvent& event);
+		void OnCenterRightMouseEnter(wxMouseEvent& event);
+		void OnBottomLeftMouseEnter(wxMouseEvent& event);
+		void OnBottomCenterMouseEnter(wxMouseEvent& event);
+		void OnBottomRightMouseEnter(wxMouseEvent& event);
+		void OnBackgroundButtonMouseEnter(wxMouseEvent& event);
+        void OnFontButtonMouseEnter(wxMouseEvent& event);
+        void OnSpinAngleMouseEnter(wxMouseEvent& event);
+        void OnChoiceGradientMouseEnter(wxMouseEvent& event);
+        void OnChoiceGradientDirectionMouseEnter(wxMouseEvent& event);
 
 		//Fill Style and Line Styles methods
 		void FillBrushStyleComboBox(wxBitmapComboBox *c);  ///< \brief fill the available brush styles in the combobox

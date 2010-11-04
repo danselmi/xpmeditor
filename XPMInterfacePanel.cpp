@@ -13,6 +13,8 @@
 #include "XPMEditorPanel.h"
 #include "XPMCustomZoom.h"
 
+#define ID_FIRST_HELP 1
+
 //(*InternalHeaders(XPMInterfacePanel)
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
@@ -78,12 +80,26 @@ XPMInterfacePanel::XPMInterfacePanel(wxWindow* parent,wxWindowID id,const wxPoin
 	SetSizer(BoxSizer2);
 	BoxSizer2->Fit(this);
 	BoxSizer2->SetSizeHints(this);
-	
+
 	Connect(ID_COMBOBOX1,wxEVT_COMMAND_COMBOBOX_SELECTED,(wxObjectEventFunction)&XPMInterfacePanel::OnZoomChanged);
 	Connect(ID_BITMAPBUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMInterfacePanel::OnRotateCounterClockwise);
 	Connect(ID_BITMAPBUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMInterfacePanel::OnRotateClockwise);
 	Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&XPMInterfacePanel::OnShowGrid);
+	GridColour->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnGridColourMouseEnter,0,this);
+	GridColour->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnGridColourMouseLeave,0,this);
 	//*)
+
+	//help handlers
+	StaticText1->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnZoomWidgetsMouseEnter,0,this);
+	StaticText1->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnWidgetsMouseLeave,0,this);
+	ZoomFactor->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnZoomWidgetsMouseEnter,0,this);
+	ZoomFactor->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnWidgetsMouseLeave,0,this);
+	CheckBox1->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnShowGridWidgetsMouseEnter,0,this);
+	CheckBox1->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnWidgetsMouseLeave,0,this);
+	BitmapButton1->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnRotateCounterClockwiseWidgetsMouseEnter,0,this);
+	BitmapButton1->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnWidgetsMouseLeave,0,this);
+	BitmapButton2->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnRotateClockwiseWidgetsMouseEnter,0,this);
+	BitmapButton2->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMInterfacePanel::OnWidgetsMouseLeave,0,this);
 
 	m_parent = NULL;
 
@@ -179,4 +195,91 @@ void XPMInterfacePanel::OnGridColourPickerColourChanged(wxColourPickerEvent& eve
         m_parent->OnGridColourPickerColourChanged(event);
     }
 
+}
+
+/** Help handler for Zoom **/
+void XPMInterfacePanel::OnZoomWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP);
+    }
+
+    event.Skip();
+}
+
+/** empties help text */
+void XPMInterfacePanel::OnWidgetsMouseLeave(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(-1);
+    }
+
+    event.Skip();
+}
+
+/** Help handler for Show Grid **/
+void XPMInterfacePanel::OnShowGridWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP+3);
+    }
+
+    event.Skip();
+}
+
+/** Help handler for Grid Colour **/
+void XPMInterfacePanel::OnGridColourWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP+4);
+    }
+
+    event.Skip();
+}
+
+/** Help handler for Rotate Clockwise **/
+void XPMInterfacePanel::OnRotateClockwiseWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP+2);
+    }
+
+    event.Skip();
+}
+
+/** Help handler for Rotate Counter Clockwise **/
+void XPMInterfacePanel::OnRotateCounterClockwiseWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP+1);
+    }
+
+    event.Skip();
+}
+
+/** Help handler for Grid Colour **/
+void XPMInterfacePanel::OnGridColourMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP+4);
+    }
+
+    event.Skip();
+}
+
+void XPMInterfacePanel::OnGridColourMouseLeave(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(-1);
+    }
+
+    event.Skip();
 }

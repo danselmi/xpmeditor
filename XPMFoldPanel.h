@@ -46,6 +46,11 @@ class XPMFoldPanel: public wxPanel
 		wxFoldPanelEx* FoldPanelBar1;
 		//*)
 
+		virtual wxSize DoGetBestSize(void); ///< \brief get the best size of the panel, according to the orientation (vertical or horizontal)
+		virtual wxSize DoGetMinSize(void);  ///< \brief get the min size for the panel, according to the orientation (vertical or horizontal)
+		virtual wxSize DoGetAbsoluteMinimalSize(void);  ///< \brief get the absolute min size for the panel, according to the orientation (vertical or horizontal)
+        virtual wxSize DoGetMaxSize(void);  ///< \brief get the max size for the panel, according to the orientation (vertical or horizontal)
+
 	protected:
 
 		//(*Identifiers(XPMFoldPanel)
@@ -54,15 +59,22 @@ class XPMFoldPanel: public wxPanel
 
 		//(*Handlers(XPMFoldPanel)
 		//*)
+		void ComputeDimensions(void); ///< \brief compute the actual dimensions of the panel. Will set best size, min size and max size
 
 	protected:
 
 		void BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size);
+		int GetVerticalScrollBarWidth(void);    ///< \brief return the width of a standard vertical scrollbar
+		int GetHorizontalScrollBarHeight(void); ///< \brief return the height of a standard horizontal scrollbar
 
 		XPMToolPanel *ToolPanel;
 		XPMImageManipulationPanel *ManipulationPanel;
 		XPMImagePropertiesPanel *PropertiesPanel;
 		XPMHelpPanel *HelpPanel;
+		wxSize m_sBestSize;     ///< \brief the best size of the panel
+		wxSize m_sMinSize;      ///< \brief the minimal size of the panel
+		wxSize m_sAbsMinSize;   ///< \brief the absolute minimal size of the panel: only the caption bars + 10
+		wxSize m_sMaxSize;      ///< \brief the maximal size of the panel
 
 		DECLARE_EVENT_TABLE()
 };

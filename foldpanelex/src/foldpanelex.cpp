@@ -431,6 +431,8 @@ void wxFoldPanelEx::OnCaptionBarClicked(wxCommandEvent &event)
 }
 
 /** Compute and Set minimal size for the window
+  * Minimal size will be the size with all panes unfolded
+  * Override this function if another behaviour is desired
   */
 void wxFoldPanelEx::ComputeDimensions(void)
 {

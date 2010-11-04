@@ -30,7 +30,7 @@ XPMColourPickerPanel::XPMColourPickerPanel(wxWindow* parent,wxWindowID id,const 
 {
 	//(*Initialize(XPMColourPickerPanel)
 	wxBoxSizer* BoxSizer1;
-
+	
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	ColourPicker = new XPMColorPicker(this,ID_COLOURPICKER1,wxDefaultPosition,wxDefaultSize,0,_T("ID_COLOURPICKER1"));
@@ -38,8 +38,9 @@ XPMColourPickerPanel::XPMColourPickerPanel(wxWindow* parent,wxWindowID id,const 
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
-
+	
 	ColourPicker->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMColourPickerPanel::OnColourPickerMouseEnter,0,this);
+	ColourPicker->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMColourPickerPanel::OnColourPickerMouseLeave,0,this);
 	//*)
 
 	Connect(ID_COLOURPICKER1,wxEVT_TRANSPARENT_COLOR_CHANGED,(wxObjectEventFunction)&XPMColourPickerPanel::OnTransparentColorChanged);
@@ -240,6 +241,16 @@ void XPMColourPickerPanel::OnColourPickerMouseEnter(wxMouseEvent& event)
     if (m_parent)
     {
         m_parent->DisplayHelpText(0);
+    }
+
+    event.Skip();
+}
+
+void XPMColourPickerPanel::OnColourPickerMouseLeave(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(-1);
     }
 
     event.Skip();

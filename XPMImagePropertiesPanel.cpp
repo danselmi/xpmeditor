@@ -13,6 +13,8 @@
 #include "XPMImagePropertiesPanel.h"
 #include "XPMEditorPanel.h"
 
+#define ID_FIRST_HELP 46
+
 //#include <sdk.h>
 
 //(*InternalHeaders(XPMImagePropertiesPanel)
@@ -37,7 +39,7 @@ XPMImagePropertiesPanel::XPMImagePropertiesPanel(wxWindow* parent,wxWindowID id,
 {
 	//(*Initialize(XPMImagePropertiesPanel)
 	wxBoxSizer* BoxSizer8;
-	
+
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer8 = new wxBoxSizer(wxVERTICAL);
 	StaticBoxSizer1 = new wxStaticBoxSizer(wxVERTICAL, this, _("Width x Heigth"));
@@ -63,12 +65,22 @@ XPMImagePropertiesPanel::XPMImagePropertiesPanel(wxWindow* parent,wxWindowID id,
 	SetSizer(BoxSizer8);
 	BoxSizer8->Fit(this);
 	BoxSizer8->SetSizeHints(this);
-	
+
 	Connect(ID_SPINCTRL1,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnImageSizeChanged);
 	Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnImageSizeChanged);
 	Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnImageTypeChanged);
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnButtonAdvancedPropClick);
 	//*)
+
+	//help handlers
+	BMPWidth->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnWidthWidgetsMouseEnter,0,this);
+	BMPWidth->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnWidgetsMouseLeave,0,this);
+	BMPHeight->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnHeightWidgetsMouseEnter,0,this);
+	BMPHeight->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnWidgetsMouseLeave,0,this);
+	Choice1->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnFormatWidgetsMouseEnter,0,this);
+	Choice1->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnWidgetsMouseLeave,0,this);
+	Button1->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnAdvancedWidgetsMouseEnter,0,this);
+	Button1->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImagePropertiesPanel::OnWidgetsMouseLeave,0,this);
 
     AppendFormatsToChoice();
 	m_parent = NULL;
@@ -366,4 +378,55 @@ void XPMImagePropertiesPanel::OnImageSizeChanged(wxSpinEvent& event)
     {
         m_parent->OnImageSizeChanged(event);
     }
+}
+
+/** HELP HANDLERS **/
+void XPMImagePropertiesPanel::OnWidgetsMouseLeave(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(-1);
+    }
+
+    event.Skip();
+}
+
+void XPMImagePropertiesPanel::OnWidthWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP);
+    }
+
+    event.Skip();
+}
+
+void XPMImagePropertiesPanel::OnHeightWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 1);
+    }
+
+    event.Skip();
+}
+
+void XPMImagePropertiesPanel::OnFormatWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 2);
+    }
+
+    event.Skip();
+}
+
+void XPMImagePropertiesPanel::OnAdvancedWidgetsMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 3);
+    }
+
+    event.Skip();
 }

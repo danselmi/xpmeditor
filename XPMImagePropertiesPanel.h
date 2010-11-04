@@ -67,6 +67,13 @@ class XPMImagePropertiesPanel: public wxPanel
 		static const long ID_BUTTON1;
 		//*)
 
+		//help handlers
+		void OnWidgetsMouseLeave(wxMouseEvent& event);
+        void OnWidthWidgetsMouseEnter(wxMouseEvent& event);
+        void OnHeightWidgetsMouseEnter(wxMouseEvent& event);
+        void OnFormatWidgetsMouseEnter(wxMouseEvent& event);
+        void OnAdvancedWidgetsMouseEnter(wxMouseEvent& event);
+
 	private:
 
 		//(*Handlers(XPMImagePropertiesPanel)

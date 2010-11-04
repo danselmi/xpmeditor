@@ -152,6 +152,10 @@
 		<Unit filename="xpm/square.xpm" />
 		<Unit filename="xpm/test_mask.xpm" />
 		<Unit filename="xpm/text.xpm" />
+		<Unit filename="xpmhandler\include\imagxpm2.h" />
+		<Unit filename="xpmhandler\include\xpmdecod2.h" />
+		<Unit filename="xpmhandler\src\imagxpm2.cpp" />
+		<Unit filename="xpmhandler\src\xpmdecod2.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

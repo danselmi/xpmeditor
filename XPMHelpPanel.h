@@ -14,7 +14,7 @@
 
 //(*Headers(XPMHelpPanel)
 #include <wx/sizer.h>
-#include <wx/stattext.h>
+#include <wx/textctrl.h>
 #include <wx/panel.h>
 #include <wx/button.h>
 //*)
@@ -31,19 +31,24 @@ class XPMHelpPanel: public wxPanel
 
 		//(*Declarations(XPMHelpPanel)
 		wxButton* Button1;
-		wxStaticText* StaticText1;
+		wxTextCtrl* TextCtrl1;
 		//*)
 
 	protected:
 
 		//(*Identifiers(XPMHelpPanel)
 		static const long ID_BUTTON1;
-		static const long ID_STATICTEXT1;
+		static const long ID_TEXTCTRL1;
 		//*)
 
 		//(*Handlers(XPMHelpPanel)
 		void OnHelpButtonClick(wxCommandEvent& event);
 		//*)
+
+		//help handlers
+		void OnWidgetsMouseLeave(wxMouseEvent& event);
+		void OnHelpButtonMouseEnter(wxMouseEvent& event);
+		void OnHelpDisplayMouseEnter(wxMouseEvent& event);
 
 	protected:
 

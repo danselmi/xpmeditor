@@ -63,6 +63,16 @@ class XPMImageManipulationPanel: public wxPanel
 		void OnButtonInvertClick(wxCommandEvent& event);
 		//*)
 
+		//help handlers
+		void OnWidgetsMouseLeave(wxMouseEvent& event);
+		void OnStretchButtonMouseEnter(wxMouseEvent& event);
+        void OnMirrorButtonMouseEnter(wxMouseEvent& event);
+        void OnBlurButtonMouseEnter(wxMouseEvent& event);
+        void OnRotateButtonMouseEnter(wxMouseEvent& event);
+        void OnHueButtonMouseEnter(wxMouseEvent& event);
+        void OnColourDepthButtonMouseEnter(wxMouseEvent& event);
+        void OnInvertButtonMouseEnter(wxMouseEvent& event);
+
 		XPMEditorPanel *m_parent;
 
 		DECLARE_EVENT_TABLE()

@@ -67,6 +67,7 @@ class XPMColourPickerPanel: public wxPanel
 
 		//(*Handlers(XPMColourPickerPanel)
 		void OnColourPickerMouseEnter(wxMouseEvent& event);
+		void OnColourPickerMouseLeave(wxMouseEvent& event);
 		//*)
 
 		XPMEditorPanel *m_parent;

@@ -192,7 +192,7 @@ class XPMEditorPanel: public wxPanel
 
 		//help text
         void DisplayHelpText(int iIndex); ///< \brief display information about the control
-        void DisplayToolHelp(wxString sHelpText); ///< \brief display information about the usage of the drawing tool
+        void DisplayToolHelp(int iTool); ///< \brief display information about the usage of the drawing tool
 
  		//(*Declarations(XPMEditorPanel)
  		wxMenuItem* MenuItem2;
@@ -478,6 +478,7 @@ class XPMEditorPanel: public wxPanel
         wxArrayString sToolTipTextArray; ///< \brief array of tooltips text strings
         wxArrayString sHelpTextArray;    ///< \brief array of help strings
 
+        int iToolHelpIndex[XPM_NUMBER_TOOLS]; ///< \brief array to make the correspondance between the help string and the button id
 
         DECLARE_EVENT_TABLE()
 };

@@ -16,7 +16,8 @@
 #include <wx/aui/auibook.h>
 
 #include "XPMEditor.h"
-#include "XPMColorPicker.h"
+#include "XPMColorPicker.h"*
+#include "imagxpm2.h"
 
 // Register the plugin with Code::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
@@ -163,6 +164,8 @@ void XPMEditor::OnAttach()
     if (m_Singleton == NULL)
     {
         wxInitAllImageHandlers();
+        wxImage::RemoveHandler(wxT("XPM file"));
+        wxImage::AddHandler(new wxXPMHandler2);
         wxBitmap::InitStandardHandlers();
         wxFileSystem::AddHandler(new wxZipFSHandler);
         AddFileMasksToProjectManager();

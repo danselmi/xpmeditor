@@ -70,6 +70,8 @@
 					<include_file>wx/clrpicker.h</include_file>
 					<style></style>
 					<tooltip>Change the colour of the grid.</tooltip>
+					<handler function="OnGridColourMouseEnter" entry="EVT_ENTER_WINDOW" />
+					<handler function="OnGridColourMouseLeave" entry="EVT_LEAVE_WINDOW" />
 				</object>
 				<flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>

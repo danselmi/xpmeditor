@@ -10,6 +10,8 @@
 #include "XPMImageManipulationPanel.h"
 #include "XPMEditorPanel.h"
 
+#define ID_FIRST_HELP 50
+
 //(*InternalHeaders(XPMImageManipulationPanel)
 #include <wx/intl.h>
 #include <wx/string.h>
@@ -34,7 +36,7 @@ XPMImageManipulationPanel::XPMImageManipulationPanel(wxWindow* parent,wxWindowID
 {
 	//(*Initialize(XPMImageManipulationPanel)
 	wxBoxSizer* BoxSizer13;
-	
+
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer13 = new wxBoxSizer(wxVERTICAL);
 	Button1 = new wxButton(this, ID_BUTTON1, _("STRETCH"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT, wxDefaultValidator, _T("ID_BUTTON1"));
@@ -55,7 +57,7 @@ XPMImageManipulationPanel::XPMImageManipulationPanel(wxWindow* parent,wxWindowID
 	SetSizer(BoxSizer13);
 	BoxSizer13->Fit(this);
 	BoxSizer13->SetSizeHints(this);
-	
+
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMImageManipulationPanel::OnButtonStretchClick);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMImageManipulationPanel::OnButtonMirrorClick);
 	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMImageManipulationPanel::OnButtonBlurClick);
@@ -64,6 +66,22 @@ XPMImageManipulationPanel::XPMImageManipulationPanel(wxWindow* parent,wxWindowID
 	Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMImageManipulationPanel::OnButtonColourDepthClick);
 	Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMImageManipulationPanel::OnButtonInvertClick);
 	//*)
+
+	//help handler
+	Button1->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnStretchButtonMouseEnter,0,this);
+	Button1->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnWidgetsMouseLeave,0,this);
+	Button2->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnMirrorButtonMouseEnter,0,this);
+	Button2->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnWidgetsMouseLeave,0,this);
+	Button3->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnBlurButtonMouseEnter,0,this);
+	Button3->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnWidgetsMouseLeave,0,this);
+	Button4->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnRotateButtonMouseEnter,0,this);
+	Button4->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnWidgetsMouseLeave,0,this);
+	Button5->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnHueButtonMouseEnter,0,this);
+	Button5->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnWidgetsMouseLeave,0,this);
+	Button6->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnColourDepthButtonMouseEnter,0,this);
+	Button6->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnWidgetsMouseLeave,0,this);
+	Button7->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnInvertButtonMouseEnter,0,this);
+	Button7->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMImageManipulationPanel::OnWidgetsMouseLeave,0,this);
 
 	m_parent = NULL;
 }
@@ -146,3 +164,86 @@ void XPMImageManipulationPanel::OnButtonInvertClick(wxCommandEvent& event)
         m_parent->OnInvertImageClick(event);
     }
 }
+
+/** HELP HANDLERS ***/
+void XPMImageManipulationPanel::OnWidgetsMouseLeave(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(-1);
+    }
+
+    event.Skip();
+}
+
+void XPMImageManipulationPanel::OnStretchButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP);
+    }
+
+    event.Skip();
+}
+
+void XPMImageManipulationPanel::OnMirrorButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 1);
+    }
+
+    event.Skip();
+}
+
+void XPMImageManipulationPanel::OnBlurButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 2);
+    }
+
+    event.Skip();
+}
+
+void XPMImageManipulationPanel::OnRotateButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 3);
+    }
+
+    event.Skip();
+}
+
+void XPMImageManipulationPanel::OnHueButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 4);
+    }
+
+    event.Skip();
+}
+
+void XPMImageManipulationPanel::OnColourDepthButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 5);
+    }
+
+    event.Skip();
+}
+
+void XPMImageManipulationPanel::OnInvertButtonMouseEnter(wxMouseEvent& event)
+
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 6);
+    }
+
+    event.Skip();
+}
+

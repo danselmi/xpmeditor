@@ -18,6 +18,8 @@
 									<tooltip>Rectangle selection area</tooltip>
 									<help>Left click on the image to set the top-left corner of the area. Move the mouse to set the size of the area. Left click define the area. Holding SHIFT key down will force the area to be a square.</help>
 									<handler function="OnSelectButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnSelectButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -30,6 +32,8 @@
 									<tooltip>Complex area selection</tooltip>
 									<help>Left-click on the image to select the 1st point of the Polygon. Each additionnal left-click will define a corner of the polygon. Double-Click or Right-Click ends the polygon definition.</help>
 									<handler function="OnLassoButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnLassoButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -42,6 +46,8 @@
 									<tooltip>Pipette</tooltip>
 									<help>Copy the colour of a pixel. Simply left click on the colour you want to copy. The colour will be copied in the currently selected Line Colour. To copy the colour in Fill Colour instead, hold the SHIFT key down.</help>
 									<handler function="OnPipetteButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnPipetteButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -54,6 +60,8 @@
 									<tooltip>Line</tooltip>
 									<help>Select a Line Colour. Choose a Line Style and a Line Thickness.&#x0A;Left Click to indicate the start point. Move the mouse, and left click again to indicate the end point.</help>
 									<handler function="OnLineButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnLineButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -66,6 +74,8 @@
 									<tooltip>Curve</tooltip>
 									<help>Select a Line Colour. Choose a Line Style and a Line Thickness.&#x0A;Left Click to indicate the start point. Move the mouse, and left click again to indicate another point. Continue to click to indicater further points. Terminate by Right Click or Double Click.</help>
 									<handler function="OnCurveButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnCurveButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -83,6 +93,8 @@
 									<tooltip>Pen</tooltip>
 									<help>Draw a single pixel, in the given colour. Select a Line Colour. Keep the left button pressed to draw several pixels at once.</help>
 									<handler function="OnPenButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnPenButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -95,6 +107,8 @@
 									<tooltip>Brush</tooltip>
 									<help>Draw a pattern, like a circle or a square. Select a Line Colour. Select the pattern to draw, and the size in pixel of the pattern (square length, circle radius, ...). Left click on the image to draw the 1st pattern. Keeping the left button pressed will draw more patterns.</help>
 									<handler function="OnBrushButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnBrushButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -107,6 +121,8 @@
 									<tooltip>Flood Fill</tooltip>
 									<help>Select a FILL colour (right click) in the Colour Picker. Then left click on the image: the fill colour will be used to replace all the area where the click occured. The fill stops whenever a pixel of another colour than the original colour  is found.</help>
 									<handler function="OnFillButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnFillButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -119,6 +135,8 @@
 									<tooltip>Spray Can</tooltip>
 									<help>This simulate a paint spray can.</help>
 									<handler function="OnSprayCanButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnSprayCanButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 								<border>2</border>
@@ -131,6 +149,8 @@
 									<tooltip>Gradient</tooltip>
 									<help>Fill an area with a gradient.</help>
 									<handler function="OnGradientButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnGradientButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 								<border>2</border>
@@ -148,6 +168,8 @@
 									<tooltip>Text</tooltip>
 									<help>Select a Line Colour (it will be the Text Colour). Select a Fill Colour. Select the Font by Clicking on &quot;FONT&quot;. Toggle Opaque / Transparent to draw the text with a background or not, respectively. Select the text orientation, in degrees (0 means horizontal).&#x0A;Select the draw area by left clicking (see the &quot;Select Rectangle Area&quot; tool). Type your text in the box which appears. The colours, font, orientation, and alignment can still be changed. The text can be moved or resized using the mouse.&#x0A;When finished, click outside the text area.</help>
 									<handler function="OnTextButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnTextButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -160,6 +182,8 @@
 									<tooltip>Rectangle</tooltip>
 									<help>Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. Left click on the image to define the first corner. Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Square.</help>
 									<handler function="OnRectangleButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnRectangleButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -172,6 +196,8 @@
 									<tooltip>Polygon</tooltip>
 									<help>Left-click on the image to select the 1st point of the Polygon. Each additionnal left-click will define a corner of the polygon. Double-Click or Right-Click ends the polygon definition.</help>
 									<handler function="OnPolygonButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnPolygonButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -184,6 +210,8 @@
 									<tooltip>Ellipse / Circle</tooltip>
 									<help>Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. The Ellipse or Circle is defined by a rectangular bounding box. Left click on the image to define the first corner of the bounding box. Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Circle.</help>
 									<handler function="OnEllipseButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnEllipseButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -196,6 +224,8 @@
 									<tooltip>Rounded Rectangle</tooltip>
 									<help>Select a Fill colour and a Line colour. Select a Line Style and a Fill Style. Select the radius to be used at the corners.  Left click on the image to define the first corner. Move the mouse, and left click again to indicate the second corner. Holding the SHIFT key down will define a Square with rounded corners.</help>
 									<handler function="OnRRectButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnRRectButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -213,6 +243,8 @@
 									<tooltip>Eraser</tooltip>
 									<help>Select the size of the eraser. Left click on the image will replace the selected area by the MASK (transparent) colour. When saving, this area will be considered as transparent. Moving the mouse while keeping the left button pressed will erase further area.</help>
 									<handler function="OnEraserButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnEraserButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 								<border>2</border>
@@ -225,6 +257,8 @@
 									<tooltip>Cursor Hot Spot</tooltip>
 									<help>This define the location of the Hot Spot, for cursors. There can be only one hot spot. To delete a Hot Spot, simply click outside the image boundaries, or save the image in a format which does not support Hot Spot. Currently, only Windows support HotSpot information in *cur files.</help>
 									<handler function="OnHotSpotButtonToggle" entry="EVT_TOGGLEBUTTON" />
+									<handler function="OnHotSpotButtonMouseEnter" entry="EVT_ENTER_WINDOW" />
+									<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 								</object>
 								<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 								<border>2</border>
@@ -249,6 +283,8 @@
 							<include_file>wx/bmpcbox.h</include_file>
 							<style></style>
 							<tooltip>The line style</tooltip>
+							<handler function="OnComboBrushToolMouseEnter" entry="EVT_ENTER_WINDOW" />
+							<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 						<border>2</border>
@@ -264,6 +300,8 @@
 							<creating_code>$(THIS) = new $(CLASS)($(PARENT),$(ID),cHotSpotColour,$(POS),$(SIZE),wxCLRP__SHOW__LABEL,wxDefaultValidator,$(NAME));</creating_code>
 							<include_file>wx/clrpicker.h</include_file>
 							<style></style>
+							<handler function="OnHotSpotColourPickerMouseEnter" entry="EVT_ENTER_WINDOW" />
+							<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL</flag>
 						<border>2</border>
@@ -562,6 +600,8 @@
 							<include_file>wx/bmpcbox.h</include_file>
 							<style></style>
 							<tooltip>The line style</tooltip>
+							<handler function="OnComboPenStyleMouseEnter" entry="EVT_ENTER_WINDOW" />
+							<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 						<border>2</border>
@@ -586,6 +626,8 @@
 							<include_file>wx/bmpcbox.h</include_file>
 							<style></style>
 							<tooltip>The Fill Style</tooltip>
+							<handler function="OnComboBrushStyleMouseEnter" entry="EVT_ENTER_WINDOW" />
+							<handler function="OnButtonMouseLeave" entry="EVT_LEAVE_WINDOW" />
 						</object>
 						<flag>wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 						<border>2</border>

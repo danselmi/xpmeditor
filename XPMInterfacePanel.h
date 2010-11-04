@@ -53,6 +53,14 @@ class XPMInterfacePanel: public wxPanel
 		static const long ID_CUSTOM3;
 		//*)
 
+		//help handlers
+		void OnZoomWidgetsMouseEnter(wxMouseEvent& event);
+		void OnShowGridWidgetsMouseEnter(wxMouseEvent& event);
+		void OnGridColourWidgetsMouseEnter(wxMouseEvent& event);
+		void OnRotateClockwiseWidgetsMouseEnter(wxMouseEvent& event);
+		void OnRotateCounterClockwiseWidgetsMouseEnter(wxMouseEvent& event);
+		void OnWidgetsMouseLeave(wxMouseEvent& event);
+
 	private:
 
 		//(*Handlers(XPMInterfacePanel)
@@ -60,6 +68,8 @@ class XPMInterfacePanel: public wxPanel
 		void OnRotateCounterClockwise(wxCommandEvent& event);
 		void OnRotateClockwise(wxCommandEvent& event);
 		void OnShowGrid(wxCommandEvent& event);
+		void OnGridColourMouseEnter(wxMouseEvent& event);
+		void OnGridColourMouseLeave(wxMouseEvent& event);
 		//*)
 
 		XPMEditorPanel *m_parent;

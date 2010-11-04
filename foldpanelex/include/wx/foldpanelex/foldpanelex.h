@@ -101,7 +101,7 @@ class wxFoldPanelEx : public wxScrolledWindow
 
         bool VetoStd(wxFoldItemEx *f, bool bCollapsed); ///< \brief the default veto function. Accepts everything
 
-        void ComputeDimensions(void);  ///< \brief Compute and Set minimal size for the window
+        virtual void ComputeDimensions(void);  ///< \brief Compute and Set minimal size for the window
         virtual wxSize DoGetBestSize(void); ///< \brief Return the ideal size for the control
         void FitSizer(void); ///< \brief redo the sizer layout
         void UpdateScrollBars(void);  ///< \brief update the scroll increments - it will automatically hide / show the scrollbars

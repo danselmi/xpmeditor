@@ -92,6 +92,8 @@ END_EVENT_TABLE()
   */
 XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
+	int i;
+
 	BuildContent(parent,id,pos,size);
 
 	m_Bitmap = wxBitmap(XPM_DEFAULT_WIDTH, XPM_DEFAULT_HEIGHT);
@@ -128,6 +130,10 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
     m_bDrawToolDynamic = false;
 
     //set tooltips & Help text
+    for(i=0;i<XPM_NUMBER_TOOLS;i++)
+    {
+        iToolHelpIndex[i] = -1;
+    }
 	SetToolTips();
 	SetHelpTexts();
 
@@ -164,8 +170,8 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
 
 	//to do : register an event handler when AUI colours are updated
 	//EVT_MENU(idSettingsEnvironment, MainFrame::OnSettingsEnvironment)
-    UpdateMinimalSizes();
-	UpdateAUIColours();
+    //UpdateMinimalSizes(); //is done in UpdateConfiguration()
+	//UpdateAUIColours();   //is done in UpdateConfiguration()
 	Thaw();
 
 	wxString sFilePath;
@@ -399,17 +405,24 @@ void XPMEditorPanel::UpdateMinimalSizes(void)
         {
             //Tools panel
             wxSize sMinSize;
+            wxSize sAbsMinSize;
             wxSize sBestSize;
 
-            if (FoldPanel->FoldPanelBar1)
+            if (FoldPanel)
             {
-                sMinSize  = FoldPanel->FoldPanelBar1->GetMinSize();
-                sBestSize = FoldPanel->FoldPanelBar1->GetBestSize();
+                sMinSize = FoldPanel->DoGetMinSize();
+                sAbsMinSize  = FoldPanel->DoGetAbsoluteMinimalSize();
+                sBestSize = FoldPanel->DoGetBestSize();
             }
-
+/*
+            Log(_("-----------------------------------------------------------"));
+            Log(wxString::Format(_("XPMEditorPanel::UpdateMinimalSizes Min Size w=%d h=%d"), sMinSize.GetWidth(), sMinSize.GetHeight()));
+            Log(wxString::Format(_("XPMEditorPanel::UpdateMinimalSizesBest Size w=%d h=%d"), sBestSize.GetWidth(), sBestSize.GetHeight()));
+            Log(_("-----------------------------------------------------------"));
+*/
             auiFoldInfo = auiFoldInfo.BestSize(sBestSize)
                                      .FloatingSize(sMinSize)
-                                     .MinSize(sMinSize);
+                                     .MinSize(sAbsMinSize);
 
             if (m_AUIXPMEditor->DetachPane(FoldPanel))
             {
@@ -7347,7 +7360,7 @@ void XPMEditorPanel::SetToolTips(void)
     if (HelpPanel)
     {
         if (HelpPanel->Button1) HelpPanel->Button1->SetToolTip(sToolTipTextArray[44]);
-        if (HelpPanel->StaticText1) HelpPanel->StaticText1->SetToolTip(sToolTipTextArray[45]);
+        if (HelpPanel->TextCtrl1) HelpPanel->TextCtrl1->SetToolTip(sToolTipTextArray[45]);
     }
 
     if (PropertiesPanel)
@@ -7433,7 +7446,7 @@ void XPMEditorPanel::SetHelpTexts(void)
     sText += wxT("The Line Colour will be the 1st gradient colour.");
     sText += wxT("The Fill Colour will be the 2nd gradient colour.");
     sText += wxT("Select the type of gradient : Linear or Concentric. ");
-    sText += wxT("For linear gradient, define the direction. ""To the Top"" means that the Line Colour will be at the top, and the Fill Colour at the bottom");
+    sText += wxT("For linear gradient, define the direction. ""To the Top"" means that the Line Colour will be at the top, and the Fill Colour at the bottom. ");
     sText += wxT("Define a rectangular area where to apply the gradient using the Left Mouse Button. ");
     sText += wxT("The first click define the top left corner. ");
     sText += wxT("The second click define the bottom right corner. ");
@@ -7585,18 +7598,43 @@ void XPMEditorPanel::SetHelpTexts(void)
         if (ToolPanel->ComboBrushStyle) ToolPanel->ComboBrushStyle->SetHelpText(sHelpTextArray[41]);
         if (ToolPanel->ChoiceGradient) ToolPanel->ChoiceGradient->SetHelpText(sHelpTextArray[42]);
         if (ToolPanel->ChoiceGradientDirection) ToolPanel->ChoiceGradientDirection->SetHelpText(sHelpTextArray[43]);
+
+        //1st row
+        iToolHelpIndex[XPM_ID_SELECT_TOOL] = 6;
+        iToolHelpIndex[XPM_ID_LASSO_TOOL] = 7;
+        iToolHelpIndex[XPM_ID_PIPETTE_TOOL] = 8;
+        iToolHelpIndex[XPM_ID_LINE_TOOL] = 9;
+        iToolHelpIndex[XPM_ID_CURVE_TOOL] = 10;
+
+        //2nd row
+        iToolHelpIndex[XPM_ID_PEN_TOOL] = 11;
+        iToolHelpIndex[XPM_ID_BRUSH_TOOL] = 12;
+        iToolHelpIndex[XPM_ID_FILL_TOOL] = 13;
+        iToolHelpIndex[XPM_ID_SPRAYCAN_TOOL] = 14;
+        iToolHelpIndex[XPM_ID_GRADIENT_TOOL] = 15;
+
+        //3rd row
+        iToolHelpIndex[XPM_ID_TEXT_TOOL] = 16;
+        iToolHelpIndex[XPM_ID_RECTANGLE_TOOL] = 17;
+        iToolHelpIndex[XPM_ID_POLYGON_TOOL] = 18;
+        iToolHelpIndex[XPM_ID_ELLIPSE_TOOL] = 19;
+        iToolHelpIndex[XPM_ID_ROUNDEDRECT_TOOL] = 20;
+
+        //4th row
+        iToolHelpIndex[XPM_ID_ERASER_TOOL] = 21;
+        iToolHelpIndex[XPM_ID_HOTSPOT_TOOL] = 22;
     }
 
     if (HelpPanel)
     {
         if (HelpPanel->Button1) HelpPanel->Button1->SetHelpText(sHelpTextArray[44]);
-        if (HelpPanel->StaticText1) HelpPanel->StaticText1->SetHelpText(sHelpTextArray[45]);
+        if (HelpPanel->TextCtrl1) HelpPanel->TextCtrl1->SetHelpText(sHelpTextArray[45]);
     }
 
     if (PropertiesPanel)
     {
         if (PropertiesPanel->BMPWidth) PropertiesPanel->BMPWidth->SetHelpText(sHelpTextArray[46]);
-        if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPWidth->SetHelpText(sHelpTextArray[47]);
+        if (PropertiesPanel->BMPHeight) PropertiesPanel->BMPHeight->SetHelpText(sHelpTextArray[47]);
         if (PropertiesPanel->Choice1) PropertiesPanel->Choice1->SetHelpText(sHelpTextArray[48]);
         if (PropertiesPanel->Button1) PropertiesPanel->Button1->SetHelpText(sHelpTextArray[49]);
     }
@@ -7620,10 +7658,14 @@ void XPMEditorPanel::SetHelpTexts(void)
   */
 void XPMEditorPanel::DisplayHelpText(int iIndex)
 {
-    Log(sHelpTextArray[iIndex]);
+    //Log(sHelpTextArray[iIndex]);
     if ((DrawCanvasPanel) and (iIndex >= 0) and (iIndex < sHelpTextArray.Count()))
     {
         if (DrawCanvasPanel->StaticText1) DrawCanvasPanel->StaticText1->SetLabel(sHelpTextArray[iIndex]);
+    }
+    else if ((DrawCanvasPanel) and (iIndex < 0))
+    {
+        if (DrawCanvasPanel->StaticText1) DrawCanvasPanel->StaticText1->SetLabel(_(" "));
     }
 }
 
@@ -7632,10 +7674,31 @@ void XPMEditorPanel::DisplayHelpText(int iIndex)
   * The help text may be multilines.
   * \param sHelpText : the text to display
   */
-void XPMEditorPanel::DisplayToolHelp(wxString sHelpText)
+void XPMEditorPanel::DisplayToolHelp(int iTool)
 {
+    wxString sHelpText; //the text to display
+
+    if ((iTool < 0) || (iTool >= XPM_NUMBER_TOOLS))
+    {
+        sHelpText = _("");
+    }
+    else
+    {
+        int i;
+        i = iToolHelpIndex[iTool];
+        if ((i < 0) || (i >= sHelpTextArray.GetCount()))
+        {
+            sHelpText = _("");
+        }
+        else
+        {
+            sHelpText = sHelpTextArray[i];
+        }
+
+    }
+
     if (HelpPanel)
     {
-        if (HelpPanel->StaticText1) HelpPanel->StaticText1->SetLabel(sHelpText);
+        if (HelpPanel->TextCtrl1) HelpPanel->TextCtrl1->SetLabel(sHelpText);
     }
 }

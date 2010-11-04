@@ -8,6 +8,8 @@
  * License:   GPL 3.0
  **************************************************************/
 
+#define ID_FIRST_HELP 6
+
 #include "XPMToolPanel.h"
 #include <wx/tooltip.h>
 
@@ -123,7 +125,7 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	wxBoxSizer* BoxSizer9;
 	wxStaticBoxSizer* StaticBoxSizer1;
 	wxBoxSizer* BoxSizer3;
-	
+
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
 	wxToolTip::Enable(true);
 	ToolPanelSizer = new wxBoxSizer(wxVERTICAL);
@@ -328,24 +330,62 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	SetSizer(ToolPanelSizer);
 	ToolPanelSizer->Fit(this);
 	ToolPanelSizer->SetSizeHints(this);
-	
+
 	Connect(ID_SELECT_BUTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSelectButtonToggle);
+	SelectButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnSelectButtonMouseEnter,0,this);
+	SelectButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_LASSO_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLassoButtonToggle);
+	LassoButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnLassoButtonMouseEnter,0,this);
+	LassoButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_PIPETTE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPipetteButtonToggle);
+	PipetteButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnPipetteButtonMouseEnter,0,this);
+	PipetteButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_LINE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnLineButtonToggle);
+	LineButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnLineButtonMouseEnter,0,this);
+	LineButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_CURVE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnCurveButtonToggle);
+	CurveButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnCurveButtonMouseEnter,0,this);
+	CurveButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_PEN_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPenButtonToggle);
+	PenButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnPenButtonMouseEnter,0,this);
+	PenButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_BRUSH_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnBrushButtonToggle);
+	BrushButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnBrushButtonMouseEnter,0,this);
+	BrushButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_FILL_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnFillButtonToggle);
+	FillButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnFillButtonMouseEnter,0,this);
+	FillButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_BUTTONSPRAYCAN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnSprayCanButtonToggle);
+	SprayCanButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnSprayCanButtonMouseEnter,0,this);
+	SprayCanButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_GRADIENTBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnGradientButtonToggle);
+	GradientButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnGradientButtonMouseEnter,0,this);
+	GradientButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_TEXT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnTextButtonToggle);
+	TextButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnTextButtonMouseEnter,0,this);
+	TextButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_RECTANGLE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnRectangleButtonToggle);
+	RectangleButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnRectangleButtonMouseEnter,0,this);
+	RectangleButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_POLYGON_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnPolygonButtonToggle);
+	PolygonButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnPolygonButtonMouseEnter,0,this);
+	PolygonButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_ELLIPSE_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnEllipseButtonToggle);
+	EllipseButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnEllipseButtonMouseEnter,0,this);
+	EllipseButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_ROUNDEDRECT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnRRectButtonToggle);
+	RRectButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnRRectButtonMouseEnter,0,this);
+	RRectButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_ERASER_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnEraserButtonToggle);
+	EraserButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnEraserButtonMouseEnter,0,this);
+	EraserButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_HOTSPOT_BTN,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotButtonToggle);
+	HotSpotButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotButtonMouseEnter,0,this);
+	HotSpotButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	ComboBrushTool->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnComboBrushToolMouseEnter,0,this);
+	ComboBrushTool->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	HotSpotColourPicker->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnHotSpotColourPickerMouseEnter,0,this);
+	HotSpotColourPicker->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinSizeChanged);
 	Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinRadiusChanged);
 	Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinThicknessChanged);
@@ -361,9 +401,64 @@ XPMToolPanel::XPMToolPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,con
 	Connect(ID_BACKGROUNDBUTTON,wxEVT_COMMAND_TOGGLEBUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnBackgroundButtonToggle);
 	Connect(ID_FONTBUTTON,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&XPMToolPanel::OnFontButtonClick);
 	Connect(ID_SPINCTRL6,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&XPMToolPanel::OnSpinAngleChange);
+	ComboPenStyle->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnComboPenStyleMouseEnter,0,this);
+	ComboPenStyle->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	ComboBrushStyle->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnComboBrushStyleMouseEnter,0,this);
+	ComboBrushStyle->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 	Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&XPMToolPanel::OnChoiceGradientSelect);
 	Connect(ID_CHOICE2,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&XPMToolPanel::OnChoiceGradientDirectionSelect);
 	//*)
+
+	//help handlers
+    SpinCtrl1->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnSizeSpinMouseEnter,0,this);
+	SpinCtrl3->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnRadiusSpinMouseEnter,0,this);
+	SpinCtrl2->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnThicknessSpinMouseEnter,0,this);
+	TopLeft->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnTopLeftMouseEnter,0,this);
+	TopCenter->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnTopCenterMouseEnter,0,this);
+	TopRight->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnTopRightMouseEnter,0,this);
+	CenterLeft->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnCenterLeftMouseEnter,0,this);
+	CenterCenter->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnCenterCenterMouseEnter,0,this);
+	CenterRight->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnCenterRightMouseEnter,0,this);
+	BottomLeft->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnBottomLeftMouseEnter,0,this);
+	BottomCenter->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnBottomCenterMouseEnter,0,this);
+	BottomRight->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnBottomRightMouseEnter,0,this);
+	BackgroundButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnBackgroundButtonMouseEnter,0,this);
+	FontButton->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnFontButtonMouseEnter,0,this);
+	SpinAngle->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnSpinAngleMouseEnter,0,this);
+	ChoiceGradient->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnChoiceGradientMouseEnter,0,this);
+	ChoiceGradientDirection->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnChoiceGradientDirectionMouseEnter,0,this);
+	StaticText1->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnComboPenStyleMouseEnter,0,this);
+	StaticText2->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnComboBrushStyleMouseEnter,0,this);
+	StaticText3->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnChoiceGradientDirectionSelect,0,this);
+	StaticText4->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnSizeSpinMouseEnter,0,this);
+	StaticText5->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnThicknessSpinMouseEnter,0,this);
+	StaticText6->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnRadiusSpinMouseEnter,0,this);
+	StaticText8->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnSpinAngleMouseEnter,0,this);
+
+	SpinCtrl1->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	SpinCtrl3->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	SpinCtrl2->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	TopLeft->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	TopCenter->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	TopRight->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	CenterLeft->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	CenterCenter->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	CenterRight->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	BottomLeft->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	BottomCenter->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	BottomRight->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	BackgroundButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	FontButton->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	SpinAngle->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	ChoiceGradient->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	ChoiceGradientDirection->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	StaticText1->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	StaticText2->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	StaticText3->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	StaticText4->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	StaticText5->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	StaticText6->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
+	StaticText8->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMToolPanel::OnButtonMouseLeave,0,this);
 
 	m_parent = NULL;
 
@@ -538,6 +633,10 @@ int XPMToolPanel::GetToolID(void)
 void XPMToolPanel::SetToolID(int iTool)
 {
     iToolUsed = iTool;
+    if (m_parent)
+    {
+        m_parent->DisplayToolHelp(iTool);
+    }
     //wxMessageBox(wxString::Format(_("Tool id = %d"), iTool));
     //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Tool id = %d"), iTool));
 }
@@ -1104,6 +1203,10 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
 {
     wxSize sResult(0,0);
 
+    //NOTE : in this method, some widgets are reporting a minimal size which is way too big
+    //       If this is the case, then this minimal size is commented out.
+    //       This is the case for wxSpinCtrl
+
     if ((ToolButtonsSizer) && (ToolPanelSizer))
     {
        wxSize sMinSize(0,0);
@@ -1115,9 +1218,6 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
        bool bHidden1, bHidden2, bHidden3, bHidden4;
 
        sResult = ToolButtonsSizer->GetMinSize();
-
-        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
-        //Manager::Get()->GetLogManager()->Log(wxString::Format(_("ToolButtonSizer w=%d h=%d"), sResult.GetWidth(), sResult.GetHeight()));
 
        //get the height of all child sizers, and keep the maximal one
 
@@ -1143,8 +1243,6 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            //if (sMinSize.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize.GetWidth());
            if (sMinSize2.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize2.GetWidth());
            //if (sMinSize3.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize3.GetWidth());
-           //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
-           //Manager::Get()->GetLogManager()->Log(wxString::Format(_("BrushToolSizer w=%d h=%d"), sMinSize.GetWidth(), sMinSize.GetHeight()));
        }
 
        if (GradientSizer)
@@ -1170,8 +1268,6 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
 
            if (sMinSize.GetHeight() > sChildSize.GetHeight()) sChildSize.SetHeight(sMinSize.GetHeight());
            if (sMinSize.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize.GetWidth());
-           //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
-           //Manager::Get()->GetLogManager()->Log(wxString::Format(_("ColourPickerSizer w=%d h=%d"), sMinSize.GetWidth(), sMinSize.GetHeight()));
        }
 
        if ((RadiusSizer) && (ThicknessSizer) && (BrushStyleSizer) && (PenStyleSizer))
@@ -1201,31 +1297,24 @@ wxSize XPMToolPanel::DoGetBestSize(void) const
            if (sMinSize2.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize2.GetWidth());
            //if (sMinSize3.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize3.GetWidth());
            //if (sMinSize4.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize4.GetWidth());
-           //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
-           //Manager::Get()->GetLogManager()->Log(wxString::Format(_("Radius w=%d h=%d"), sMinSize.GetWidth(), sMinSize.GetHeight()));
        }
 
 
-       if (FontSizer)
+       if (0) //if (FontSizer)
        {
            //get minimal sizes - note : when sizer is hidden, only borders size are returned. Therefore we need to show the sizer first
            if (!bHidden1) ToolPanelSizer->Show(FontSizer);
            sMinSize = FontSizer->GetMinSize();
            if (!bHidden1) ToolPanelSizer->Hide(FontSizer);
 
-           sMinSize.SetHeight(sMinSize.GetHeight() + sMinSize2.GetHeight());
+           sMinSize.SetHeight(sMinSize.GetHeight());
 
            if (sMinSize.GetHeight() > sChildSize.GetHeight()) sChildSize.SetHeight(sMinSize.GetHeight());
            if (sMinSize.GetWidth() > sChildSize.GetWidth()) sChildSize.SetWidth(sMinSize.GetWidth());
-           //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
-           //Manager::Get()->GetLogManager()->Log(wxString::Format(_("FontSizer w=%d h=%d"), sMinSize.GetWidth(), sMinSize.GetHeight()));
        }
 
-       //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
-       sResult.SetHeight(sResult.GetHeight() + sChildSize.GetHeight()); //20 is for the 2 sizer spacers (2*8 + 1 + 1 + 1 + 1), the 1 being the borders of the spacers
+       sResult.SetHeight(sResult.GetHeight() + sChildSize.GetHeight() + 10); //10 is for the 2 sizer spacers (2*8 + 1 + 1 + 1 + 1), the 1 being the borders of the spacers
        if (sChildSize.GetWidth() > sResult.GetWidth()) sResult.SetWidth(sChildSize.GetWidth());
-       //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sChildSize w=%d h=%d"), sChildSize.GetWidth(), sChildSize.GetHeight()));
-       //Manager::Get()->GetLogManager()->Log(wxString::Format(_("sResult w=%d h=%d"), sResult.GetWidth(), sResult.GetHeight()));
 
     }
     return(sResult);
@@ -1972,4 +2061,398 @@ void XPMToolPanel::OnChoiceGradientDirectionSelect(wxCommandEvent& event)
         tdata.iGradientDirection = event.GetSelection();
         m_parent->SetToolData(&tdata);
     }
+}
+
+/** HELP HANDLERS **/
+
+void XPMToolPanel::OnSelectButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnButtonMouseLeave(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(-1);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnLassoButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 1);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnPipetteButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 2);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnLineButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 3);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnCurveButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 4);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnPenButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 5);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnBrushButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 6);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnFillButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 7);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnSprayCanButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 8);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnGradientButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 9);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnTextButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 10);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnRectangleButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 11);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnPolygonButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 12);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnEllipseButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 13);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnRRectButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 14);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnEraserButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 15);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnHotSpotButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 16);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnComboBrushToolMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 17);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnHotSpotColourPickerMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 18);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnSizeSpinMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 19);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnRadiusSpinMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 20);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnThicknessSpinMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 21);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnTopLeftMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 22);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnTopCenterMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 23);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnTopRightMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 24);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnCenterLeftMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 25);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnCenterCenterMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 26);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnCenterRightMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 27);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnBottomLeftMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 28);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnBottomCenterMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 29);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnBottomRightMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 30);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnBackgroundButtonMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 31);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnFontButtonMouseEnter(wxMouseEvent& event)
+
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 32);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnSpinAngleMouseEnter(wxMouseEvent& event)
+
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 33);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnComboPenStyleMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 34);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnComboBrushStyleMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 35);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnChoiceGradientMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 36);
+    }
+
+    event.Skip();
+}
+
+void XPMToolPanel::OnChoiceGradientDirectionMouseEnter(wxMouseEvent& event)
+{
+    if (m_parent)
+    {
+        m_parent->DisplayHelpText(ID_FIRST_HELP + 37);
+    }
+
+    event.Skip();
 }

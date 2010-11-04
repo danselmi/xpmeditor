@@ -7,14 +7,7 @@ IMPROVEMENTS / NEW FEATURES:
 
 2 - resize all cursors to fit in a 16 x 16 square
 
-3 - Quick Help display (tooltip)  + help in status bar
-
-4 - review size of ToolPanel (again)
-     a - minimal size to increase, to fit a vertical scrollbar
-     b - Minimal floating size to reduce to Tools size
-     c - Best floating size to recompute
-
-5 - performs all the drawing directly on bitmap (faster)
+3 - performs all the drawing directly on bitmap (faster)
     remove as many calls to XPMEditorPanel::UpdateBitmap and to XPMEditorPanel::UpdateImage as possible
     (in the ProcessXXXX methods)
     Call UpdateImage only before a call to GetImage(), and whenever m_Image is used (reduce the occurence of this happening, btw)
@@ -29,14 +22,9 @@ IMPROVEMENTS / NEW FEATURES:
       b - clip drawdynamictool
       c - perhap the lag on wxGTK is coming from Undo: try to deactivate it.
 
-9 - Rotated text can be improved
-
 10 - SetCursor can be improved: it is not always giving the good cursor.
-    Set the Cursor for the DrawCanvas AND the XPMEditorPanel (child & parent respectively)
+     Set the Cursor for the DrawCanvas AND the XPMEditorPanel (child & parent respectively)
 
-11  in XPMEditorPanel::BuildContents
-    //to do : register an event handler when AUI colours are updated
-	//EVT_MENU(idSettingsEnvironment, MainFrame::OnSettingsEnvironment)
 
 
 --- OTHER THINGS TO DO NOT RELATED TO XPM EDITOR ------
@@ -47,8 +35,15 @@ IMPROVEMENTS / NEW FEATURES:
                         SetQuickHelpPanel
 
 2 - wxSmith: Style field in wxCustomClass is not saved
+             For wxCustomControl, it would be good to be able to add custom events
+             For many widgets, some events are not available
 
 3 - Save As: does not update the file status in the Project Manager
 
 ---- SOLVED & DONE ----------------------------------------------
 
+1 - add a patched xpm handler: the one from wxWidgets does not read the images when they have comments inside
+
+2 - added HELP
+
+3 - Size of Tool Panel fixed.

@@ -31,10 +31,11 @@
 					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="$(#cb)\include" />
 					<Add directory="$(#cb)\sdk\wxscintilla\include" />
-					<Add directory="$(#wx.include)" />
 					<Add directory="$(#wx.lib)\gcc_dll\mswu" />
+					<Add directory="$(#wx)\include" />
 					<Add directory="wxthings\include" />
 					<Add directory="foldpanelex\include" />
+					<Add directory="xpmhandler\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
@@ -162,6 +163,10 @@
 		<Unit filename="xpm\test_mask.xpm" />
 		<Unit filename="xpm\text.xpm" />
 		<Unit filename="xpm\transparent.xpm" />
+		<Unit filename="xpmhandler\include\imagxpm2.h" />
+		<Unit filename="xpmhandler\include\xpmdecod2.h" />
+		<Unit filename="xpmhandler\src\imagxpm2.cpp" />
+		<Unit filename="xpmhandler\src\xpmdecod2.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
