@@ -30,6 +30,7 @@
 					<Add directory="$(#wx.lib)/gcc_dll/mswu" />
 					<Add directory="wxthings/include" />
 					<Add directory="foldpanelex/include" />
+					<Add directory="xpmhandler/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-z defs" />
@@ -71,6 +72,8 @@
 		<Unit filename="XPMEditor.h" />
 		<Unit filename="XPMEditorBase.cpp" />
 		<Unit filename="XPMEditorBase.h" />
+		<Unit filename="XPMEditorLogger.cpp" />
+		<Unit filename="XPMEditorLogger.h" />
 		<Unit filename="XPMEditorPanel.cpp" />
 		<Unit filename="XPMEditorPanel.h" />
 		<Unit filename="XPMFoldPanel.cpp" />
@@ -99,19 +102,21 @@
 		<Unit filename="foldpanelex/src/icon_expanded.xpm" />
 		<Unit filename="foldpanelex/src/icon_theresmore.xpm" />
 		<Unit filename="manifest.xml" />
+		<Unit filename="shape01.png" />
+		<Unit filename="test.xpm" />
 		<Unit filename="todo.txt" />
 		<Unit filename="wxBlur.cpp" />
 		<Unit filename="wxBlur.h" />
 		<Unit filename="wxConversion.cpp" />
 		<Unit filename="wxConversion.h" />
+		<Unit filename="wxDragImageExt.cpp" />
+		<Unit filename="wxDragImageExt.h" />
+		<Unit filename="wxImageDataObject.cpp" />
+		<Unit filename="wxImageDataObject.h" />
 		<Unit filename="wxInvertDialog.cpp" />
 		<Unit filename="wxInvertDialog.h" />
 		<Unit filename="wxMirror.cpp" />
 		<Unit filename="wxMirror.h" />
-		<Unit filename="wxImageDataObject.cpp" />
-		<Unit filename="wxImageDataObject.h" />
-		<Unit filename="wxDragImageExt.cpp" />
-		<Unit filename="wxDragImageExt.h" />
 		<Unit filename="wxResizeCtrl.cpp" />
 		<Unit filename="wxResizeCtrl.h" />
 		<Unit filename="wxRotate.cpp" />
@@ -152,10 +157,10 @@
 		<Unit filename="xpm/square.xpm" />
 		<Unit filename="xpm/test_mask.xpm" />
 		<Unit filename="xpm/text.xpm" />
-		<Unit filename="xpmhandler\include\imagxpm2.h" />
-		<Unit filename="xpmhandler\include\xpmdecod2.h" />
-		<Unit filename="xpmhandler\src\imagxpm2.cpp" />
-		<Unit filename="xpmhandler\src\xpmdecod2.cpp" />
+		<Unit filename="xpmhandler/include/imagxpm2.h" />
+		<Unit filename="xpmhandler/include/xpmdecod2.h" />
+		<Unit filename="xpmhandler/src/imagxpm2.cpp" />
+		<Unit filename="xpmhandler/src/xpmdecod2.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -16,7 +16,7 @@
 #include <wx/aui/auibook.h>
 
 #include "XPMEditor.h"
-#include "XPMColorPicker.h"*
+#include "XPMColorPicker.h"
 #include "imagxpm2.h"
 
 // Register the plugin with Code::Blocks.
