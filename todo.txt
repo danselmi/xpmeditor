@@ -42,8 +42,3 @@ IMPROVEMENTS / NEW FEATURES:
 
 ---- SOLVED & DONE ----------------------------------------------
 
-1 - add a patched xpm handler: the one from wxWidgets does not read the images when they have comments inside
-
-2 - added HELP
-
-3 - Size of Tool Panel fixed.

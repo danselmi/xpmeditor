@@ -163,12 +163,20 @@ void XPMEditor::OnAttach()
 
     if (m_Singleton == NULL)
     {
+        const FilesGroupsAndMasks *fm = Manager::Get()->GetProjectManager()->GetFilesGroupsAndMasks();
+        wxString sMask;
+        if (fm) sMask = fm->GetFileMasks(0);
         wxInitAllImageHandlers();
         wxImage::RemoveHandler(wxT("XPM file"));
         wxImage::AddHandler(new wxXPMHandler2);
         wxBitmap::InitStandardHandlers();
         wxFileSystem::AddHandler(new wxZipFSHandler);
+
+        //this piece of code works only on Windows yet. Linux crashes for unknown reasons
+        #ifdef __WXMSW__
         AddFileMasksToProjectManager();
+        #endif
+
         m_Singleton = this;
         m_FileNameSelected = _("");
 
@@ -333,7 +341,7 @@ void XPMEditor::BuildMenu(wxMenuBar* menuBar)
                 id = item->GetId();
                 if (id == idFileOpen)
                 {
-                    popup->Insert( pos+1, idOpenImage, _(" Open with XPMEditor"), _("Open file using the image editor") );
+                    popup->Insert( pos+1, idOpenImage, _("Open with XPMEditor"), _("Open file using the image editor") );
                     Connect(idOpenImage,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&XPMEditor::OnOpenImage);
                 }
             }
@@ -367,29 +375,6 @@ void XPMEditor::AddFileMasksToProjectManager(void)
     pm = Manager::Get()->GetProjectManager();
 
     wxArrayString sFileMasks;
-/*
-    sFileMasks.Add(_("*.bmp"));
-    sFileMasks.Add(_("*.xpm"));
-    sFileMasks.Add(_("*.ico"));
-    sFileMasks.Add(_("*.cur"));
-    sFileMasks.Add(_("*.xbm")); //
-    sFileMasks.Add(_("*.tif"));
-    sFileMasks.Add(_("*.jpg"));
-    sFileMasks.Add(_("*.jpe"));
-    sFileMasks.Add(_("*.dib")); //
-    sFileMasks.Add(_("*.png"));
-    sFileMasks.Add(_("*.pnm"));
-    sFileMasks.Add(_("*.pcx"));
-    sFileMasks.Add(_("*.gif"));
-    sFileMasks.Add(_("*.ani"));
-    sFileMasks.Add(_("*.iff")); //
-    sFileMasks.Add(_("*.tga"));
-    sFileMasks.Add(_("*.pict")); //
-    sFileMasks.Add(_("*.icon"));
-    sFileMasks.Add(_("*.tiff"));
-    sFileMasks.Add(_("*.jpeg"));
-    sFileMasks.Add(_("*.jfif"));
-*/
 
     //get the list of file extension supported by wxImage
     wxList list = wxImage::GetHandlers();
