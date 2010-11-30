@@ -19,6 +19,14 @@
 
 #define wxDragImage wxDragImageExt
 
+//for wxGTK, we will avoid scaling the bitmap in the paint handler
+//it is better to scale it only once, because the scaling operation is time consuming
+//the drawback is that the memory used is much higher
+#ifdef __WXMSW__
+#define _XPM_SCALE_BMP_INPAINT_ 1
+#endif
+#define _XPM_SCALE_BMP_INPAINT_ 1
+
 //(*Headers(XPMEditorPanel)
 #include <wx/menu.h>
 #include <wx/panel.h>
@@ -189,6 +197,7 @@ class XPMEditorPanel: public wxPanel
 		void OnDrawCanvasEraseBackground(wxEraseEvent& event);  ///< \brief DrawCanvas erase background event handler
 		void OnDrawCanvasRightUp(wxMouseEvent& event);          ///< \brief DrawCanvas mouse right button up event handler
 		void OnDrawCanvasKeyDown(wxKeyEvent& event);            ///< \brief DrawCanvas key down char event handler
+		void OnDrawCanvasScrollEvent(wxScrollWinEvent& event);  ///< \brief DrawCanvas scrollbar event handler
 
 		//help text
         void DisplayHelpText(int iIndex); ///< \brief display information about the control
@@ -338,14 +347,17 @@ class XPMEditorPanel: public wxPanel
 		wxStaticText *sCursorPos;              ///< \brief A text belonging to DrawCanvas, displaying cursor position information
 
         //bitmap, images methods
-        wxColour cMaskColour;           ///< \brief the current mask colour
-        wxBitmap m_Bitmap;              ///< \brief the temporary bitmap, used for drawing
-        wxImage  m_Image;               ///< \brief the temporary image, used for misc functions
-        wxBitmapType m_ImageFormat;     ///< \brief the format of the image file (JPEG, BMP, XPM, ...)
-        void UpdateBitmap(void);        ///< \brief recreate the m_Bitmap member from the m_Image member
-        void UpdateImage(void);         ///< \brief Ensure the Image is up-to-date (buffered user actions are flushed)
-        wxBitmap* GetBitmap(void);      ///< \brief return the associated scaled bitmap
-		void SetBitmap(wxBitmap *bm);   ///< \brief set the current unscaled bitmap
+        wxColour cMaskColour;             ///< \brief the current mask colour
+        wxBitmap m_Bitmap;                ///< \brief the temporary bitmap, used for drawing - unscaled
+        wxBitmap m_ScaledBitmap;          ///< \brief the temporary bitmap, used for drawing - scaled
+        wxImage  m_Image;                 ///< \brief the temporary image, used for misc functions
+        wxBitmapType m_ImageFormat;       ///< \brief the format of the image file (JPEG, BMP, XPM, ...)
+        void UpdateBitmap(void);          ///< \brief recreate the m_Bitmap member from the m_Image member
+        void UpdateScaledBitmap(void);    ///< \brief recreate the m_ScaledBitmap member from the m_Bitmap member
+        void UpdateUnscaledBitmap(void);  ///< \brief recreate the m_Bitmap member from the m_ScaledBitmap member
+        void UpdateImage(void);           ///< \brief recreate the m_Image member from the m_Bitmap member
+        wxBitmap* GetBitmap(void);        ///< \brief return the associated scaled bitmap
+		void SetBitmap(wxBitmap *bm);     ///< \brief set the current unscaled bitmap
 
         //drag related methods & members
 		wxDragImage *m_DragImage;        ///< \brief for dragging the current selection

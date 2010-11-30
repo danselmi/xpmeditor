@@ -38,7 +38,7 @@ void QuickHelpDialog::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint&
 	//(*Initialize(QuickHelpDialog)
 	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer1;
-	
+
 	Create(parent, wxID_ANY, _("Help on XPMEditor"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER, _T("wxID_ANY"));
 	BoxSizer1 = new wxBoxSizer(wxVERTICAL);
 	QuickHelpPanel1 = new QuickHelpPanel(this);
@@ -53,7 +53,7 @@ void QuickHelpDialog::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint&
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
 	Center();
-	
+
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&QuickHelpDialog::OnButtonCloseClick);
 	Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&QuickHelpDialog::OnClose);
 	//*)

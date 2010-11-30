@@ -98,6 +98,7 @@ XPMEditorPanel::XPMEditorPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos
 
 	m_Bitmap = wxBitmap(XPM_DEFAULT_WIDTH, XPM_DEFAULT_HEIGHT);
 	m_Image = wxImage(1,1);
+	UpdateScaledBitmap();
 	m_ImageFormat = wxBITMAP_TYPE_ANY;
 	bCanResizeX = false;
 	bCanResizeY = false;
@@ -196,6 +197,18 @@ void XPMEditorPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& 
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasMouseLeave,0,this);
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SIZE,(wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasResize,0,this);
         DrawCanvasPanel->DrawCanvas->Connect(wxEVT_CONTEXT_MENU, (wxObjectEventFunction)&XPMEditorPanel::OnContextMenu,0,this);
+
+        //scroll events
+        #if _XPM_SCALE_BMP_INPAINT_==0
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SCROLLWIN_TOP,          (wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasScrollEvent,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SCROLLWIN_BOTTOM,       (wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasScrollEvent,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SCROLLWIN_LINEUP,       (wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasScrollEvent,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SCROLLWIN_LINEDOWN,     (wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasScrollEvent,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SCROLLWIN_PAGEUP,       (wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasScrollEvent,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SCROLLWIN_PAGEDOWN,     (wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasScrollEvent,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SCROLLWIN_THUMBTRACK,   (wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasScrollEvent,0,this);
+        DrawCanvasPanel->DrawCanvas->Connect(wxEVT_SCROLLWIN_THUMBRELEASE, (wxObjectEventFunction)&XPMEditorPanel::OnDrawCanvasScrollEvent,0,this);
+        #endif
 	}
 	else
 	{
@@ -786,6 +799,30 @@ void XPMEditorPanel::UpdateBitmap(void)
     SetBitmap(&bm);
 }
 
+/** recreate the m_ScaledBitmap member from the m_Bitmap member
+  * The Draw Canvas is not updated. It must be done manually by the caller
+  * The scrollbars are updated
+  */
+void XPMEditorPanel::UpdateScaledBitmap(void)
+{
+    //recreate the m_ScaledBitmap member from the m_Bitmap member
+    #if _XPM_SCALE_BMP_INPAINT_==0
+    StretchBitmap(m_Bitmap, m_ScaledBitmap, 1.0, m_dScale);
+    #endif
+}
+
+/** recreate the m_Bitmap member from the m_ScaledBitmap member
+  * The Draw Canvas is not updated. It must be done manually by the caller
+  * The scrollbars are updated
+  */
+void XPMEditorPanel::UpdateUnscaledBitmap(void)
+{
+    //recreate the m_Bitmap member from the m_ScaledBitmap member
+    #if _XPM_SCALE_BMP_INPAINT_==0
+    StretchBitmap(m_ScaledBitmap, m_Bitmap, m_dScale, 1.0);
+    #endif
+}
+
 /** Set the unscaled internal bitmap.
   * \param bm: a pointer to the wxBitmap to be used internally by the editor
   *         this wxBitmap is used for scaling and all draw modification.
@@ -828,6 +865,7 @@ void XPMEditorPanel::SetBitmap(wxBitmap *bm)
 
 
         DoSetScrollBars();
+        UpdateScaledBitmap();
 
         m_bmDrawBitmap = wxBitmap(m_Bitmap.GetWidth(), m_Bitmap.GetHeight());
 
@@ -836,8 +874,7 @@ void XPMEditorPanel::SetBitmap(wxBitmap *bm)
 }
 
 
-/** Ensure the Image is up-to-date (buffered user actions are flushed)
-  * recreate the m_Image member from the m_Bitmap member
+/** recreate the m_Image member from the m_Bitmap member
   * The Draw Canvas is not updated. It must be done manually by the caller
   * The scrollbars are also not updated
   */
@@ -984,7 +1021,7 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
 
     int iMax, jMax;
 
-    if (DrawCanvas) DrawCanvas->PrepareDC(dc);
+    //if (DrawCanvas) DrawCanvas->PrepareDC(dc);
 
     //we need to draw in 2 differents scales:
     // 1 - in the scale selected by the user (Zoom)
@@ -992,12 +1029,19 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
     //to avoid problems, we will set the scale for the physical wxClientDC in this method
     //and nowhere else. wxMemoryDC used elsewhere will have a 1.0 scaling factor
 
+    #if _XPM_SCALE_BMP_INPAINT_==0
+    SetUserScale(dc, 1.0, 1.0);
+    #else
     SetUserScale(dc, m_dScale, m_dScale);
+    #endif
+    dc.Clear();
     DrawImage(dc);
     DrawSelection(dc);
     DrawDynamicTool(dc);
 
+    #if _XPM_SCALE_BMP_INPAINT_==1
     SetUserScale(dc, 1.0, 1.0);
+    #endif
     DrawSelectionBorder(dc);
     DrawBackground(dc);
     DrawGrid(dc);
@@ -1009,6 +1053,14 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
   */
 void XPMEditorPanel::DrawImage(wxDC& dc)
 {
+    wxBitmap bitmap;
+
+    #if _XPM_SCALE_BMP_INPAINT_==0
+        bitmap = m_ScaledBitmap;
+    #else
+        bitmap = m_Bitmap;
+    #endif
+
     //create the transparent background, and draw the bitmap on it
     wxColour cTransparent;
     if (ColourPicker) cTransparent = ColourPicker->GetTransparentColour(); else cTransparent = *wxWHITE;
@@ -1018,26 +1070,46 @@ void XPMEditorPanel::DrawImage(wxDC& dc)
     dc.SetBrush(bTransparent);
     dc.SetPen(bTransparentPen);
 
-    if (m_Bitmap.IsOk())
+
+    if (bitmap.IsOk())
     {
-        wxBitmap bmp(m_Bitmap); //this does not take too much time, because reference counting is used
+        wxBitmap bmp(bitmap); //this does not take too much time, because reference counting is used
         wxMemoryDC memDC;
         memDC.SelectObject(bmp);
 
         SetUserScale(memDC, 1.0, 1.0);
 
         //clip the bitmap coordinates to the visible parts of the bitmap
-        int iXStart, iYStart, iXEnd, iYEnd;
+        int iXStart, iYStart, iXEnd, iYEnd, iWidth, iHeigth, iXUnit, iYUnit;
         if (DrawCanvas)
         {
-            DrawCanvas->GetViewStart(&iXStart, &iYStart);
+            DrawCanvas->GetViewStart(&iXStart, &iYStart); //in scroll units !!
+            DrawCanvas->GetScrollPixelsPerUnit(&iXUnit, &iYUnit);
+            if (iXUnit != 0) iXStart = iXStart * iXUnit;
+            if (iYUnit != 0) iYStart = iYStart * iYUnit;
             DrawCanvas->GetClientSize(&iXEnd, &iYEnd);
             iXEnd = iXStart + iXEnd;
             iYEnd = iYStart + iYEnd;
+            if (iXEnd > bitmap.GetWidth()) iXEnd = bitmap.GetWidth();
+            if (iYEnd > bitmap.GetHeight()) iYEnd = bitmap.GetHeight();
+            iWidth = iXEnd - iXStart;
+            iHeigth = iYEnd - iYStart;
+        }
+        else
+        {
+            iXStart = 0;
+            iYStart = 0;
+            iXEnd = 0;
+            iYEnd = 0;
+            iWidth = bitmap.GetWidth();
+            iHeigth = bitmap.GetHeight();
         }
 
         //main bitmap
-        dc.Blit(0,0,m_Bitmap.GetWidth() , m_Bitmap.GetHeight() ,&memDC,0,0, wxCOPY, false);
+        Log(wxString::Format(_("iXStart=%d iYStart=%d iWidth=%d iHeight=%d"), iXStart, iYStart, iWidth, iHeigth));
+        dc.Blit(iXStart, iYStart, iWidth, iHeigth , &memDC, iXStart, iYStart, wxCOPY, false);
+        dc.DrawLine(iXStart,iYStart, iXStart + iWidth, iYStart + iHeigth);
+        dc.DrawLine(iXStart,iYStart+ iHeigth, iXStart + iWidth, iYStart );
 
         //Draw the Hotspot
         if ((iHotSpotX >= 0) && (iHotSpotY >= 0) && (iHotSpotX < m_Bitmap.GetWidth()) && (iHotSpotY <= m_Bitmap.GetHeight()))
@@ -1156,7 +1228,19 @@ void XPMEditorPanel::DrawBackground(wxDC& dc)
     wxPen pBackgroundPen(cBackgroundColour);
     dc.SetBackground(bBackgroundBrush);
     dc.SetBackgroundMode(wxSOLID);
-    if (m_Bitmap.IsOk())
+
+    wxBitmap bitmap;
+    double dScale;
+
+    #if _XPM_SCALE_BMP_INPAINT_==0
+        bitmap = m_ScaledBitmap;
+        dScale = 1.0;
+    #else
+        bitmap = m_Bitmap;
+        dScale = m_dScale;
+    #endif
+
+    if (bitmap.IsOk())
     {
         wxSize cSize, vSize;
         int xStart, yStart, iXPixelPerScrollUnit, iYPixelPerScrollUnit, iBmpWidth, iBmpHeight;
@@ -1168,8 +1252,8 @@ void XPMEditorPanel::DrawBackground(wxDC& dc)
         DrawCanvas->GetScrollPixelsPerUnit(&iXPixelPerScrollUnit, &iYPixelPerScrollUnit);
         xStart = xStart * iXPixelPerScrollUnit;
         yStart = yStart * iYPixelPerScrollUnit;
-        iBmpWidth = m_Bitmap.GetWidth() * m_dScale;
-        iBmpHeight = m_Bitmap.GetHeight() * m_dScale;
+        iBmpWidth = bitmap.GetWidth() * dScale;
+        iBmpHeight = bitmap.GetHeight() * dScale;
         dc.SetPen(pBackgroundPen);
         dc.SetBrush(bBackgroundBrush);
 
@@ -1194,11 +1278,22 @@ void XPMEditorPanel::DrawBackground(wxDC& dc)
 void XPMEditorPanel::DrawSizingBorder(wxDC& dc)
 {
     //draw sizing border
-    if (m_Bitmap.IsOk())
+    wxBitmap bitmap;
+    double dScale;
+
+    #if _XPM_SCALE_BMP_INPAINT_==0
+        bitmap = m_ScaledBitmap;
+        dScale = 1.0;
+    #else
+        bitmap = m_Bitmap;
+        dScale = m_dScale;
+    #endif
+
+    if (bitmap.IsOk())
     {
         int iMax, jMax;
-        iMax = m_Bitmap.GetWidth() * m_dScale;
-        jMax = m_Bitmap.GetHeight() * m_dScale;
+        iMax = bitmap.GetWidth() * dScale;
+        jMax = bitmap.GetHeight() * dScale;
         wxPen pBluePen(*wxBLUE,1,wxSOLID);
         dc.SetPen(pBluePen);
         //blue border
@@ -1247,6 +1342,14 @@ void XPMEditorPanel::DrawSelectionBorder(wxDC& dc)
     }
 }
 
+//----------------------- SCROLLBARS HANDLERS -----------------------------
+/** DrawCanvas scrollbar event handler
+  */
+void XPMEditorPanel::OnDrawCanvasScrollEvent(wxScrollWinEvent& event)
+{
+
+}
+
 //---------------------- ZOOMING & SIZING HANDLERS  -----------------------
 
 /** The user has changed the size of the bitmap in 1 of the 2 spinboxes.
@@ -1290,6 +1393,8 @@ void XPMEditorPanel::SetScaleFactor(double dNewScalingFactor, bool bUpdateInterf
     iScale = m_dScale * 100;
     wxString s = wxString::Format(_("%d%%"), iScale);
     if ((InterfacePanel) && (bUpdateInterface)) InterfacePanel->ZoomFactor->SetValue(s);
+
+    UpdateScaledBitmap();
     DoSetScrollBars();
 
 
@@ -1304,7 +1409,6 @@ void XPMEditorPanel::SetScaleFactor(double dNewScalingFactor, bool bUpdateInterf
             InterfacePanel->CheckBox1->Disable();
         }
     }
-    //UpdateBitmap(); //rescale the memory bitmap
 
     Repaint();
 }
@@ -1382,7 +1486,7 @@ void XPMEditorPanel::DoSetScrollBars(void)
         DrawCanvas->GetViewStart(&x, &y);
         DrawCanvas->SetScrollbars(xStep, yStep,
                                   iWidth, iHeight,
-                                  x, y, true
+                                  x, y, false
                                  );
     }
 
