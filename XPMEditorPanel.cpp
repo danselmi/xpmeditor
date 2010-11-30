@@ -1021,7 +1021,7 @@ void XPMEditorPanel::OnDrawCanvasPaint(wxPaintEvent& event)
 
     int iMax, jMax;
 
-    //if (DrawCanvas) DrawCanvas->PrepareDC(dc);
+    if (DrawCanvas) DrawCanvas->PrepareDC(dc);
 
     //we need to draw in 2 differents scales:
     // 1 - in the scale selected by the user (Zoom)
@@ -1106,10 +1106,11 @@ void XPMEditorPanel::DrawImage(wxDC& dc)
         }
 
         //main bitmap
-        Log(wxString::Format(_("iXStart=%d iYStart=%d iWidth=%d iHeight=%d"), iXStart, iYStart, iWidth, iHeigth));
-        dc.Blit(iXStart, iYStart, iWidth, iHeigth , &memDC, iXStart, iYStart, wxCOPY, false);
-        dc.DrawLine(iXStart,iYStart, iXStart + iWidth, iYStart + iHeigth);
-        dc.DrawLine(iXStart,iYStart+ iHeigth, iXStart + iWidth, iYStart );
+        //Log(wxString::Format(_("iXStart=%d iYStart=%d iWidth=%d iHeight=%d"), iXStart, iYStart, iWidth, iHeigth));
+        //dc.Blit(iXStart, iYStart, iWidth, iHeigth , &memDC, iXStart, iYStart, wxCOPY, false);
+        dc.Blit(0,0, bitmap.GetWidth(), bitmap.GetHeight(), &memDC, 0, 0, wxCOPY, false);
+        //dc.DrawLine(iXStart,iYStart, iXStart + iWidth, iYStart + iHeigth);
+        //dc.DrawLine(iXStart,iYStart+ iHeigth, iXStart + iWidth, iYStart );
 
         //Draw the Hotspot
         if ((iHotSpotX >= 0) && (iHotSpotY >= 0) && (iHotSpotX < m_Bitmap.GetWidth()) && (iHotSpotY <= m_Bitmap.GetHeight()))
