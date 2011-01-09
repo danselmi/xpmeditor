@@ -351,7 +351,7 @@ void XPMEditor::BuildMenu(wxMenuBar* menuBar)
 
     //create a new menu in "wxSmith"
     int idwxSmith;
-    idwxSmith = menuBar->FindMenu(_("wxSmith"));
+    idwxSmith = menuBar->FindMenu(_("&wxSmith"));
     if (idwxSmith != wxNOT_FOUND)
     {
         //append a separator and a menu item
