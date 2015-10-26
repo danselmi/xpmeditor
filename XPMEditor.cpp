@@ -9,11 +9,21 @@
  **************************************************************/
 
 #include <sdk.h> // Code::Blocks SDK
+#include <cbproject.h>
 #include <filegroupsandmasks.h>
+#include <manager.h>
+#include <configmanager.h>
+#include <editormanager.h>
+#include <logmanager.h>
+#include <projectmanager.h>
 #include <configurationpanel.h>
 #include <filefilters.h>
+#include <cbauibook.h>
 
 #include <wx/aui/auibook.h>
+#include <wx/filesys.h>
+#include <wx/fs_zip.h>
+#include <wx/xrc/xmlres.h>
 
 #include "XPMEditor.h"
 #include "XPMColorPicker.h"
@@ -329,7 +339,7 @@ void XPMEditor::BuildMenu(wxMenuBar* menuBar)
     {
         //we need to insert a menu item, so we need to know its position.
         //there are no other way than iterating the whole menu to find the insertion position
-        size_t pos, i;
+        size_t pos;
         int id;
         wxMenuItemList& list = popup->GetMenuItems();
         pos = 0;
@@ -504,7 +514,7 @@ void XPMEditor::AddFileMasksToProjectManager(void)
             fm->SetFileMasks(iMatch, sMask);
 
             fm->Save();
-            pm->RebuildTree();
+            pm->GetUI().RebuildTree();
         }
     }
 
@@ -781,7 +791,8 @@ bool XPMEditor::SaveImage(wxImage *img, wxString sFileName, wxBitmapType bt, XPM
 
 
     //save the file
-    if (Editor) Editor->NotifyPlugins(cbEVT_EDITOR_BEFORE_SAVE);
+    /// \todo : the NotifyPlugins provokes a crash on save. Understand why
+    //if (Editor) Editor->NotifyPlugins(cbEVT_EDITOR_BEFORE_SAVE);
     img->SaveFile(sFileName, bt2);
     if (Editor) Editor->NotifyPlugins(cbEVT_EDITOR_SAVE);
 
@@ -1592,7 +1603,6 @@ bool XPMEditor::SetColourArray(wxColour *array, int inbColours,
 void XPMEditor::GetColourArray(wxColour *array, int *inbColours, wxColour *cTransparentColour)
 {
     //get the default colour array
-    bool bResult;
     if ((array) && (DefaultColourArray))
     {
         int i;
@@ -1694,7 +1704,7 @@ void XPMEditor::OnNewProjectImage(wxCommandEvent &event)
                 sFileName = NewEditor->GetFilename();
                 ProjectManager::Get()->AddFileToProject(sFileName, activeProject, -1);
                 Manager::Get()->GetEditorManager()->SetActiveEditor(NewEditor);
-                ProjectManager::Get()->RebuildTree();
+                ProjectManager::Get()->GetUI().RebuildTree();
 
                 if (wxMessageBox(_("Do you want to save the project ?"), _("New image added"), wxYES_NO, NewEditor) == wxYES)
                 {
@@ -1737,12 +1747,12 @@ void XPMEditor::OnOpenImage(wxCommandEvent &event)
   */
 void XPMEditor::OnOpenFromProjectManager(wxCommandEvent &event)
 {
-    wxTreeCtrl *tree = Manager::Get()->GetProjectManager()->GetTree();
+    wxTreeCtrl *tree = Manager::Get()->GetProjectManager()->GetUI().GetTree();
 
     if ( !tree )
         return;
 
-    wxTreeItemId treeItem =  tree->GetSelection();
+    wxTreeItemId treeItem = Manager::Get()->GetProjectManager()->GetUI().GetTreeSelection();
 
     if ( !treeItem.IsOk() )
         return;
@@ -1756,7 +1766,7 @@ void XPMEditor::OnOpenFromProjectManager(wxCommandEvent &event)
     {
 
         wxString sFileName;
-        sFileName = data->GetProject()->GetFile(data->GetFileIndex())->file.GetFullPath();
+        sFileName = data->GetProjectFile()->file.GetFullPath();
         OpenFile(sFileName);
     }
 }

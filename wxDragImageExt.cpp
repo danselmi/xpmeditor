@@ -8,7 +8,16 @@
  * License:   GPL 3.0
  **************************************************************/
 #include <sdk.h>
+#include <wx/scrolwin.h>
+#include <wx/dcclient.h>
+
+#include <manager.h>
+#include <logmanager.h>
+
 #include "wxDragImageExt.h"
+
+#include <windef.h>
+#include <wingdi.h>
 
 IMPLEMENT_DYNAMIC_CLASS(wxDragImageExt, wxGenericDragImage);
 
@@ -340,8 +349,9 @@ void wxDragImageExt::ClipBitmap(int *x, int *y, int *width, int *height) const
     //Log(wxString::Format(_("wxDragImageExt::ClipBitmap BEFORE x=%d y=%d w=%d h=%d"), *x, *y, *width, *height));
 
     //Left border
-    int iXRight, iXLeft;
-    iXLeft = *x;
+    int iXRight;
+    //int iXLeft;
+    //iXLeft = *x;
     iXRight = *x + *width;
     *x = wxMax(*x, m_boundingRect.x);
 
@@ -351,8 +361,9 @@ void wxDragImageExt::ClipBitmap(int *x, int *y, int *width, int *height) const
     if (*width < 1) *width = 1;
 
     //top border
-    int iYTop, iYBottom;
-    iYTop = *y;
+    //int iYTop;
+    int iYBottom;
+    //iYTop = *y;
     iYBottom = *y + *height ;
     *y = wxMax(*y, m_boundingRect.y);
 

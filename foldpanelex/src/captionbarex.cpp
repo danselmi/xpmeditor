@@ -618,7 +618,7 @@ void wxCaptionBarEx::SetVertical(void)
         {
             //destroy the current wxCaptionBar and create the wxButton (flat or not) instead
             //get position and size, then destroy it
-            wxWindow *parent;
+            wxWindow *parent = NULL;
             wxSize size;
             wxPoint pos;
             wxString caption;
@@ -666,7 +666,7 @@ void wxCaptionBarEx::SetHorizontal(void)
         {
             //destroy the current wxButton and create a wxCaptionBar instead
             //get position and size, then destroy it
-            wxWindow *parent;
+            wxWindow *parent = NULL;
             wxSize size;
             wxPoint pos;
             wxString caption;

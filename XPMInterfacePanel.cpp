@@ -47,7 +47,7 @@ XPMInterfacePanel::XPMInterfacePanel(wxWindow* parent,wxWindowID id,const wxPoin
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
 	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("ZOOM:"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE, _T("ID_STATICTEXT1"));
-	BoxSizer2->Add(StaticText1, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer2->Add(StaticText1, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5);
 	ZoomFactor = new wxComboBox(this, ID_COMBOBOX1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_DROPDOWN, wxDefaultValidator, _T("ID_COMBOBOX1"));
 	ZoomFactor->Append(_("10%"));
 	ZoomFactor->Append(_("25%"));
@@ -74,9 +74,9 @@ XPMInterfacePanel::XPMInterfacePanel(wxWindow* parent,wxWindowID id,const wxPoin
 	CheckBox1->SetValue(false);
 	CheckBox1->Disable();
 	CheckBox1->SetToolTip(_("Show / Hide the grid. A minimal Zoom of 400% is needed."));
-	BoxSizer2->Add(CheckBox1, 0, wxALL|wxEXPAND|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer2->Add(CheckBox1, 0, wxALL|wxEXPAND, 5);
 	GridColour = new wxColourPickerCtrl(this,ID_CUSTOM3,*wxBLACK,wxDefaultPosition,wxDefaultSize,0,wxDefaultValidator,_T("ID_CUSTOM3"));
-	BoxSizer2->Add(GridColour, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+	BoxSizer2->Add(GridColour, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5);
 	SetSizer(BoxSizer2);
 	BoxSizer2->Fit(this);
 	BoxSizer2->SetSizeHints(this);

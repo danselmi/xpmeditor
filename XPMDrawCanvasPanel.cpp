@@ -49,25 +49,25 @@ void XPMDrawCanvasPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoi
 	//(*Initialize(XPMDrawCanvasPanel)
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
 	CanvasSizer = new wxBoxSizer(wxVERTICAL);
-	DrawCanvas = new wxScrolledWindow(this, ID_SCROLLEDWINDOW1, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL|wxSUNKEN_BORDER, _T("ID_SCROLLEDWINDOW1"));
+	DrawCanvas = new wxScrolledWindow(this, ID_SCROLLEDWINDOW1, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxVSCROLL|wxHSCROLL, _T("ID_SCROLLEDWINDOW1"));
 	DrawCanvas->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
-	CanvasSizer->Add(DrawCanvas, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	CanvasSizer->Add(DrawCanvas, 1, wxALL|wxEXPAND, 0);
 	sTextSizer = new wxBoxSizer(wxHORIZONTAL);
 	StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Text:"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-	sTextSizer->Add(StaticText2, 0, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+	sTextSizer->Add(StaticText2, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5);
 	TextEdit = new wxTextCtrl(this, ID_TEXTCTRL1, _("Text"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_LEFT|wxTE_CHARWRAP, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	sTextSizer->Add(TextEdit, 1, wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
-	CanvasSizer->Add(sTextSizer, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	sTextSizer->Add(TextEdit, 1, wxEXPAND, 0);
+	CanvasSizer->Add(sTextSizer, 0, wxALL|wxEXPAND, 0);
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	sCursorPos = new wxStaticText(this, ID_STATICTEXT4, _("Cursor at: x=00000 y=00000"), wxDefaultPosition, wxSize(170,21), wxST_NO_AUTORESIZE|wxSUNKEN_BORDER, _T("ID_STATICTEXT4"));
-	BoxSizer1->Add(sCursorPos, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 5);
+	BoxSizer1->Add(sCursorPos, 0, wxALL|wxEXPAND, 5);
 	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_LEFT|wxSUNKEN_BORDER, _T("ID_STATICTEXT1"));
-	BoxSizer1->Add(StaticText1, 1, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	CanvasSizer->Add(BoxSizer1, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_BOTTOM, 0);
+	BoxSizer1->Add(StaticText1, 1, wxALL|wxEXPAND, 5);
+	CanvasSizer->Add(BoxSizer1, 0, wxALL|wxEXPAND, 0);
 	SetSizer(CanvasSizer);
 	CanvasSizer->Fit(this);
 	CanvasSizer->SetSizeHints(this);
-	
+
 	Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&XPMDrawCanvasPanel::OnTextEditText);
 	//*)
 }

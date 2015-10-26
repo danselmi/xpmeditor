@@ -24,9 +24,14 @@
 #include <wx/stattext.h>
 #include <wx/textfile.h>
 #include <wx/bitmap.h>
+#include <wx/utils.h>
+
 #include "wxDragImageExt.h"
 
 #include <filefilters.h>
+#include <manager.h>
+#include <configmanager.h>
+#include <logmanager.h>
 
 #include <math.h>
 
@@ -761,9 +766,9 @@ void XPMEditorPanel::SetImage(wxImage *img)
                 unsigned char r2, g2, b2;
                 wxColour cTransparent;
                 cTransparent = ColourPicker->GetTransparentColour();
-                r2 = cTransparent.Red();
-                g2 = cTransparent.Green();
-                b2 = cTransparent.Blue();
+                //r2 = cTransparent.Red();
+                //g2 = cTransparent.Green();
+                //b2 = cTransparent.Blue();
                 //wxMessageBox(wxString::Format(_("Has mask r=%d g=%d b=%d r2=%d g2=%d b2=%d"),r,g,b, r2, g2, b2));
                 m_Image.SetMask(false);
             }
@@ -3202,7 +3207,7 @@ void XPMEditorPanel::ProcessSprayCan(int x, int y,
             UpdateImage();
             Repaint();
 
-        } while ((pre.GetX() == post.GetX()) && (pre.GetY() == post.GetY()) && (post.LeftDown()));
+        } while ((pre.GetX() == post.GetX()) && (pre.GetY() == post.GetY()) && (post.LeftIsDown()));
 
     }
 
@@ -4743,7 +4748,7 @@ void XPMEditorPanel::Paste(void)
     //PASTE
     if (!DrawCanvas) return;
     ClearSelection();
-    bool bResult;
+    bool bResult = false;
     wxImage img;
     wxBitmap bm;
     wxBitmapDataObject bmdo;
@@ -5274,8 +5279,8 @@ void XPMEditorPanel::DrawTextRectangle(wxDC& dc,
             continue;
         }
 
-        long lineWidth = 0,
-             lineHeight = 0;
+        wxCoord lineWidth = 0,
+                lineHeight = 0;
         dc.GetTextExtent(line, &lineWidth, &lineHeight);
 
         switch ( horizAlign )
@@ -5362,7 +5367,7 @@ void XPMEditorPanel::GetTextBoxSize(const wxDC& dc,
 {
     long w = 0;
     long h = 0;
-    long lineW = 0, lineH = 0;
+    wxCoord lineW = 0, lineH = 0;
 
     size_t i;
     for ( i = 0; i < lines.GetCount(); i++ )
@@ -5627,7 +5632,12 @@ void XPMEditorPanel::OnStretchImage(wxCommandEvent& event)
     //display the dialog box
     if (sd.ShowModal() == 0)
     {
-        int iQuality, iHeight, iWidth;
+#if wxCHECK_VERSION(3,0,0)
+        wxImageResizeQuality iQuality;
+#else
+        int iQuality;
+#endif
+        int iHeight, iWidth;
         if (sd.RadioButton3->GetValue()) iQuality = wxIMAGE_QUALITY_NORMAL; else iQuality = wxIMAGE_QUALITY_HIGH;
         iWidth  = sd.SpinCtrl1->GetValue();
         iHeight = sd.SpinCtrl2->GetValue();

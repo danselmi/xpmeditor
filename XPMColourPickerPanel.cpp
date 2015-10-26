@@ -30,15 +30,15 @@ XPMColourPickerPanel::XPMColourPickerPanel(wxWindow* parent,wxWindowID id,const 
 {
 	//(*Initialize(XPMColourPickerPanel)
 	wxBoxSizer* BoxSizer1;
-	
+
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	ColourPicker = new XPMColorPicker(this,ID_COLOURPICKER1,wxDefaultPosition,wxDefaultSize,0,_T("ID_COLOURPICKER1"));
-	BoxSizer1->Add(ColourPicker, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 1);
+	BoxSizer1->Add(ColourPicker, 1, wxALL|wxEXPAND, 1);
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
 	BoxSizer1->SetSizeHints(this);
-	
+
 	ColourPicker->Connect(wxEVT_ENTER_WINDOW,(wxObjectEventFunction)&XPMColourPickerPanel::OnColourPickerMouseEnter,0,this);
 	ColourPicker->Connect(wxEVT_LEAVE_WINDOW,(wxObjectEventFunction)&XPMColourPickerPanel::OnColourPickerMouseLeave,0,this);
 	//*)

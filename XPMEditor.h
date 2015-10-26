@@ -16,6 +16,7 @@
 
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
+    #include <filegroupsandmasks.h>
 #endif
 
 #include <sdk.h>

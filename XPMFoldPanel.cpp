@@ -52,7 +52,7 @@ void XPMFoldPanel::BuildContent(wxWindow* parent,wxWindowID id,const wxPoint& po
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
 	MainSizer = new wxBoxSizer(wxHORIZONTAL);
 	FoldPanelBar1 = new wxFoldPanelEx(this);
-	MainSizer->Add(FoldPanelBar1, 1, wxALL|wxEXPAND|wxALIGN_TOP|wxALIGN_CENTER_HORIZONTAL, 0);
+	MainSizer->Add(FoldPanelBar1, 1, wxALL|wxEXPAND, 0);
 	SetSizer(MainSizer);
 	MainSizer->Fit(this);
 	MainSizer->SetSizeHints(this);

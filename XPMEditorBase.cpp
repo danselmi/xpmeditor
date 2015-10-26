@@ -10,6 +10,11 @@
 
 #include <sdk.h> // Code::Blocks SDK
 #include <filefilters.h>
+#include <manager.h>
+#include <configmanager.h>
+#include <editormanager.h>
+#include <logmanager.h>
+
 #include <wx/msgdlg.h>
 #include <wx/gdicmn.h>
 #include <wx/dcclient.h>
@@ -187,15 +192,14 @@ void XPMEditorBase::UpdateModified(void)
   */
 void XPMEditorBase::NotifyPlugins(wxEventType type, int intArg, const wxString& strArg, int xArg, int yArg)
 {
-    //post application wide events
-    if (!Manager::Get()->GetPluginManager())
-        return; // no plugin manager! app shuting down?
+    if (!Manager::Get()->GetPluginManager()) return; // no plugin manager! app shutting down?
     CodeBlocksEvent event(type);
     event.SetEditor(this);
     event.SetInt(intArg);
     event.SetString(strArg);
     event.SetX(xArg);
     event.SetY(yArg);
+    if (m_pProjectFile) event.SetProject(m_pProjectFile->GetParentProject());
     //wxPostEvent(Manager::Get()->GetAppWindow(), event);
     Manager::Get()->GetPluginManager()->NotifyPlugins(event);
 }

@@ -2,22 +2,21 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="XPMEditor" />
+		<Option title="XPMEditor (Unix)" />
+		<Option platforms="Unix;Mac;" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="libXPMEditor" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../devel/share/codeblocks/plugins/libXPMEditor" prefix_auto="1" extension_auto="1" />
 				<Option object_output="../../../.objs/plugins/contrib/XPMEditor" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option parameters="--debug-log --multiple-instance -ns -ni" />
+				<Option parameters="--debug-log -ns -ni" />
 				<Option host_application="../../../devel/codeblocks" />
 				<Option projectIncludeDirsRelation="2" />
 				<Compiler>
-					<Add option="-g" />
-					<Add option="-Ulinux" />
-					<Add option="-Uunix" />
+					<Add option="$(#CB_RELEASE_TYPE)" />
 					<Add option="`wx-config --cflags`" />
 					<Add option="-Winvalid-pch" />
 					<Add option="-fexceptions" />
@@ -28,9 +27,8 @@
 					<Add option="-DwxUSE_UNICODE" />
 					<Add option="-DWXMAKINGDLL_THINGS" />
 					<Add option="-DWXMAKINGDLL_FOLDPANELEX" />
-					<Add directory="$(#cb)/include" />
-					<Add directory="$(#cb)/sdk/wxscintilla/include" />
-					<Add directory="$(#wx.include)" />
+					<Add directory="../../../include" />
+					<Add directory="../../../sdk/wxscintilla/include" />
 					<Add directory="wxthings/include" />
 					<Add directory="foldpanelex/include" />
 					<Add directory="xpmhandler/include" />
@@ -38,12 +36,10 @@
 				<Linker>
 					<Add option="-z defs" />
 					<Add library="codeblocks" />
-					<Add directory="$(#cb)/devel" />
+					<Add directory="../../../devel" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="strip -s libXPMEditor.so" />
-					<Add after="zip -9 XPMEditor.zip manifest.xml doc\*.htm" />
-					<Add after="zip -j9 XPMEditor.cbplugin libXPMEditor.so XPMEditor.zip" />
+					<Add after="zip -j9 ../../../devel/share/codeblocks/XPMEditor.zip manifest.xml" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
@@ -56,6 +52,9 @@
 			<Add option="`wx-config --libs`" />
 			<Add option="`wx-config --libs aui`" />
 		</Linker>
+		<VirtualTargets>
+			<Add alias="All" targets="default;" />
+		</VirtualTargets>
 		<Unit filename="AdvancedOptions.cpp" />
 		<Unit filename="AdvancedOptions.h" />
 		<Unit filename="QuickHelpDialog.cpp" />
@@ -188,6 +187,8 @@
 					<wxPanel wxs="wxsmith/XPMFoldPanel.wxs" src="XPMFoldPanel.cpp" hdr="XPMFoldPanel.h" fwddecl="0" i18n="1" name="XPMFoldPanel" language="CPP" />
 					<wxPanel wxs="wxsmith/XPMHelpPanel.wxs" src="XPMHelpPanel.cpp" hdr="XPMHelpPanel.h" fwddecl="0" i18n="1" name="XPMHelpPanel" language="CPP" />
 					<wxPanel wxs="wxsmith/XPMDrawCanvasPanel.wxs" src="XPMDrawCanvasPanel.cpp" hdr="XPMDrawCanvasPanel.h" fwddecl="1" i18n="1" name="XPMDrawCanvasPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/AdvancedOptions.wxs" src="AdvancedOptions.cpp" hdr="AdvancedOptions.h" fwddecl="1" name="AdvancedOptions" language="CPP" />
+					<wxScrollingDialog wxs="wxsmith/QuickHelpDialog.wxs" src="QuickHelpDialog.cpp" hdr="QuickHelpDialog.h" fwddecl="1" name="QuickHelpDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
