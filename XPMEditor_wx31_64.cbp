@@ -35,31 +35,27 @@
 					<Add directory="wxthings/include" />
 					<Add directory="xpmhandler/include" />
 					<Add directory="../../../include" />
+					<Add directory="../../../include/tinyxml" />
 					<Add directory="../../../sdk/wxscintilla/include" />
-					<Add directory="$(#WX31_64.include)" />
-					<Add directory="$(#WX31_64.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#wx31_64.include)" />
+					<Add directory="$(#wx31_64.lib)/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="$(#WX31_64.include)" />
+					<Add directory="$(#wx31_64.include)" />
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
 					<Add option="-mthreads" />
 					<Add library="codeblocks" />
-					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
+					<Add library="wxmsw31u" />
 					<Add library="gdi32" />
 					<Add directory="../../../devel31_64" />
-					<Add directory="$(#WX31_64.lib)/gcc_dll$(WX_CFG)" />
+					<Add directory="$(#wx31_64.lib)/gcc_dll" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9 ..\..\..\devel31_64\share\CodeBlocks\XPMEditor.zip manifest.xml" />
 					<Mode after="always" />
 				</ExtraCommands>
-				<Environment>
-					<Variable name="WX_CFG" value="" />
-					<Variable name="WX_SUFFIX" value="u" />
-					<Variable name="WX_VERSION" value="30" />
-				</Environment>
 			</Target>
 		</Build>
 		<VirtualTargets>
