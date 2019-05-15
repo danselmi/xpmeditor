@@ -455,8 +455,8 @@ void XPMColorPicker::Paint(wxDC &dc)
 void XPMColorPicker::PaintDisplaySquare(wxDC &dc, wxRect rect)
 {
     //paint the display square
-    wxPen pBorderPen(wxSystemSettings::GetColour(wxSYS_COLOUR_ACTIVEBORDER), 1, wxSOLID);
-    wxBrush bBackBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), wxSOLID);
+    wxPen pBorderPen(wxSystemSettings::GetColour(wxSYS_COLOUR_ACTIVEBORDER), 1, wxPENSTYLE_SOLID);
+    wxBrush bBackBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), wxBRUSHSTYLE_SOLID);
     dc.SetPen(pBorderPen);
     dc.SetBrush(bBackBrush);
     dc.DrawRectangle(rect.GetLeft(),rect.GetTop(), rect.GetWidth(), rect.GetHeight());
@@ -466,8 +466,8 @@ void XPMColorPicker::PaintDisplaySquare(wxDC &dc, wxRect rect)
     wxColour cLineColour;
     cFillColour = GetFillColour();
     cLineColour = GetLineColour();
-    wxPen pOutlinePen(cLineColour, 2, wxSOLID);
-    wxBrush bFillBrush(cFillColour, wxSOLID);
+    wxPen pOutlinePen(cLineColour, 2, wxPENSTYLE_SOLID);
+    wxBrush bFillBrush(cFillColour, wxBRUSHSTYLE_SOLID);
     dc.SetPen(pOutlinePen);
     dc.SetBrush(bFillBrush);
     dc.DrawRectangle(rect.GetLeft() + 4, rect.GetTop() + 4,
@@ -488,8 +488,8 @@ void XPMColorPicker::PaintTransparentColor(wxDC &dc, wxRect rect)
 {
 
     //paint the 2 frames (one for the transparent colour, one for the push button
-    wxPen pBorderPen(wxSystemSettings::GetColour(wxSYS_COLOUR_ACTIVEBORDER), 1, wxSOLID);
-    wxBrush bBackBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), wxSOLID);
+    wxPen pBorderPen(wxSystemSettings::GetColour(wxSYS_COLOUR_ACTIVEBORDER), 1, wxPENSTYLE_SOLID);
+    wxBrush bBackBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), wxBRUSHSTYLE_SOLID);
     dc.SetPen(pBorderPen);
     dc.SetBrush(bBackBrush);
     dc.DrawRectangle(rect.GetLeft(),rect.GetTop(), rect.GetWidth(), rect.GetHeight() / 2);
@@ -504,8 +504,8 @@ void XPMColorPicker::PaintTransparentColor(wxDC &dc, wxRect rect)
                      );
 
     //paint the transparent colour
-    wxBrush bTransparentBrush(cTransparent, wxSOLID);
-    wxPen pBackPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), 1, wxSOLID);
+    wxBrush bTransparentBrush(cTransparent, wxBRUSHSTYLE_SOLID);
+    wxPen pBackPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), 1, wxPENSTYLE_SOLID);
     dc.SetPen(pBackPen);
     dc.SetBrush(bTransparentBrush);
     dc.DrawRectangle(rect.GetLeft() + 2, rect.GetTop() + 2,
@@ -547,7 +547,7 @@ void XPMColorPicker::PaintColorSquares(wxDC &dc, wxRect rect)
 {
     //paint all the colour squares
     wxBrush bBackBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
-    wxPen pBackPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), 1, wxSOLID);
+    wxPen pBackPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), 1, wxPENSTYLE_SOLID);
 
     int i, j, iIndex, iStart, jStart;
     iIndex = 0;
@@ -590,8 +590,8 @@ void XPMColorPicker::PaintColorSquares(wxDC &dc, wxRect rect)
             {
                 wxColour cColor;
                 cColor = GetPaletteColour(iIndex);
-                wxBrush bFBrush(cColor, wxSOLID);
-                wxPen pFPen(cColor, 1,  wxSOLID);
+                wxBrush bFBrush(cColor, wxBRUSHSTYLE_SOLID);
+                wxPen pFPen(cColor, 1,  wxPENSTYLE_SOLID);
                 dc.SetBrush(bFBrush);
                 dc.SetPen(pFPen);
                 dc.DrawRectangle(rect.GetLeft() + (j-jStart) * iColourWidth , (i-iStart) * iColourHeight + 1 + rect.GetTop(),
@@ -632,8 +632,8 @@ void XPMColorPicker::PaintColorSquares(wxDC &dc, wxRect rect)
 void XPMColorPicker::PaintSunkenBorder(wxDC &dc, wxRect rect)
 {
     //paint a sunken border
-    wxPen pDarkPen(wxSystemSettings::GetColour(wxSYS_COLOUR_3DDKSHADOW), 1, wxSOLID);
-    wxPen pLightPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNHIGHLIGHT), 1, wxSOLID);
+    wxPen pDarkPen(wxSystemSettings::GetColour(wxSYS_COLOUR_3DDKSHADOW), 1, wxPENSTYLE_SOLID);
+    wxPen pLightPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNHIGHLIGHT), 1, wxPENSTYLE_SOLID);
 
     dc.SetPen(pDarkPen);
     dc.DrawLine(rect.GetLeft(), rect.GetTop(), rect.GetRight(), rect.GetTop());

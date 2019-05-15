@@ -399,11 +399,11 @@ class WXDLLIMPEXP_FOLDBAR wxCaptionBar: public wxWindow
         };
 
         void SetBoldFont() {
-            GetFont().SetWeight(wxBOLD);
+            GetFont().SetWeight(wxFONTWEIGHT_BOLD);
         };
 
         void SetNormalFont() {
-            GetFont().SetWeight(wxNORMAL);
+            GetFont().SetWeight(wxFONTWEIGHT_NORMAL);
         };
 
 

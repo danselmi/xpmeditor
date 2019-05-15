@@ -2,60 +2,66 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="XPMEditor (Unix)" />
-		<Option platforms="Unix;Mac;" />
+		<Option title="XPMEditor wx3.1.x (64 bit)" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="../../../devel/share/codeblocks/plugins/libXPMEditor" prefix_auto="1" extension_auto="1" />
-				<Option object_output="../../../.objs/plugins/contrib/XPMEditor" />
+				<Option output="../../../devel31_64/share/CodeBlocks/plugins/XPMEditor" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../../devel31_64" />
+				<Option object_output="../../../.objs31_64/plugins/contrib/XPMEditor" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option parameters="--debug-log -ns -ni" />
-				<Option host_application="../../../devel/codeblocks" />
-				<Option projectIncludeDirsRelation="2" />
+				<Option parameters="--debug-log --multiple-instance -na -ns -nd -p debug" />
+				<Option host_application="./codeblocks.exe" />
+				<Option run_host_application_in_terminal="0" />
 				<Compiler>
+					<Add option="-Wall" />
 					<Add option="$(#CB_RELEASE_TYPE)" />
-					<Add option="`wx-config --cflags`" />
-					<Add option="-Winvalid-pch" />
+					<Add option="-pipe" />
+					<Add option="-fmessage-length=0" />
 					<Add option="-fexceptions" />
-					<Add option="-fPIC" />
+					<Add option="-mthreads" />
 					<Add option="-DcbDEBUG" />
-					<Add option="-DCB_PRECOMP" />
-					<Add option="-DWX_PRECOMP" />
+					<Add option="-DHAVE_W32API_H" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-D_WIN64" />
+					<Add option="-DWXUSINGDLL" />
+					<Add option="-DBUILDING_PLUGIN" />
+					<Add option="-DNOPCH" />
 					<Add option="-DwxUSE_UNICODE" />
-					<Add option="-DWXMAKINGDLL_THINGS" />
-					<Add option="-DWXMAKINGDLL_FOLDPANELEX" />
+					<Add directory="." />
+					<Add directory="foldpanelex/include" />
+					<Add directory="wxthings/include" />
+					<Add directory="xpmhandler/include" />
 					<Add directory="../../../include" />
 					<Add directory="../../../sdk/wxscintilla/include" />
-					<Add directory="wxthings/include" />
-					<Add directory="foldpanelex/include" />
-					<Add directory="xpmhandler/include" />
+					<Add directory="$(#WX31_64.include)" />
+					<Add directory="$(#WX31_64.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#WX31_64.include)" />
+				</ResourceCompiler>
 				<Linker>
-					<Add option="-z defs" />
+					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-mthreads" />
 					<Add library="codeblocks" />
-					<Add directory="../../../devel" />
+					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
+					<Add library="gdi32" />
+					<Add directory="../../../devel31_64" />
+					<Add directory="$(#WX31_64.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="strip -s ../../../devel/share/codeblocks/plugins/libXPMEditor.so" />
-					<Add after="zip -j9 ../../../devel/share/codeblocks/XPMEditor.zip manifest.xml doc/*.htm" />
+					<Add after="zip -j9 ..\..\..\devel31_64\share\CodeBlocks\XPMEditor.zip manifest.xml" />
 					<Mode after="always" />
 				</ExtraCommands>
+				<Environment>
+					<Variable name="WX_CFG" value="" />
+					<Variable name="WX_SUFFIX" value="u" />
+					<Variable name="WX_VERSION" value="30" />
+				</Environment>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="All" targets="default;" />
-		</VirtualTargets>
-		<Compiler>
-			<Add option="`wx-config --cflags`" />
-		</Compiler>
-		<Linker>
-			<Add option="`pkg-config --libs codeblocks`" />
-			<Add option="`wx-config --libs`" />
-			<Add option="`wx-config --libs aui`" />
-		</Linker>
 		<VirtualTargets>
 			<Add alias="All" targets="default;" />
 		</VirtualTargets>
@@ -108,20 +114,22 @@
 		<Unit filename="foldpanelex/src/icon_theresmore.xpm" />
 		<Unit filename="manifest.xml" />
 		<Unit filename="shape01.png" />
-		<Unit filename="test.xpm" />
+		<Unit filename="test.xpm">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="todo.txt" />
 		<Unit filename="wxBlur.cpp" />
 		<Unit filename="wxBlur.h" />
 		<Unit filename="wxConversion.cpp" />
 		<Unit filename="wxConversion.h" />
+		<Unit filename="wxDragImageExt.cpp" />
+		<Unit filename="wxDragImageExt.h" />
+		<Unit filename="wxImageDataObject.cpp" />
+		<Unit filename="wxImageDataObject.h" />
 		<Unit filename="wxInvertDialog.cpp" />
 		<Unit filename="wxInvertDialog.h" />
 		<Unit filename="wxMirror.cpp" />
 		<Unit filename="wxMirror.h" />
-		<Unit filename="wxImageDataObject.cpp" />
-		<Unit filename="wxImageDataObject.h" />
-		<Unit filename="wxDragImageExt.cpp" />
-		<Unit filename="wxDragImageExt.h" />
 		<Unit filename="wxResizeCtrl.cpp" />
 		<Unit filename="wxResizeCtrl.h" />
 		<Unit filename="wxRotate.cpp" />
@@ -141,12 +149,15 @@
 		<Unit filename="xpm/eraser.xpm" />
 		<Unit filename="xpm/fill.xpm" />
 		<Unit filename="xpm/fill_cursor.xpm" />
+		<Unit filename="xpm/filled.xpm" />
+		<Unit filename="xpm/filledonly.xpm" />
 		<Unit filename="xpm/gradient.xpm" />
 		<Unit filename="xpm/hotspot.xpm" />
 		<Unit filename="xpm/lasso.xpm" />
 		<Unit filename="xpm/left.xpm" />
 		<Unit filename="xpm/left_hair.xpm" />
 		<Unit filename="xpm/line.xpm" />
+		<Unit filename="xpm/outline.xpm" />
 		<Unit filename="xpm/pen.xpm" />
 		<Unit filename="xpm/pen_cursor.xpm" />
 		<Unit filename="xpm/pipette.xpm" />
@@ -162,14 +173,15 @@
 		<Unit filename="xpm/square.xpm" />
 		<Unit filename="xpm/test_mask.xpm" />
 		<Unit filename="xpm/text.xpm" />
+		<Unit filename="xpm/transparent.xpm" />
 		<Unit filename="xpmhandler/include/imagxpm2.h" />
 		<Unit filename="xpmhandler/include/xpmdecod2.h" />
 		<Unit filename="xpmhandler/src/imagxpm2.cpp" />
 		<Unit filename="xpmhandler/src/xpmdecod2.cpp" />
 		<Extensions>
 			<code_completion />
-			<envvars />
 			<debugger />
+			<envvars />
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
 				<resources>
@@ -191,10 +203,11 @@
 					<wxPanel wxs="wxsmith/XPMFoldPanel.wxs" src="XPMFoldPanel.cpp" hdr="XPMFoldPanel.h" fwddecl="0" i18n="1" name="XPMFoldPanel" language="CPP" />
 					<wxPanel wxs="wxsmith/XPMHelpPanel.wxs" src="XPMHelpPanel.cpp" hdr="XPMHelpPanel.h" fwddecl="0" i18n="1" name="XPMHelpPanel" language="CPP" />
 					<wxPanel wxs="wxsmith/XPMDrawCanvasPanel.wxs" src="XPMDrawCanvasPanel.cpp" hdr="XPMDrawCanvasPanel.h" fwddecl="1" i18n="1" name="XPMDrawCanvasPanel" language="CPP" />
-					<wxDialog wxs="wxsmith/AdvancedOptions.wxs" src="AdvancedOptions.cpp" hdr="AdvancedOptions.h" fwddecl="1" name="AdvancedOptions" language="CPP" />
-					<wxScrollingDialog wxs="wxsmith/QuickHelpDialog.wxs" src="QuickHelpDialog.cpp" hdr="QuickHelpDialog.h" fwddecl="1" name="QuickHelpDialog" language="CPP" />
+					<wxDialog wxs="wxsmith/AdvancedOptions.wxs" src="AdvancedOptions.cpp" hdr="AdvancedOptions.h" fwddecl="1" i18n="1" name="AdvancedOptions" language="CPP" />
+					<wxScrollingDialog wxs="wxsmith/QuickHelpDialog.wxs" src="QuickHelpDialog.cpp" hdr="QuickHelpDialog.h" fwddecl="1" i18n="1" name="QuickHelpDialog" language="CPP" />
 				</resources>
 			</wxsmith>
+			<fortran_project />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

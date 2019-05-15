@@ -8,13 +8,13 @@
 		<Build>
 			<Target title="default">
 				<Option output="../../../devel/share/CodeBlocks/plugins/XPMEditor" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="../../../devel" />
 				<Option object_output="../../../.objs/plugins/contrib/XPMEditor" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option parameters="--debug-log --multiple-instance -na -ns -nd -p debug" />
-				<Option host_application="./codeblocks.exe" />
+				<Option parameters="--debug-log --no-check-associations -ns -nd" />
+				<Option host_application="../../../devel/codeblocks.exe" />
 				<Option run_host_application_in_terminal="0" />
+				<Option projectIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="$(#CB_RELEASE_TYPE)" />
@@ -37,8 +37,9 @@
 					<Add directory="xpmhandler/include" />
 					<Add directory="$(#WX.include)" />
 					<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-					<Add directory="$(#cb)/include" />
-					<Add directory="$(#cb)/sdk/wxscintilla/include" />
+					<Add directory="../../../include" />
+					<Add directory="../../../include/tinyxml" />
+					<Add directory="../../../sdk/wxscintilla/include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(#WX.include)" />
@@ -49,69 +50,11 @@
 					<Add library="codeblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="gdi32" />
-					<Add directory="$(#cb)/devel" />
+					<Add directory="../../../devel" />
 					<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9 ..\..\..\devel\share\CodeBlocks\XPMEditor.zip manifest.xml" />
-					<Mode after="always" />
-				</ExtraCommands>
-				<Environment>
-					<Variable name="WX_CFG" value="" />
-					<Variable name="WX_SUFFIX" value="u" />
-					<Variable name="WX_VERSION" value="28" />
-				</Environment>
-			</Target>
-			<Target title="local_plugin">
-				<Option output="bin/XPMEditor" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="bin" />
-				<Option object_output="objs" />
-				<Option type="3" />
-				<Option compiler="gcc" />
-				<Option parameters="--debug-log --multiple-instance -na -ns -nd -p debug" />
-				<Option host_application="./codeblocks.exe" />
-				<Option run_host_application_in_terminal="0" />
-				<Compiler>
-					<Add option="-Wall" />
-					<Add option="$(#CB_RELEASE_TYPE)" />
-					<Add option="-pipe" />
-					<Add option="-fmessage-length=0" />
-					<Add option="-fexceptions" />
-					<Add option="-mthreads" />
-					<Add option="-Winvalid-pch" />
-					<Add option="-DcbDEBUG" />
-					<Add option="-DHAVE_W32API_H" />
-					<Add option="-D__WXMSW__" />
-					<Add option="-DWXUSINGDLL" />
-					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DCB_PRECOMP" />
-					<Add option="-DWX_PRECOMP" />
-					<Add option="-DwxUSE_UNICODE" />
-					<Add directory="." />
-					<Add directory="foldpanelex/include" />
-					<Add directory="wxthings/include" />
-					<Add directory="xpmhandler/include" />
-					<Add directory="$(#WX.include)" />
-					<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-					<Add directory="$(#cb)/include" />
-					<Add directory="$(#cb)/sdk/wxscintilla/include" />
-				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(#WX.include)" />
-				</ResourceCompiler>
-				<Linker>
-					<Add option="-Wl,--enable-auto-import" />
-					<Add option="-mthreads" />
-					<Add library="codeblocks" />
-					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add library="gdi32" />
-					<Add directory="$(#cb)/devel" />
-					<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)" />
-				</Linker>
-				<ExtraCommands>
-					<Add after="zip -j9 bin\XPMEditor.zip manifest.xml" />
-					<Add after="strip -s bin\XPMEditor.dll" />
-					<Add after="zip -j9 bin\XPMEditor.cbplugin bin\XPMEditor.zip bin\XPMEditor.dll" />
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>

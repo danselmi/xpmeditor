@@ -1766,7 +1766,10 @@ void XPMEditor::OnOpenFromProjectManager(wxCommandEvent &event)
     {
 
         wxString sFileName;
-        sFileName = data->GetProjectFile()->file.GetFullPath();
+        ProjectFile *prjFile = data->GetProjectFile();
+        if ( !prjFile )
+            return;
+        sFileName = prjFile->file.GetFullPath();
         OpenFile(sFileName);
     }
 }

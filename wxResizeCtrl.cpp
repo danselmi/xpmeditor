@@ -207,8 +207,8 @@ void wxResizeCtrl::OnPaint(wxPaintEvent& event)
 
     GetClientSize(&iWidth, &iHeight);
 
-    wxPen pen(cBoxColour, 1, wxSOLID);
-    wxBrush brush(cBoxColour, wxSOLID);
+    wxPen pen(cBoxColour, 1, wxPENSTYLE_SOLID);
+    wxBrush brush(cBoxColour, wxBRUSHSTYLE_SOLID);
     dc.SetBrush(brush);
     dc.SetPen(pen);
 

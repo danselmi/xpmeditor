@@ -305,7 +305,7 @@ void wxCaptionBar::DrawVerticalGradient(wxDC &dc, const wxRect &rect )
             (unsigned char)(col1.Green() + gf),
             (unsigned char)(col1.Blue() + bf)
         );
-        dc.SetBrush( wxBrush( currCol, wxSOLID ) );
+        dc.SetBrush( wxBrush( currCol, wxBRUSHSTYLE_SOLID ) );
         dc.DrawRectangle( rect.x, rect.y + (y - rect.y), rect.width, size );
         //currCol.Set(currCol.Red() + rstep, currCol.Green() + gstep, currCol.Blue() + bstep);
         rf += rstep; gf += gstep; bf += bstep;
@@ -339,7 +339,7 @@ void wxCaptionBar::DrawHorizontalGradient(wxDC &dc, const wxRect &rect )
             (unsigned char)(col1.Green() + gf),
             (unsigned char)(col1.Blue() + bf)
         );
-        dc.SetBrush( wxBrush( currCol, wxSOLID ) );
+        dc.SetBrush( wxBrush( currCol, wxBRUSHSTYLE_SOLID ) );
         dc.DrawRectangle( rect.x + (x - rect.x), rect.y, 1, rect.height );
         rf += rstep; gf += gstep; bf += bstep;
     }
@@ -355,7 +355,7 @@ void wxCaptionBar::DrawSingleColour(wxDC &dc, const wxRect &rect )
     dc.SetPen(*wxTRANSPARENT_PEN);
 
     // draw simple rectangle
-    dc.SetBrush( wxBrush( m_captionStyle.GetFirstColour(), wxSOLID ) );
+    dc.SetBrush( wxBrush( m_captionStyle.GetFirstColour(), wxBRUSHSTYLE_SOLID ) );
     dc.DrawRectangle( rect.x, rect.y, rect.width, rect.height );
 }
 
@@ -371,7 +371,7 @@ void wxCaptionBar::DrawSingleRectangle(wxDC &dc, const wxRect &rect )
     // single frame, set up internal fill colour
 
     wxBrush br;
-    br.SetStyle(wxSOLID);
+    br.SetStyle(wxBRUSHSTYLE_SOLID);
 
     if(m_captionStyle.GetCaptionStyle() == wxCAPTIONBAR_RECTANGLE)
         br.SetColour(GetParent()->GetBackgroundColour());

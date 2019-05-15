@@ -468,30 +468,26 @@ bool wxDragImageExt::RedrawImage(const wxPoint& oldPos, const wxPoint& newPos,
     memDCTemp.SelectObject(m_repairBitmap);
 
     // Draw the backing bitmap onto the repair bitmap.
-    int x, y, x2, y2, w, h;
+    int x, y, w, h;
     x = 0; y = 0;
     if (fullRect.x < 0)
     {
         x = 0;
-        x2 = -fullRect.x;
         w = fullRect.width + fullRect.x;
     }
     else
     {
         x = fullRect.x;
-        x2 = 0;
         w = fullRect.width;
     }
     if (fullRect.y < 0)
     {
         y = 0;
-        y2 = -fullRect.y;
         h = fullRect.height + fullRect.y;
     }
     else
     {
         y = fullRect.y;
-        y2 = 0;
         h = fullRect.height;
     }
 
@@ -539,7 +535,6 @@ bool wxDragImageExt::StretchBitmap(wxBitmap src, wxBitmap &dest, double dSrcScal
     //Step 3 : convert these bounding pixels to coordinates in the source bitmap
     //Step 4 : perform the stretch using a blit
 
-    int iWidthSrc, iHeightSrc;     //dimensions of the Source bitmap
     int iWidthDest, iHeightDest;   //dimensions of the Destination bitmap
     int iXDestLeft, iYDestTop;     //position of the upper left corner of the destination bitmap (pixel coordinates of the bitmap)
     int iXDestRight, iYDestBottom; //position of the upper bottom right corner of the destination bitmap (pixel coordinates of the bitmap)

@@ -15,7 +15,7 @@
 //(*Headers(XPMColourPickerPanel)
 #include <wx/sizer.h>
 #include <wx/panel.h>
-#include <XPMColorPicker.h>
+#include "XPMColorPicker.h"
 //*)
 
 class XPMEditorPanel;
