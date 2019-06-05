@@ -16,30 +16,29 @@
 				<Option host_application="../../../devel/codeblocks" />
 				<Option projectIncludeDirsRelation="2" />
 				<Compiler>
-					<Add option="$(#CB_RELEASE_TYPE)" />
+					<Add option="-fPIC" />
+					<Add option="-g" />
+					<Add option="`pkg-config --cflags codeblocks`" />
 					<Add option="`wx-config --cflags`" />
+					<Add option="-Ulinux" />
+					<Add option="-Uunix" />
 					<Add option="-Winvalid-pch" />
 					<Add option="-fexceptions" />
-					<Add option="-fPIC" />
 					<Add option="-DcbDEBUG" />
 					<Add option="-DCB_PRECOMP" />
 					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
 					<Add option="-DWXMAKINGDLL_THINGS" />
 					<Add option="-DWXMAKINGDLL_FOLDPANELEX" />
-					<Add directory="../../../include" />
-					<Add directory="../../../sdk/wxscintilla/include" />
 					<Add directory="wxthings/include" />
 					<Add directory="foldpanelex/include" />
 					<Add directory="xpmhandler/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-z defs" />
-					<Add library="codeblocks" />
-					<Add directory="../../../devel" />
+					<Add option="`pkg-config --libs codeblocks`" />
+					<Add option="`wx-config --libs`" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="strip -s ../../../devel/share/codeblocks/plugins/libXPMEditor.so" />
 					<Add after="zip -j9 ../../../devel/share/codeblocks/XPMEditor.zip manifest.xml doc/*.htm" />
 					<Mode after="always" />
 				</ExtraCommands>

@@ -16,9 +16,6 @@
 
 #include "wxDragImageExt.h"
 
-#include <windef.h>
-#include <wingdi.h>
-
 IMPLEMENT_DYNAMIC_CLASS(wxDragImageExt, wxGenericDragImage);
 
 /** Constructor
